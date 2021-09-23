@@ -29,15 +29,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Util::TriangleData triangle;
 	Util::VerticesPack vertices;
 
-	plane.planePoint = { 0.0f,0.0f,0.0f };
-	plane.planeNormal = { 1.0f,0.0f,0.0f };
+	plane.planePoint = { 0.0f,1.0f,0.0f };
+	plane.SetNormal({ 2.0f,1.0f,0.0f });
 
-	triangle.vertices[0] = { -1.0f,0.0f,0.0f };
-	triangle.vertices[1] = { 1.0f,0.0f,0.0f };
-	triangle.vertices[2] = { 0.0f,0.0f,0.0f };
+	triangle.vertices[0] = { -2.0f,-5.0f,0.0f };
+	triangle.vertices[1] = { 7.0f,-5.0f,0.0f };
+	triangle.vertices[2] = { 0.0f,1.0f,0.0f };
 
+	std::array<Vector3, 2> newpointArray;
 	if (Util::IsPlaneDivideTriangle(plane, triangle, vertices) == true)
 	{
+		Util::GetDividedPoint(plane, vertices, newpointArray);
 		OutputDebugStringA("Divided");
 	}
 

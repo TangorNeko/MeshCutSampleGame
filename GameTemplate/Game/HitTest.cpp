@@ -5,11 +5,6 @@ namespace Util
 {
 	bool IsPlaneDivideTriangle(const PlaneData& planeData, const TriangleData& triangleData, VerticesPack& verticesPack)
 	{
-		//平面の法線を取得
-		Vector3 planeNormal = planeData.planeNormal;
-		planeNormal.Normalize();
-
-
 		//平面上の点から各頂点への向きを求める
 		Vector3 toVertexDir[3];
 		toVertexDir[0] = triangleData.vertices[0] - planeData.planePoint;
@@ -34,7 +29,7 @@ namespace Util
 		//各点への向きと平面の法線を調べ、グループ分けする。
 		for (int i = 0; i < 3; i++)
 		{
-			float angle = planeNormal.Dot(toVertexDir[i]);
+			float angle = planeData.GetNormal().Dot(toVertexDir[i]);
 
 			if (angle > 0.0f + FLT_EPSILON)//0より大きい = その頂点は表面側にある
 			{
@@ -57,5 +52,69 @@ namespace Util
 		}
 
 		return false;
+	}
+
+	Vector3 GetCrossPoint(const PlaneData& planeData, const Vector3& startPoint, const Vector3& endPoint)
+	{
+		//平面上の一点から各点へのベクトルを求める
+		Vector3 toStart = startPoint - planeData.planePoint;
+
+		Vector3 toEnd = endPoint - planeData.planePoint;
+
+		//各点と平面の法線から射影の長さを求める
+		float projectionA = planeData.GetNormal().Dot(toStart);
+
+		//もう一つの点は平面の裏側にあるので反転した法線との射影の長さを求める
+		Vector3 reverseNormal = planeData.GetNormal() * -1;
+		float projectionB = reverseNormal.Dot(toEnd);
+
+		//交差地点は開始地点から終了地点へのベクトルに 
+		//スタートへの射影の長さ÷2つの射影の長さ ＝ (全体の長さのうち平面上の一点からスタートへの長さの割合)
+		//をかけた物を開始地点に足すと求まる
+		Vector3 crossPoint = endPoint - startPoint;
+		crossPoint *= projectionA / (projectionA + projectionB);
+		crossPoint += startPoint;
+
+		return crossPoint;
+	}
+
+	int GetDividedPoint(const PlaneData& planeData, const VerticesPack& verticesPack,std::array<Vector3,2>& points)
+	{
+		//新しくできた頂点数
+		int newPointNum = 0;
+
+		//分割頂点の格納インデックス
+		int pointIndex = 0;
+
+		//分割する平面上に三角形の頂点があった場合分割頂点に追加
+		for (auto& onPlaneVertices : verticesPack.onPlaneVertices)
+		{
+			//分割頂点に追加
+			points[pointIndex] = onPlaneVertices;
+			//分割頂点の格納インデックスは増やすが、既にある頂点なので新しくできた頂点数は増やさない
+			pointIndex++;
+		}
+
+		//分割面の表側の頂点から裏側の頂点に伸びる線分と分割面との交差点を求める事で新しい頂点の座標が手に入る
+		//NOTE:二重for文だが、頂点は合計3つしかなく、片側の頂点数が増えると反対側の頂点数が減ることと
+		//分割する平面上に頂点があった場合さらに判定回数が減るため
+		//for文の中身が呼ばれる回数は1~2回で固定である
+		for (auto& frontVertice : verticesPack.frontVertices)
+		{
+			for (auto& backVertice : verticesPack.backVertices)
+			{
+				//表側の頂点から裏側の頂点への線分と平面との交差点を求め、分割頂点に追加
+				points[pointIndex] = GetCrossPoint(planeData, frontVertice, backVertice);
+
+				//新しい頂点なので新しくできた頂点数を増やす
+				newPointNum++;
+
+				//分割頂点の格納インデックスを増やす
+				pointIndex++;
+			}
+		}
+
+		//新しくできた頂点数を返す
+		return newPointNum;
 	}
 }
