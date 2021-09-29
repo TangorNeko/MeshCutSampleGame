@@ -27,9 +27,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//NOTE:テストコード
 	Util::PlaneData plane;
 	Util::TriangleData triangle;
-	Util::VerticesPack vertices;
 
-	plane.planePoint = { 0.0f,1.0f,0.0f };
+	plane.SetPoint({ 0.0f,1.0f,0.0f });
 	plane.SetNormal({ 2.0f,1.0f,0.0f });
 
 	triangle.vertices[0] = { -2.0f,-5.0f,0.0f };
@@ -37,9 +36,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	triangle.vertices[2] = { 0.0f,1.0f,0.0f };
 
 	std::array<Vector3, 2> newpointArray;
-	if (Util::IsPlaneDivideTriangle(plane, triangle, vertices) == true)
+	
+	Util::TriangleDivider divider;
+	divider.SetPlane(plane);
+	divider.Divide(triangle);
+	if (divider.IsPlaneDivideTriangle() == true)
 	{
-		Util::GetDividedPoint(plane, vertices, newpointArray);
+		int newpoint = divider.GetDividedPoint(newpointArray);
 		OutputDebugStringA("Divided");
 	}
 

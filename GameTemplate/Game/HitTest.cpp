@@ -3,13 +3,27 @@
 
 namespace Util
 {
-	bool IsPlaneDivideTriangle(const PlaneData& planeData, const TriangleData& triangleData, VerticesPack& verticesPack)
+	void TriangleDivider::Divide(const TriangleData& triangleData)
+	{
+		if (m_isPlaneDataRegisterd == false)
+		{
+			MessageBoxA(nullptr, "切断面のデータが設定されていません。", "エラー", MB_OK);
+			std::abort();
+		}
+		
+		DataReset();
+		m_triangleData = triangleData;
+
+		//Hoge();
+	}
+
+	bool TriangleDivider::IsPlaneDivideTriangle()
 	{
 		//平面上の点から各頂点への向きを求める
 		Vector3 toVertexDir[3];
-		toVertexDir[0] = triangleData.vertices[0] - planeData.planePoint;
-		toVertexDir[1] = triangleData.vertices[1] - planeData.planePoint;
-		toVertexDir[2] = triangleData.vertices[2] - planeData.planePoint;
+		toVertexDir[0] = m_triangleData.vertices[0] - m_planeData.GetPoint();
+		toVertexDir[1] = m_triangleData.vertices[1] - m_planeData.GetPoint();
+		toVertexDir[2] = m_triangleData.vertices[2] - m_planeData.GetPoint();
 		for (Vector3& toVertex : toVertexDir)
 		{
 			toVertex.Normalize();
@@ -20,33 +34,33 @@ namespace Util
 
 		//各配列の領域を確保(頂点は3つなので最大でも3つまでしか入らない)
 		//表面側にあったときに格納する配列
-		verticesPack.frontVertices.reserve(3);
+		m_vertexIndexesPack.frontVertexIndexes.reserve(3);
 		//裏面側にあったときに格納する配列
-		verticesPack.backVertices.reserve(3);
+		m_vertexIndexesPack.backVertexIndexes.reserve(3);
 		//面上にあったときに格納する配列
-		verticesPack.onPlaneVertices.reserve(3);
+		m_vertexIndexesPack.onPlaneVertexIndexes.reserve(3);
 
 		//各点への向きと平面の法線を調べ、グループ分けする。
 		for (int i = 0; i < 3; i++)
 		{
-			float angle = planeData.GetNormal().Dot(toVertexDir[i]);
+			float angle = m_planeData.GetNormal().Dot(toVertexDir[i]);
 
 			if (angle > 0.0f + FLT_EPSILON)//0より大きい = その頂点は表面側にある
 			{
-				verticesPack.frontVertices.push_back(triangleData.vertices[i]);
+				m_vertexIndexesPack.frontVertexIndexes.push_back(i);
 			}
 			else if (angle < 0.0f - FLT_EPSILON)//0より小さい = その頂点は裏面側にある
 			{
-				verticesPack.backVertices.push_back(triangleData.vertices[i]);
+				m_vertexIndexesPack.backVertexIndexes.push_back(i);
 			}
 			else//0 = その頂点は平面上にある
 			{
-				verticesPack.onPlaneVertices.push_back(triangleData.vertices[i]);
+				m_vertexIndexesPack.onPlaneVertexIndexes.push_back(i);
 			}
 		}
 
 		//表面と裏面に一つ以上ずつ頂点があれば平面は三角形を分割している
-		if (verticesPack.frontVertices.size() >= 1 && verticesPack.backVertices.size() >= 1)
+		if (m_vertexIndexesPack.frontVertexIndexes.size() >= 1 && m_vertexIndexesPack.backVertexIndexes.size() >= 1)
 		{
 			return true;
 		}
@@ -54,18 +68,18 @@ namespace Util
 		return false;
 	}
 
-	Vector3 GetCrossPoint(const PlaneData& planeData, const Vector3& startPoint, const Vector3& endPoint)
+	Vector3 TriangleDivider::GetCrossPoint(const Vector3& startPoint, const Vector3& endPoint)
 	{
 		//平面上の一点から各点へのベクトルを求める
-		Vector3 toStart = startPoint - planeData.planePoint;
+		Vector3 toStart = startPoint - m_planeData.GetPoint();
 
-		Vector3 toEnd = endPoint - planeData.planePoint;
+		Vector3 toEnd = endPoint - m_planeData.GetPoint();
 
 		//各点と平面の法線から射影の長さを求める
-		float projectionA = planeData.GetNormal().Dot(toStart);
+		float projectionA = m_planeData.GetNormal().Dot(toStart);
 
 		//もう一つの点は平面の裏側にあるので反転した法線との射影の長さを求める
-		Vector3 reverseNormal = planeData.GetNormal() * -1;
+		Vector3 reverseNormal = m_planeData.GetNormal() * -1;
 		float projectionB = reverseNormal.Dot(toEnd);
 
 		//交差地点は開始地点から終了地点へのベクトルに 
@@ -78,7 +92,7 @@ namespace Util
 		return crossPoint;
 	}
 
-	int GetDividedPoint(const PlaneData& planeData, const VerticesPack& verticesPack,std::array<Vector3,2>& points)
+	int TriangleDivider::GetDividedPoint(std::array<Vector3,2>& points)
 	{
 		//新しくできた頂点数
 		int newPointNum = 0;
@@ -87,10 +101,10 @@ namespace Util
 		int pointIndex = 0;
 
 		//分割する平面上に三角形の頂点があった場合分割頂点に追加
-		for (auto& onPlaneVertices : verticesPack.onPlaneVertices)
+		for (auto& onPlaneVertexIndex : m_vertexIndexesPack.onPlaneVertexIndexes)
 		{
 			//分割頂点に追加
-			points[pointIndex] = onPlaneVertices;
+			points[pointIndex] = m_triangleData.vertices[onPlaneVertexIndex];
 			//分割頂点の格納インデックスは増やすが、既にある頂点なので新しくできた頂点数は増やさない
 			pointIndex++;
 		}
@@ -99,12 +113,22 @@ namespace Util
 		//NOTE:二重for文だが、頂点は合計3つしかなく、片側の頂点数が増えると反対側の頂点数が減ることと
 		//分割する平面上に頂点があった場合さらに判定回数が減るため
 		//for文の中身が呼ばれる回数は1~2回で固定である
-		for (auto& frontVertice : verticesPack.frontVertices)
+		for (auto& frontVertexIndex : m_vertexIndexesPack.frontVertexIndexes)
 		{
-			for (auto& backVertice : verticesPack.backVertices)
+			for (auto& backVertexIndex : m_vertexIndexesPack.backVertexIndexes)
 			{
 				//表側の頂点から裏側の頂点への線分と平面との交差点を求め、分割頂点に追加
-				points[pointIndex] = GetCrossPoint(planeData, frontVertice, backVertice);
+				points[pointIndex] = GetCrossPoint(m_triangleData.vertices[frontVertexIndex], m_triangleData.vertices[backVertexIndex]);
+
+				
+				//これが最初の分割頂点なら
+				if (m_alreadyGetAnyDividePoint == false)
+				{
+					//線分を作るのに使っていない頂点　つまり四角形を生成した時新しい頂点と対角線を作る頂点のインデックスを取得
+					GetLeftoverOfThree(frontVertexIndex, backVertexIndex);
+
+					m_alreadyGetAnyDividePoint = true;
+				}
 
 				//新しい頂点なので新しくできた頂点数を増やす
 				newPointNum++;
