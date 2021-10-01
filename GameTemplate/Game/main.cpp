@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "HitTest.h"
+#include "TriangleDivider.h"
 
 
 ///////////////////////////////////////////////////////////////////
@@ -38,7 +38,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	std::array<Vector3, 2> newpointArray;
 	
 	Util::TriangleDivider divider;
-	divider.SetPlane(plane);
+	std::map<std::pair<Vector3, Vector3>, Vector3> newvertexContainer;
+	divider.Init(plane,&newvertexContainer);
 	divider.Divide(triangle);
 	if (divider.IsPlaneDivideTriangle() == true)
 	{

@@ -1,20 +1,36 @@
 #include "stdafx.h"
-#include "HitTest.h"
+#include "TriangleDivider.h"
 
 namespace Util
 {
 	void TriangleDivider::Divide(const TriangleData& triangleData)
 	{
-		if (m_isPlaneDataRegisterd == false)
+		if (m_isInited == false)
 		{
-			MessageBoxA(nullptr, "切断面のデータが設定されていません。", "エラー", MB_OK);
+			MessageBoxA(nullptr, "切断前のデータの初期化がされていません。", "エラー", MB_OK);
 			std::abort();
 		}
 		
 		DataReset();
 		m_triangleData = triangleData;
 
-		//Hoge();
+		//TODO:分割判定の結果によって分岐?
+		//IsPlaneDivideTriangle()の結果は 分割されているかいないか　ではなくより詳しくする必要がある?
+		//switch (IsPlaneDivideTriangle())
+		//{
+		//case 分割_表側に頂点2つ:
+		//	break;
+		//case 分割_裏側に頂点2つ:
+		//	break;
+		//case 分割_面上に頂点1つ:
+		//	break;
+		//case 非分割_表側に頂点3つ:
+		//	break;
+		//case 非分割_裏側に頂点3つ:
+		//	break;
+		//case 特殊_面上に頂点3つ
+		//  break;
+		//}
 	}
 
 	bool TriangleDivider::IsPlaneDivideTriangle()
@@ -70,6 +86,18 @@ namespace Util
 
 	Vector3 TriangleDivider::GetCrossPoint(const Vector3& startPoint, const Vector3& endPoint)
 	{
+		//TODO:startPointとendPointが逆の場合結果は同じなのにmap上では別になる。
+		//Vector3に特定の法則でソートされたペアを返す関数を作成する?
+		//そもそもmapを使うかも要検討
+		//std::pair<Vector3,Vector3> sortedPair = Vector3::MakeSortedPair(startPoint,endPoint);
+
+		//すでに連想配列に結果が格納されている場合return
+		auto knownCrossPoint = m_newVertexContainer->find(std::make_pair(startPoint, endPoint));
+		if (knownCrossPoint != m_newVertexContainer->end())
+		{
+			return knownCrossPoint->second;
+		}
+
 		//平面上の一点から各点へのベクトルを求める
 		Vector3 toStart = startPoint - m_planeData.GetPoint();
 
@@ -88,6 +116,12 @@ namespace Util
 		Vector3 crossPoint = endPoint - startPoint;
 		crossPoint *= projectionA / (projectionA + projectionB);
 		crossPoint += startPoint;
+
+		//TODO:startPointとendPointが逆の場合結果は同じなのにmap上では別になる。
+		//Vector3に特定の法則でソートされたペアを返す関数を作成する?
+		//そもそもmapを使うかも要検討
+		//m_newVertexContainer->insert(std::make_pair(Vector3::MakeSortedPair(startPoint,endPoint),crossPoint);
+		m_newVertexContainer->insert(std::make_pair(std::make_pair(startPoint, endPoint), crossPoint));
 
 		return crossPoint;
 	}

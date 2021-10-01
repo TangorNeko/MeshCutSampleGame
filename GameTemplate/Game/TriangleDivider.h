@@ -70,13 +70,15 @@ namespace Util
 	public:
 
 		/**
-		 * @brief 分割平面のセット
+		 * @brief 初期化
 		 * @param planeData 分割平面のデータ
+		 * @param newVertexContainer MeshDividerの新頂点を
 		*/
-		void SetPlane(const PlaneData& planeData)
+		void Init(const PlaneData& planeData, std::map<std::pair<Vector3, Vector3>, Vector3>* newVertexContainer)
 		{
 			m_planeData = planeData;
-			m_isPlaneDataRegisterd = true;
+			m_newVertexContainer = newVertexContainer;
+			m_isInited = true;
 		}
 
 		/**
@@ -135,10 +137,11 @@ namespace Util
 		int GetDividedPoint(std::array<Vector3, 2>& points);
 
 	private:
-		bool m_isPlaneDataRegisterd = false;		//分割平面データが登録されている?
+		bool m_isInited = false;					//初期化されている?
 		bool m_alreadyGetAnyDividePoint = false;	//すでに分割頂点を1つでも取得した?
 		PlaneData m_planeData;						//分割平面データ
 		TriangleData m_triangleData;				//分割される三角形のデータ
 		VertexIndexesPack m_vertexIndexesPack;		//面の裏・表・上に存在する頂点のインデックスデータ
+		std::map<std::pair<Vector3, Vector3>, Vector3>* m_newVertexContainer; //分割によってできた新頂点を格納する連想配列のポインタ
 	};
 }
