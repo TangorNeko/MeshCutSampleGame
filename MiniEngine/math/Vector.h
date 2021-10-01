@@ -101,6 +101,7 @@ public:
 		vec = _v.vec;
 		return *this;
 	}
+
 	/// <summary>
 	/// コンストラクタ。
 	/// </summary>
@@ -639,6 +640,17 @@ public:
 	}
 };
 
+/**
+ * @brief WARNING:mapに登録するためだけに定義したVector3の比較演算子　通常の比較としては使えません。
+ * @param lhs 左辺
+ * @param rhs 右辺
+ * @return 左辺の長さの2乗 < 右辺の長さの2乗?
+*/
+static bool operator<(const Vector3& lhs, const Vector3& rhs)
+{
+	return lhs.LengthSq() < rhs.LengthSq();
+}
+
 const Vector2 g_vec2Zero = { 0.0f, 0.0f };
 const Vector3 g_vec3Zero = { 0.0f,  0.0f,  0.0f };
 const Vector3 g_vec3Right = { 1.0f,  0.0f,  0.0f };
@@ -974,5 +986,4 @@ static inline Quaternion operator*(const Quaternion& q1, const Quaternion q2)
 	qRet.Multiply(q2, q1);
 	return qRet;
 }
-
 const Quaternion g_quatIdentity = { 0.0f,  0.0f, 0.0f, 1.0f };

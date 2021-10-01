@@ -41,6 +41,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	std::map<std::pair<Vector3, Vector3>, Vector3> newvertexContainer;
 	divider.Init(plane,&newvertexContainer);
 	divider.Divide(triangle);
+	divider.GetCrossPoint({ 7.0f,-5.0f,0.0f }, { -2.0f,-5.0f,0.0f });
 	if (divider.IsPlaneDivideTriangle() == true)
 	{
 		int newpoint = divider.GetDividedPoint(newpointArray);
