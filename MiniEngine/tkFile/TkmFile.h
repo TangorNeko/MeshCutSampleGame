@@ -23,16 +23,62 @@ public:
 		std::string specularMapFileName;		//スペキュラマップのファイル名。
 		std::string reflectionMapFileName;		//リフレクションマップのファイル名。
 		std::string refractionMapFileName;		//屈折マップのファイル名。
-		std::unique_ptr<char[]>	albedoMap;		//ロードされたアルベドマップ。(ddsファイル)
+		std::unique_ptr<char[]>	albedoMap = nullptr;		//ロードされたアルベドマップ。(ddsファイル)
 		unsigned int albedoMapSize;				//アルベドマップのサイズ。(ddsファイル)
-		std::unique_ptr<char[]>	normalMap;		//ロードされた法線マップ。(ddsファイル)
+		std::unique_ptr<char[]>	normalMap = nullptr;		//ロードされた法線マップ。(ddsファイル)
 		unsigned int normalMapSize;				//法線マップのサイズ。
-		std::unique_ptr<char[]>	specularMap;	//ロードされたスペキュラマップ。(ddsファイル)
+		std::unique_ptr<char[]>	specularMap = nullptr;	//ロードされたスペキュラマップ。(ddsファイル)
 		unsigned int specularMapSize;			//スペキュラマップのサイズ。(ddsファイル)
-		std::unique_ptr<char[]>	reflectionMap;	//ロードされたリフレクションマップ。(ddsファイル)
+		std::unique_ptr<char[]>	reflectionMap = nullptr;	//ロードされたリフレクションマップ。(ddsファイル)
 		unsigned int reflectionMapSize;			//リフレクションマップのサイズ。(ddsファイル)
-		std::unique_ptr<char[]>	refractionMap;	//ロードされた屈折マップ。(ddsファイル)
+		std::unique_ptr<char[]>	refractionMap = nullptr;	//ロードされた屈折マップ。(ddsファイル)
 		unsigned int refractionMapSize;			//屈折マップのサイズ。(ddsファイル)
+
+		//NOTE:ここより後はメッシュの分割時マテリアルをコピーできるように書いてみた物です。
+		//動作が全く保証されていないので注意してください。
+
+		//デフォルトコンストラクタ
+		SMaterial() {}
+
+		//コピーコンストラクタ
+		SMaterial(const SMaterial& rhs)
+		{
+			albedoMapFileName = rhs.albedoMapFileName;
+			normalMapFileName = rhs.normalMapFileName;
+			specularMapFileName = rhs.specularMapFileName;
+			reflectionMapFileName = rhs.reflectionMapFileName;
+			refractionMapFileName = rhs.refractionMapFileName;
+			albedoMap = std::make_unique<char[]>(*(rhs.albedoMap.get()));
+			albedoMapSize = rhs.albedoMapSize;
+			normalMap = std::make_unique<char[]>(*(rhs.normalMap.get()));
+			normalMapSize = rhs.normalMapSize;
+			specularMap = std::make_unique<char[]>(*(rhs.specularMap.get()));
+			specularMapSize = specularMapSize;
+			reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
+			reflectionMapSize = reflectionMapSize;
+			refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
+			refractionMapSize = refractionMapSize;
+		}
+
+		//コピー代入演算子
+		void operator=(const SMaterial& rhs)
+		{
+			albedoMapFileName = rhs.albedoMapFileName;
+			normalMapFileName = rhs.normalMapFileName;
+			specularMapFileName = rhs.specularMapFileName;
+			reflectionMapFileName = rhs.reflectionMapFileName;
+			refractionMapFileName = rhs.refractionMapFileName;
+			albedoMap = std::make_unique<char[]>(*(rhs.albedoMap.get()));
+			albedoMapSize = rhs.albedoMapSize;
+			normalMap = std::make_unique<char[]>(*(rhs.normalMap.get()));
+			normalMapSize = rhs.normalMapSize;
+			specularMap = std::make_unique<char[]>(*(rhs.specularMap.get()));
+			specularMapSize = specularMapSize;
+			reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
+			reflectionMapSize = reflectionMapSize;
+			refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
+			refractionMapSize = refractionMapSize;
+		}
 	};
 	/// <summary>
 	/// 頂点。
