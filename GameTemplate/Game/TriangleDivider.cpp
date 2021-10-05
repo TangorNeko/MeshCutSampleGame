@@ -14,32 +14,96 @@ namespace Util
 		DataReset();
 		m_triangleData = triangleData;
 
-		//TODO:分割判定の結果によって分岐?
-		//IsPlaneDivideTriangle()の結果は 分割されているかいないか　ではなくより詳しくする必要がある?
-		//switch (IsPlaneDivideTriangle())
-		//{
-		//case 分割_表側に頂点2つ:
-		//	break;
-		//case 分割_裏側に頂点2つ:
-		//	break;
-		//case 分割_面上に頂点1つ:
-		//	break;
-		//case 非分割_表側に頂点3つ:
-		//	break;
-		//case 非分割_裏側に頂点3つ:
-		//	break;
-		//case 特殊_面上に頂点3つ
-		//  break;
-		//}
+		std::array<TkmFile::SVertex, 2> newpointArray;
+
+		//分割判定の結果によって分岐?
+		switch (IsPlaneDivideTriangle())
+		{
+		case Divided_2OnFront:
+			GetDividedPoint(newpointArray);
+			//1つ目の新頂点と対角の頂点でできた線分と、残り2つの頂点をそれぞれつないだ三角形2つが表側の三角形
+			//裏の頂点と新頂点2つで裏側の三角形
+			break;
+		case Divided_2OnBack:
+			GetDividedPoint(newpointArray);
+			//表の頂点と新頂点2つで表側の三角形
+			//1つ目の新頂点と対角の頂点でできた線分と、残り2つの頂点をそれぞれつないだ三角形2つが裏側の三角形
+			break;
+		case Divided_1OnPlane:
+			GetDividedPoint(newpointArray);
+			//1つ目の新頂点には平面と重なった元の点が入っている。
+			//2つ目の新頂点と対角の頂点でできた線分と、表側の1頂点をつないだ三角形が表側の三角形
+			//2つ目の新頂点と対角の頂点でできた線分と、裏側の1頂点をつないだ三角形が裏側の三角形
+			break;
+		case NotDivided_3OnFront:
+			//3点が平面より表側にあるので3点の三角形が表側の三角形
+			//裏側の三角形はない
+			break;
+		case NotDivided_3OnBack:
+			//表側の三角形はない
+			//3点が平面より裏側にあるので3点の三角形が裏側の三角形
+			break;
+		case Special_3OnPlane:
+			//NOTE:平面上に3点がある時はどちらの面にも含んでいる処理とすることにしている。
+			//3点の三角形で表側の三角形
+			//3点の三角形で裏側の三角形
+			break;
+		}
 	}
 
-	bool TriangleDivider::IsPlaneDivideTriangle()
+	DivideState TriangleDivider::CalcDivideState()
+	{
+		int frontSize = m_vertexIndexesPack.frontVertexIndexes.size();
+		int backSize = m_vertexIndexesPack.backVertexIndexes.size();
+		int onPlaneSize = m_vertexIndexesPack.onPlaneVertexIndexes.size();
+
+		if (frontSize == 3)
+		{
+			return NotDivided_3OnFront;
+		}
+
+		if (backSize == 3)
+		{
+			return NotDivided_3OnBack;
+		}
+
+		if (onPlaneSize == 3)
+		{
+			return Special_3OnPlane;
+		}
+
+		if (frontSize == 2 && backSize == 1)
+		{
+			return Divided_2OnFront;
+		}
+
+		if (frontSize == 1 && backSize == 2)
+		{
+			return Divided_2OnBack;
+		}
+
+		if (frontSize == 1 && backSize == 1 && onPlaneSize == 1)
+		{
+			return Divided_1OnPlane;
+		}
+
+		if (frontSize > backSize)
+		{
+			return NotDivided_3OnFront;
+		}
+		else
+		{
+			return NotDivided_3OnBack;
+		}
+	}
+
+	DivideState TriangleDivider::IsPlaneDivideTriangle()
 	{
 		//平面上の点から各頂点への向きを求める
 		Vector3 toVertexDir[3];
-		toVertexDir[0] = m_triangleData.vertices[0] - m_planeData.GetPoint();
-		toVertexDir[1] = m_triangleData.vertices[1] - m_planeData.GetPoint();
-		toVertexDir[2] = m_triangleData.vertices[2] - m_planeData.GetPoint();
+		toVertexDir[0] = m_vertexBufferContainer->at(m_triangleData.vertexIndexes[0]).pos - m_planeData.GetPoint();
+		toVertexDir[1] = m_vertexBufferContainer->at(m_triangleData.vertexIndexes[1]).pos - m_planeData.GetPoint();
+		toVertexDir[2] = m_vertexBufferContainer->at(m_triangleData.vertexIndexes[2]).pos - m_planeData.GetPoint();
 		for (Vector3& toVertex : toVertexDir)
 		{
 			toVertex.Normalize();
@@ -75,28 +139,26 @@ namespace Util
 			}
 		}
 
-		//表面と裏面に一つ以上ずつ頂点があれば平面は三角形を分割している
-		if (m_vertexIndexesPack.frontVertexIndexes.size() >= 1 && m_vertexIndexesPack.backVertexIndexes.size() >= 1)
-		{
-			return true;
-		}
-
-		return false;
+		//頂点の分かれ方を取得
+		return CalcDivideState();
 	}
 
-	Vector3 TriangleDivider::GetCrossPoint(const Vector3& startPoint, const Vector3& endPoint)
+	uint32_t TriangleDivider::GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex)
 	{
-		//TODO:startPointとendPointが逆の場合結果は同じなのにmap上では別になる。
-		//Vector3に特定の法則でソートされたペアを返す関数を作成する?
-		//そもそもmapを使うかも要検討
-		//std::pair<Vector3,Vector3> sortedPair = Vector3::MakeSortedPair(startPoint,endPoint);
+		Vector3 startPoint = startVertex.pos;
+		Vector3 endPoint = endVertex.pos;
+
+		//startPointとendPointが逆の場合結果は同じなのにmap上では別になるので、
+		//ソートされたペアを作成する
+		std::pair<Vector3,Vector3> sortedPair = Vector3::MakeSortedPair(startPoint,endPoint);
 
 		//すでに連想配列に結果が格納されている場合return
-		auto knownCrossPoint = m_newVertexContainer->find(std::make_pair(startPoint, endPoint));
-		if (knownCrossPoint != m_newVertexContainer->end())
+		auto knownVertexIndex = m_newVertexContainer->find(sortedPair);
+		if (knownVertexIndex != m_newVertexContainer->end())
 		{
-			return knownCrossPoint->second;
+			return knownVertexIndex->second;
 		}
+		
 
 		//平面上の一点から各点へのベクトルを求める
 		Vector3 toStart = startPoint - m_planeData.GetPoint();
@@ -117,19 +179,29 @@ namespace Util
 		crossPoint *= projectionA / (projectionA + projectionB);
 		crossPoint += startPoint;
 
-		//TODO:startPointとendPointが逆の場合結果は同じなのにmap上では別になる。
-		//Vector3に特定の法則でソートされたペアを返す関数を作成する?
-		//そもそもmapを使うかも要検討
-		//m_newVertexContainer->insert(std::make_pair(Vector3::MakeSortedPair(startPoint,endPoint),crossPoint);
-		m_newVertexContainer->insert(std::make_pair(std::make_pair(startPoint, endPoint), crossPoint));
+		//線形補間率を計算
+		Vector3 startToEnd = endPoint - startPoint;
+		Vector3 startToCrossPoint = crossPoint - startPoint;
+		float lerpRate = startToCrossPoint.Length() / startToEnd.Length();
+		
+		TkmFile::SVertex newVertex = TkmFile::lerpVertex(lerpRate, startVertex, endVertex);
+		//posも線形補完しているのだが同じになるか分からないので計算したcrossPointを使用
+		newVertex.pos = crossPoint;
 
-		return crossPoint;
+		//現在のサイズ(次に追加する要素のインデックス番号)を取得
+		uint32_t newVertexIndex = m_vertexBufferContainer->size();
+		m_vertexBufferContainer->push_back(newVertex);
+
+		//新しくできた頂点のインデックスを格納する連想配列に挿入
+		m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
+
+		return newVertexIndex;
 	}
 
-	int TriangleDivider::GetDividedPoint(std::array<Vector3,2>& points)
+	int TriangleDivider::GetDividedPoint(std::array<TkmFile::SVertex,2>& points)
 	{
 		//新しくできた頂点数
-		int newPointNum = 0;
+		int diagonalPointIndex = 0;
 
 		//分割頂点の格納インデックス
 		int pointIndex = 0;
@@ -138,7 +210,7 @@ namespace Util
 		for (auto& onPlaneVertexIndex : m_vertexIndexesPack.onPlaneVertexIndexes)
 		{
 			//分割頂点に追加
-			points[pointIndex] = m_triangleData.vertices[onPlaneVertexIndex];
+			points[pointIndex] = m_vertexBufferContainer->at(m_triangleData.vertexIndexes[onPlaneVertexIndex]);
 			//分割頂点の格納インデックスは増やすが、既にある頂点なので新しくできた頂点数は増やさない
 			pointIndex++;
 		}
@@ -152,27 +224,28 @@ namespace Util
 			for (auto& backVertexIndex : m_vertexIndexesPack.backVertexIndexes)
 			{
 				//表側の頂点から裏側の頂点への線分と平面との交差点を求め、分割頂点に追加
-				points[pointIndex] = GetCrossPoint(m_triangleData.vertices[frontVertexIndex], m_triangleData.vertices[backVertexIndex]);
+				uint32_t newVertexIndex = GetCrossPoint(
+					m_vertexBufferContainer->at(m_triangleData.vertexIndexes[frontVertexIndex]),
+					m_vertexBufferContainer->at(m_triangleData.vertexIndexes[backVertexIndex]));
+
+				points[pointIndex] = m_vertexBufferContainer->at(newVertexIndex);
 
 				
 				//これが最初の分割頂点なら
 				if (m_alreadyGetAnyDividePoint == false)
 				{
 					//線分を作るのに使っていない頂点　つまり四角形を生成した時新しい頂点と対角線を作る頂点のインデックスを取得
-					GetLeftoverOfThree(frontVertexIndex, backVertexIndex);
+					diagonalPointIndex = GetLeftoverOfThree(frontVertexIndex, backVertexIndex);
 
 					m_alreadyGetAnyDividePoint = true;
 				}
-
-				//新しい頂点なので新しくできた頂点数を増やす
-				newPointNum++;
 
 				//分割頂点の格納インデックスを増やす
 				pointIndex++;
 			}
 		}
 
-		//新しくできた頂点数を返す
-		return newPointNum;
+		//新しくできた頂点の対角のインデックスを返す
+		return diagonalPointIndex;
 	}
 }

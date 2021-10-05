@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tkFile/TkmFile.h"
+
 namespace Util
 {
 	/**
@@ -52,7 +54,7 @@ namespace Util
 	*/
 	struct TriangleData
 	{
-		Vector3 vertices[3];					//頂点
+		uint32_t vertexIndexes[3];					//頂点のインデックス
 	};
 
 	/**
@@ -65,6 +67,16 @@ namespace Util
 		std::vector<int> onPlaneVertexIndexes;	//平面上にある頂点のインデックスの配列
 	};
 
+	enum DivideState//分割のされ方
+	{
+		Divided_2OnFront,//分割_表側に頂点2つ
+		Divided_2OnBack,//分割_裏側に頂点2つ
+		Divided_1OnPlane,//分割_面上に頂点1つ
+		NotDivided_3OnFront,//非分割_表側に頂点3つ
+		NotDivided_3OnBack,//非分割_裏側に頂点3つ
+		Special_3OnPlane,//特殊_面上に頂点3つ
+	};
+
 	class TriangleDivider
 	{
 	public:
@@ -74,7 +86,7 @@ namespace Util
 		 * @param planeData 分割平面のデータ
 		 * @param newVertexContainer MeshDividerの新頂点を
 		*/
-		void Init(const PlaneData& planeData, std::map<std::pair<Vector3, Vector3>, Vector3>* newVertexContainer)
+		void Init(const PlaneData& planeData, std::map<std::pair<Vector3, Vector3>, uint32_t>* newVertexContainer)
 		{
 			m_planeData = planeData;
 			m_newVertexContainer = newVertexContainer;
@@ -104,18 +116,24 @@ namespace Util
 		}
 
 		/**
-		 * @brief 平面が三角形を分割している?
-		 * @return 分割している:true していない:false
+		 * @brief 分割のされ方を計算
+		 * @return 分割のされ方
 		*/
-		bool IsPlaneDivideTriangle();
+		DivideState CalcDivideState();
+
+		/**
+		 * @brief 平面が三角形を分割している?
+		 * @return 分割のされ方
+		*/
+		DivideState IsPlaneDivideTriangle();
 
 		/**
 		 * @brief 平面と線分との交差地点を求める(ヒットしている前提)
 		 * @param startPoint[in] 線分の開始位置
 		 * @param endPoint[in] 線分の終了位置
-		 * @return 交差地点
+		 * @return 交差地点の頂点のインデックス
 		*/
-		Vector3 GetCrossPoint(const Vector3& startPoint, const Vector3& endPoint);
+		uint32_t GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex);
 
 		/**
 		 * @brief 0,1,2のインデックス番号のうち含まれていない物を返す
@@ -132,9 +150,9 @@ namespace Util
 		 * @brief 平面とグループ分けされた頂点から分割された部分の頂点を求める
 		 * @param verticesPack[in] 頂点のデータ(グループ分け済)
 		 * @param points[out] 分割部分の頂点の配列(要素数2)
-		 * @return 分割された際新しくできた頂点の数
+		 * @return 四角形ができる時、一つ目の新頂点の対角線を構成する点のインデックス
 		*/
-		int GetDividedPoint(std::array<Vector3, 2>& points);
+		int GetDividedPoint(std::array<TkmFile::SVertex, 2>& points);
 
 	private:
 		bool m_isInited = false;					//初期化されている?
@@ -142,6 +160,7 @@ namespace Util
 		PlaneData m_planeData;						//分割平面データ
 		TriangleData m_triangleData;				//分割される三角形のデータ
 		VertexIndexesPack m_vertexIndexesPack;		//面の裏・表・上に存在する頂点のインデックスデータ
-		std::map<std::pair<Vector3, Vector3>, Vector3>* m_newVertexContainer; //分割によってできた新頂点を格納する連想配列のポインタ
+		std::vector<TkmFile::SVertex>* m_vertexBufferContainer;	//元の頂点バッファ
+		std::map<std::pair<Vector3, Vector3>, uint32_t>* m_newVertexContainer; //分割によってできた新頂点を格納する連想配列のポインタ
 	};
 }
