@@ -95,6 +95,26 @@ public:
 		int indices[4];			//スキンインデックス。
 		Vector4 skinWeights;	//スキンウェイト。
 	};
+
+	static SVertex lerpVertex(float lerpRate,const SVertex& v0, const SVertex& v1)
+	{
+		SVertex vertex;
+		vertex.pos.Lerp(lerpRate, v0.pos, v1.pos);
+		vertex.normal.Lerp(lerpRate, v0.normal, v1.normal);
+		vertex.tangent.Lerp(lerpRate, v0.tangent, v1.tangent);
+		vertex.binormal.Lerp(lerpRate, v0.binormal, v1.binormal);
+		vertex.uv.Lerp(lerpRate, v0.uv, v1.uv);
+
+		//WARNING:スキンインデックスより下の補完の仕方が分からない(そもそも補完していいの?)
+		//のでスキンインデックスはv0のインデックスを、スキンウェイトは作成したLerp関数を使ってみる
+		vertex.indices[0] = v0.indices[0];
+		vertex.indices[1] = v0.indices[1];
+		vertex.indices[2] = v0.indices[2];
+		vertex.indices[3] = v0.indices[3];
+		vertex.skinWeights.Lerp(lerpRate, v0.skinWeights, v1.skinWeights);
+
+		return vertex;
+	}
 	/// <summary>
 	/// 32ビットのインデックスバッファ。
 	/// </summary>
@@ -123,6 +143,15 @@ public:
 	/// </summary>
 	/// <param name="filePath">ファイルパス。</param>
 	void Load(const char* filePath);
+
+	/**
+	 * @brief メッシュを追加
+	 * @param mesh 追加するメッシュ
+	*/
+	void AddMesh(SMesh mesh)
+	{
+		m_meshParts.push_back(mesh);
+	}
 		
 	/// <summary>
 	/// メッシュパーツに対してクエリを行う。
