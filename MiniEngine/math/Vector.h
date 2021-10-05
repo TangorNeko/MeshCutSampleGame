@@ -420,7 +420,47 @@ public:
 		Div(s);
 		return *this;
 	}
+
+	/**
+	 * @brief WARNING:特定の順にソートする用に定義したVector3の比較関数　通常の比較としては使えません。
+	 * @param anotherVector 比較するベクトル
+	 * @return 比較するベクトルより長さの2乗の値が大きい?
+	*/
+	bool isBiggerThan(const Vector3& anotherVector)const
+	{
+		return LengthSq() > anotherVector.LengthSq();
+	}
+
+	/**
+	 * @brief 2つのベクトルから特定の法則でソートされたペアを作り出す
+	 * @param v0 ベクトル1
+	 * @param v1 ベクトル2
+	* @return ソートされたペア
+	*/
+	static std::pair<Vector3, Vector3> MakeSortedPair(const Vector3& v0, const Vector3& v1)
+	{
+		if (v0.isBiggerThan(v1))
+		{
+			return std::make_pair(v0, v1);
+		}
+		else
+		{
+			return std::make_pair(v1, v0);
+		}
+	}
 };
+
+/**
+ * @brief WARNING:mapに登録するためだけに定義したVector3の比較演算子　通常の比較としては使えません。
+ * @param lhs 左辺
+ * @param rhs 右辺
+ * @return 左辺の長さの2乗 < 右辺の長さの2乗?
+*/
+static bool operator<(const Vector3& lhs, const Vector3& rhs)
+{
+	return lhs.LengthSq() < rhs.LengthSq();
+}
+
 /// <summary>
 /// 4次元ベクトルクラス。
 /// </summary>
@@ -499,6 +539,19 @@ public:
 	Vector4(const Vector3& v)
 	{
 		Set(v);
+	}
+	/**
+	 * @brief 線形補完(WARNING:後から作ったため正しさが検証されていません。)
+	 * @param t 補完率
+	 * @param v0 補完開始ベクトル
+	 * @param v1 補完終了ベクトル
+	*/
+	void Lerp(float t, const Vector4& v0, const Vector4& v1)
+	{
+		x = v0.x + (v1.x - v0.x) * t;
+		y = v0.y + (v1.y - v0.y) * t;
+		z = v0.z + (v1.z - v0.z) * t;
+		w = v0.w + (v1.w - v0.w) * t;
 	}
 	/// <summary>
 	/// ベクトルの各要素を設定。
@@ -639,17 +692,6 @@ public:
 		DirectX::XMStoreFloat4(&vec, xmv);
 	}
 };
-
-/**
- * @brief WARNING:mapに登録するためだけに定義したVector3の比較演算子　通常の比較としては使えません。
- * @param lhs 左辺
- * @param rhs 右辺
- * @return 左辺の長さの2乗 < 右辺の長さの2乗?
-*/
-static bool operator<(const Vector3& lhs, const Vector3& rhs)
-{
-	return lhs.LengthSq() < rhs.LengthSq();
-}
 
 const Vector2 g_vec2Zero = { 0.0f, 0.0f };
 const Vector3 g_vec3Zero = { 0.0f,  0.0f,  0.0f };
