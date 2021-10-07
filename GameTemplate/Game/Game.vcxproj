@@ -289,6 +289,10 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
+    <ClCompile Include="OneOnPlaneTriangle.cpp" />
+    <ClCompile Include="ThreeOnBackTriangle.cpp" />
+    <ClCompile Include="ThreeOnFrontTriangle.cpp" />
+    <ClCompile Include="ThreeOnPlaneTriangle.cpp" />
     <ClCompile Include="TriangleDivider.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -300,6 +304,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TwoOnBackTriangle.cpp" />
+    <ClCompile Include="TwoOnFrontTriangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -361,11 +367,19 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="ITriangleMaker.h" />
     <ClInclude Include="MeshDivider.h" />
+    <ClInclude Include="OneOnPlaneTriangle.h" />
+    <ClInclude Include="ThreeOnBackTriangle.h" />
+    <ClInclude Include="ThreeOnFrontTriangle.h" />
+    <ClInclude Include="ThreeOnPlaneTriangle.h" />
     <ClInclude Include="TriangleDivideStruct.h" />
     <ClInclude Include="TriangleDivider.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="TriangleMakerHeader.h" />
+    <ClInclude Include="TwoOnBackTriangle.h" />
+    <ClInclude Include="TwoOnFrontTriangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -48,6 +48,12 @@
     <Filter Include="ExEngine\level2D">
       <UniqueIdentifier>{80abc458-e4b9-4836-89c7-3eb842072871}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\TriangleMaker">
+      <UniqueIdentifier>{80280c3c-3dbe-4fe5-a960-467db8ad9479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\TriangleMaker">
+      <UniqueIdentifier>{7adcd20c-6b94-4c16-85be-f59ed07bd0d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -214,6 +220,24 @@
     </ClCompile>
     <ClCompile Include="MeshDivider.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoOnFrontTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeOnPlaneTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeOnFrontTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeOnBackTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="OneOnPlaneTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoOnBackTriangle.cpp">
+      <Filter>ソース ファイル\TriangleMaker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -408,6 +432,30 @@
     </ClInclude>
     <ClInclude Include="TriangleDivideStruct.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ITriangleMaker.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoOnFrontTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="OneOnPlaneTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeOnBackTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeOnFrontTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeOnPlaneTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoOnBackTriangle.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleMakerHeader.h">
+      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

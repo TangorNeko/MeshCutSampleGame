@@ -2,18 +2,12 @@
 
 #include "tkFile/TkmFile.h"
 #include "TriangleDivideStruct.h"
-
 namespace Util
 {
-	enum DivideState//分割のされ方
-	{
-		Divided_2OnFront,//分割_表側に頂点2つ
-		Divided_2OnBack,//分割_裏側に頂点2つ
-		Divided_1OnPlane,//分割_面上に頂点1つ
-		NotDivided_3OnFront,//非分割_表側に頂点3つ
-		NotDivided_3OnBack,//非分割_裏側に頂点3つ
-		Special_3OnPlane,//特殊_面上に頂点3つ
-	};
+	using VertexBuffer = std::vector<TkmFile::SVertex>;
+	using IndexBuffer = TkmFile::SIndexBuffer32;
+	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint32_t>;
+	class ITriangleMaker;
 
 	class TriangleDivider
 	{
@@ -21,8 +15,11 @@ namespace Util
 
 		/**
 		 * @brief 初期化
-		 * @param planeData 分割平面のデータ
-		 * @param newVertexContainer MeshDividerの新頂点を
+		 * @param[in] planeData 分割に使用する平面のデータ
+		 * @param[in,out] vertexBufferContainer 分割されるメッシュの頂点バッファ
+		 * @param[out] frontIndexBuffer 分割後、分割面の表側と判定されたメッシュのインデックスバッファ
+		 * @param[out] backIndexBuffer 分割後、分割面の裏側と判定されたメッシュのインデックスバッファ
+		 * @param[out] newVertexContainer 新しく生成された頂点のインデックスを格納する連想配列
 		*/
 		void Init(const PlaneData& planeData,
 			std::vector<TkmFile::SVertex>* vertexBufferContainer,
@@ -31,7 +28,7 @@ namespace Util
 			std::map<std::pair<Vector3, Vector3>, uint32_t>* newVertexContainer)
 		{
 			m_planeData = planeData;
-			m_vertexBufferContainer = vertexBufferContainer;
+			m_vertexBuffer = vertexBufferContainer;
 			m_frontIndexBuffer = frontIndexBuffer;
 			m_backIndexBuffer = backIndexBuffer;
 			m_newVertexContainer = newVertexContainer;
@@ -44,7 +41,7 @@ namespace Util
 		*/
 		void Divide(const TriangleData& TriangleData);
 
-		//private:
+	private:
 
 		/**
 		 * @brief データのリセット
@@ -58,32 +55,34 @@ namespace Util
 			m_vertexIndexesPack.frontVertexIndexes.clear();
 			m_vertexIndexesPack.backVertexIndexes.clear();
 			m_vertexIndexesPack.onPlaneVertexIndexes.clear();
+
+			//新頂点対角のインデックスを初期化
+			m_diagonalPoint = -1;
 		}
 
 		/**
-		 * @brief 分割のされ方を計算
-		 * @return 分割のされ方
+		 * @brief 三角形がどう分割されているかを判定し、適切なTriangleMakerを返す
+		 * @return 分割のされ方に応じたTriangleMaker
 		*/
-		DivideState CalcDivideState();
+		ITriangleMaker* CheckHowDivided();
 
 		/**
-		 * @brief 平面が三角形を分割している?
-		 * @return 分割のされ方
+		 * @brief 三角形の頂点をグループ分けする
 		*/
-		DivideState IsPlaneDivideTriangle();
+		void VertexGrouping();
 
 		/**
 		 * @brief 平面と線分との交差地点を求める(ヒットしている前提)
-		 * @param startPoint[in] 線分の開始位置
-		 * @param endPoint[in] 線分の終了位置
+		 * @param[in] startPoint 線分の開始位置
+		 * @param[in] endPoint 線分の終了位置
 		 * @return 交差地点の頂点のインデックス
 		*/
 		uint32_t GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex);
 
 		/**
 		 * @brief 0,1,2のインデックス番号のうち含まれていない物を返す
-		 * @param first 1つ目のインデックスの数字
-		 * @param second 2つ目のインデックスの数字
+		 * @param[in] first 1つ目のインデックスの数字
+		 * @param[in] second 2つ目のインデックスの数字
 		 * @return 最後に残ったインデックスの数字
 		*/
 		int GetLeftoverOfThree(int first, int second)
@@ -93,11 +92,11 @@ namespace Util
 
 		/**
 		 * @brief 平面とグループ分けされた頂点から分割された部分の頂点を求める
-		 * @param verticesPack[in] 頂点のデータ(グループ分け済)
-		 * @param points[out] 分割部分の頂点の配列(要素数2)
+		 * @param[in] verticesPack 頂点のデータ(グループ分け済)
+		 * @param[out] points 分割部分の頂点の配列(要素数2)
 		 * @return 四角形ができる時、一つ目の新頂点の対角線を構成する点のインデックス
 		*/
-		int GetDividedPoint(std::array<uint32_t, 2>& points);
+		void GetDividedPoint();
 
 	private:
 		bool m_isInited = false;					//初期化されている?
@@ -105,9 +104,11 @@ namespace Util
 		PlaneData m_planeData;						//分割平面データ
 		TriangleData m_triangleData;				//分割される三角形のデータ
 		VertexIndexesPack m_vertexIndexesPack;		//面の裏・表・上に存在する頂点のインデックスデータ
-		std::vector<TkmFile::SVertex>* m_vertexBufferContainer;	//元の頂点バッファ
-		std::map<std::pair<Vector3, Vector3>, uint32_t>* m_newVertexContainer; //分割によってできた新頂点を格納する連想配列のポインタ
-		TkmFile::SIndexBuffer32* m_frontIndexBuffer;
-		TkmFile::SIndexBuffer32* m_backIndexBuffer;
+		std::array<uint32_t, 2> m_newpointArray;	//平面と交差した地点の頂点のインデックス配列
+		int m_diagonalPoint = -1;					//新頂点の対角にある頂点のインデックス
+		VertexBuffer* m_vertexBuffer = nullptr;		//元の頂点バッファ
+		NewPointMap* m_newVertexContainer = nullptr;//分割によってできた新頂点を格納する連想配列のポインタ
+		IndexBuffer* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
+		IndexBuffer* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
 	};
 }
