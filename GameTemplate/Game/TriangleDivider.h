@@ -62,9 +62,9 @@ namespace Util
 	*/
 	struct VertexIndexesPack
 	{
-		std::vector<int> frontVertexIndexes;	//平面の表側にある頂点のインデックスの配列
-		std::vector<int> backVertexIndexes;		//平面の裏側にある頂点のインデックス配列
-		std::vector<int> onPlaneVertexIndexes;	//平面上にある頂点のインデックスの配列
+		std::vector<uint32_t> frontVertexIndexes;	//平面の表側にある頂点のインデックスの配列
+		std::vector<uint32_t> backVertexIndexes;		//平面の裏側にある頂点のインデックス配列
+		std::vector<uint32_t> onPlaneVertexIndexes;	//平面上にある頂点のインデックスの配列
 	};
 
 	enum DivideState//分割のされ方
@@ -86,9 +86,16 @@ namespace Util
 		 * @param planeData 分割平面のデータ
 		 * @param newVertexContainer MeshDividerの新頂点を
 		*/
-		void Init(const PlaneData& planeData, std::map<std::pair<Vector3, Vector3>, uint32_t>* newVertexContainer)
+		void Init(const PlaneData& planeData,
+			std::vector<TkmFile::SVertex>* vertexBufferContainer,
+			TkmFile::SIndexBuffer32* frontIndexBuffer,
+			TkmFile::SIndexBuffer32* backIndexBuffer,
+			std::map<std::pair<Vector3, Vector3>, uint32_t>* newVertexContainer)
 		{
 			m_planeData = planeData;
+			m_vertexBufferContainer = vertexBufferContainer;
+			m_frontIndexBuffer = frontIndexBuffer;
+			m_backIndexBuffer = backIndexBuffer;
 			m_newVertexContainer = newVertexContainer;
 			m_isInited = true;
 		}
@@ -152,7 +159,7 @@ namespace Util
 		 * @param points[out] 分割部分の頂点の配列(要素数2)
 		 * @return 四角形ができる時、一つ目の新頂点の対角線を構成する点のインデックス
 		*/
-		int GetDividedPoint(std::array<TkmFile::SVertex, 2>& points);
+		int GetDividedPoint(std::array<uint32_t, 2>& points);
 
 	private:
 		bool m_isInited = false;					//初期化されている?
@@ -162,5 +169,7 @@ namespace Util
 		VertexIndexesPack m_vertexIndexesPack;		//面の裏・表・上に存在する頂点のインデックスデータ
 		std::vector<TkmFile::SVertex>* m_vertexBufferContainer;	//元の頂点バッファ
 		std::map<std::pair<Vector3, Vector3>, uint32_t>* m_newVertexContainer; //分割によってできた新頂点を格納する連想配列のポインタ
+		TkmFile::SIndexBuffer32* m_frontIndexBuffer;
+		TkmFile::SIndexBuffer32* m_backIndexBuffer;
 	};
 }

@@ -14,39 +14,83 @@ namespace Util
 		DataReset();
 		m_triangleData = triangleData;
 
-		std::array<TkmFile::SVertex, 2> newpointArray;
+		std::array<uint32_t, 2> newpointArray;
+		uint32_t diagonal;
 
 		//分割判定の結果によって分岐?
+		//TODO:新オブジェクトとして分岐させたほうがコード量的によさそう
 		switch (IsPlaneDivideTriangle())
 		{
 		case Divided_2OnFront:
-			GetDividedPoint(newpointArray);
+			diagonal = GetDividedPoint(newpointArray);
 			//1つ目の新頂点と対角の頂点でできた線分と、残り2つの頂点をそれぞれつないだ三角形2つが表側の三角形
+			m_frontIndexBuffer->indices.push_back(newpointArray[0]);//新頂点1
+			m_frontIndexBuffer->indices.push_back(diagonal);//新頂点1の対角の頂点
+			m_frontIndexBuffer->indices.push_back(1);//残りの頂点の1つめ(TODO:後から変更)
+
+			m_frontIndexBuffer->indices.push_back(newpointArray[0]);//1つめの新頂点
+			m_frontIndexBuffer->indices.push_back(diagonal);//対角の頂点
+			m_frontIndexBuffer->indices.push_back(2);//残りの頂点の2つめ(TODO:後から変更)
+
 			//裏の頂点と新頂点2つで裏側の三角形
+			m_backIndexBuffer->indices.push_back(newpointArray[0]);//新頂点1
+			m_backIndexBuffer->indices.push_back(newpointArray[1]);//新頂点2
+			m_backIndexBuffer->indices.push_back(m_vertexIndexesPack.backVertexIndexes[0]);//裏の頂点(1つしかない)
 			break;
 		case Divided_2OnBack:
-			GetDividedPoint(newpointArray);
+			diagonal = GetDividedPoint(newpointArray);
 			//表の頂点と新頂点2つで表側の三角形
+			m_frontIndexBuffer->indices.push_back(newpointArray[0]);//新頂点1
+			m_frontIndexBuffer->indices.push_back(newpointArray[1]);//新頂点2
+			m_frontIndexBuffer->indices.push_back(m_vertexIndexesPack.frontVertexIndexes[0]);//表の頂点(1つしかない)
+
 			//1つ目の新頂点と対角の頂点でできた線分と、残り2つの頂点をそれぞれつないだ三角形2つが裏側の三角形
+			m_backIndexBuffer->indices.push_back(newpointArray[0]);//新頂点1
+			m_backIndexBuffer->indices.push_back(diagonal);//新頂点1の対角の頂点
+			m_backIndexBuffer->indices.push_back(1);//残りの頂点の1つめ(TODO:後から変更)
+
+			m_backIndexBuffer->indices.push_back(newpointArray[0]);//新頂点1
+			m_backIndexBuffer->indices.push_back(diagonal);//新頂点1の対角の頂点
+			m_backIndexBuffer->indices.push_back(2);//残りの頂点の2つめ(TODO:後から変更)
 			break;
 		case Divided_1OnPlane:
-			GetDividedPoint(newpointArray);
+			diagonal = GetDividedPoint(newpointArray);
 			//1つ目の新頂点には平面と重なった元の点が入っている。
 			//2つ目の新頂点と対角の頂点でできた線分と、表側の1頂点をつないだ三角形が表側の三角形
+			m_frontIndexBuffer->indices.push_back(newpointArray[1]);//新頂点2
+			m_frontIndexBuffer->indices.push_back(diagonal);//新頂点2の対角の頂点
+			m_frontIndexBuffer->indices.push_back(m_vertexIndexesPack.frontVertexIndexes[0]);//表の頂点(1つしかない)
+
 			//2つ目の新頂点と対角の頂点でできた線分と、裏側の1頂点をつないだ三角形が裏側の三角形
+			m_backIndexBuffer->indices.push_back(newpointArray[1]);//新頂点2
+			m_backIndexBuffer->indices.push_back(diagonal);//新頂点2の対角の頂点
+			m_backIndexBuffer->indices.push_back(m_vertexIndexesPack.backVertexIndexes[0]);//裏の頂点(1つしかない)
 			break;
 		case NotDivided_3OnFront:
 			//3点が平面より表側にあるので3点の三角形が表側の三角形
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[0]);
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[1]);
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[2]);
 			//裏側の三角形はない
 			break;
 		case NotDivided_3OnBack:
 			//表側の三角形はない
 			//3点が平面より裏側にあるので3点の三角形が裏側の三角形
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[0]);
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[1]);
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[2]);
 			break;
 		case Special_3OnPlane:
 			//NOTE:平面上に3点がある時はどちらの面にも含んでいる処理とすることにしている。
 			//3点の三角形で表側の三角形
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[0]);
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[1]);
+			m_frontIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[2]);
+
 			//3点の三角形で裏側の三角形
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[0]);
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[1]);
+			m_backIndexBuffer->indices.push_back(m_triangleData.vertexIndexes[2]);
 			break;
 		}
 	}
@@ -145,6 +189,7 @@ namespace Util
 
 	uint32_t TriangleDivider::GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex)
 	{
+		//開始頂点と終了頂点の座標を取得
 		Vector3 startPoint = startVertex.pos;
 		Vector3 endPoint = endVertex.pos;
 
@@ -198,7 +243,7 @@ namespace Util
 		return newVertexIndex;
 	}
 
-	int TriangleDivider::GetDividedPoint(std::array<TkmFile::SVertex,2>& points)
+	int TriangleDivider::GetDividedPoint(std::array<uint32_t,2>& points)
 	{
 		//新しくできた頂点数
 		int diagonalPointIndex = 0;
@@ -210,8 +255,9 @@ namespace Util
 		for (auto& onPlaneVertexIndex : m_vertexIndexesPack.onPlaneVertexIndexes)
 		{
 			//分割頂点に追加
-			points[pointIndex] = m_vertexBufferContainer->at(m_triangleData.vertexIndexes[onPlaneVertexIndex]);
-			//分割頂点の格納インデックスは増やすが、既にある頂点なので新しくできた頂点数は増やさない
+			points[pointIndex] = m_triangleData.vertexIndexes[onPlaneVertexIndex];
+
+			//分割頂点の格納インデックスを増やす。
 			pointIndex++;
 		}
 
@@ -228,7 +274,7 @@ namespace Util
 					m_vertexBufferContainer->at(m_triangleData.vertexIndexes[frontVertexIndex]),
 					m_vertexBufferContainer->at(m_triangleData.vertexIndexes[backVertexIndex]));
 
-				points[pointIndex] = m_vertexBufferContainer->at(newVertexIndex);
+				points[pointIndex] = newVertexIndex;
 
 				
 				//これが最初の分割頂点なら

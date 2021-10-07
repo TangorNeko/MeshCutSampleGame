@@ -11,20 +11,21 @@ namespace Util
 		PlaneData plane;
 		plane.SetNormal(Vector3::Up);
 		plane.SetPoint(Vector3::Zero);
-		triangleDivider.Init(plane,&m_newVertexContainer);
+		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer,&m_newVertexContainer);
 
-		//TODO:インデックスバッファと頂点バッファを受け取り
-		// インデックスバッファの一つの三角形ごとにTriangleDividerを実行?
-		//イメージ
-		//for (auto index : IndexBuffer)
-		//{
-		//	TriangleData triangleData;
-		//	triangleData.vertices[0] = VertexBuffer[index[0]];
-		//	triangleData.vertices[1] = VertexBuffer[index[1]];
-		//	triangleData.vertices[2] = VertexBuffer[index[2]];
-		//
-		//	triangleDivider.Divide(triangleData);
-		//}
+		//マテリアルごとに分割
+		for (auto& index : m_divideMesh->indexBuffer32Array)
+		{
+			for (auto it = index.indices.begin();it != index.indices.end();it += 3)
+			{
+				TriangleData triangleData;
+				triangleData.vertexIndexes[0] = *it;
+				triangleData.vertexIndexes[1] = *(it+1);
+				triangleData.vertexIndexes[2] = *(it+2);
+
+				triangleDivider.Divide(triangleData);
+			}
+		}
 
 	}
 }
