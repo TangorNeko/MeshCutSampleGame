@@ -362,6 +362,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="MeshDivider.h" />
+    <ClInclude Include="TriangleDivideStruct.h" />
     <ClInclude Include="TriangleDivider.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
