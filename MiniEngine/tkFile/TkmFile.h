@@ -190,7 +190,7 @@ public:
 		return (int)(m_meshParts.size());
 	}
 
-	void Divide();
+	void Divide(const Vector3& cutNormal, const Vector3& cutPoint);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

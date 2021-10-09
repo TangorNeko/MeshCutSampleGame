@@ -24,29 +24,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	////NOTE:テストコード
-	//Util::PlaneData plane;
-	//Util::TriangleData triangle;
-
-	//plane.SetPoint({ 0.0f,1.0f,0.0f });
-	//plane.SetNormal({ 2.0f,1.0f,0.0f });
-
-	//triangle.vertexIndexes[0] = 0;
-	//triangle.vertexIndexes[1] = 1;
-	//triangle.vertexIndexes[2] = 2;
-
-	//std::array<Vector3, 2> newpointArray;
-	//
-	//Util::TriangleDivider divider;
-	//std::map<std::pair<Vector3, Vector3>, Vector3> newvertexContainer;
-	//divider.Init(plane,&newvertexContainer);
-	//divider.Divide(triangle);
-	//divider.GetCrossPoint({ 7.0f,-5.0f,0.0f }, { -2.0f,-5.0f,0.0f });
-	//if (divider.IsPlaneDivideTriangle() == Util::Divided_1OnPlane)
-	//{
-	//	int newpoint = divider.GetDividedPoint(newpointArray);
-	//	OutputDebugStringA("Divided");
-	//}
+	//NOTE:テストコード
 
 	ModelInitData modelInitData;
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -55,8 +33,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	Model testModel;
 	testModel.Init(modelInitData);
-	testModel.UpdateWorldMatrix({ 0.0f,0.0f,-100.0f }, g_quatIdentity, { 1.0f,1.0f,1.0f });
 	g_camera3D->SetFar(100000.0f);
+
+	float deg = 0.0f;
+	float x = 0.0f;
+	Quaternion testQRot = g_quatIdentity;
+
+	Vector3 cutNormal = { 1.0f,0.0f,0.0f };
+	cutNormal.Normalize();
+	Vector3 cutPoint = { 0.0f, 25.0f, 0.0f };
+
+	g_camera3D->SetPosition(0.0f, 0.0f, -1000.0f);
+	g_camera3D->SetTarget(0.0f, 0.0f, 0.0f);
 
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
@@ -74,9 +62,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		testModel.Draw(renderContext);
 
+		deg += g_pad[0]->GetRStickXF();
+		x += g_pad[0]->GetLStickXF();
+
+		testQRot.SetRotationDegY(deg);
+
+		testModel.UpdateWorldMatrix({ x,0.0f,0.0f }, testQRot, { 1.0f,1.0f,1.0f });
+
 		if (g_pad[0]->IsTrigger(enButtonA))
 		{
-			testModel.Divide(modelInitData);
+			testModel.Divide(modelInitData, cutNormal, cutPoint);
 		}
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

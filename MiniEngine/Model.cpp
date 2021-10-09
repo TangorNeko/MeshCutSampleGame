@@ -81,9 +81,23 @@ void Model::Draw(RenderContext& rc)
 	);
 }
 
-void Model::Divide(const ModelInitData& initData)
+void Model::Divide(const ModelInitData& initData, const Vector3& worldCutNormal,const Vector3& worldCutPoint)
 {
-	m_tkmFile.Divide();
+
+	Vector3 modelLocalCutNormal = worldCutNormal;
+	Vector3 modelLocalCutPoint = worldCutPoint;
+
+	//引数の切断面と向きと切断面の一点の座標はワールド座標、しかしメッシュカットはモデルのローカル座標系を基準に行われる(おそらく)ため、
+	//モデルのワールド座標の逆行列をかけるとモデルのローカル座標系に戻せるのではないか?
+	Matrix invWorld = m_world;
+	invWorld.Inverse();
+
+	//逆行列を各要素に乗算
+	invWorld.Apply(modelLocalCutNormal);
+	invWorld.Apply(modelLocalCutPoint);
+
+	//分割
+	m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint);
 
 	wchar_t wfxFilePath[256] = { L"" };
 	if (initData.m_fxFilePath != nullptr) {

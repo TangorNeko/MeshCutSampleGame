@@ -4,15 +4,13 @@
 
 namespace Util
 {
-	std::pair<TkmFile::SMesh,TkmFile::SMesh> MeshDivider::Divide()
+	std::pair<TkmFile::SMesh,TkmFile::SMesh> MeshDivider::Divide(const Vector3& cutNormal, const Vector3& cutPoint)
 	{
 		TriangleDivider triangleDivider;
 
 		PlaneData plane;
-		Vector3 cutNormal = { -1.0f,1.0f,1.0f };
-		cutNormal.Normalize();
 		plane.SetNormal(cutNormal);
-		plane.SetPoint({ 0.0f,70.0f,0.0f });
+		plane.SetPoint(cutPoint);
 		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer,&m_newVertexContainer);
 
 

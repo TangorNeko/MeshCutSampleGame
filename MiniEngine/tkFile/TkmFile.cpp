@@ -388,7 +388,7 @@ void TkmFile::Load(const char* filePath)
 
 }
 
-void TkmFile::Divide()
+void TkmFile::Divide(const Vector3& cutNormal,const Vector3& cutPoint)
 {
 	Util::MeshDivider meshDivider;
 
@@ -396,7 +396,7 @@ void TkmFile::Divide()
 	for (auto& mesh : m_meshParts)
 	{
 		meshDivider.Init(&mesh);
-		newMesh.push_back(meshDivider.Divide().second);
+		newMesh.push_back(meshDivider.Divide(cutNormal,cutPoint).first);
 	}
 
 	m_meshParts = newMesh;

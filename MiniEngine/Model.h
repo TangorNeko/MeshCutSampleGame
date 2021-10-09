@@ -91,7 +91,7 @@ public:
 		return m_tkmFile;
 	}
 
-	void Divide(const ModelInitData& initData);
+	void Divide(const ModelInitData& initData, const Vector3& worldCutNormal, const Vector3& worldCutPoint);
 private:
 
 	Matrix m_world;														//ワールド行列。

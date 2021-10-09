@@ -21,7 +21,7 @@ namespace Util
 		/**
 		 * @brief メッシュの分割(仮)
 		*/
-		std::pair<TkmFile::SMesh, TkmFile::SMesh> Divide();
+		std::pair<TkmFile::SMesh, TkmFile::SMesh> Divide(const Vector3& cutNormal, const Vector3& cutPoint);
 
 	private:
 		TkmFile::SMesh* m_divideMesh = nullptr;//分割するメッシュ
