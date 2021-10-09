@@ -3,11 +3,12 @@
 
 namespace Util
 {
-	using IndexBuffer = TkmFile::SIndexBuffer32;
-	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint32_t>;
+	using IndexBuffer = TkmFile::SIndexbuffer16;
+	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint16_t>;
 
 	class MeshDivider
 	{
+	public:
 		/**
 		 * @brief 分割するメッシュの初期化
 		 * @param[in] mesh 分割するメッシュ
@@ -20,7 +21,7 @@ namespace Util
 		/**
 		 * @brief メッシュの分割(仮)
 		*/
-		void Divide();
+		std::pair<TkmFile::SMesh, TkmFile::SMesh> Divide();
 
 	private:
 		TkmFile::SMesh* m_divideMesh = nullptr;//分割するメッシュ
