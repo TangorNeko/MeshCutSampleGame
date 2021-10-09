@@ -48,6 +48,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//	OutputDebugStringA("Divided");
 	//}
 
+	ModelInitData modelInitData;
+	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	modelInitData.m_tkmFilePath = "Assets/modelData/teapot.tkm";
+	modelInitData.m_modelUpAxis = enModelUpAxisZ;
+
+	Model testModel;
+	testModel.Init(modelInitData);
+	testModel.UpdateWorldMatrix({ 0.0f,0.0f,-100.0f }, g_quatIdentity, { 1.0f,1.0f,1.0f });
+	g_camera3D->SetFar(100000.0f);
+
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -62,6 +72,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
+		testModel.Draw(renderContext);
+
+		if (g_pad[0]->IsTrigger(enButtonA))
+		{
+			testModel.Divide(modelInitData);
+		}
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
