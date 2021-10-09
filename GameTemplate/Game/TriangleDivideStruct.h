@@ -52,7 +52,7 @@ namespace Util
 	*/
 	struct TriangleData
 	{
-		uint32_t vertexIndexes[3];					//頂点のインデックス
+		uint16_t vertexIndexes[3];					//頂点のインデックス
 	};
 
 	/**
@@ -60,8 +60,8 @@ namespace Util
 	*/
 	struct VertexIndexesPack
 	{
-		std::vector<uint32_t> frontVertexIndexes;	//平面の表側にある頂点のインデックスの配列
-		std::vector<uint32_t> backVertexIndexes;		//平面の裏側にある頂点のインデックス配列
-		std::vector<uint32_t> onPlaneVertexIndexes;	//平面上にある頂点のインデックスの配列
+		std::vector<uint16_t> frontVertexIndexes;	//平面の表側にある頂点のインデックスの配列
+		std::vector<uint16_t> backVertexIndexes;		//平面の裏側にある頂点のインデックス配列
+		std::vector<uint16_t> onPlaneVertexIndexes;	//平面上にある頂点のインデックスの配列
 	};
 }

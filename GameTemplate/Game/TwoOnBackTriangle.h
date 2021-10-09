@@ -15,7 +15,7 @@ namespace Util
 		 * @param diagonalIndex 指定インデックス番号(対角のインデックス番号)
 		 * @return 指定したインデックス番号でないインデックス番号
 		*/
-		uint32_t BackLeftOf(uint32_t diagonalIndex);
+		uint16_t BackLeftOf(uint16_t diagonalIndex);
 	};
 }
 
