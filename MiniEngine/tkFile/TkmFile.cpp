@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "tkFile/TkmFile.h"
+#include "../GameTemplate/Game/MeshDivider.h"
 
 
 //法線スムージング。
@@ -385,4 +386,18 @@ void TkmFile::Load(const char* filePath)
 
 	fclose(fp);
 
+}
+
+void TkmFile::Divide()
+{
+	Util::MeshDivider meshDivider;
+
+	std::vector< SMesh>	newMesh;
+	for (auto& mesh : m_meshParts)
+	{
+		meshDivider.Init(&mesh);
+		newMesh.push_back(meshDivider.Divide().second);
+	}
+
+	m_meshParts = newMesh;
 }

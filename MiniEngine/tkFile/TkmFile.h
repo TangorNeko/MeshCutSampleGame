@@ -43,41 +43,51 @@ public:
 		//コピーコンストラクタ
 		SMaterial(const SMaterial& rhs)
 		{
+			/*
 			albedoMapFileName = rhs.albedoMapFileName;
 			normalMapFileName = rhs.normalMapFileName;
 			specularMapFileName = rhs.specularMapFileName;
 			reflectionMapFileName = rhs.reflectionMapFileName;
 			refractionMapFileName = rhs.refractionMapFileName;
-			albedoMap = std::make_unique<char[]>(*(rhs.albedoMap.get()));
 			albedoMapSize = rhs.albedoMapSize;
-			normalMap = std::make_unique<char[]>(*(rhs.normalMap.get()));
+			albedoMap = std::make_unique<char[]>(albedoMapSize);
+			*albedoMap.get() = *rhs.albedoMap.get();
 			normalMapSize = rhs.normalMapSize;
-			specularMap = std::make_unique<char[]>(*(rhs.specularMap.get()));
+			normalMap = std::make_unique<char[]>(normalMapSize);
+			//*normalMap.get() = *rhs.normalMap.get();
 			specularMapSize = specularMapSize;
-			reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
+			specularMap = std::make_unique<char[]>(specularMapSize);
+			//*specularMap.get() = *rhs.specularMap.get();
+			//reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
 			reflectionMapSize = reflectionMapSize;
-			refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
+			//refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
 			refractionMapSize = refractionMapSize;
+			*/
 		}
 
 		//コピー代入演算子
 		void operator=(const SMaterial& rhs)
 		{
+			/*
 			albedoMapFileName = rhs.albedoMapFileName;
 			normalMapFileName = rhs.normalMapFileName;
 			specularMapFileName = rhs.specularMapFileName;
 			reflectionMapFileName = rhs.reflectionMapFileName;
 			refractionMapFileName = rhs.refractionMapFileName;
-			albedoMap = std::make_unique<char[]>(*(rhs.albedoMap.get()));
 			albedoMapSize = rhs.albedoMapSize;
-			normalMap = std::make_unique<char[]>(*(rhs.normalMap.get()));
+			albedoMap = std::make_unique<char[]>(albedoMapSize);
+			*albedoMap.get() = *rhs.albedoMap.get();
 			normalMapSize = rhs.normalMapSize;
-			specularMap = std::make_unique<char[]>(*(rhs.specularMap.get()));
+			normalMap = std::make_unique<char[]>(normalMapSize);
+			*normalMap.get() = *rhs.normalMap.get();
 			specularMapSize = specularMapSize;
-			reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
+			specularMap = std::make_unique<char[]>(specularMapSize);
+			*specularMap.get() = *rhs.specularMap.get();
+			//reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
 			reflectionMapSize = reflectionMapSize;
-			refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
+			//refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
 			refractionMapSize = refractionMapSize;
+			*/
 		}
 	};
 	/// <summary>
@@ -179,6 +189,8 @@ public:
 	{
 		return (int)(m_meshParts.size());
 	}
+
+	void Divide();
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

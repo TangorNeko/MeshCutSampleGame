@@ -80,3 +80,33 @@ void Model::Draw(RenderContext& rc)
 		g_camera3D->GetProjectionMatrix()
 	);
 }
+
+void Model::Divide(const ModelInitData& initData)
+{
+	m_tkmFile.Divide();
+
+	wchar_t wfxFilePath[256] = { L"" };
+	if (initData.m_fxFilePath != nullptr) {
+		//MessageBoxA(nullptr, "fxファイルパスが指定されていません。", "エラー", MB_OK);
+		//std::abort();
+		mbstowcs(wfxFilePath, initData.m_fxFilePath, 256);
+	}
+
+	if (initData.m_skeleton != nullptr) {
+		//スケルトンが指定されている。
+		m_meshParts.BindSkeleton(*initData.m_skeleton);
+	}
+
+	m_modelUpAxis = initData.m_modelUpAxis;
+
+	m_meshParts.InitFromTkmFile(
+		m_tkmFile,
+		wfxFilePath,
+		initData.m_vsEntryPointFunc,
+		initData.m_vsSkinEntryPointFunc,
+		initData.m_psEntryPointFunc,
+		initData.m_expandConstantBuffer,
+		initData.m_expandConstantBufferSize,
+		initData.m_expandShaderResoruceView
+	);
+}
