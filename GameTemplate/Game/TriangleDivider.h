@@ -5,8 +5,8 @@
 namespace Util
 {
 	using VertexBuffer = std::vector<TkmFile::SVertex>;
-	using IndexBuffer = TkmFile::SIndexBuffer32;
-	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint32_t>;
+	using IndexBuffer = TkmFile::SIndexbuffer16;
+	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint16_t>;
 	class ITriangleMaker;
 
 	class TriangleDivider
@@ -23,9 +23,9 @@ namespace Util
 		*/
 		void Init(const PlaneData& planeData,
 			std::vector<TkmFile::SVertex>* vertexBufferContainer,
-			TkmFile::SIndexBuffer32* frontIndexBuffer,
-			TkmFile::SIndexBuffer32* backIndexBuffer,
-			std::map<std::pair<Vector3, Vector3>, uint32_t>* newVertexContainer)
+			TkmFile::SIndexbuffer16* frontIndexBuffer,
+			TkmFile::SIndexbuffer16* backIndexBuffer,
+			std::map<std::pair<Vector3, Vector3>, uint16_t>* newVertexContainer)
 		{
 			m_planeData = planeData;
 			m_vertexBuffer = vertexBufferContainer;
@@ -77,7 +77,7 @@ namespace Util
 		 * @param[in] endPoint 線分の終了位置
 		 * @return 交差地点の頂点のインデックス
 		*/
-		uint32_t GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex);
+		uint16_t GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex);
 
 		/**
 		 * @brief 0,1,2のインデックス番号のうち含まれていない物を返す
@@ -87,7 +87,7 @@ namespace Util
 		*/
 		int GetLeftoverOfThree(int first, int second)
 		{
-			return 3 - first - second;
+			return m_sumOfIndexes - first - second;
 		}
 
 		/**
@@ -101,10 +101,11 @@ namespace Util
 	private:
 		bool m_isInited = false;					//初期化されている?
 		bool m_alreadyGetAnyDividePoint = false;	//すでに分割頂点を1つでも取得した?
+		int m_sumOfIndexes;							//3つのインデックスの合計
 		PlaneData m_planeData;						//分割平面データ
 		TriangleData m_triangleData;				//分割される三角形のデータ
 		VertexIndexesPack m_vertexIndexesPack;		//面の裏・表・上に存在する頂点のインデックスデータ
-		std::array<uint32_t, 2> m_newpointArray;	//平面と交差した地点の頂点のインデックス配列
+		std::array<uint16_t, 2> m_newpointArray;	//平面と交差した地点の頂点のインデックス配列
 		int m_diagonalPoint = -1;					//新頂点の対角にある頂点のインデックス
 		VertexBuffer* m_vertexBuffer = nullptr;		//元の頂点バッファ
 		NewPointMap* m_newVertexContainer = nullptr;//分割によってできた新頂点を格納する連想配列のポインタ

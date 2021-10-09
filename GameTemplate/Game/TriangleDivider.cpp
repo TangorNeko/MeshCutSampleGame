@@ -18,6 +18,7 @@ namespace Util
 
 		//三角形のデータをセット
 		m_triangleData = triangleData;
+		m_sumOfIndexes = m_triangleData.vertexIndexes[0] + m_triangleData.vertexIndexes[1] + m_triangleData.vertexIndexes[2];
 
 		//三角形の頂点を元に表、裏、面上にグループ分けする。
 		VertexGrouping();
@@ -119,20 +120,20 @@ namespace Util
 
 			if (angle > 0.0f + FLT_EPSILON)//0より大きい = その頂点は表面側にある
 			{
-				m_vertexIndexesPack.frontVertexIndexes.push_back(i);
+				m_vertexIndexesPack.frontVertexIndexes.push_back(m_triangleData.vertexIndexes[i]);
 			}
 			else if (angle < 0.0f - FLT_EPSILON)//0より小さい = その頂点は裏面側にある
 			{
-				m_vertexIndexesPack.backVertexIndexes.push_back(i);
+				m_vertexIndexesPack.backVertexIndexes.push_back(m_triangleData.vertexIndexes[i]);
 			}
 			else//0 = その頂点は平面上にある
 			{
-				m_vertexIndexesPack.onPlaneVertexIndexes.push_back(i);
+				m_vertexIndexesPack.onPlaneVertexIndexes.push_back(m_triangleData.vertexIndexes[i]);
 			}
 		}
 	}
 
-	uint32_t TriangleDivider::GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex)
+	uint16_t TriangleDivider::GetCrossPoint(const TkmFile::SVertex& startVertex, const TkmFile::SVertex& endVertex)
 	{
 		//開始頂点と終了頂点の座標を取得
 		Vector3 startPoint = startVertex.pos;
@@ -178,7 +179,7 @@ namespace Util
 		newVertex.pos = crossPoint;
 
 		//現在のサイズ(次に追加する要素のインデックス番号)を取得
-		uint32_t newVertexIndex = m_vertexBuffer->size();
+		uint16_t newVertexIndex = m_vertexBuffer->size();
 		m_vertexBuffer->push_back(newVertex);
 
 		//新しくできた頂点のインデックスを格納する連想配列に挿入
@@ -196,7 +197,7 @@ namespace Util
 		for (auto& onPlaneVertexIndex : m_vertexIndexesPack.onPlaneVertexIndexes)
 		{
 			//分割頂点に追加
-			m_newpointArray[pointIndex] = m_triangleData.vertexIndexes[onPlaneVertexIndex];
+			m_newpointArray[pointIndex] = onPlaneVertexIndex;
 
 			//分割頂点の格納インデックスを増やす。
 			pointIndex++;
@@ -211,9 +212,9 @@ namespace Util
 			for (auto& backVertexIndex : m_vertexIndexesPack.backVertexIndexes)
 			{
 				//表側の頂点から裏側の頂点への線分と平面との交差点を求め、分割頂点に追加
-				uint32_t newVertexIndex = GetCrossPoint(
-					m_vertexBuffer->at(m_triangleData.vertexIndexes[frontVertexIndex]),
-					m_vertexBuffer->at(m_triangleData.vertexIndexes[backVertexIndex]));
+				uint16_t newVertexIndex = GetCrossPoint(
+					m_vertexBuffer->at(frontVertexIndex),
+					m_vertexBuffer->at(backVertexIndex));
 
 				m_newpointArray[pointIndex] = newVertexIndex;
 

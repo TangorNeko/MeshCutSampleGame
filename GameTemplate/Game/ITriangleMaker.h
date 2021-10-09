@@ -5,7 +5,7 @@
 
 namespace Util
 {
-	using NewPointArray = std::array<uint32_t, 2>;
+	using NewPointArray = std::array<uint16_t, 2>;
 
 	class ITriangleMaker
 	{
@@ -34,10 +34,10 @@ namespace Util
 		 * @param[out] frontIndexBuffer 表側のメッシュのインデックスバッファ
 		 * @param[out] backIndexBuffer 裏側のメッシュのインデックスバッファ
 		*/
-		void SetArray(TkmFile::SIndexBuffer32* frontIndexBuffer, TkmFile::SIndexBuffer32* backIndexBuffer)
+		void SetArray(TkmFile::SIndexbuffer16* frontIndexBuffer, TkmFile::SIndexbuffer16* backIndexBuffer)
 		{
 			m_frontIndexBuffer = frontIndexBuffer;
-			m_frontIndexBuffer = frontIndexBuffer;
+			m_backIndexBuffer = backIndexBuffer;
 		}
 
 		/**
@@ -50,7 +50,7 @@ namespace Util
 		VertexIndexesPack* m_vertexIndexesPack = nullptr;		//分割された頂点のインデックス
 		TriangleData* m_triangleData = nullptr;					//三角形のデータ
 
-		TkmFile::SIndexBuffer32* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
-		TkmFile::SIndexBuffer32* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
+		TkmFile::SIndexbuffer16* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
+		TkmFile::SIndexbuffer16* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
 	};
 }
