@@ -25,11 +25,13 @@ struct SSkinVSIn{
 struct SVSIn{
 	float4 pos 		: POSITION;		//モデルの頂点座標。
 	float2 uv 		: TEXCOORD0;	//UV座標。
+	float3 normal : NORMAL;
 	SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
+	float3 normal		: NORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 };
 
@@ -79,6 +81,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
 
+	psIn.normal = mul(m, vsIn.normal);
+
 	psIn.uv = vsIn.uv;
 
 	return psIn;
@@ -103,6 +107,19 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
+	float4 finalColor = 0.0f;
+	finalColor.a = 1.0f;
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
-	return albedoColor;
+
+	float3 toDown = float3(0.0f,-1.0f,0.0f);
+	float3 ligColor = float3(1.0f,1.0f,1.0f);
+
+	float t = saturate(dot(psIn.normal,-toDown));
+
+	float3 diffuseLig = ligColor * t;
+
+	finalColor.xyz += diffuseLig;
+
+	finalColor *= albedoColor;
+	return finalColor;
 }
