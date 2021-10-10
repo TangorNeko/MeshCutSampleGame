@@ -83,18 +83,28 @@ void Model::Draw(RenderContext& rc)
 
 void Model::Divide(const ModelInitData& initData, const Vector3& worldCutNormal,const Vector3& worldCutPoint)
 {
+	//引数の切断面と向きと切断面の一点の座標はワールド座標、しかしメッシュカットはモデルのローカル座標系を基準に行われる(おそらく)ため、
+	//モデルのワールド座標の逆行列をかけるとモデルのローカル座標系に変換できるのではないか?
 
-	Vector3 modelLocalCutNormal = worldCutNormal;
+	//法線の向きから、法線の先端のある座標を計算する。
+	Vector3 modelLocalCutNormal = worldCutNormal + worldCutPoint;
+
+	//切断面上の一点を格納
 	Vector3 modelLocalCutPoint = worldCutPoint;
 
-	//引数の切断面と向きと切断面の一点の座標はワールド座標、しかしメッシュカットはモデルのローカル座標系を基準に行われる(おそらく)ため、
-	//モデルのワールド座標の逆行列をかけるとモデルのローカル座標系に戻せるのではないか?
+	//モデルのワールド行列の逆行列を計算
 	Matrix invWorld = m_world;
 	invWorld.Inverse();
 
-	//逆行列を各要素に乗算
+	//ワールド行列の逆行列を各要素に乗算し、モデルのローカル座標に変換
 	invWorld.Apply(modelLocalCutNormal);
 	invWorld.Apply(modelLocalCutPoint);
+
+	//ローカル座標での法線の先端-ローカル座標の切断面上の一点でローカル座標での法線が求まる?
+	modelLocalCutNormal -= modelLocalCutPoint;
+
+	//念の為正規化
+	modelLocalCutNormal.Normalize();
 
 	//分割
 	m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint);

@@ -119,6 +119,7 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	float3 diffuseLig = ligColor * t;
 
 	finalColor.xyz += diffuseLig;
+	finalColor.xyz += 0.3f;
 
 	finalColor *= albedoColor;
 	return finalColor;

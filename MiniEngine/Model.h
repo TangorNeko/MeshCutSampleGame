@@ -91,6 +91,12 @@ public:
 		return m_tkmFile;
 	}
 
+	/**
+	 * @brief モデルを切断する
+	 * @param initData モデルの初期化データ(仮)
+	 * @param worldCutNormal 切断面上の一点からの法線の向き
+	 * @param worldCutPoint 切断面上の一点の座標
+	*/
 	void Divide(const ModelInitData& initData, const Vector3& worldCutNormal, const Vector3& worldCutPoint);
 private:
 
