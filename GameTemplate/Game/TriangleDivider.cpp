@@ -87,7 +87,7 @@ namespace Util
 		else
 		{
 			//”ñ•ªŠ„_— ‘¤‚É’¸“_3‚Â
-			return new ThreeOnFrontTriangle;
+			return new ThreeOnBackTriangle;
 		}
 	}
 
