@@ -428,7 +428,7 @@ public:
 	*/
 	bool isBiggerThan(const Vector3& anotherVector)const
 	{
-		return LengthSq() > anotherVector.LengthSq();
+		return LengthSq() + x + y * 10 + z * 100 > anotherVector.LengthSq() + anotherVector.x + anotherVector.y * 10 + anotherVector.z * 100;
 	}
 
 	/**
@@ -458,7 +458,7 @@ public:
 */
 static bool operator<(const Vector3& lhs, const Vector3& rhs)
 {
-	return lhs.LengthSq() < rhs.LengthSq();
+	return lhs.LengthSq() + lhs.x + lhs.y * 10 + lhs.z * 100 < rhs.LengthSq() + rhs.x + rhs.y * 10 + rhs.z * 100;
 }
 
 /// <summary>
