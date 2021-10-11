@@ -30,6 +30,7 @@ namespace Util
 			}
 
 			//1マテリアル分が終わったらそれぞれのインデックスバッファの配列に追加
+			//TODO:1マテリアル分すべてが分割の結果無くなった時の処理
 			frontIndexBufferArray.push_back(m_frontIndexBuffer);
 			backIndexBufferArray.push_back(m_backIndexBuffer);
 

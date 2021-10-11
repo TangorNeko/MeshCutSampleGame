@@ -396,6 +396,7 @@ void TkmFile::Divide(const Vector3& cutNormal,const Vector3& cutPoint)
 	for (auto& mesh : m_meshParts)
 	{
 		meshDivider.Init(&mesh);
+		//TODO:1メッシュパーツ分すべてが分割の結果無くなった時の処理
 		newMesh.push_back(meshDivider.Divide(cutNormal,cutPoint).first);
 	}
 

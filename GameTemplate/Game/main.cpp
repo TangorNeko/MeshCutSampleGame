@@ -25,6 +25,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
 	//NOTE:テストコード
+	ModelInitData cutPlanelInitData;
+	cutPlanelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	cutPlanelInitData.m_tkmFilePath = "Assets/modelData/testCutPlane.tkm";
+	cutPlanelInitData.m_modelUpAxis = enModelUpAxisZ;
+
+	Model cutPlane;
+	cutPlane.Init(cutPlanelInitData);
 
 	ModelInitData modelInitData;
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
@@ -35,16 +42,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	testModel.Init(modelInitData);
 	g_camera3D->SetFar(100000.0f);
 
-	float deg = 0.0f;
-	float x = 0.0f;
-	Quaternion testQRot = g_quatIdentity;
+	float modelDeg = 0.0f;
+	float modelX = 0.0f;
+	Quaternion modelQRot = g_quatIdentity;
 
+
+	Quaternion cutPlaneQRot = g_quatIdentity;
+	float cutDeg = 0.0f;
 	Vector3 cutNormal = { 1.0f,0.0f,0.0f };
 	cutNormal.Normalize();
-	Vector3 cutPoint = { 0.0f, 25.0f, 0.0f };
+	Vector3 cutPoint = { 0.0f, 0.0f, 0.0f };
 
 	g_camera3D->SetPosition(0.0f, 0.0f, -1000.0f);
 	g_camera3D->SetTarget(0.0f, 0.0f, 0.0f);
+	g_camera3D->SetUpdateProjMatrixFunc(g_camera3D->enUpdateProjMatrixFunc_Ortho);
 
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
@@ -60,19 +71,30 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
-		testModel.Draw(renderContext);
+		cutDeg += g_pad[0]->GetRStickXF();
+		cutPoint.x += g_pad[0]->GetRStickYF();
 
-		deg += g_pad[0]->GetRStickXF();
-		x += g_pad[0]->GetLStickXF();
+		cutNormal = { 1.0f,0.0f,0.0f };
+		cutPlaneQRot.SetRotationDegZ(cutDeg);
+		cutPlaneQRot.Apply(cutNormal);
 
-		testQRot.SetRotationDegY(deg);
+		cutPlane.UpdateWorldMatrix(cutPoint, cutPlaneQRot, { 1.0f,5.0f,1.0f });
 
-		testModel.UpdateWorldMatrix({ x,0.0f,0.0f }, testQRot, { 1.0f,1.0f,1.0f });
+		modelDeg += g_pad[0]->GetLStickYF();
+		modelX += g_pad[0]->GetLStickXF();
 
+		modelQRot.SetRotationDegY(modelDeg);
+		testModel.UpdateWorldMatrix({ 0.0f,modelX,0.0f }, modelQRot, { 1.0f,1.0f,1.0f });
+
+		//現状、メッシュパーツ、マテリアルごとに切断後の頂点インデックスバッファのサイズが0ならエラーを吐く。
+		//0サイズのインデックスバッファをGPUにコピーしようとするため?
 		if (g_pad[0]->IsTrigger(enButtonA))
 		{
 			testModel.Divide(modelInitData, cutNormal, cutPoint);
 		}
+		
+		cutPlane.Draw(renderContext);
+		testModel.Draw(renderContext);
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
