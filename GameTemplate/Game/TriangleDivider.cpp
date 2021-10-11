@@ -18,6 +18,12 @@ namespace Util
 
 		//三角形のデータをセット
 		m_triangleData = triangleData;
+
+		if (m_triangleData.vertexIndexes[0] == 807 && m_triangleData.vertexIndexes[1] == 2551 && m_triangleData.vertexIndexes[2] == 806)
+		{
+			//NOTE:testDebug用
+			int a = 5;
+		}
 		m_sumOfIndexes = m_triangleData.vertexIndexes[0] + m_triangleData.vertexIndexes[1] + m_triangleData.vertexIndexes[2];
 
 		//三角形の頂点を元に表、裏、面上にグループ分けする。
@@ -185,7 +191,7 @@ namespace Util
 		//新しくできた頂点のインデックスを格納する連想配列に挿入
 		//TODO:Mapへの追加のための比較が悪さしているのか、使用した場合変なポリゴンの繋がり方をする。
 		//Vecto3を一意に並び替える手段が必要か?
-		//m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
+		m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
 
 		return newVertexIndex;
 	}

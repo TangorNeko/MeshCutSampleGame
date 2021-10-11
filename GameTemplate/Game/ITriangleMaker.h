@@ -44,6 +44,28 @@ namespace Util
 		 * @brief インデックスバッファを構成する
 		*/
 		virtual void MakeTriangles() = 0;
+
+		void PushTriangle(TkmFile::SIndexbuffer16* indexBuffer, uint16_t v0, uint16_t v1, uint16_t v2)
+		{
+			if (v0 == v1 || v1 == v2 || v2 == v0)
+			{
+				//NOTE:testDebug用
+				int a = 4;
+			}
+			indexBuffer->indices.push_back(v0);
+			indexBuffer->indices.push_back(v1);
+			indexBuffer->indices.push_back(v2);
+		}
+
+		void FrontPushTriangle(uint16_t v0, uint16_t v1, uint16_t v2)
+		{
+			PushTriangle(m_frontIndexBuffer, v0, v1, v2);
+		}
+
+		void BackPushTriangle(uint16_t v0, uint16_t v1, uint16_t v2)
+		{
+			PushTriangle(m_backIndexBuffer, v0, v1, v2);
+		}
 	protected:
 		NewPointArray* m_newpointArray = nullptr;				//新頂点のインデックスの配列
 		int m_diagonal = -1;									//1つめの新頂点の対角にある頂点のインデックス
