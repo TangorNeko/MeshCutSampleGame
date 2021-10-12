@@ -19,11 +19,6 @@ namespace Util
 		//三角形のデータをセット
 		m_triangleData = triangleData;
 
-		if (m_triangleData.vertexIndexes[0] == 807 && m_triangleData.vertexIndexes[1] == 2551 && m_triangleData.vertexIndexes[2] == 806)
-		{
-			//NOTE:testDebug用
-			int a = 5;
-		}
 		m_sumOfIndexes = m_triangleData.vertexIndexes[0] + m_triangleData.vertexIndexes[1] + m_triangleData.vertexIndexes[2];
 
 		//三角形の頂点を元に表、裏、面上にグループ分けする。
@@ -59,7 +54,14 @@ namespace Util
 		if (backSize == 3){ return new ThreeOnBackTriangle; }
 
 		//特殊_面上に頂点3つ
-		if (onPlaneSize == 3){ return new ThreeOnPlaneTriangle; }
+		if (onPlaneSize == 3)
+		{ 
+			//NOTE:切断面生成のための仮処理
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[0], m_vertexIndexesPack.onPlaneVertexIndexes[1]));
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[1], m_vertexIndexesPack.onPlaneVertexIndexes[2]));
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[2], m_vertexIndexesPack.onPlaneVertexIndexes[0]));
+			return new ThreeOnPlaneTriangle;
+		}
 
 		//分割_表側に頂点2つ
 		if (frontSize == 2 && backSize == 1)
@@ -82,7 +84,17 @@ namespace Util
 		{
 			//分割されているので分割点を計算
 			GetDividedPoint();
+
+			//NOTE:切断面生成のための仮処理
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_newpointArray[1],m_diagonalPoint));
+
 			return new OneOnPlaneTriangle;
+		}
+
+		//NOTE:切断面生成のための仮処理
+		if (m_vertexIndexesPack.onPlaneVertexIndexes.size() == 2)
+		{
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[0], m_vertexIndexesPack.onPlaneVertexIndexes[1]));
 		}
 
 		if (frontSize > backSize)
@@ -191,6 +203,7 @@ namespace Util
 		//新しくできた頂点のインデックスを格納する連想配列に挿入
 		//TODO:Mapへの追加のための比較が悪さしているのか、使用した場合変なポリゴンの繋がり方をする。
 		//Vecto3を一意に並び替える手段が必要か?
+		//メッシュパーツごとにリセット
 		m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
 
 		return newVertexIndex;
@@ -238,6 +251,12 @@ namespace Util
 				//分割頂点の格納インデックスを増やす
 				pointIndex++;
 			}
+		}
+
+		//NOTE:切断面生成のための仮処理
+		if (m_newpointArray[0] != m_newpointArray[1])
+		{
+			m_cutSurfaceSegmentSet->insert(std::make_pair(m_newpointArray[0], m_newpointArray[1]));
 		}
 	}
 }

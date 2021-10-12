@@ -41,6 +41,11 @@ namespace Util
 		*/
 		void Divide(const TriangleData& TriangleData);
 
+		void SetCutSeg(std::set<std::pair<uint16_t, uint16_t>>* cutSurfaceSegmentSet)
+		{
+			m_cutSurfaceSegmentSet = cutSurfaceSegmentSet;
+		}
+
 	private:
 
 		/**
@@ -111,5 +116,6 @@ namespace Util
 		NewPointMap* m_newVertexContainer = nullptr;//分割によってできた新頂点を格納する連想配列のポインタ
 		IndexBuffer* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
 		IndexBuffer* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
+		std::set<std::pair<uint16_t, uint16_t>>* m_cutSurfaceSegmentSet = nullptr;;
 	};
 }

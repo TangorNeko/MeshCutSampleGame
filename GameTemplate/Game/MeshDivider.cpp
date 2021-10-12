@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MeshDivider.h"
 #include "TriangleDivider.h"
+#include "CutSurfaceMaker.h"
 
 namespace Util
 {
@@ -11,6 +12,12 @@ namespace Util
 		PlaneData plane;
 		plane.SetNormal(cutNormal);
 		plane.SetPoint(cutPoint);
+
+		//NOTE:切断面の作成のための仮処理
+		std::set<std::pair<uint16_t, uint16_t>> cutSurfaceSegmentSet;
+		triangleDivider.SetCutSeg(&cutSurfaceSegmentSet);
+
+
 		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer,&m_newVertexContainer);
 
 
@@ -39,6 +46,11 @@ namespace Util
 			m_backIndexBuffer.indices.clear();
 		}
 
+		//TODO:切断面の生成
+		CutSurfaceMaker csm;
+		csm.SetSegmentSet(&cutSurfaceSegmentSet);
+		csm.MakeLinkFromSet();
+
 		TkmFile::SMesh FrontNewMesh,BackNewMesh;
 
 		FrontNewMesh.isFlatShading = m_divideMesh->isFlatShading;
@@ -53,6 +65,9 @@ namespace Util
 		//IndexBuffer16Arrayのみを使っているようなのでそちらのみ格納
 		FrontNewMesh.indexBuffer16Array = frontIndexBufferArray;
 		BackNewMesh.indexBuffer16Array = backIndexBufferArray;
+
+		///メッシュパーツ1つ分の処理が終わるので連想配列をリセット
+		m_newVertexContainer.clear();
 
 		return std::make_pair(FrontNewMesh, BackNewMesh);
 	}

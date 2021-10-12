@@ -47,11 +47,6 @@ namespace Util
 
 		void PushTriangle(TkmFile::SIndexbuffer16* indexBuffer, uint16_t v0, uint16_t v1, uint16_t v2)
 		{
-			if (v0 == v1 || v1 == v2 || v2 == v0)
-			{
-				//NOTE:testDebug—p
-				int a = 4;
-			}
 			indexBuffer->indices.push_back(v0);
 			indexBuffer->indices.push_back(v1);
 			indexBuffer->indices.push_back(v2);
