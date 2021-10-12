@@ -288,6 +288,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
+    <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
     <ClCompile Include="OneOnPlaneTriangle.cpp" />
     <ClCompile Include="ThreeOnBackTriangle.cpp" />
@@ -367,7 +368,9 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="CutSurfaceMaker.h" />
     <ClInclude Include="ITriangleMaker.h" />
+    <ClInclude Include="MakeHashFromString.h" />
     <ClInclude Include="MeshDivider.h" />
     <ClInclude Include="OneOnPlaneTriangle.h" />
     <ClInclude Include="ThreeOnBackTriangle.h" />
