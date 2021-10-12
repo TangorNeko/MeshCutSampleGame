@@ -32,16 +32,13 @@ namespace Util
 
 	uint16_t TwoOnBackTriangle::BackLeftOf(uint16_t diagonalIndex)
 	{
-		for (auto index : m_vertexIndexesPack->backVertexIndexes)
+		if (m_vertexIndexesPack->backVertexIndexes[0] != diagonalIndex)
 		{
-			if (index != diagonalIndex)
-			{
-				return index;
-			}
+			return m_vertexIndexesPack->backVertexIndexes[0];
 		}
-
-		MessageBoxA(nullptr, "一致しないインデックスを検索できませんでした。", "エラー", MB_OK);
-		std::abort();
-		return -1;
+		else
+		{
+			return m_vertexIndexesPack->backVertexIndexes[1];
+		}
 	}
 }
