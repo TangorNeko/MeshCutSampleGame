@@ -1,4 +1,5 @@
 #pragma once
+#include "../../GameTemplate/Game/MakeHashFromString.h"
 
 class Matrix;
 
@@ -428,7 +429,14 @@ public:
 	*/
 	bool isBiggerThan(const Vector3& anotherVector)const
 	{
-		return LengthSq() + x + y * 10 + z * 100 > anotherVector.LengthSq() + anotherVector.x + anotherVector.y * 10 + anotherVector.z * 100;
+		MakeHashFromString hashMaker;
+		char buffer[256];
+		char anotherBuffer[256];
+		sprintf_s(buffer, "x=%.2fy=%.2fz=%.2f",x,y,z);
+		sprintf_s(anotherBuffer, "x=%.2fy=%.2fz=%.2f", anotherVector.x, anotherVector.y, anotherVector.z);
+		int hash = hashMaker.MakeHash(buffer);
+		int anotherHash = hashMaker.MakeHash(anotherBuffer);
+		return hash > anotherHash;
 	}
 
 	/**
@@ -458,7 +466,14 @@ public:
 */
 static bool operator<(const Vector3& lhs, const Vector3& rhs)
 {
-	return lhs.LengthSq() + lhs.x + lhs.y * 10 + lhs.z * 100 < rhs.LengthSq() + rhs.x + rhs.y * 10 + rhs.z * 100;
+	MakeHashFromString hashMaker;
+	char lhsBuffer[256];
+	char rhsBuffer[256];
+	sprintf_s(lhsBuffer, "x=%.2fy=%.2fz=%.2f", lhs.x, lhs.y, lhs.z);
+	sprintf_s(rhsBuffer, "x=%.2fy=%.2fz=%.2f", rhs.x, rhs.y, rhs.z);
+	int lhsHash = hashMaker.MakeHash(lhsBuffer);
+	int rhsHash = hashMaker.MakeHash(rhsBuffer);
+	return lhsHash < rhsHash;
 }
 
 /// <summary>
