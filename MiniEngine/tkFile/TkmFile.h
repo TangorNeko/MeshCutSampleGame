@@ -64,7 +64,26 @@ public:
 			refractionMapSize = refractionMapSize;
 			*/
 		}
+		void CopyFrom(const SMaterial& rhs)
+		{
+			albedoMapFileName = rhs.albedoMapFileName;
+			normalMapFileName = rhs.normalMapFileName;
+			specularMapFileName = rhs.specularMapFileName;
+			reflectionMapFileName = rhs.reflectionMapFileName;
+			refractionMapFileName = rhs.refractionMapFileName;
 
+			albedoMapSize = rhs.albedoMapSize;
+			memcpy(albedoMap.get(), rhs.albedoMap.get(), albedoMapSize);
+			normalMapSize = rhs.normalMapSize;
+			memcpy(normalMap.get(), rhs.normalMap.get(), normalMapSize);
+			specularMapSize = specularMapSize;
+			memcpy(specularMap.get(), rhs.specularMap.get(), specularMapSize);
+			reflectionMapSize = reflectionMapSize;
+			memcpy(reflectionMap.get(), rhs.reflectionMap.get(), reflectionMapSize);
+			refractionMapSize = refractionMapSize;
+			memcpy(refractionMap.get(), rhs.refractionMap.get(), refractionMapSize);
+
+		}
 		//コピー代入演算子
 		void operator=(const SMaterial& rhs)
 		{
