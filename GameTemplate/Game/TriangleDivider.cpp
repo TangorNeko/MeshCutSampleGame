@@ -197,9 +197,7 @@ namespace Util
 		m_vertexBuffer->push_back(newVertex);
 
 		//新しくできた頂点のインデックスを格納する連想配列に挿入
-		//TODO:Mapへの追加のための比較が悪さしているのか、使用した場合変なポリゴンの繋がり方をする。
-		//Vecto3を一意に並び替える手段が必要か?
-		//メッシュパーツごとにリセット
+		//マテリアルごとにリセット
 		m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
 
 		return newVertexIndex;

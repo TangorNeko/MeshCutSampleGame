@@ -44,6 +44,9 @@ namespace Util
 			//追加が終わったら追加に使用した受け取り用の可変長配列はクリアして次回に備える
 			m_frontIndexBuffer.indices.clear();
 			m_backIndexBuffer.indices.clear();
+
+			///マテリアル1つ分の処理が終わるので新頂点のインデックスの連想配列をリセット
+			m_newVertexContainer.clear();
 		}
 
 		//TODO:切断面の生成
@@ -65,9 +68,6 @@ namespace Util
 		//IndexBuffer16Arrayのみを使っているようなのでそちらのみ格納
 		FrontNewMesh.indexBuffer16Array = frontIndexBufferArray;
 		BackNewMesh.indexBuffer16Array = backIndexBufferArray;
-
-		///メッシュパーツ1つ分の処理が終わるので連想配列をリセット
-		m_newVertexContainer.clear();
 
 		return std::make_pair(FrontNewMesh, BackNewMesh);
 	}
