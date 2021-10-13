@@ -25,15 +25,15 @@ public:
 		std::string reflectionMapFileName;		//リフレクションマップのファイル名。
 		std::string refractionMapFileName;		//屈折マップのファイル名。
 		std::unique_ptr<char[]>	albedoMap = nullptr;		//ロードされたアルベドマップ。(ddsファイル)
-		unsigned int albedoMapSize;				//アルベドマップのサイズ。(ddsファイル)
+		unsigned int albedoMapSize = 0;				//アルベドマップのサイズ。(ddsファイル)
 		std::unique_ptr<char[]>	normalMap = nullptr;		//ロードされた法線マップ。(ddsファイル)
-		unsigned int normalMapSize;				//法線マップのサイズ。
+		unsigned int normalMapSize = 0;				//法線マップのサイズ。
 		std::unique_ptr<char[]>	specularMap = nullptr;	//ロードされたスペキュラマップ。(ddsファイル)
-		unsigned int specularMapSize;			//スペキュラマップのサイズ。(ddsファイル)
+		unsigned int specularMapSize = 0;			//スペキュラマップのサイズ。(ddsファイル)
 		std::unique_ptr<char[]>	reflectionMap = nullptr;	//ロードされたリフレクションマップ。(ddsファイル)
-		unsigned int reflectionMapSize;			//リフレクションマップのサイズ。(ddsファイル)
+		unsigned int reflectionMapSize = 0;			//リフレクションマップのサイズ。(ddsファイル)
 		std::unique_ptr<char[]>	refractionMap = nullptr;	//ロードされた屈折マップ。(ddsファイル)
-		unsigned int refractionMapSize;			//屈折マップのサイズ。(ddsファイル)
+		unsigned int refractionMapSize = 0;			//屈折マップのサイズ。(ddsファイル)
 
 		//NOTE:ここより後はメッシュの分割時マテリアルをコピーできるように書いてみた物です。
 		//動作が全く保証されていないので注意してください。
@@ -74,14 +74,19 @@ public:
 			refractionMapFileName = rhs.refractionMapFileName;
 
 			albedoMapSize = rhs.albedoMapSize;
+			albedoMap = std::make_unique<char[]>(albedoMapSize);
 			memcpy(albedoMap.get(), rhs.albedoMap.get(), albedoMapSize);
 			normalMapSize = rhs.normalMapSize;
+			normalMap = std::make_unique<char[]>(normalMapSize);
 			memcpy(normalMap.get(), rhs.normalMap.get(), normalMapSize);
 			specularMapSize = specularMapSize;
+			specularMap = std::make_unique<char[]>(specularMapSize);
 			memcpy(specularMap.get(), rhs.specularMap.get(), specularMapSize);
 			reflectionMapSize = reflectionMapSize;
+			reflectionMap = std::make_unique<char[]>(reflectionMapSize);
 			memcpy(reflectionMap.get(), rhs.reflectionMap.get(), reflectionMapSize);
 			refractionMapSize = refractionMapSize;
+			refractionMap = std::make_unique<char[]>(refractionMapSize);
 			memcpy(refractionMap.get(), rhs.refractionMap.get(), refractionMapSize);
 
 		}
