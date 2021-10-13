@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "../../GameTemplate/Game/MakeHashFromString.h"
 	
 /// <summary>
 /// tkmファイルクラス。
@@ -123,6 +124,23 @@ public:
 		Vector2 uv;			//UV座標。
 		int indices[4];			//スキンインデックス。
 		Vector4 skinWeights;	//スキンウェイト。
+
+		/**
+		 * @brief map登録用のSVertexの比較演算子 通常の比較としては使えません。
+		 * @param val 比較対象
+		 * @return 比較対象のハッシュ値より小さい?
+		*/
+		bool operator<(const SVertex& rhs) const
+		{
+			MakeHashFromString hashMaker;
+			char Buffer[256];
+			char rhsBuffer[256];
+			sprintf_s(Buffer, "x=%.2fy=%.2fz=%.2fuvx=%.2fuvy=%.2f", pos.x, pos.y, pos.z, uv.x, uv.y);
+			sprintf_s(rhsBuffer, "x=%.2fy=%.2fz=%.2fuvx=%.2fuvy=%.2f", rhs.pos.x, rhs.pos.y, rhs.pos.z, rhs.uv.x, rhs.uv.y);
+			int Hash = hashMaker.MakeHash(Buffer);
+			int rhsHash = hashMaker.MakeHash(rhsBuffer);
+			return Hash < rhsHash;
+		}
 	};
 
 	static SVertex lerpVertex(float lerpRate,const SVertex& v0, const SVertex& v1)

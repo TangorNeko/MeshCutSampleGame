@@ -19,6 +19,7 @@ namespace Util
 		//三角形のデータをセット
 		m_triangleData = triangleData;
 
+		//インデックスの値の合計を計算
 		m_sumOfIndexes = m_triangleData.vertexIndexes[0] + m_triangleData.vertexIndexes[1] + m_triangleData.vertexIndexes[2];
 
 		//三角形の頂点を元に表、裏、面上にグループ分けする。
@@ -43,9 +44,10 @@ namespace Util
 
 	ITriangleMaker* TriangleDivider::CheckHowDivided()
 	{
-		int frontSize = m_vertexIndexesPack.frontVertexIndexes.size();
-		int backSize = m_vertexIndexesPack.backVertexIndexes.size();
-		int onPlaneSize = m_vertexIndexesPack.onPlaneVertexIndexes.size();
+		//表側、裏側、平面上にいくつ頂点があるかを取得
+		int frontSize = static_cast<int>(m_vertexIndexesPack.frontVertexIndexes.size());
+		int backSize = static_cast<int>(m_vertexIndexesPack.backVertexIndexes.size());
+		int onPlaneSize = static_cast<int>(m_vertexIndexesPack.onPlaneVertexIndexes.size());
 
 		//非分割_表側に頂点3つ
 		if (frontSize == 3) { return new ThreeOnFrontTriangle; }
@@ -177,12 +179,27 @@ namespace Util
 		Vector3 startToCrossPoint = crossPoint - startPoint;
 		float lerpRate = startToCrossPoint.Length() / startToEnd.Length();
 		
+		//線形補間で新しい頂点を生成
 		TkmFile::SVertex newVertex = TkmFile::lerpVertex(lerpRate, startVertex, endVertex);
+
 		//posも線形補完しているのだが同じになるか分からないので計算したcrossPointを使用
 		newVertex.pos = crossPoint;
 
-		//現在のサイズ(次に追加する要素のインデックス番号)を取得
-		uint16_t newVertexIndex = m_vertexBuffer->size();
+		//頂点バッファが登録されているか検索
+		auto knownVertexIndex = m_newVertexMap.find(newVertex);
+		if (knownVertexIndex != m_newVertexMap.end())
+		{
+			//登録されていればそのインデックスを返す
+			return knownVertexIndex->second;
+		}
+
+		//頂点バッファの現在のサイズ(次に追加する要素のインデックス番号)を取得
+		uint16_t newVertexIndex = static_cast<uint16_t>(m_vertexBuffer->size());
+
+		//新頂点の連想配列に追加
+		m_newVertexMap.insert(std::make_pair(newVertex, newVertexIndex));
+
+		//新しく頂点バッファに追加
 		m_vertexBuffer->push_back(newVertex);
 
 		return newVertexIndex;

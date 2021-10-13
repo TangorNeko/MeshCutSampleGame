@@ -425,7 +425,7 @@ public:
 	/**
 	 * @brief WARNING:特定の順にソートする用に定義したVector3の比較関数　通常の比較としては使えません。
 	 * @param anotherVector 比較するベクトル
-	 * @return 比較するベクトルより長さの2乗の値が大きい?
+	 * @return 比較するベクトルよりハッシュ値が大きい?
 	*/
 	bool isBiggerThan(const Vector3& anotherVector)const
 	{
@@ -460,9 +460,9 @@ public:
 
 /**
  * @brief WARNING:mapに登録するためだけに定義したVector3の比較演算子　通常の比較としては使えません。
- * @param lhs 左辺
- * @param rhs 右辺
- * @return 左辺の長さの2乗 < 右辺の長さの2乗?
+ * @param lhs 左辺のベクトル
+ * @param rhs 右辺のベクトル
+ * @return 左辺から得たハッシュ値 < 右辺から得たハッシュ値
 */
 static bool operator<(const Vector3& lhs, const Vector3& rhs)
 {
