@@ -18,7 +18,7 @@ namespace Util
 		triangleDivider.SetCutSeg(&cutSurfaceSegmentSet);
 
 
-		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer,&m_newVertexContainer);
+		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer);
 
 
 		std::vector<TkmFile::SIndexbuffer16> frontIndexBufferArray;
@@ -44,9 +44,6 @@ namespace Util
 			//追加が終わったら追加に使用した受け取り用の可変長配列はクリアして次回に備える
 			m_frontIndexBuffer.indices.clear();
 			m_backIndexBuffer.indices.clear();
-
-			///マテリアル1つ分の処理が終わるので新頂点のインデックスの連想配列をリセット
-			m_newVertexContainer.clear();
 		}
 
 		//TODO:切断面の生成

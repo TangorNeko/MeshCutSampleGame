@@ -6,7 +6,6 @@ namespace Util
 {
 	using VertexBuffer = std::vector<TkmFile::SVertex>;
 	using IndexBuffer = TkmFile::SIndexbuffer16;
-	using NewPointMap = std::map<std::pair<Vector3, Vector3>, uint16_t>;
 	class ITriangleMaker;
 
 	class TriangleDivider
@@ -24,14 +23,12 @@ namespace Util
 		void Init(const PlaneData& planeData,
 			std::vector<TkmFile::SVertex>* vertexBufferContainer,
 			TkmFile::SIndexbuffer16* frontIndexBuffer,
-			TkmFile::SIndexbuffer16* backIndexBuffer,
-			std::map<std::pair<Vector3, Vector3>, uint16_t>* newVertexContainer)
+			TkmFile::SIndexbuffer16* backIndexBuffer)
 		{
 			m_planeData = planeData;
 			m_vertexBuffer = vertexBufferContainer;
 			m_frontIndexBuffer = frontIndexBuffer;
 			m_backIndexBuffer = backIndexBuffer;
-			m_newVertexContainer = newVertexContainer;
 			m_isInited = true;
 		}
 
@@ -124,7 +121,6 @@ namespace Util
 		std::array<uint16_t, 2> m_newpointArray;	//平面と交差した地点の頂点のインデックス配列
 		int m_diagonalPoint = -1;					//新頂点の対角にある頂点のインデックス
 		VertexBuffer* m_vertexBuffer = nullptr;		//元の頂点バッファ
-		NewPointMap* m_newVertexContainer = nullptr;//分割によってできた新頂点を格納する連想配列のポインタ
 		IndexBuffer* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
 		IndexBuffer* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
 		std::set<std::pair<uint16_t, uint16_t>>* m_cutSurfaceSegmentSet = nullptr;;

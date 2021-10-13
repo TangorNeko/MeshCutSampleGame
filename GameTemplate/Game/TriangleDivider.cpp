@@ -152,17 +152,6 @@ namespace Util
 		//開始頂点と終了頂点の座標を取得
 		Vector3 startPoint = startVertex.pos;
 		Vector3 endPoint = endVertex.pos;
-
-		//startPointとendPointが逆の場合結果は同じなのにmap上では別になるので、
-		//ソートされたペアを作成する
-		std::pair<Vector3,Vector3> sortedPair = Vector3::MakeSortedPair(startPoint,endPoint);
-
-		//すでに連想配列に結果が格納されている場合return
-		auto knownVertexIndex = m_newVertexContainer->find(sortedPair);
-		if (knownVertexIndex != m_newVertexContainer->end())
-		{
-			return knownVertexIndex->second;
-		}
 		
 		//平面上の一点から各点へのベクトルを求める
 		Vector3 toStart = startPoint - m_planeData.GetPoint();
@@ -195,10 +184,6 @@ namespace Util
 		//現在のサイズ(次に追加する要素のインデックス番号)を取得
 		uint16_t newVertexIndex = m_vertexBuffer->size();
 		m_vertexBuffer->push_back(newVertex);
-
-		//新しくできた頂点のインデックスを格納する連想配列に挿入
-		//マテリアルごとにリセット
-		m_newVertexContainer->insert(std::make_pair(sortedPair, newVertexIndex));
 
 		return newVertexIndex;
 	}
