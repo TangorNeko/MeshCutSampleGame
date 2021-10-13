@@ -56,10 +56,6 @@ namespace Util
 		//“ÁŽê_–Êã‚É’¸“_3‚Â
 		if (onPlaneSize == 3)
 		{ 
-			//NOTE:Ø’f–Ê¶¬‚Ì‚½‚ß‚Ì‰¼ˆ—
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[0], m_vertexIndexesPack.onPlaneVertexIndexes[1]));
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[1], m_vertexIndexesPack.onPlaneVertexIndexes[2]));
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[2], m_vertexIndexesPack.onPlaneVertexIndexes[0]));
 			return new ThreeOnPlaneTriangle;
 		}
 
@@ -86,7 +82,7 @@ namespace Util
 			GetDividedPoint();
 
 			//NOTE:Ø’f–Ê¶¬‚Ì‚½‚ß‚Ì‰¼ˆ—
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_newpointArray[1],m_diagonalPoint));
+			InsertSortedPairToSet(m_newpointArray[1],m_diagonalPoint);
 
 			return new OneOnPlaneTriangle;
 		}
@@ -94,7 +90,7 @@ namespace Util
 		//NOTE:Ø’f–Ê¶¬‚Ì‚½‚ß‚Ì‰¼ˆ—
 		if (m_vertexIndexesPack.onPlaneVertexIndexes.size() == 2)
 		{
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_vertexIndexesPack.onPlaneVertexIndexes[0], m_vertexIndexesPack.onPlaneVertexIndexes[1]));
+			InsertSortedPairToSet(m_vertexIndexesPack.onPlaneVertexIndexes[0], m_vertexIndexesPack.onPlaneVertexIndexes[1]);
 		}
 
 		if (frontSize > backSize)
@@ -256,7 +252,7 @@ namespace Util
 		//NOTE:Ø’f–Ê¶¬‚Ì‚½‚ß‚Ì‰¼ˆ—
 		if (m_newpointArray[0] != m_newpointArray[1])
 		{
-			m_cutSurfaceSegmentSet->insert(std::make_pair(m_newpointArray[0], m_newpointArray[1]));
+			InsertSortedPairToSet(m_newpointArray[0], m_newpointArray[1]);
 		}
 	}
 }

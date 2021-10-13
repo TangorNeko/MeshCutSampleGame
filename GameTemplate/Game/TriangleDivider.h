@@ -103,6 +103,17 @@ namespace Util
 		*/
 		void GetDividedPoint();
 
+		void InsertSortedPairToSet(uint16_t i0, uint16_t i1)
+		{
+			if (i0 < i1)
+			{
+				m_cutSurfaceSegmentSet->insert(std::make_pair(i0, i1));
+			}
+			else
+			{
+				m_cutSurfaceSegmentSet->insert(std::make_pair(i1, i0));
+			}
+		}
 	private:
 		bool m_isInited = false;					//‰Šú‰»‚³‚ê‚Ä‚¢‚é?
 		bool m_alreadyGetAnyDividePoint = false;	//‚·‚Å‚É•ªŠ„’¸“_‚ğ1‚Â‚Å‚àæ“¾‚µ‚½?
