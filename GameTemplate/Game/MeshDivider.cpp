@@ -48,7 +48,8 @@ namespace Util
 
 		//TODO:切断面の生成
 		CutSurfaceMaker csm;
-		csm.SetSegmentSet(&cutSurfaceSegmentSet);
+		csm.Init(&cutSurfaceSegmentSet, &m_divideMesh->vertexBuffer);
+		csm.ConvertFromSet();
 		csm.MakeLinkFromSet();
 
 		TkmFile::SMesh FrontNewMesh,BackNewMesh;
