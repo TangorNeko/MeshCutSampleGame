@@ -51,6 +51,7 @@ namespace Util
 		csm.Init(&cutSurfaceSegmentSet, &m_divideMesh->vertexBuffer);
 		csm.ConvertFromSet();
 		csm.MakeLinkFromSet();
+		csm.CalcIn2D(cutNormal);
 
 		TkmFile::SMesh FrontNewMesh,BackNewMesh;
 

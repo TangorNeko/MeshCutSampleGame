@@ -131,4 +131,41 @@ namespace Util
 			m_pointLinkArray.resize(linkIndex + 1);
 		}
 	}
+
+	void CutSurfaceMaker::CalcIn2D(const Vector3& normal)
+	{
+		//可変長配列の0番目の座標から1番目の座標までのベクトルをx軸とした座標系を作成する
+		Vector3 ex = m_vectorContainer[1] - m_vectorContainer[0];
+		ex.Normalize();
+
+		//z軸は切断平面の法線とする
+		Vector3 ez = normal;
+		ez.Normalize();
+
+		//y軸はx軸とz軸の外積で求める
+		Vector3 ey = ex;
+		ey.Cross(ez);
+		ey.Normalize();
+		
+		//基底軸変換の行列を作成
+		Matrix transitionMatrix = g_matIdentity;
+		transitionMatrix.v[0] = { ex.x,ex.y,ex.z,0 };
+		transitionMatrix.v[1] = { ey.x,ey.y,ey.z,0 };
+		transitionMatrix.v[2] = { ez.x,ez.y,ez.z,0 };
+		transitionMatrix.Inverse();
+
+		//3Dでの平面上の座標を切断面の向きの方向から見た2D空間に変換する
+		for (auto& pos : m_vectorContainer)
+		{
+			//m_vectorContainerの0番目を2D空間上の原点とする
+			Vector3 calcVec = pos - m_vectorContainer[0];
+			transitionMatrix.Apply3x3(calcVec);
+
+			//この変換によって3DのZ座標は全て同じになるのでZ軸を除くと2D空間上の座標になる
+ 			Vector2 converted2DVec = { calcVec.x,calcVec.y };
+
+			//可変長配列に格納
+			m_2DArray.push_back(converted2DVec);
+		}
+	}
 }
