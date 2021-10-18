@@ -62,6 +62,25 @@ public:
 		y = v0.y + (v1.y - v0.y) * t;
 	}
 };
+
+/**
+ * @brief WARNING:mapに登録するためだけに定義したVector2の比較演算子　通常の比較としては使えません。
+ * @param lhs 左辺のベクトル
+ * @param rhs 右辺のベクトル
+ * @return 左辺から得たハッシュ値 < 右辺から得たハッシュ値
+*/
+static bool operator<(const Vector2& lhs, const Vector2& rhs)
+{
+	MakeHashFromString hashMaker;
+	char lhsBuffer[256];
+	char rhsBuffer[256];
+	sprintf_s(lhsBuffer, "x=%.2fy=%.2f", lhs.x, lhs.y);
+	sprintf_s(rhsBuffer, "x=%.2fy=%.2f", rhs.x, rhs.y);
+	int lhsHash = hashMaker.MakeHash(lhsBuffer);
+	int rhsHash = hashMaker.MakeHash(rhsBuffer);
+	return lhsHash < rhsHash;
+}
+
 /// <summary>
 /// 3次元ベクトル。
 /// </summary>
