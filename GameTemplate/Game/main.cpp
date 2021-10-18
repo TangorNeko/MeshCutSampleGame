@@ -35,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	ModelInitData modelInitData;
 	modelInitData.m_fxFilePath = "Assets/shader/model.fx";
-	modelInitData.m_tkmFilePath = "Assets/modelData/teapot.tkm";
+	modelInitData.m_tkmFilePath = "Assets/modelData/SingleBox.tkm";
 	modelInitData.m_modelUpAxis = enModelUpAxisZ;
 
 	Model testModel;

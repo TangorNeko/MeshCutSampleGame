@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "CutSurfaceMaker.h"
+#include "TwoDTriangulate.h"
+#include <algorithm>
 
 namespace Util
 {
@@ -135,37 +137,113 @@ namespace Util
 	void CutSurfaceMaker::CalcIn2D(const Vector3& normal)
 	{
 		//可変長配列の0番目の座標から1番目の座標までのベクトルをx軸とした座標系を作成する
-		Vector3 ex = m_vectorContainer[1] - m_vectorContainer[0];
-		ex.Normalize();
+		m_ex = m_vectorContainer[1] - m_vectorContainer[0];
+		m_ex.Normalize();
 
 		//z軸は切断平面の法線とする
-		Vector3 ez = normal;
-		ez.Normalize();
+		m_ez = normal;
+		m_ez.Normalize();
 
 		//y軸はx軸とz軸の外積で求める
-		Vector3 ey = ex;
-		ey.Cross(ez);
-		ey.Normalize();
+		m_ey = m_ex;
+		m_ey.Cross(m_ez);
+		m_ey.Normalize();
 		
 		//基底軸変換の行列を作成
 		Matrix transitionMatrix = g_matIdentity;
-		transitionMatrix.v[0] = { ex.x,ex.y,ex.z,0 };
-		transitionMatrix.v[1] = { ey.x,ey.y,ey.z,0 };
-		transitionMatrix.v[2] = { ez.x,ez.y,ez.z,0 };
+		transitionMatrix.v[0] = { m_ex.x,m_ex.y,m_ex.z,0 };
+		transitionMatrix.v[1] = { m_ey.x,m_ey.y,m_ey.z,0 };
+		transitionMatrix.v[2] = { m_ez.x,m_ez.y,m_ez.z,0 };
 		transitionMatrix.Inverse();
 
 		//3Dでの平面上の座標を切断面の向きの方向から見た2D空間に変換する
+		
+		//連想配列に登録する用の何番目かのインデックス番号
+		int index = 0;
 		for (auto& pos : m_vectorContainer)
 		{
 			//m_vectorContainerの0番目を2D空間上の原点とする
 			Vector3 calcVec = pos - m_vectorContainer[0];
+
+			//基底軸変換
 			transitionMatrix.Apply3x3(calcVec);
 
-			//この変換によって3DのZ座標は全て同じになるのでZ軸を除くと2D空間上の座標になる
+			//変換によって3DのZ座標は全て同じになるのでZ軸を除くと2D空間上の座標になる
  			Vector2 converted2DVec = { calcVec.x,calcVec.y };
 
 			//可変長配列に格納
 			m_2DArray.push_back(converted2DVec);
+
+			//多角形分割に使用する連想配列にもインデックスと共に格納
+			m_2DMap.insert(std::make_pair(converted2DVec,index));
+
+			//インデックスを増やす
+			index++;
+		}
+
+	}
+
+	void CutSurfaceMaker::MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray)
+	{
+		std::vector<Vector2> vec;
+
+		//TODO:リンクが確立されているかの判定
+		//TODO:m_pointLinkArray[0]だけでなくすべてを走査する
+		//仮でリンクがつながっている(最初と最後の数字が一緒)として最後を切り捨てています
+		m_pointLinkArray[0].erase(m_pointLinkArray[0].end() - 1);
+
+		//TODO:リンクが2D座標上で時計回りか反時計周りかの判定
+		//仮でデフォルトのまま横に移動して斬ると反転が必要なので反転させています
+		std::reverse(m_pointLinkArray[0].begin(), m_pointLinkArray[0].end());
+
+		//リンクの順番に従って座標を格納
+		for (auto a : m_pointLinkArray[0])
+		{
+			vec.push_back(m_2DArray[a]);
+		}
+
+		//格納した座標から多角形分割
+		TwoDTriangulate maker;
+		//連想配列をセット
+		maker.SetMap(&m_2DMap);
+		//分割
+		maker.Triangulate(vec);
+		
+		//m_vectorContainerの中でのインデックスを取得
+		auto addIndexes = maker.GetBuffer();
+
+		//頂点バッファの最後の位置(追加した場合のインデックス)を取得
+		int startIndex = vertexBuffer->size();
+		//ここから頂点の生成
+		for (auto pos : m_vectorContainer)
+		{
+			TkmFile::SVertex addVert;
+			addVert.pos = pos;
+
+			//NOTE:切断面座標系を使用
+			//TODO:front側の切断面だと反転させて、back側の切断面だとそのままにして別々にpushする?
+			addVert.normal = m_ez * -1;
+			addVert.tangent = m_ex * -1;
+			addVert.binormal = m_ey * -1;
+
+			//TODO:UVは仮
+			addVert.uv = { 0.0f,0.0f };
+
+			//スキン関係?よく分からない
+			addVert.indices[0] = 0;
+			addVert.indices[1] = 0;
+			addVert.indices[2] = 0;
+			addVert.indices[3] = 0;
+			addVert.skinWeights = { 0.0f,0.0f,0.0f,0.0f };
+			vertexBuffer->push_back(addVert);
+		}
+
+		for (auto addIndex : addIndexes)
+		{
+			//NOTE:仮で0番目のマテリアルのインデックスとして追加
+			//もし新しいマテリアルを適用するとすればMaterialを増やす必要がある?
+			frontIndexBufferArray->at(0).indices.push_back(addIndex + startIndex);
+			backIndexBufferArray->at(0).indices.push_back(addIndex + startIndex);
 		}
 	}
 }

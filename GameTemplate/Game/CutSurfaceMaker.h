@@ -1,4 +1,6 @@
 #pragma once
+#include "tkFile/TkmFile.h"
+
 namespace Util
 {
 	class CutSurfaceMaker
@@ -30,6 +32,14 @@ namespace Util
 		 * @param normal 切断面の法線
 		*/
 		void CalcIn2D(const Vector3& normal);
+
+		/**
+		 * @brief 切断面の生成
+		 * @param vertexBuffer モデルの頂点バッファ
+		 * @param frontIndexBufferArray 表側のインデックスバッファの配列
+		 * @param backIndexBufferArray 裏側のインデックスバッファの配列
+		*/
+		void MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray);
 	private:
 		std::set<std::pair<uint16_t, uint16_t>>* m_segmentSet = nullptr;	//切断面上にある線分のインデックスの組み合わせの集合
 		std::vector<TkmFile::SVertex>* m_vertexContainer = nullptr;			//モデルの頂点バッファ
@@ -38,5 +48,9 @@ namespace Util
 		std::set<std::pair<int, int>> m_convertedSet;						//m_segmentSetをm_vectorContainer上のインデックスに変換して格納したもの
 		std::vector<std::vector<uint16_t>> m_pointLinkArray;				//切断面を構成するリンクの配列
 		std::vector<Vector2> m_2DArray;										//切断面上の頂点の2D空間での座標(m_vectorContainerと対応)
+		std::map<Vector2, int> m_2DMap;										//切断面上の頂点の2D空間での座標とm_pointLinkArrayの何番目にあるかの連想配列
+		Vector3 m_ex = Vector3::Zero;										//切断面座標系の基底軸
+		Vector3 m_ey = Vector3::Zero;
+		Vector3 m_ez = Vector3::Zero;
 	};
 }
