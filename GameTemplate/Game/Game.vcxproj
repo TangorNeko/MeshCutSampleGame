@@ -305,6 +305,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TwoDTriangulate.cpp" />
     <ClCompile Include="TwoOnBackTriangle.cpp" />
     <ClCompile Include="TwoOnFrontTriangle.cpp" />
   </ItemGroup>
@@ -381,6 +382,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TriangleMakerHeader.h" />
+    <ClInclude Include="TwoDTriangulate.h" />
     <ClInclude Include="TwoOnBackTriangle.h" />
     <ClInclude Include="TwoOnFrontTriangle.h" />
   </ItemGroup>
