@@ -89,6 +89,9 @@ bool TwoDTriangulate::EarQ(int i, int j, int k, const std::vector<Vector2>& P)
 
 void TwoDTriangulate::Triangulate(const std::vector<Vector2>& P)
 {
+    int processNum = 0;
+    m_indexBuffer.clear();
+
     const int n = P.size();
     std::vector<int> l, r;
     for (int i = 0; i < n; ++i)
@@ -107,5 +110,15 @@ void TwoDTriangulate::Triangulate(const std::vector<Vector2>& P)
             l[r[i]] = l[i];
             r[l[i]] = r[i];
         }
+        
+
+        //WARNING:アルゴリズムの計算量がO(n^2)とのことだったので
+        //ループ回数がn^2を超えた時、時間がかかりすぎている==ループから抜け出せないと判断して強引に脱出している
+        if (processNum > 2 * n * n)
+        {
+            return;
+        }
+
+        processNum++;
     }
 }
