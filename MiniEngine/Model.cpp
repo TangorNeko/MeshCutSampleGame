@@ -81,7 +81,7 @@ void Model::Draw(RenderContext& rc)
 	);
 }
 
-void Model::Divide(const ModelInitData& initData, const Vector3& worldCutNormal,const Vector3& worldCutPoint)
+Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNormal, const Vector3& worldCutPoint)
 {
 	//引数の切断面と向きと切断面の一点の座標はワールド座標、しかしメッシュカットはモデルのローカル座標系を基準に行われる(おそらく)ため、
 	//モデルのワールド座標の逆行列をかけるとモデルのローカル座標系に変換できるのではないか?
@@ -106,9 +106,43 @@ void Model::Divide(const ModelInitData& initData, const Vector3& worldCutNormal,
 	//念の為正規化
 	modelLocalCutNormal.Normalize();
 
-	//分割
-	m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint);
+	Model* newmodel = new Model;
 
+	//分割
+	newmodel->m_tkmFile.m_meshParts = m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint);
+	newmodel->TkmFileToMeshParts(initData);
+	newmodel->SetWorldMatrix(m_world);
+
+	wchar_t wfxFilePath[256] = { L"" };
+	if (initData.m_fxFilePath != nullptr) {
+		//MessageBoxA(nullptr, "fxファイルパスが指定されていません。", "エラー", MB_OK);
+		//std::abort();
+		mbstowcs(wfxFilePath, initData.m_fxFilePath, 256);
+	}
+
+	if (initData.m_skeleton != nullptr) {
+		//スケルトンが指定されている。
+		m_meshParts.BindSkeleton(*initData.m_skeleton);
+	}
+
+	m_modelUpAxis = initData.m_modelUpAxis;
+
+	m_meshParts.InitFromTkmFile(
+		m_tkmFile,
+		wfxFilePath,
+		initData.m_vsEntryPointFunc,
+		initData.m_vsSkinEntryPointFunc,
+		initData.m_psEntryPointFunc,
+		initData.m_expandConstantBuffer,
+		initData.m_expandConstantBufferSize,
+		initData.m_expandShaderResoruceView
+	);
+
+	return newmodel;
+}
+
+void Model::TkmFileToMeshParts(const ModelInitData& initData)
+{
 	wchar_t wfxFilePath[256] = { L"" };
 	if (initData.m_fxFilePath != nullptr) {
 		//MessageBoxA(nullptr, "fxファイルパスが指定されていません。", "エラー", MB_OK);

@@ -47,6 +47,15 @@ public:
 	/// <param name="scale">拡大率</param>
 	void UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale);
 
+	/**
+	 * @brief ワールド行列を直接代入
+	 * @param mat ワールド行列
+	*/
+	void SetWorldMatrix(const Matrix& worldMatrix)
+	{
+		m_world = worldMatrix;
+	}
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -97,7 +106,13 @@ public:
 	 * @param worldCutNormal 切断面上の一点からの法線の向き
 	 * @param worldCutPoint 切断面上の一点の座標
 	*/
-	void Divide(const ModelInitData& initData, const Vector3& worldCutNormal, const Vector3& worldCutPoint);
+	Model* Divide(const ModelInitData& initData, const Vector3& worldCutNormal, const Vector3& worldCutPoint);
+
+	/**
+	 * @brief m_tkmFileからm_meshPartsに情報を渡す
+	 * @param initData モデルの初期化データ
+	*/
+	void TkmFileToMeshParts(const ModelInitData& initData);
 private:
 
 	Matrix m_world;														//ワールド行列。

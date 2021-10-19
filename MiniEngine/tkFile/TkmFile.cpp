@@ -388,24 +388,24 @@ void TkmFile::Load(const char* filePath)
 
 }
 
-void TkmFile::Divide(const Vector3& cutNormal,const Vector3& cutPoint)
+std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vector3& cutPoint)
 {
 	Util::MeshDivider meshDivider;
 
-	std::vector< SMesh>	newMesh;
+	std::vector< SMesh>	frontMesh;
+	std::vector< SMesh>	backMesh;
 	for (auto& mesh : m_meshParts)
 	{
 		meshDivider.Init(&mesh);
 		//TODO:1メッシュパーツ分すべてが分割の結果無くなった時の処理
-		if (g_pad[0]->IsPress(enButtonB) == false)
-		{
-			newMesh.push_back(meshDivider.Divide(cutNormal, cutPoint).first);
-		}
-		else
-		{
-			newMesh.push_back(meshDivider.Divide(cutNormal, cutPoint).second);
-		}
+		auto newMeshPair = meshDivider.Divide(cutNormal, cutPoint);
+		frontMesh.push_back(newMeshPair.first);
+		backMesh.push_back(newMeshPair.second);
 	}
 
-	m_meshParts = newMesh;
+	//表側のメッシュはそのまま自らのTklFileとして使用
+	m_meshParts = frontMesh;
+
+	//裏側のメッシュは新規モデルとして使用
+	return backMesh;
 }

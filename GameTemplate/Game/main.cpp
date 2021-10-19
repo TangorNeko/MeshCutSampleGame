@@ -57,6 +57,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetTarget(0.0f, 0.0f, 0.0f);
 	g_camera3D->SetUpdateProjMatrixFunc(g_camera3D->enUpdateProjMatrixFunc_Ortho);
 
+	Model* newModel = nullptr;
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -72,6 +73,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
 		cutDeg += g_pad[0]->GetRStickXF();
+		if (g_pad[0]->IsTrigger(enButtonB))
+		{
+			cutDeg = -43.0f;
+		}
 		cutPoint.x += g_pad[0]->GetRStickYF();
 
 		cutNormal = { 1.0f,0.0f,0.0f };
@@ -90,15 +95,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//0サイズのインデックスバッファをGPUにコピーしようとするため?
 		if (g_pad[0]->IsTrigger(enButtonA))
 		{
-			testModel.Divide(modelInitData, cutNormal, cutPoint);
+			newModel = testModel.Divide(modelInitData, cutNormal, cutPoint);
 		}
 		
 		cutPlane.Draw(renderContext);
 		testModel.Draw(renderContext);
+		if (newModel != nullptr)
+		{
+			newModel->Draw(renderContext);
+		}
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
 		g_engine->EndFrame();
+	}
+
+	if (newModel != nullptr)
+	{
+		delete newModel;
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();

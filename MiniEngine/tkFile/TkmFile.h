@@ -44,26 +44,7 @@ public:
 		//コピーコンストラクタ
 		SMaterial(const SMaterial& rhs)
 		{
-			/*
-			albedoMapFileName = rhs.albedoMapFileName;
-			normalMapFileName = rhs.normalMapFileName;
-			specularMapFileName = rhs.specularMapFileName;
-			reflectionMapFileName = rhs.reflectionMapFileName;
-			refractionMapFileName = rhs.refractionMapFileName;
-			albedoMapSize = rhs.albedoMapSize;
-			albedoMap = std::make_unique<char[]>(albedoMapSize);
-			*albedoMap.get() = *rhs.albedoMap.get();
-			normalMapSize = rhs.normalMapSize;
-			normalMap = std::make_unique<char[]>(normalMapSize);
-			//*normalMap.get() = *rhs.normalMap.get();
-			specularMapSize = specularMapSize;
-			specularMap = std::make_unique<char[]>(specularMapSize);
-			//*specularMap.get() = *rhs.specularMap.get();
-			//reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
-			reflectionMapSize = reflectionMapSize;
-			//refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
-			refractionMapSize = refractionMapSize;
-			*/
+			this->CopyFrom(rhs);
 		}
 		void CopyFrom(const SMaterial& rhs)
 		{
@@ -93,26 +74,7 @@ public:
 		//コピー代入演算子
 		void operator=(const SMaterial& rhs)
 		{
-			/*
-			albedoMapFileName = rhs.albedoMapFileName;
-			normalMapFileName = rhs.normalMapFileName;
-			specularMapFileName = rhs.specularMapFileName;
-			reflectionMapFileName = rhs.reflectionMapFileName;
-			refractionMapFileName = rhs.refractionMapFileName;
-			albedoMapSize = rhs.albedoMapSize;
-			albedoMap = std::make_unique<char[]>(albedoMapSize);
-			*albedoMap.get() = *rhs.albedoMap.get();
-			normalMapSize = rhs.normalMapSize;
-			normalMap = std::make_unique<char[]>(normalMapSize);
-			*normalMap.get() = *rhs.normalMap.get();
-			specularMapSize = specularMapSize;
-			specularMap = std::make_unique<char[]>(specularMapSize);
-			*specularMap.get() = *rhs.specularMap.get();
-			//reflectionMap = std::make_unique<char[]>(*(rhs.reflectionMap.get()));
-			reflectionMapSize = reflectionMapSize;
-			//refractionMap = std::make_unique<char[]>(*(rhs.refractionMap.get()));
-			refractionMapSize = refractionMapSize;
-			*/
+			this->CopyFrom(rhs);
 		}
 	};
 	/// <summary>
@@ -232,7 +194,7 @@ public:
 		return (int)(m_meshParts.size());
 	}
 
-	void Divide(const Vector3& cutNormal, const Vector3& cutPoint);
+	std::vector< SMesh> Divide(const Vector3& cutNormal, const Vector3& cutPoint);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。
@@ -257,6 +219,6 @@ private:
 	/// 3dsMaxScriptでやるべきなんだろうけど、デバッグしたいので今はこちらでやる。
 	/// </remarks>
 	void BuildTangentAndBiNormal();
-private:
+public:
 	std::vector< SMesh>	m_meshParts;		//メッシュパーツ。
 };
