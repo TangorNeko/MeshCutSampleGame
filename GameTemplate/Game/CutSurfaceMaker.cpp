@@ -157,7 +157,7 @@ namespace Util
 		transitionMatrix.Inverse();
 
 		//3Dでの平面上の座標を切断面の向きの方向から見た2D空間に変換する
-		
+
 		//連想配列に登録する用の何番目かのインデックス番号
 		int index = 0;
 		for (auto& pos : m_vectorContainer)
@@ -183,22 +183,64 @@ namespace Util
 
 	}
 
-	void CutSurfaceMaker::MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray)
+	bool CutSurfaceMaker::IsClockwise(const std::vector<uint16_t> pointLink)
 	{
-		//TODO:m_pointLinkArray[0]だけでなくすべてを走査する
-		//リンクが確立されているかの判定
-		if (*(m_pointLinkArray[0].begin()) == *(m_pointLinkArray[0].end() - 1))
+		Vector2 minPoint = { FLT_MAX,FLT_MAX };
+		std::vector<uint16_t>::const_iterator minIt;
+
+		for (auto it = pointLink.begin(); it != pointLink.end(); it++)
 		{
-			m_pointLinkArray[0].erase(m_pointLinkArray[0].end() - 1);
+			//一番Xが小さい(Xが同じならYも小さい)なら
+			if (m_2DArray[*it].x <= minPoint.x && m_2DArray[*it].y <= minPoint.y)
+			{
+				//座標を取得
+				minPoint = m_2DArray[*it];
+
+				//一番小さい地点の前後を調べるため、イテレーターも取得
+				minIt = it;
+			}
+		}
+
+		//最小値点の前後を取得
+		uint16_t prev, next;
+		if (minIt == pointLink.begin())
+		{
+			//最小地点が最初の要素だった場合、一個前の要素は最後の要素とする
+			prev = *(pointLink.end() - 1);
+			next = *(minIt + 1);
+		}
+		else if (minIt == pointLink.end() - 1)
+		{
+			prev = *(minIt - 1);
+			//最小地点が最後の要素だった場合、一個前の要素は最初の要素とする
+			next = *(pointLink.begin());
 		}
 		else
 		{
-			return;
+			prev = *(minIt - 1);
+			next = *(minIt + 1);
 		}
 
-		//TODO:リンクが2D座標上で時計回りか反時計周りかの判定
-		//仮でデフォルトのまま横に移動して斬ると反転が必要なので反転させています
-		std::reverse(m_pointLinkArray[0].begin(), m_pointLinkArray[0].end());
+		Vector2 prevPoint = m_2DArray[prev];
+		Vector2 nextPoint = m_2DArray[next];
+		
+		//prevPointからminPointに引いた線より、nextPointが右にあれば時計回り、左にあれば反時計回り
+		Vector2 prevToMin, prevToNext;
+		prevToMin.Subtract(minPoint, prevPoint);
+		prevToNext.Subtract(nextPoint,prevPoint);
+
+		if (Cross(prevToMin, prevToNext) > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	void CutSurfaceMaker::MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray)
+	{
 
 		//格納した座標から多角形分割
 		TwoDTriangulate triangulator;
@@ -212,8 +254,30 @@ namespace Util
 		std::vector<Vector2> triangulateVertexes;
 
 		//各リンクを走査
-		for (auto pointLink : m_pointLinkArray)
+		for (auto& pointLink : m_pointLinkArray)
 		{
+			//リンクが確立されているかの判定
+			if (*(pointLink.begin()) == *(pointLink.end() - 1))
+			{
+				pointLink.erase(pointLink.end() - 1);
+			}
+			else
+			{
+				//TODO:returnでなく処理を行わない設定?
+				//リンクが確立されていなくても断面を作りたい時はあるよね
+				continue;
+			}
+
+
+			//リンクが2D座標上で時計回りか反時計周りかの判定
+			//多角形分割をするためにはリンクが反時計周りでないといけないため
+			//時計回りなら
+			if (IsClockwise(pointLink) == true)
+			{
+				//反転
+				std::reverse(pointLink.begin(), pointLink.end());
+			}
+
 			//リンクの順番に従って座標を格納
 			for (auto pointIndex : pointLink)
 			{

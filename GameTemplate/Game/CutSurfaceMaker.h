@@ -34,6 +34,13 @@ namespace Util
 		void CalcIn2D(const Vector3& normal);
 
 		/**
+		 * @brief このリンクは時計回りか?
+		 * @param pointLink 切断面の1つのリンク
+		 * @return 時計回り:true 反時計回り:false
+		*/
+		bool IsClockwise(const std::vector<uint16_t> pointLink);
+
+		/**
 		 * @brief 切断面の生成
 		 * @param vertexBuffer モデルの頂点バッファ
 		 * @param frontIndexBufferArray 表側のインデックスバッファの配列
