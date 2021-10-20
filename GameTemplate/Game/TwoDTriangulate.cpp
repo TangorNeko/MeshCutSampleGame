@@ -1,26 +1,11 @@
 #include "stdafx.h"
 #include "TwoDTriangulate.h"
 
-
-float TwoDTriangulate::Cross(const Vector2& a, const Vector2& b)
-{
-    return a.x * b.y - a.y * b.x;
-}
-
-float TwoDTriangulate::Dot(const Vector2& a, const Vector2& b)
-{
-    return a.x * b.x + a.y * b.y;
-}
-
-float TwoDTriangulate::LengthSq(const Vector2& vec)
-{
-    return vec.x * vec.x + vec.y * vec.y;
-}
-
 int TwoDTriangulate::CCW(Vector2 a, Vector2 b, Vector2 c)
 {
-    b = { b.x - a.x , b.y - a.y };
-    c = { c.x - a.x , c.y - a.y };
+    //b-=a,c-=a
+    b.Subtract(a);
+    c.Subtract(a);
 
     if (Cross(b, c) > 0)
     {
@@ -37,7 +22,7 @@ int TwoDTriangulate::CCW(Vector2 a, Vector2 b, Vector2 c)
         return +2;
     }
 
-    if (LengthSq(b) < LengthSq(c))
+    if (b.LengthSq() < c.LengthSq())
     {
         return -2;
     }
@@ -114,8 +99,9 @@ void TwoDTriangulate::Triangulate(const std::vector<Vector2>& P)
 
         //WARNING:アルゴリズムの計算量がO(n^2)とのことだったので
         //ループ回数がn^2を超えた時、時間がかかりすぎている==ループから抜け出せないと判断して強引に脱出している
-        if (processNum > 2 * n * n)
+        if (processNum > n * n)
         {
+            OutputDebugStringA("Triangulate processNum over n^2 \n");
             return;
         }
 

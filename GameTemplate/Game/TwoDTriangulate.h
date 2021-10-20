@@ -1,12 +1,6 @@
 #pragma once
 class TwoDTriangulate
 {
-	float Cross(const Vector2& a, const Vector2& b);
-
-	float Dot(const Vector2& a, const Vector2& b);
-
-	float LengthSq(const Vector2& vec);
-
 	int CCW(Vector2 a, Vector2 b, Vector2 c);
 
 	std::vector<Vector2> MakeTriangle(const Vector2& a, const Vector2& b, const Vector2& c);
