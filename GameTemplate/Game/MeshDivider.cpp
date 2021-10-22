@@ -24,6 +24,13 @@ namespace Util
 		std::vector<TkmFile::SIndexbuffer16> frontIndexBufferArray;
 		std::vector<TkmFile::SIndexbuffer16> backIndexBufferArray;
 		//マテリアルごとに分割
+
+		//何番目のマテリアルかを記録する
+		int materialIndex = 0;
+
+		//表のメッシュ、裏のメッシュごとに削除するマテリアル番号を記録する可変長配列
+		std::list<int> frontEraseIndexes;
+		std::list<int> backEraseIndexes;
 		for (auto& index : m_divideMesh->indexBuffer16Array)
 		{
 			for (auto it = index.indices.begin();it != index.indices.end();it += 3)
@@ -37,22 +44,47 @@ namespace Util
 			}
 
 			//1マテリアル分が終わったらそれぞれのインデックスバッファの配列に追加
-			//TODO:1マテリアル分すべてが分割の結果無くなった時の処理
-			frontIndexBufferArray.push_back(m_frontIndexBuffer);
-			backIndexBufferArray.push_back(m_backIndexBuffer);
+			//1マテリアル分のインデックスバッファが1つでもある?
+			if (m_frontIndexBuffer.indices.size() > 0)
+			{
+				//1つでもあれば追加
+				frontIndexBufferArray.push_back(m_frontIndexBuffer);
+			}
+			else
+			{
+				//なければそのマテリアルは削除しなければいけないので何番目かを記録
+				frontEraseIndexes.push_back(materialIndex);
+			}
+
+			//裏側のマテリアルでも同様にする
+			if (m_backIndexBuffer.indices.size() > 0)
+			{
+				backIndexBufferArray.push_back(m_backIndexBuffer);
+			}
+			else
+			{
+				backEraseIndexes.push_back(materialIndex);
+			}
 
 			//追加が終わったら追加に使用した受け取り用の可変長配列はクリアして次回に備える
 			m_frontIndexBuffer.indices.clear();
 			m_backIndexBuffer.indices.clear();
+
+			//次のマテリアルに進むのでインデックスを増やす
+			materialIndex++;
 		}
 
-		//TODO:切断面の生成
+		//切断面の生成
 		CutSurfaceMaker csm;
 		csm.Init(&cutSurfaceSegmentSet, &m_divideMesh->vertexBuffer);
 		csm.ConvertFromSet();
 		csm.MakeLinkFromSet();
-		csm.CalcIn2D(cutNormal);
-		csm.MakeSurface(&m_divideMesh->vertexBuffer, &frontIndexBufferArray, &backIndexBufferArray);
+		bool needToMakeSurface = csm.CalcIn2D(cutNormal);
+		if (needToMakeSurface == true)
+		{
+			//切断面を生成する必要があれば生成
+			csm.MakeSurface(&m_divideMesh->vertexBuffer, &frontIndexBufferArray, &backIndexBufferArray);
+		}
 
 		TkmFile::SMesh FrontNewMesh,BackNewMesh;
 
@@ -61,6 +93,29 @@ namespace Util
 
 		FrontNewMesh.materials = m_divideMesh->materials;
 		BackNewMesh.materials = m_divideMesh->materials;
+
+		//表裏別々にいらないマテリアルを削除する
+
+		//何回削除したかを格納する変数
+		int deleteIndex = 0;
+
+		for (auto frontEraseIndex : frontEraseIndexes)
+		{
+			//削除する場所の位置から削除した回数を引いた数字の場所に削除するマテリアルがある
+			FrontNewMesh.materials.erase((FrontNewMesh.materials.begin() + (frontEraseIndex - deleteIndex)));
+			
+			//削除したので回数を増やす
+			deleteIndex++;
+		}
+
+		//裏面でも同様にする
+		//削除した回数はリセットする
+		deleteIndex = 0;
+		for (auto backEraseIndex : backEraseIndexes)
+		{
+			BackNewMesh.materials.erase((BackNewMesh.materials.begin() + (backEraseIndex - deleteIndex)));
+			deleteIndex++;
+		}
 
 		FrontNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;
 		BackNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;

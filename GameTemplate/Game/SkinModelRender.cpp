@@ -76,6 +76,8 @@ namespace Game
 			//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
 			Model* backModel = m_model->Divide(m_modelInitData, cutNormal, cutPoint);
 
+			//TODO:完全に1つもメッシュ、マテリアルが残らなかった時の処理
+
 			//裏面側のモデルを描画するモデルレンダークラスを作成
 			SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
 

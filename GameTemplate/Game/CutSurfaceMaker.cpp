@@ -134,8 +134,13 @@ namespace Util
 		}
 	}
 
-	void CutSurfaceMaker::CalcIn2D(const Vector3& normal)
+	bool CutSurfaceMaker::CalcIn2D(const Vector3& normal)
 	{
+		//切断面の頂点数が3未満なら切断面を生成する必要がない。
+		if (m_vectorContainer.size() < 3)
+		{
+			return false;
+		}
 		//可変長配列の0番目の座標から1番目の座標までのベクトルをx軸とした座標系を作成する
 		m_ex = m_vectorContainer[1] - m_vectorContainer[0];
 		m_ex.Normalize();
@@ -181,6 +186,7 @@ namespace Util
 			index++;
 		}
 
+		return true;
 	}
 
 	bool CutSurfaceMaker::IsClockwise(const std::vector<uint16_t> pointLink)

@@ -30,8 +30,9 @@ namespace Util
 		/**
 		 * @brief 切断面の頂点を2D空間に変換する
 		 * @param normal 切断面の法線
+		 * @return 切断面の生成の必要あり:true 生成の必要なし:false
 		*/
-		void CalcIn2D(const Vector3& normal);
+		bool CalcIn2D(const Vector3& normal);
 
 		/**
 		 * @brief このリンクは時計回りか?

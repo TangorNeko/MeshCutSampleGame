@@ -397,13 +397,21 @@ std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vect
 	for (auto& mesh : m_meshParts)
 	{
 		meshDivider.Init(&mesh);
-		//TODO:1メッシュパーツ分すべてが分割の結果無くなった時の処理
 		auto newMeshPair = meshDivider.Divide(cutNormal, cutPoint);
-		frontMesh.push_back(newMeshPair.first);
-		backMesh.push_back(newMeshPair.second);
+
+		//1メッシュパーツ分すべてが分割の結果無くなった時は追加しない
+		if (newMeshPair.first.indexBuffer16Array.size() > 0)
+		{
+			frontMesh.push_back(newMeshPair.first);
+		}
+
+		if (newMeshPair.second.indexBuffer16Array.size() > 0)
+		{
+			backMesh.push_back(newMeshPair.second);
+		}
 	}
 
-	//表側のメッシュはそのまま自らのTklFileとして使用
+	//表側のメッシュはそのまま自らのTkmFileとして使用
 	m_meshParts = frontMesh;
 
 	//裏側のメッシュは新規モデルとして使用
