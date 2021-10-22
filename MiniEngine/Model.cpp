@@ -37,7 +37,8 @@ void Model::Init(const ModelInitData& initData)
 		initData.m_psEntryPointFunc,
 		initData.m_expandConstantBuffer,
 		initData.m_expandConstantBufferSize,
-		initData.m_expandShaderResoruceView
+		initData.m_expandShaderResoruceView,
+		initData.m_colorBufferFormat
 	);
 
 	UpdateWorldMatrix(g_vec3Zero, g_quatIdentity, g_vec3One);
@@ -135,7 +136,8 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 		initData.m_psEntryPointFunc,
 		initData.m_expandConstantBuffer,
 		initData.m_expandConstantBufferSize,
-		initData.m_expandShaderResoruceView
+		initData.m_expandShaderResoruceView,
+		initData.m_colorBufferFormat
 	);
 
 	return newmodel;
@@ -165,6 +167,7 @@ void Model::TkmFileToMeshParts(const ModelInitData& initData)
 		initData.m_psEntryPointFunc,
 		initData.m_expandConstantBuffer,
 		initData.m_expandConstantBufferSize,
-		initData.m_expandShaderResoruceView
+		initData.m_expandShaderResoruceView,
+		initData.m_colorBufferFormat
 	);
 }

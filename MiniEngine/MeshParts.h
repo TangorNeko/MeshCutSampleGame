@@ -48,7 +48,8 @@ public:
 		const char* psEntryPointFunc,
 		void* expandData,
 		int expandDataSize,
-		IShaderResource* expandShaderResourceView
+		IShaderResource* expandShaderResourceView,
+		DXGI_FORMAT colorBufferFormat
 	);
 	/// <summary>
 	/// ï`âÊÅB
@@ -100,7 +101,8 @@ private:
 		const wchar_t* fxFilePath,
 		const char* vsEntryPointFunc,
 		const char* vsSkinEntryPointFunc,
-		const char* psEntryPointFunc );
+		const char* psEntryPointFunc,
+		DXGI_FORMAT colorBufferFormat);
 
 	
 private:
