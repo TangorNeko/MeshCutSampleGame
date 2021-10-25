@@ -5,11 +5,11 @@
 
 
 
-void MeshCollider::CreateFromModel(const Model& model, const Matrix& worldMatrix)
+void MeshCollider::CreateFromModel(const Model* model, const Matrix& worldMatrix)
 {
 	m_stridingMeshInterface = std::make_unique<btTriangleIndexVertexArray>();
 	int numMesh = 0;
-	const auto& tkmFile = model.GetTkmFile();
+	const auto& tkmFile = model->GetTkmFile();
 	const auto& meshParts = tkmFile.GetMeshParts();
 	//ƒƒbƒVƒ…‚ğˆê‚Â‚Ã‚Â’²‚×‚Ä‚¢‚­B
 	for (const auto& mesh : meshParts) {

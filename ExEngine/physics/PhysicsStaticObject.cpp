@@ -12,7 +12,7 @@ PhysicsStaticObject::PhysicsStaticObject()
 PhysicsStaticObject::~PhysicsStaticObject()
 {
 }
-void PhysicsStaticObject::CreateFromModel(Model& model, const Matrix& worldMatrix)
+void PhysicsStaticObject::CreateFromModel(Model* model, const Matrix& worldMatrix)
 {
 	m_meshCollider.CreateFromModel(model, worldMatrix);
 	RigidBodyInitData rbInfo;

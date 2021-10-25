@@ -13,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="worldMatrix"></param>
-	void CreateFromModel( const Model& model, const Matrix& worldMatrix );
+	void CreateFromModel( const Model* model, const Matrix& worldMatrix );
 	/// <summary>
 	/// BulletPhysicsのコライダーの形状を取得。
 	/// </summary>

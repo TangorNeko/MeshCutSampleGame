@@ -26,7 +26,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="worldMatrix">ワールド行列</param>
-	void CreateFromModel(Model& model, const Matrix& worldMatrix);
+	void CreateFromModel(Model* model, const Matrix& worldMatrix);
 	/// <summary>
 	/// 摩擦力を設定する。
 	/// </summary>
