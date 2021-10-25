@@ -4,6 +4,7 @@ namespace Game
 {
 	class BackGround;
 	class Player;
+	class Enemy;
 
 	class GameScene : public IGameObject
 	{
@@ -16,6 +17,7 @@ namespace Game
 	private:
 		BackGround* m_backGround = nullptr;
 		Player* m_player = nullptr;
+		Enemy* m_enemy = nullptr;
 	};
 }
 
