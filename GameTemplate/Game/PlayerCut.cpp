@@ -37,7 +37,7 @@ namespace Game
 			//Ø’fƒ‚[ƒh’†‚ÉYƒ{ƒ^ƒ“‚ÅØ’f
 			if (g_pad[0]->IsTrigger(enButtonY))
 			{
-				Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, playerPosition, CUT_RANGE);
+				Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, CutPoint, CUT_RANGE);
 			}
 		}
 
