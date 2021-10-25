@@ -37,20 +37,20 @@ namespace Game
 		 * @param animClips アニメーションクリップの配列
 		 * @param animClipNum アニメーションクリップの数
 		*/
-		void Init(const char* modelPath, const char* skeletonPath, AnimationClip* animClips, int animClipNum);
+		void Init(const char* modelPath, const char* skeletonPath, AnimationClip* animClips, int animClipNum, EnModelUpAxis modelUpAxis = enModelUpAxisY);
 
 		/**
 		 * @brief モデルの初期化関数
 		 * @param modelPath モデルファイルのパス(.tkm)
 		 * @param skeletonPath スケルトンファイルのパス(.tks)
 		*/
-		void Init(const char* modelPath, const char* skeletonPath);
+		void Init(const char* modelPath, const char* skeletonPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
 
 		/**
 		 * @brief モデルの初期化関数　モデルパスだけ版
 		 * @param modelPath モデルファイルのパス(.tkm)
 		*/
-		void Init(const char* modelPath);
+		void Init(const char* modelPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
 
 		/**
 		 * @brief モデルクラスのポインタからの初期化
@@ -178,6 +178,11 @@ namespace Game
 		bool GetDivideFlag() const
 		{
 			return m_isDividable;
+		}
+
+		Model* GetModel()
+		{
+			return m_model;
 		}
 
 		/**

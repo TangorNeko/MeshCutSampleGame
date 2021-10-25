@@ -8,7 +8,7 @@ namespace Game
 		m_model->Draw(rc);
 	}
 
-	void SkinModelRender::Init(const char* modelPath, const char* skeletonPath, AnimationClip* animClips, int animClipNum)
+	void SkinModelRender::Init(const char* modelPath, const char* skeletonPath, AnimationClip* animClips, int animClipNum, EnModelUpAxis modelUpAxis)
 	{
 		//モデルがなければ生成
 		if (m_model == nullptr)
@@ -36,7 +36,7 @@ namespace Game
 		}
 
 		//モデルデータの上方向の軸を指定
-		m_modelInitData.m_modelUpAxis = enModelUpAxisZ;
+		m_modelInitData.m_modelUpAxis = modelUpAxis;
 
 		//モデルの初期化
 		m_model->Init(m_modelInitData);
@@ -51,14 +51,14 @@ namespace Game
 		}
 	}
 
-	void SkinModelRender::Init(const char* modelPath, const char* skeletonPath)
+	void SkinModelRender::Init(const char* modelPath, const char* skeletonPath, EnModelUpAxis modelUpAxis)
 	{
-		Init(modelPath, skeletonPath, nullptr, 0);
+		Init(modelPath, skeletonPath, nullptr, 0, modelUpAxis);
 	}
 
-	void SkinModelRender::Init(const char* modelPath)
+	void SkinModelRender::Init(const char* modelPath, EnModelUpAxis modelUpAxis)
 	{
-		Init(modelPath, nullptr, nullptr, 0);
+		Init(modelPath, nullptr, nullptr, 0, modelUpAxis);
 	}
 
 	void SkinModelRender::InitFromModel(Model* model)
