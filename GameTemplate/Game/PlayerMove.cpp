@@ -42,14 +42,8 @@ namespace Game
 		playerPosition = m_charaCon.Execute(m_moveAmount, 1.0f);
 	}
 
-	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
+	Quaternion PlayerMove::CalcToModelDirectionQRot()
 	{
-		//移動量が限りなく少ない場合向きを変更しない
-		if (m_moveAmount.LengthSq() < FLT_MIN)
-		{
-			return;
-		}
-
 		//移動方向のx,zから回転角度を取得
 		float turnAngle = atan2(m_moveAmount.x, m_moveAmount.z);
 
@@ -57,7 +51,16 @@ namespace Game
 		Quaternion toMoveDirectionRot;
 		toMoveDirectionRot.SetRotation(Vector3::AxisY, turnAngle);
 
-		//モデルに回転を反映させる。
-		modelRender->SetRotation(toMoveDirectionRot);
+		return toMoveDirectionRot;
+	}
+
+	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
+	{
+		//移動量が限りなく少ない場合向きを変更しない
+		if (m_moveAmount.LengthSq() > FLT_MIN && modelRender != nullptr)
+		{
+			//モデルに回転を反映させる。
+			modelRender->SetRotation(CalcToModelDirectionQRot());
+		}
 	}
 }

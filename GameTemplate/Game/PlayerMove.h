@@ -10,6 +10,8 @@ namespace Game
 
 		void Move(Vector3& playerPosition);
 
+		Quaternion CalcToModelDirectionQRot();
+
 		void TurnModelToMoveDirection(SkinModelRender* modelRender);
 	private:
 		CharacterController m_charaCon;
