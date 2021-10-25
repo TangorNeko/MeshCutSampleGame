@@ -33,13 +33,33 @@ namespace Game
 	void Player::Update()
 	{
 		//移動
-		m_playerMove.Move(m_position);
+		//NOTE:仮。LB1押している時は移動させない
+		if (g_pad[0]->IsPress(enButtonLB1) == false)
+		{
+			m_playerMove.Move(m_position);
+		}
 
 		//移動方向にモデルを向ける
 		m_playerMove.TurnModelToMoveDirection(m_playerModel);
 
-		//カメラの移動
-		m_playerCamera.Update(m_position);
+		//NOTE:仮で攻撃モデルと切断モデルを移動に追従させている　後から使わないようにする
+		m_playerMove.TurnModelToMoveDirection(m_playerAttack.GetModel());
+		m_playerMove.TurnModelToMoveDirection(m_playerCut.GetModel());
+
+
+		//攻撃のアップデート
+		m_playerAttack.Update(m_position);
+		
+		//切断のアップデート
+		m_playerCut.Update(m_position, m_playerMove.CalcToModelDirectionQRot());
+
+		//NOTE:仮。LB1押している時はカメラを動かせない
+		if (g_pad[0]->IsPress(enButtonLB1) == false)
+		{
+			//カメラの移動
+			m_playerCamera.Update(m_position);
+		}
+		//TODO:LB1を押した時はプレイヤーの向きにカメラを移動
 
 		//アニメーションのアップデート
 		m_playerAnimation.Update(m_playerModel);

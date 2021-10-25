@@ -2,6 +2,8 @@
 #include "PlayerMove.h"
 #include "PlayerCamera.h"
 #include "PlayerAnimation.h"
+#include "PlayerAttack.h"
+#include "PlayerCut.h"
 
 namespace Game
 {
@@ -20,6 +22,8 @@ namespace Game
 		PlayerMove m_playerMove;
 		PlayerCamera m_playerCamera;
 		PlayerAnimation m_playerAnimation;
+		PlayerAttack m_playerAttack;
+		PlayerCut m_playerCut;
 	};
 }
 
