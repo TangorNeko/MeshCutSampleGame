@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "TriangleDivider.h"
+#include "GameScene.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -25,6 +26,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
 	//NOTE:テストコード
+	/*
 	auto* cutPlane = NewGO<Game::SkinModelRender>(0);
 	cutPlane->Init("Assets/modelData/testCutPlane.tkm");
 
@@ -41,10 +43,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Vector3 cutNormal = { 1.0f,0.0f,0.0f };
 	cutNormal.Normalize();
 	Vector3 cutPoint = { 0.0f, 0.0f, 0.0f };
+	*/
 
-	g_camera3D->SetPosition(0.0f, 0.0f, -1000.0f);
+	g_camera3D->SetPosition(0.0f, 100.0f, -1000.0f);
 	g_camera3D->SetTarget(0.0f, 0.0f, 0.0f);
-	g_camera3D->SetUpdateProjMatrixFunc(g_camera3D->enUpdateProjMatrixFunc_Ortho);
+
+	NewGO<Game::GameScene>(0);
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -59,6 +63,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
+		/*
 		cutDeg += g_pad[0]->GetRStickXF();
 		cutPoint.x += g_pad[0]->GetRStickYF();
 
@@ -87,6 +92,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			model->SetDivideFlag(true);
 			Game::ModelCutManager::GetInstance()->AddCuttable(model);
 		}
+		*/
 		
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
