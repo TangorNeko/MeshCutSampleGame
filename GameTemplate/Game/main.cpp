@@ -17,6 +17,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームオブジェクトマネージャーのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
+	Game::ModelCutManager::CreateInstance();
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -78,12 +79,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//0サイズのインデックスバッファをGPUにコピーしようとするため?
 		if (g_pad[0]->IsTrigger(enButtonA))
 		{
-			model->Divide(cutNormal, cutPoint);
+			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint,100.0f);
 		}
 
 		if (g_pad[0]->IsTrigger(enButtonB))
 		{
 			model->SetDivideFlag(true);
+			Game::ModelCutManager::GetInstance()->AddCuttable(model);
 		}
 		
 		//////////////////////////////////////

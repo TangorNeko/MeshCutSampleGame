@@ -132,11 +132,7 @@ namespace Game
 		 * @brief 切断可能かのフラグをセット
 		 * @param isDividable 切断可能か?
 		*/
-		void SetDivideFlag(bool isDividable)
-		{
-			m_isDividable = isDividable;
-			//TODO:切断可能モデルマネージャーを作ってそこに登録する
-		}
+		void SetDivideFlag(bool isDividable);
 
 		/**
 		 * @brief モデルの初期化データをセット
@@ -186,7 +182,7 @@ namespace Game
 
 		/**
 		 * @brief モデルの切断
-		 * @param cutNormal 切断面の一点からの法線向き
+		 * @param cutNormal 切断面の一点からの法線の向き
 		 * @param cutPoint 切断面の一点の座標
 		*/
 		void Divide(const Vector3& cutNormal, const Vector3& cutPoint);

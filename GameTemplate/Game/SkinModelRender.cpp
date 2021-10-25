@@ -69,6 +69,13 @@ namespace Game
 		}
 	}
 
+	void SkinModelRender::SetDivideFlag(bool isDividable)
+	{
+		m_isDividable = isDividable;
+
+		//TODO:false‚É‚µ‚½Žž‚ÉØ’f•s‰Â‚É‚³‚¹‚éˆ—A‚»‚à‚»‚àØ’f‰Â”\‚É‚µ‚½Œã‚É•s‰Â‚É–ß‚·‚æ‚¤‚Èó‹µ‚ª‚ ‚é‚Ì‚©
+	}
+
 	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint)
 	{
 		if (m_isDividable == true)
@@ -89,6 +96,8 @@ namespace Game
 			backModelRender->SetScale(m_scale);
 			backModelRender->SetDivideFlag(true);
 			backModelRender->SetModelInitData(m_modelInitData);
+
+			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
 		}
 	}
 }
