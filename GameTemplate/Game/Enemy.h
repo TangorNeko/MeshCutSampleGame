@@ -26,5 +26,6 @@ namespace Game
 		SkinModelRender* m_enemyRender = nullptr;
 		Vector3 m_position = Vector3::Zero;
 		float m_hp = 100.0f;
+		FontRender* m_canCutTextRender = nullptr;
 	};
 }
