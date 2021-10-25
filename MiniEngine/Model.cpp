@@ -110,7 +110,7 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 	Model* newmodel = new Model;
 
 	//•ªŠ„
-	newmodel->m_tkmFile.m_meshParts = m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint);
+	newmodel->m_tkmFile.SetMeshParts(m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint));
 	newmodel->TkmFileToMeshParts(initData);
 	newmodel->SetWorldMatrix(m_world);
 

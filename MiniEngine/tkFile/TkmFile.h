@@ -194,7 +194,18 @@ public:
 		return (int)(m_meshParts.size());
 	}
 
+	/**
+	 * @brief tkMFile内のモデルを切断切断
+	 * @param cutNormal 切断面の一点からの法線の向き
+	 * @param cutPoint 切断面の一点の座標
+	 * @return 裏側のメッシュのメッシュパーツ
+	*/
 	std::vector< SMesh> Divide(const Vector3& cutNormal, const Vector3& cutPoint);
+
+	void SetMeshParts(const std::vector<SMesh> meshParts)
+	{
+		m_meshParts = meshParts;
+	}
 private:
 	/// <summary>
 	/// テクスチャ名をロード。
@@ -219,6 +230,6 @@ private:
 	/// 3dsMaxScriptでやるべきなんだろうけど、デバッグしたいので今はこちらでやる。
 	/// </remarks>
 	void BuildTangentAndBiNormal();
-public:
+private:
 	std::vector< SMesh>	m_meshParts;		//メッシュパーツ。
 };
