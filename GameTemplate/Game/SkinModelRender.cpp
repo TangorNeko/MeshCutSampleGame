@@ -85,6 +85,7 @@ namespace Game
 
 			//TODO:完全に1つもメッシュ、マテリアルが残らなかった時の処理
 
+			/*
 			//裏面側のモデルを描画するモデルレンダークラスを作成
 			SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
 
@@ -98,6 +99,7 @@ namespace Game
 			backModelRender->SetModelInitData(m_modelInitData);
 
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
+			*/
 		}
 	}
 }

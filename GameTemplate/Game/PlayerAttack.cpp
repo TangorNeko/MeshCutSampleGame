@@ -6,7 +6,7 @@ namespace
 {
 	const char* PATH_HITBOXMODEL = "Assets/modelData/ball.tkm";
 	const float TIME_ATTACK_END = 60.0f;
-	const float ATTACK_RANGE = 500.0f;
+	const float ATTACK_RANGE = 200.0f;
 	const float ATTACK_DAMAGE = 25.0f;
 }
 
