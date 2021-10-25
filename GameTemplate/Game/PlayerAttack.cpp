@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "PlayerAttack.h"
+#include "Enemy.h"
 
 namespace
 {
 	const char* PATH_HITBOXMODEL = "Assets/modelData/ball.tkm";
 	const float TIME_ATTACK_END = 60.0f;
+	const float ATTACK_RANGE = 500.0f;
+	const float ATTACK_DAMAGE = 25.0f;
 }
 
 namespace Game
@@ -33,6 +36,19 @@ namespace Game
 			m_testHitBox->Init(PATH_HITBOXMODEL);
 			m_testHitBox->SetPosition(playerPosition);
 			m_isAttacking = true;
+
+			//近くの敵にダメージを与える
+			QueryGOs<Enemy>("enemy", [&playerPosition](Enemy* enemy)
+				{
+					Vector3 distance = playerPosition - enemy->GetPosition();
+
+					if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
+					{
+						enemy->Damage(ATTACK_DAMAGE);
+					}
+					return true;
+				}
+			);
 		}
 
 		//攻撃後60フレーム経つとモデル削除

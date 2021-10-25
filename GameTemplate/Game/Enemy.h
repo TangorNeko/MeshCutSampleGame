@@ -16,6 +16,11 @@ namespace Game
 			m_position = position;
 		}
 
+		const Vector3& GetPosition()
+		{
+			return m_position;
+		}
+
 		void Damage(float damage);
 	private:
 		SkinModelRender* m_enemyRender = nullptr;
