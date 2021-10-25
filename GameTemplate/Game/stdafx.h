@@ -4,4 +4,5 @@
 #include "MiniEngine.h"
 #include "ExEngine.h"
 #include "SkinModelRender.h"
+#include "FontRender.h"
 #include "ModelCutManager.h"
