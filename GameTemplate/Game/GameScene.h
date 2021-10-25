@@ -17,7 +17,7 @@ namespace Game
 	private:
 		BackGround* m_backGround = nullptr;
 		Player* m_player = nullptr;
-		Enemy* m_enemy = nullptr;
+		Enemy* m_enemy[4] = { nullptr,nullptr,nullptr,nullptr };
 	};
 }
 
