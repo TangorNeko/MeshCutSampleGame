@@ -16,6 +16,7 @@ namespace Game
 	private:
 		CharacterController m_charaCon;
 		Vector3 m_moveAmount = Vector3::Zero;
+		Quaternion m_toMoveDirectionRot = Quaternion::Identity;
 	};
 }
 

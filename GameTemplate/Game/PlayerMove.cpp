@@ -5,6 +5,7 @@ namespace
 {
 	const float PLAYER_HEIGHT = 10.0f;
 	const float PLAYER_RADIUS = 5.0f;
+	const float MOVE_SPEED = 5.0f;
 }
 
 namespace Game
@@ -38,20 +39,28 @@ namespace Game
 		//移動方向を正規化
 		m_moveAmount.Normalize();
 
+		m_moveAmount *= MOVE_SPEED;
+
 		//キャラコンに渡す。
 		playerPosition = m_charaCon.Execute(m_moveAmount, 1.0f);
 	}
 
 	Quaternion PlayerMove::CalcToModelDirectionQRot()
 	{
+		//移動量が最小値以上(移動量に変化があった)の時のみ計算
+		if (m_moveAmount.LengthSq() < FLT_MIN)
+		{
+			return m_toMoveDirectionRot;
+		}
+
 		//移動方向のx,zから回転角度を取得
 		float turnAngle = atan2(m_moveAmount.x, m_moveAmount.z);
 
 		//回転角度分のクォータニオンを作成
-		Quaternion toMoveDirectionRot;
-		toMoveDirectionRot.SetRotation(Vector3::AxisY, turnAngle);
+		m_toMoveDirectionRot = Quaternion::Identity;
+		m_toMoveDirectionRot.SetRotation(Vector3::AxisY, turnAngle);
 
-		return toMoveDirectionRot;
+		return m_toMoveDirectionRot;
 	}
 
 	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
