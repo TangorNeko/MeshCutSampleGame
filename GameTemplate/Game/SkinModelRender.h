@@ -191,6 +191,8 @@ namespace Game
 		 * @param cutPoint 切断面の一点の座標
 		*/
 		void Divide(const Vector3& cutNormal, const Vector3& cutPoint);
+
+		void SetModelCenterAsOrigin();
 	private:
 		Model* m_model = nullptr;					//モデル
 		Vector3 m_position = Vector3::Zero;			//座標

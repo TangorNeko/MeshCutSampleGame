@@ -206,6 +206,10 @@ public:
 	{
 		m_meshParts = meshParts;
 	}
+
+	Vector3 GetOriginToCenter();
+
+	void SetOriginOffset(const Vector3& offset);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

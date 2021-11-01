@@ -102,8 +102,20 @@ namespace Game
 			backModelRender->SetDivideFlag(true);
 			backModelRender->SetModelInitData(m_modelInitData);
 
+			backModelRender->SetModelCenterAsOrigin();
+
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
 			
 		}
+	}
+
+	void SkinModelRender::SetModelCenterAsOrigin()
+	{
+		Vector3 originToCenter = m_model->GetOriginToCenter();
+		m_model->SetOriginOffset(originToCenter, m_modelInitData);
+
+		Vector3 worldOrigin = originToCenter;
+		m_model->GetWorldMatrix().Apply(worldOrigin);
+		SetPosition(worldOrigin);
 	}
 }

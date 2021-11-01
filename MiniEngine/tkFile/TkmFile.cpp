@@ -417,3 +417,58 @@ std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vect
 	//裏側のメッシュは新規モデルとして使用
 	return backMesh;
 }
+
+Vector3 TkmFile::GetOriginToCenter()
+{
+	int vertexNum = 0;
+
+	float minX = FLT_MAX;
+	float minY = FLT_MAX;
+	float minZ = FLT_MAX;
+	float maxX = FLT_MIN;
+	float maxY = FLT_MIN;
+	float maxZ = FLT_MIN;
+
+	Vector3 sumOfVertexes = Vector3::Zero;
+
+	for (auto& mesh : m_meshParts)
+	{
+		for (auto& indexBuffer : mesh.indexBuffer16Array)
+		{
+			for (auto vertexIndex : indexBuffer.indices)
+			{
+				Vector3 vertPos = mesh.vertexBuffer.at(vertexIndex).pos;
+				minX = min(minX,vertPos.x);
+				minY = min(minY,vertPos.y);
+				minZ = min(minZ,vertPos.z);
+				maxX = max(maxX,vertPos.x);
+				maxY = max(maxY,vertPos.y);
+				maxZ = max(maxZ,vertPos.z);
+				sumOfVertexes += vertPos;
+				vertexNum++;
+			}
+		}
+	}
+
+	if (vertexNum > 0)
+	{
+		sumOfVertexes /= vertexNum;
+	}
+
+	//AABB的な考え方
+	return { (minX + maxX) / 2,(minY + maxY) / 2,(minZ + maxZ) / 2 };
+
+	//インデックスバッファの分全部足す考え方
+	return sumOfVertexes;
+}
+
+void TkmFile::SetOriginOffset(const Vector3& offset)
+{
+	for (auto& mesh : m_meshParts)
+	{
+		for (auto& vertex : mesh.vertexBuffer)
+		{
+			vertex.pos -= offset;
+		}
+	}
+}

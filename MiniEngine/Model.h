@@ -114,6 +114,10 @@ public:
 	 * @param initData モデルの初期化データ
 	*/
 	void TkmFileToMeshParts(const ModelInitData& initData);
+
+	Vector3 GetOriginToCenter();
+
+	void SetOriginOffset(const Vector3& offset, const ModelInitData& initData);
 private:
 
 	Matrix m_world;														//ワールド行列。

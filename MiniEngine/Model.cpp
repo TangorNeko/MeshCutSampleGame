@@ -173,3 +173,37 @@ void Model::TkmFileToMeshParts(const ModelInitData& initData)
 		initData.m_colorBufferFormat
 	);
 }
+
+Vector3 Model::GetOriginToCenter()
+{
+	return m_tkmFile.GetOriginToCenter();
+}
+
+void Model::SetOriginOffset(const Vector3& offset, const ModelInitData& initData)
+{
+	m_tkmFile.SetOriginOffset(offset);
+
+	wchar_t wfxFilePath[256] = { L"" };
+	if (initData.m_fxFilePath != nullptr) {
+		//MessageBoxA(nullptr, "fxファイルパスが指定されていません。", "エラー", MB_OK);
+		//std::abort();
+		mbstowcs(wfxFilePath, initData.m_fxFilePath, 256);
+	}
+
+	if (initData.m_skeleton != nullptr) {
+		//スケルトンが指定されている。
+		m_meshParts.BindSkeleton(*initData.m_skeleton);
+	}
+
+	m_meshParts.InitFromTkmFile(
+		m_tkmFile,
+		wfxFilePath,
+		initData.m_vsEntryPointFunc,
+		initData.m_vsSkinEntryPointFunc,
+		initData.m_psEntryPointFunc,
+		initData.m_expandConstantBuffer,
+		initData.m_expandConstantBufferSize,
+		initData.m_expandShaderResoruceView,
+		initData.m_colorBufferFormat
+	);
+}
