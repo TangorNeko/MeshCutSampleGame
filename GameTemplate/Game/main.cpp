@@ -25,30 +25,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	//NOTE:テストコード
-	/*
-	auto* cutPlane = NewGO<Game::SkinModelRender>(0);
-	cutPlane->Init("Assets/modelData/testCutPlane.tkm");
-
-	auto* model = NewGO<Game::SkinModelRender>(0);
-	model->Init("Assets/modelData/ball.tkm");
-
-	float modelDeg = 0.0f;
-	float modelX = 0.0f;
-	Quaternion modelQRot = g_quatIdentity;
-
-	Quaternion cutPlaneQRot = g_quatIdentity;
-	float cutDeg = 0.0f;
-
-	Vector3 cutNormal = { 1.0f,0.0f,0.0f };
-	cutNormal.Normalize();
-	Vector3 cutPoint = { 0.0f, 0.0f, 0.0f };
-	*/
-
-	g_camera3D->SetPosition(0.0f, 100.0f, -1000.0f);
-	g_camera3D->SetTarget(0.0f, 0.0f, 0.0f);
-
 	NewGO<Game::GameScene>(0);
+
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
@@ -61,38 +39,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 
 		GameObjectManager::GetInstance()->ExecuteUpdate();
+		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
-
-		/*
-		cutDeg += g_pad[0]->GetRStickXF();
-		cutPoint.x += g_pad[0]->GetRStickYF();
-
-		cutNormal = { 1.0f,0.0f,0.0f };
-		cutPlaneQRot.SetRotationDegZ(cutDeg);
-		cutPlaneQRot.Apply(cutNormal);
-
-		cutPlane->SetPosition(cutPoint);
-		cutPlane->SetRotation(cutPlaneQRot);
-		cutPlane->SetScale({ 1.0f,5.0f,1.0f });
-
-		modelDeg += g_pad[0]->GetLStickYF();
-		modelX += g_pad[0]->GetLStickXF();
-
-		modelQRot.SetRotationDegY(modelDeg);
-
-		//現状、メッシュパーツ、マテリアルごとに切断後の頂点インデックスバッファのサイズが0ならエラーを吐く。
-		//0サイズのインデックスバッファをGPUにコピーしようとするため?
-		if (g_pad[0]->IsTrigger(enButtonA))
-		{
-			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint,100.0f);
-		}
-
-		if (g_pad[0]->IsTrigger(enButtonB))
-		{
-			model->SetDivideFlag(true);
-			Game::ModelCutManager::GetInstance()->AddCuttable(model);
-		}
-		*/
 		
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
