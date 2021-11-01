@@ -5,6 +5,7 @@ namespace
 {
 	const Vector3 PLAYER_TO_TARGET = { 0.0f,150.0f,0.0f };
 	const float TOCAMERA_LENGTH = 500.0f;
+	const float CAMERA_SPEED = 2.0f;
 }
 
 namespace Game
@@ -21,8 +22,8 @@ namespace Game
 		Quaternion qRotY = Quaternion::Identity;
 		Quaternion qRotX = Quaternion::Identity;
 
-		float degY = g_pad[0]->GetRStickXF() * 0.5f;
-		float degX = g_pad[0]->GetRStickYF() * -0.5f;
+		float degY = g_pad[0]->GetRStickXF() * CAMERA_SPEED;
+		float degX = g_pad[0]->GetRStickYF() * -CAMERA_SPEED;
 
 		//“ü—Í•ª‰ñ‚·
 		qRotY.SetRotationDegY(degY);
