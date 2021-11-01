@@ -107,6 +107,8 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 	//念の為正規化
 	modelLocalCutNormal.Normalize();
 
+	//TODO:分割前に面がモデル全体の頂点を1つでも分割するかの判定?
+
 	Model* newmodel = new Model;
 
 	//分割
