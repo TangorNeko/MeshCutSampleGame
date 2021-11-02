@@ -48,11 +48,23 @@
     <Filter Include="ExEngine\level2D">
       <UniqueIdentifier>{80abc458-e4b9-4836-89c7-3eb842072871}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\TriangleMaker">
-      <UniqueIdentifier>{80280c3c-3dbe-4fe5-a960-467db8ad9479}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{a4be0517-07a1-4c39-9b05-1992b0ab157a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\TriangleMaker">
+    <Filter Include="ソース ファイル\MeshCut">
+      <UniqueIdentifier>{9fd810e8-44a2-4076-872a-134c1d2f2f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\MeshCut\TriangleMaker">
       <UniqueIdentifier>{7adcd20c-6b94-4c16-85be-f59ed07bd0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{b42a851b-bdb4-4cff-bf99-4b0312808415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MeshCut">
+      <UniqueIdentifier>{c70dcf57-b3cb-4323-bb5f-0acd6609039b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MeshCut\TriangleMaker">
+      <UniqueIdentifier>{80280c3c-3dbe-4fe5-a960-467db8ad9479}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,64 +227,31 @@
     <ClCompile Include="..\..\ExEngine\level2D\MapChip2D.cpp">
       <Filter>ExEngine\level2D</Filter>
     </ClCompile>
-    <ClCompile Include="TriangleDivider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshDivider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="TwoOnFrontTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="ThreeOnPlaneTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="ThreeOnFrontTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="ThreeOnBackTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="OneOnPlaneTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="TwoOnBackTriangle.cpp">
-      <Filter>ソース ファイル\TriangleMaker</Filter>
-    </ClCompile>
-    <ClCompile Include="CutSurfaceMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TwoDTriangulate.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
     <ClCompile Include="SkinModelRender.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelCutManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMove.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAnimation.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCut.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
@@ -284,8 +263,41 @@
     <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimation.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCamera.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttack.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCut.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CutSurfaceMaker.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDivider.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelCutManager.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleDivider.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoDTriangulate.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
+    </ClCompile>
     <ClCompile Include="CutDummy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\MeshCut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -472,76 +484,40 @@
     <ClInclude Include="..\..\ExEngine\level2D\MapChip2D.h">
       <Filter>ExEngine\level2D</Filter>
     </ClInclude>
-    <ClInclude Include="TriangleDivider.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshDivider.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TriangleDivideStruct.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ITriangleMaker.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="TwoOnFrontTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="OneOnPlaneTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="ThreeOnBackTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="ThreeOnFrontTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="ThreeOnPlaneTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="TwoOnBackTriangle.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="TriangleMakerHeader.h">
-      <Filter>ヘッダー ファイル\TriangleMaker</Filter>
-    </ClInclude>
-    <ClInclude Include="CutSurfaceMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
     <ClInclude Include="MakeHashFromString.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="TwoDTriangulate.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SkinModelRender.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelCutManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMove.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAnimation.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCut.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -553,8 +529,44 @@
     <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimation.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCamera.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCut.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CutSurfaceMaker.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDivider.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelCutManager.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleDivider.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleDivideStruct.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoDTriangulate.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
+    </ClInclude>
     <ClInclude Include="CutDummy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
