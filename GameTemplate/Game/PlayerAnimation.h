@@ -23,6 +23,7 @@ namespace Game
 		{
 			enAnim_Idle,
 			enAnim_Walk,
+			enAnim_Attack,
 			enAnim_Num
 		};
 		AnimationClip m_animationClips[enAnim_Num];

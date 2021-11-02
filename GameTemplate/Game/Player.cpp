@@ -3,8 +3,8 @@
 
 namespace
 {
-	const char* PATH_PLAYER_MODEL = "Assets/modelData/unityChan.tkm";
-	const char* PATH_PLAYER_SKELETON = "Assets/modelData/unityChan.tks";
+	const char* PATH_PLAYER_MODEL = "Assets/modelData/Samurai.tkm";
+	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Samurai.tks";
 }
 
 namespace Game
@@ -23,7 +23,7 @@ namespace Game
 		m_playerAnimation.InitAnim();
 
 		//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
-		m_playerModel->Init(PATH_PLAYER_MODEL, PATH_PLAYER_SKELETON,m_playerAnimation.GetAnimationClip(),m_playerAnimation.GetAnimClipNum());
+		m_playerModel->Init(PATH_PLAYER_MODEL, PATH_PLAYER_SKELETON,m_playerAnimation.GetAnimationClip(),m_playerAnimation.GetAnimClipNum(),enModelUpAxisZ);
 		m_playerMove.Init(m_position);
 		m_playerModel->SetPosition(m_position);
 
