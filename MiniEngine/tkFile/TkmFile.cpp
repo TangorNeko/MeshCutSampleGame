@@ -418,10 +418,8 @@ std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vect
 	return backMesh;
 }
 
-Vector3 TkmFile::GetOriginToCenter()
+Vector4 TkmFile::GetOriginToCenter()
 {
-	int vertexNum = 0;
-
 	float minX = FLT_MAX;
 	float minY = FLT_MAX;
 	float minZ = FLT_MAX;
@@ -429,7 +427,6 @@ Vector3 TkmFile::GetOriginToCenter()
 	float maxY = FLT_MIN;
 	float maxZ = FLT_MIN;
 
-	Vector3 sumOfVertexes = Vector3::Zero;
 
 	for (auto& mesh : m_meshParts)
 	{
@@ -444,22 +441,23 @@ Vector3 TkmFile::GetOriginToCenter()
 				maxX = max(maxX,vertPos.x);
 				maxY = max(maxY,vertPos.y);
 				maxZ = max(maxZ,vertPos.z);
-				sumOfVertexes += vertPos;
-				vertexNum++;
 			}
 		}
 	}
 
-	if (vertexNum > 0)
-	{
-		sumOfVertexes /= vertexNum;
-	}
+	float toCenterX = (minX + maxX) / 2;
+	float toCenterY = (minY + maxY) / 2;
+	float toCenterZ = (minZ + maxZ) / 2;
 
+	Vector3 toCenter = { toCenterX,toCenterY,toCenterZ };
+
+	Vector3 minPoint = { minX,minY,minZ };
+
+	minPoint -= toCenter;
+
+	float pointToCenter = minPoint.Length();
 	//AABB的な考え方
-	return { (minX + maxX) / 2,(minY + maxY) / 2,(minZ + maxZ) / 2 };
-
-	//インデックスバッファの分全部足す考え方
-	return sumOfVertexes;
+	return { toCenterX,toCenterY,toCenterZ,pointToCenter };
 }
 
 void TkmFile::SetOriginOffset(const Vector3& offset)

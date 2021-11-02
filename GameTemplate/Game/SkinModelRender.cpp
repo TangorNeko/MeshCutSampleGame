@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SkinModelRender.h"
+#include "CutDummy.h"
 
 namespace Game
 {
@@ -102,20 +103,34 @@ namespace Game
 			backModelRender->SetDivideFlag(true);
 			backModelRender->SetModelInitData(m_modelInitData);
 
-			backModelRender->SetModelCenterAsOrigin();
 
+			//物理エンジンを利用したダミーの作成
+			//NOTE:カットされるモデルの本体はずっと物理エンジンを使用しない形で残ります。
+
+			//切り離されたモデルの原点をAABBからモデルの中心に設定し、中心からAABBまでの一点までの距離を取得
+			float collisionSphereRadius = backModelRender->SetModelCenterAsOrigin();
+
+			CutDummy* dummy = NewGO<CutDummy>(0);
+			dummy->SetSkinModel(backModelRender);
+			dummy->SetSphereRadius(collisionSphereRadius);
+
+			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
-			
 		}
 	}
 
-	void SkinModelRender::SetModelCenterAsOrigin()
+	float SkinModelRender::SetModelCenterAsOrigin()
 	{
-		Vector3 originToCenter = m_model->GetOriginToCenter();
-		m_model->SetOriginOffset(originToCenter, m_modelInitData);
+		Vector4 originToCenter = m_model->GetOriginToCenter();
+		Vector3 OriginOffset = { originToCenter.x,originToCenter.y ,originToCenter.z };
+		m_model->SetOriginOffset(OriginOffset, m_modelInitData);
 
-		Vector3 worldOrigin = originToCenter;
+		Vector3 worldOrigin = OriginOffset;
+
+		//NOTE:モデルが拡大されている場合wに入っている距離も拡大されるのではないか?その場合はどう計算したらいいだろうか。
 		m_model->GetWorldMatrix().Apply(worldOrigin);
 		SetPosition(worldOrigin);
+
+		return originToCenter.w;
 	}
 }

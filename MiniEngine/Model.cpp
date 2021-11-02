@@ -174,7 +174,7 @@ void Model::TkmFileToMeshParts(const ModelInitData& initData)
 	);
 }
 
-Vector3 Model::GetOriginToCenter()
+Vector4 Model::GetOriginToCenter()
 {
 	return m_tkmFile.GetOriginToCenter();
 }

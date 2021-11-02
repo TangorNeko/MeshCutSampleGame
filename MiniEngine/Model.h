@@ -115,8 +115,17 @@ public:
 	*/
 	void TkmFileToMeshParts(const ModelInitData& initData);
 
-	Vector3 GetOriginToCenter();
+	/**
+	 * @brief モデルの原点からAABBの中心への距離を求める
+	 * @return x,y,zがモデルの原点から中心へのベクトル、wが中心からAABBの一点への距離
+	*/
+	Vector4 GetOriginToCenter();
 
+	/**
+	 * @brief モデルの原点をずらす
+	 * @param offset ずらすベクトル
+	 * @param initData 再初期化用のデータ
+	*/
 	void SetOriginOffset(const Vector3& offset, const ModelInitData& initData);
 private:
 

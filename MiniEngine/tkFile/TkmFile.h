@@ -207,8 +207,16 @@ public:
 		m_meshParts = meshParts;
 	}
 
-	Vector3 GetOriginToCenter();
+	/**
+	 * @brief モデルの原点からAABBの中心への距離を求める
+	 * @return x,y,zがモデルの原点から中心へのベクトル、wが中心からAABBの一点への距離
+	*/
+	Vector4 GetOriginToCenter();
 
+	/**
+	 * @brief モデルの原点をずらす
+	 * @param offset ずらすベクトル
+	*/
 	void SetOriginOffset(const Vector3& offset);
 private:
 	/// <summary>

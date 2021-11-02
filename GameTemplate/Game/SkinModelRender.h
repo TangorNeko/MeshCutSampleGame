@@ -192,7 +192,11 @@ namespace Game
 		*/
 		void Divide(const Vector3& cutNormal, const Vector3& cutPoint);
 
-		void SetModelCenterAsOrigin();
+		/**
+		 * @brief モデルの原点をモデルのAABBの中心に合わせる
+		 * @return モデルのAABBの一点から中心への距離
+		*/
+		float SetModelCenterAsOrigin();
 	private:
 		Model* m_model = nullptr;					//モデル
 		Vector3 m_position = Vector3::Zero;			//座標
