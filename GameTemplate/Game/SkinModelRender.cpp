@@ -2,6 +2,11 @@
 #include "SkinModelRender.h"
 #include "CutDummy.h"
 
+namespace
+{
+	const int MODE_MAX_DIVIDE_NUM = 4;
+}
+
 namespace Game
 {
 	void SkinModelRender::Render(RenderContext& rc)
@@ -79,7 +84,7 @@ namespace Game
 
 	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint)
 	{
-		if (m_isDividable == true)
+		if (m_isDividable == true && m_divideNum <= MODE_MAX_DIVIDE_NUM)
 		{
 			//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
 			Model* backModel = m_model->Divide(m_modelInitData, cutNormal, cutPoint);
@@ -91,6 +96,9 @@ namespace Game
 				return;
 			}
 			
+			//分断されたので切断回数をプラス
+			m_divideNum++;
+
 			//裏面側のモデルを描画するモデルレンダークラスを作成
 			SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
 
@@ -103,6 +111,8 @@ namespace Game
 			backModelRender->SetDivideFlag(true);
 			backModelRender->SetModelInitData(m_modelInitData);
 
+			//分割された回数を共有
+			backModelRender->SetDivideNum(m_divideNum);
 
 			//物理エンジンを利用したダミーの作成
 			//NOTE:カットされるモデルの本体はずっと物理エンジンを使用しない形で残ります。

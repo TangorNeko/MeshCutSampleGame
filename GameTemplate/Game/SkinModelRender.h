@@ -197,6 +197,11 @@ namespace Game
 		 * @return モデルのAABBの一点から中心への距離
 		*/
 		float SetModelCenterAsOrigin();
+
+		void SetDivideNum(int divideNum)
+		{
+			m_divideNum = divideNum;
+		}
 	private:
 		Model* m_model = nullptr;					//モデル
 		Vector3 m_position = Vector3::Zero;			//座標
@@ -208,6 +213,7 @@ namespace Game
 		Animation m_animation;						//アニメーション
 		float m_animationSpeed = 1.0f;				//アニメーションの速度
 		bool m_isDividable = false;					//切断可能?
+		int m_divideNum = 0;						//切断された回数
 
 		//NOTE:切断して新しくできたモデルを初期化するためには元のモデルのModelInitDataが
 		//必要なので、SkinModelRenderのメンバ変数として入れている
