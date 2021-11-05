@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "CapsuleAxis.h"
+#include "AxisCalculator.h"
 
 /// <summary>
 /// ヤコビ法を用いてn×n行列の固有値と固有ベクトルを求める。
@@ -175,20 +175,19 @@ int EigenJacobiMethod(float* a, float* v, float eps = 1e-8, int iter_max = 100)
     return cnt;
 }
 #endif
-Vector3 CapsuleAxis::CalcCenterPositionFromLeafList(const std::vector<SEntityPtr>& leafArray)
+Vector3 AxisCalculator::CalcCenterPosition(const std::vector<Vector3>& posArray)
 {
     // まずは、AABBの中心座標を求める。
     Vector3 centerPos;
-    for (const auto& leafPtr : leafArray) {
-        auto leaf = static_cast<SLeaf*>(leafPtr.get());
-        centerPos += leaf->position;
+    for (const auto& position : posArray) {
+        centerPos += position;
     }
-    centerPos /= static_cast<float>(leafArray.size());
+    centerPos /= static_cast<float>(posArray.size());
     return centerPos;
 }
-void CapsuleAxis::CalcCovarianceMatrixFromLeafNodeList(
+void AxisCalculator::CalcCovarianceMatrixFromPositionList(
     float covarianceMatrix[3][3],
-    const std::vector<SEntityPtr>& leafNodeArray,
+    const std::vector<Vector3>& posArray,
     const Vector3& centerPos
 )
 {
@@ -197,9 +196,8 @@ void CapsuleAxis::CalcCovarianceMatrixFromLeafNodeList(
     // 共分散行列を計算する。
     // 共分散とはXとYとZの要素がどれくらい関連づいて分散しているかを表すもの。
     // 共分散行列は、それを行列としてまとめたもの。
-    for (const auto& leafPtr : leafNodeArray) {
-        auto leaf = static_cast<SLeaf*>(leafPtr.get());
-        const auto& aabbCenterPos = leaf->position;
+    for (const auto& position : posArray) {
+        const auto& aabbCenterPos = position;
         covarianceMatrix[0][0] += (aabbCenterPos.x - centerPos.x) * (aabbCenterPos.x - centerPos.x);
         covarianceMatrix[0][1] += (aabbCenterPos.x - centerPos.x) * (aabbCenterPos.y - centerPos.y);
         covarianceMatrix[1][0] = covarianceMatrix[0][1];
@@ -215,19 +213,18 @@ void CapsuleAxis::CalcCovarianceMatrixFromLeafNodeList(
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            covarianceMatrix[i][j] /= static_cast<float>(m_leafArray.size());
+            covarianceMatrix[i][j] /= static_cast<float>(posArray.size());
         }
     }
 }
 
-void CapsuleAxis::CalcSplitPlaneFromCovarianceMatrix(
-    SPlane& plane,
+void AxisCalculator::CalcCapsuleAxisFromCovarianceMatrix(
+    Vector3& newAxis,
     float covarianceMatrix[3][3],
     const Vector3& centerPos,
-    const std::vector<SEntityPtr>& leafArray
+    const std::vector<Vector3>& posArray
 )
 {
-
     // 共分散行列が計算できたので、ヤコビ法を用いて固有値と固有ベクトルを求める。
     Vector3 eigenVector[3];
     EigenJacobiMethod<3>(
@@ -235,72 +232,65 @@ void CapsuleAxis::CalcSplitPlaneFromCovarianceMatrix(
         reinterpret_cast<float*>(&eigenVector)
         );
 
-    // 1番目大きな固有値の固有ベクトルを分割平面の法線とする。
+    // 1番目大きな固有値の固有ベクトルをカプセルのY軸とする。
     float eigenScalar_0 = fabsf(covarianceMatrix[0][0]);
     float eigenScalar_1 = fabsf(covarianceMatrix[1][1]);
     float eigenScalar_2 = fabsf(covarianceMatrix[2][2]);
 
+    //NOTE:ここで法線(カプセルの向き)を決定している
     if (eigenScalar_0 > eigenScalar_1 && eigenScalar_0 > eigenScalar_2) {
-        plane.normal.x = eigenVector[0].x;
-        plane.normal.y = eigenVector[1].x;
-        plane.normal.z = eigenVector[2].x;
+        newAxis.x = eigenVector[0].x;
+        newAxis.y = eigenVector[1].x;
+        newAxis.z = eigenVector[2].x;
     }
     else if (eigenScalar_1 > eigenScalar_0 && eigenScalar_1 > eigenScalar_2) {
-        plane.normal.x = eigenVector[0].y;
-        plane.normal.y = eigenVector[1].y;
-        plane.normal.z = eigenVector[2].y;
+        newAxis.x = eigenVector[0].y;
+        newAxis.y = eigenVector[1].y;
+        newAxis.z = eigenVector[2].y;
     }
     else if (eigenScalar_2 > eigenScalar_0 && eigenScalar_2 > eigenScalar_1) {
-        plane.normal.x = eigenVector[0].z;
-        plane.normal.y = eigenVector[1].z;
-        plane.normal.z = eigenVector[2].z;
+        newAxis.x = eigenVector[0].z;
+        newAxis.y = eigenVector[1].z;
+        newAxis.z = eigenVector[2].z;
     }
-    if (plane.normal.Length() < 0.1f) {
+    if (newAxis.Length() < 0.1f) {
         // ヤコビ法で法線が計算できなかった。
 
-        SLeaf* leafFront = static_cast<SLeaf*>(leafArray.front().get());
-        SLeaf* leafBack = static_cast<SLeaf*>(leafArray.back().get());
+        newAxis = posArray.back() - posArray.front();
 
-        plane.normal = leafBack->position - leafFront->position;
-
-        plane.normal.Normalize();
+        newAxis.Normalize();
     }
     // 分割平面までの距離は中心座標までの距離とする。
-    plane.distance = Dot(plane.normal, centerPos);
-    if (plane.distance < 0.0f) {
-        plane.normal *= -1.0f;
-        plane.distance = fabsf(plane.distance);
+    float distance = Dot(newAxis, centerPos);
+    if (distance < 0.0f) {
+        newAxis *= -1.0f;
+        distance = fabsf(distance);
     }
 }
 
-void CapsuleAxis::CreateBSPTreeEntity(const std::vector<SEntityPtr>& leafArray)
+Vector3 AxisCalculator::CalcAxis(const std::vector<Vector3>& posArray)
 {
     // 主成分分析を行って、分割平面を求める。
 
 
-    // まずは、リーフノードの中心座標を計算する。
+    // まずは、座標群の中心座標を計算する。
     //↓
     //TODO:モデルのインデックスバッファから取得した座標を元に
     //平均値を計算する
-    Vector3 centerPos = CalcCenterPositionFromLeafList(leafArray);
+
+    //中心点をずらしたのでVector3::Zeroになる
+    //Vector3 centerPos = CalcCenterPosition(posArray);
+    Vector3 centerPos = Vector3::Zero;
 
     // 続いて共分散行列を計算する
     float covarianceMatrix[3][3];
-    CalcCovarianceMatrixFromLeafNodeList(covarianceMatrix, leafArray, centerPos);
+    CalcCovarianceMatrixFromPositionList(covarianceMatrix, posArray, centerPos);
 
-    // 各共分散の要素を引っ張ってくる。
-    Vector3* v_0 = (Vector3*)covarianceMatrix[0];
-    Vector3* v_1 = (Vector3*)covarianceMatrix[1];
-    Vector3* v_2 = (Vector3*)covarianceMatrix[2];
+    //法線、タンジェント、従法線受け取り用の配列を宣言
+    Vector3 newAxis;
 
-    // 新しいノードを作る。
-    auto newNodePtr = std::make_shared<SNode>();
-    newNodePtr->type = enEntityType_Node;
-    newNodePtr->centerPos = centerPos;
-    newNodePtr->leafArray = leafArray;
-    auto newNode = static_cast<SNode*>(newNodePtr.get());
+    // 共分散行列を利用してカプセルの軸を計算する
+    CalcCapsuleAxisFromCovarianceMatrix(newAxis, covarianceMatrix, centerPos, posArray);
 
-    // 分散しているので、共分散行列を利用して
-    // 分割平面を計算する。
-    CalcSplitPlaneFromCovarianceMatrix(newNode->plane, covarianceMatrix, centerPos, leafArray);
+    return newAxis;
 }

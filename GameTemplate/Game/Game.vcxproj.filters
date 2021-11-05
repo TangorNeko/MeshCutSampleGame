@@ -299,7 +299,7 @@
     <ClCompile Include="CutDummy.cpp">
       <Filter>ソース ファイル\MeshCut</Filter>
     </ClCompile>
-    <ClCompile Include="CapsuleAxis.cpp">
+    <ClCompile Include="AxisCalculator.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -571,7 +571,7 @@
     <ClInclude Include="CutDummy.h">
       <Filter>ヘッダー ファイル\MeshCut</Filter>
     </ClInclude>
-    <ClInclude Include="CapsuleAxis.h">
+    <ClInclude Include="AxisCalculator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -290,7 +290,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="BackGround.cpp" />
-    <ClCompile Include="CapsuleAxis.cpp" />
+    <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -386,7 +386,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="BackGround.h" />
-    <ClInclude Include="CapsuleAxis.h" />
+    <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FontRender.h" />
