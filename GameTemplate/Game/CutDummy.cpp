@@ -10,8 +10,8 @@ namespace Game
 
 	bool CutDummy::Start()
 	{
-		//球状のコライダーを作成
-		m_sphereCollider.Create(m_dummyRadius);
+		//カプセル状のコライダーを作成
+		m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight);
 
 		RigidBodyInitData rbInitData;
 
@@ -19,7 +19,7 @@ namespace Game
 		rbInitData.mass = 3.0f;
 
 		//コライダーをセット
-		rbInitData.collider = &m_sphereCollider;
+		rbInitData.collider = &m_capsuleCollider;
 
 		//初期座標と回転をセット
 		rbInitData.pos = m_dummyModel->GetPosition();

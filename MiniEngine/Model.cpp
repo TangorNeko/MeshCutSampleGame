@@ -174,7 +174,7 @@ void Model::TkmFileToMeshParts(const ModelInitData& initData)
 	);
 }
 
-Vector4 Model::GetOriginToCenter()
+Vector3 Model::GetOriginToCenter()
 {
 	return m_tkmFile.GetOriginToCenter();
 }
@@ -206,4 +206,9 @@ void Model::SetOriginOffset(const Vector3& offset, const ModelInitData& initData
 		initData.m_expandShaderResoruceView,
 		initData.m_colorBufferFormat
 	);
+}
+
+Vector3 Model::CalcCapsuleData(Vector2& heightAndRadius)
+{
+	return m_tkmFile.CalcCapsuleAxis(heightAndRadius);
 }

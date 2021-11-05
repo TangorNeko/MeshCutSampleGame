@@ -208,16 +208,18 @@ public:
 	}
 
 	/**
-	 * @brief モデルの原点からAABBの中心への距離を求める
-	 * @return x,y,zがモデルの原点から中心へのベクトル、wが中心からAABBの一点への距離
+	 * @brief モデルの原点からモデルの中心への距離を求める
+	 * @return モデルの原点から中心へのベクトル
 	*/
-	Vector4 GetOriginToCenter();
+	Vector3 GetOriginToCenter();
 
 	/**
 	 * @brief モデルの原点をずらす
 	 * @param offset ずらすベクトル
 	*/
 	void SetOriginOffset(const Vector3& offset);
+
+	Vector3 CalcCapsuleAxis(Vector2& heightAndRadius);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

@@ -16,14 +16,20 @@ namespace Game
 			m_dummyModel = modelRender;
 		}
 
-		void SetSphereRadius(float radius)
+		void SetCapsuleRadius(float radius)
 		{
 			m_dummyRadius = radius;
 		}
+
+		void SetCapsuleHeight(float height)
+		{
+			m_dummyHeight = height;
+		}
 	private:
 		SkinModelRender* m_dummyModel = nullptr;
-		SphereCollider m_sphereCollider;
+		CCapsuleCollider m_capsuleCollider;
 		float m_dummyRadius = 1.0f;
+		float m_dummyHeight = 1.0f;
 		RigidBody m_rigidBody;
 	};
 }

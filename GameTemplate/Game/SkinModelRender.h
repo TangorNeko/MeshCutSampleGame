@@ -196,11 +196,16 @@ namespace Game
 		 * @brief モデルの原点をモデルのAABBの中心に合わせる
 		 * @return モデルのAABBの一点から中心への距離
 		*/
-		float SetModelCenterAsOrigin();
+		void SetModelCenterAsOrigin();
 
 		void SetDivideNum(int divideNum)
 		{
 			m_divideNum = divideNum;
+		}
+
+		Vector3 CalcCapsuleData(Vector2& heightAndRadius)
+		{
+			return m_model->CalcCapsuleData(heightAndRadius);
 		}
 	private:
 		Model* m_model = nullptr;					//モデル

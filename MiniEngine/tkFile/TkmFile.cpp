@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "tkFile/TkmFile.h"
 #include "../GameTemplate/Game/MeshDivider.h"
+#include "../GameTemplate/Game/AxisCalculator.h"
 
 
 //法線スムージング。
@@ -418,15 +419,10 @@ std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vect
 	return backMesh;
 }
 
-Vector4 TkmFile::GetOriginToCenter()
+Vector3 TkmFile::GetOriginToCenter()
 {
-	float minX = FLT_MAX;
-	float minY = FLT_MAX;
-	float minZ = FLT_MAX;
-	float maxX = FLT_MIN;
-	float maxY = FLT_MIN;
-	float maxZ = FLT_MIN;
-
+	Vector3 sumOfPos = Vector3::Zero;
+	int numOfPos = 0;
 
 	for (auto& mesh : m_meshParts)
 	{
@@ -435,29 +431,14 @@ Vector4 TkmFile::GetOriginToCenter()
 			for (auto vertexIndex : indexBuffer.indices)
 			{
 				Vector3 vertPos = mesh.vertexBuffer.at(vertexIndex).pos;
-				minX = min(minX,vertPos.x);
-				minY = min(minY,vertPos.y);
-				minZ = min(minZ,vertPos.z);
-				maxX = max(maxX,vertPos.x);
-				maxY = max(maxY,vertPos.y);
-				maxZ = max(maxZ,vertPos.z);
+				sumOfPos += vertPos;
+				numOfPos++;
 			}
 		}
 	}
 
-	float toCenterX = (minX + maxX) / 2;
-	float toCenterY = (minY + maxY) / 2;
-	float toCenterZ = (minZ + maxZ) / 2;
-
-	Vector3 toCenter = { toCenterX,toCenterY,toCenterZ };
-
-	Vector3 minPoint = { minX,minY,minZ };
-
-	minPoint -= toCenter;
-
-	float pointToCenter = minPoint.Length();
-	//AABB的な考え方
-	return { toCenterX,toCenterY,toCenterZ,pointToCenter };
+	Vector3 centerPos = sumOfPos / numOfPos;
+	return { centerPos.x,centerPos.y,centerPos.z};
 }
 
 void TkmFile::SetOriginOffset(const Vector3& offset)
@@ -469,4 +450,45 @@ void TkmFile::SetOriginOffset(const Vector3& offset)
 			vertex.pos -= offset;
 		}
 	}
+}
+
+Vector3 TkmFile::CalcCapsuleAxis(Vector2& heightAndRadius)
+{
+	std::vector<Vector3> posArray;
+
+	//軸の判定に使用する頂点の座標を配列に格納
+	for (auto& mesh : m_meshParts)
+	{
+		for (auto& indexBuffer : mesh.indexBuffer16Array)
+		{
+			for (auto vertexIndex : indexBuffer.indices)
+			{
+				posArray.push_back(mesh.vertexBuffer.at(vertexIndex).pos);
+			}
+		}
+	}
+
+	//カプセルの軸の判定をする
+	AxisCalculator axisCalculator;
+	Vector3 capsuleAxis = axisCalculator.CalcAxis(posArray);
+
+	float maxHeight = 0.0f;
+	float maxRadius = 0.0f;
+
+	for (auto& pos : posArray)
+	{
+		float height = fabsf(Dot(capsuleAxis, pos));
+
+		float rad = acos(height/pos.Length());
+
+		float radius = height * tan(rad);
+
+		maxHeight = max(maxHeight, height);
+		maxRadius = max(maxRadius, radius);
+	}
+
+	heightAndRadius.x = maxHeight;
+	heightAndRadius.y = maxRadius;
+
+	return capsuleAxis;
 }

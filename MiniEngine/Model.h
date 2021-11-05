@@ -116,10 +116,10 @@ public:
 	void TkmFileToMeshParts(const ModelInitData& initData);
 
 	/**
-	 * @brief モデルの原点からAABBの中心への距離を求める
-	 * @return x,y,zがモデルの原点から中心へのベクトル、wが中心からAABBの一点への距離
+	 * @brief モデルの原点からモデルのの中心への距離を求める
+	 * @return モデルの原点から中心へのベクトル
 	*/
-	Vector4 GetOriginToCenter();
+	Vector3 GetOriginToCenter();
 
 	/**
 	 * @brief モデルの原点をずらす
@@ -127,6 +127,8 @@ public:
 	 * @param initData 再初期化用のデータ
 	*/
 	void SetOriginOffset(const Vector3& offset, const ModelInitData& initData);
+
+	Vector3 CalcCapsuleData(Vector2& heightAndRadius);
 private:
 
 	Matrix m_world;														//ワールド行列。

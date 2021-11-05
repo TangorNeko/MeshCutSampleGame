@@ -118,18 +118,27 @@ namespace Game
 			//NOTE:カットされるモデルの本体はずっと物理エンジンを使用しない形で残ります。
 
 			//切り離されたモデルの原点をAABBからモデルの中心に設定し、中心からAABBまでの一点までの距離を取得
-			float collisionSphereRadius = backModelRender->SetModelCenterAsOrigin();
+			backModelRender->SetModelCenterAsOrigin();
+
+			//カプセルのデータを取得
+			Vector2 heightAndRadius;
+			Vector3 capsuleAxis = backModelRender->CalcCapsuleData(heightAndRadius);
 
 			CutDummy* dummy = NewGO<CutDummy>(0);
 			dummy->SetSkinModel(backModelRender);
-			dummy->SetSphereRadius(collisionSphereRadius);
+
+			//カプセルのデータをセット
+			//TODO:回転も適用
+			//heightAndRadiusのxに高さ、yに半径が入っている
+			dummy->SetCapsuleHeight(heightAndRadius.x);
+			dummy->SetCapsuleRadius(heightAndRadius.y);
 
 			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
 		}
 	}
 
-	float SkinModelRender::SetModelCenterAsOrigin()
+	void SkinModelRender::SetModelCenterAsOrigin()
 	{
 		Vector4 originToCenter = m_model->GetOriginToCenter();
 		Vector3 OriginOffset = { originToCenter.x,originToCenter.y ,originToCenter.z };
@@ -140,7 +149,5 @@ namespace Game
 		//NOTE:モデルが拡大されている場合wに入っている距離も拡大されるのではないか?その場合はどう計算したらいいだろうか。
 		m_model->GetWorldMatrix().Apply(worldOrigin);
 		SetPosition(worldOrigin);
-
-		return originToCenter.w;
 	}
 }
