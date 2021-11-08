@@ -67,6 +67,9 @@ void PhysicsWorld::Init()
 	);
 
 	m_dynamicWorld->setGravity(btVector3(0, -100, 0));
+
+	m_debugWireframe.Init();
+	m_dynamicWorld->setDebugDrawer(&m_debugWireframe);
 #if BUILD_LEVEL!=BUILD_LEVEL_MASTER
 	m_debugDraw.Init();
 	m_dynamicWorld->setDebugDrawer(&m_debugDraw);
@@ -76,9 +79,12 @@ void PhysicsWorld::Update(float deltaTime)
 {
 	m_dynamicWorld->stepSimulation(deltaTime);
 }
-#if 0
-void PhysicsWorld::DebubDrawWorld(CRenderContext& rc)
+#if 1
+void PhysicsWorld::DebugDrawWorld(RenderContext& rc)
 {
+	m_debugWireframe.Begin();
+	m_dynamicWorld->debugDrawWorld();
+	m_debugWireframe.End(rc);
 #if BUILD_LEVEL!=BUILD_LEVEL_MASTER
 	m_debugDraw.BeginDraw(rc);
 	m_dynamicWorld->debugDrawWorld();
@@ -96,14 +102,14 @@ void PhysicsWorld::ContactTest(
 }
 
 void PhysicsWorld::ContactTest(
-	CRigidBody& rb,
+	RigidBody& rb,
 	std::function<void(const btCollisionObject& contactCollisionObject)> cb
 )
 {
 	ContactTest(rb.GetBody(), cb);
 }
 void PhysicsWorld::ContactTest(
-	CCharacterController& charaCon,
+	CharacterController& charaCon,
 	std::function<void(const btCollisionObject& contactCollisionObject)> cb
 )
 {

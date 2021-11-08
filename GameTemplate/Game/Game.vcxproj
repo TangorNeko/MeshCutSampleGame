@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_Wireframe|Win32">
+      <Configuration>Debug_Wireframe</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_Wireframe|x64">
+      <Configuration>Debug_Wireframe</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -40,6 +48,12 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -55,6 +69,12 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -82,6 +102,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -89,6 +112,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,7 +129,17 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/../MiniEngine;$(SolutionDir)/Sample_00</IncludePath>
     <LibraryPath>$(SolutionDir)/../MiniEngine/DirectXTK/Bin/Desktop_2019_Win10/Win32/Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/../MiniEngine;$(SolutionDir)/Sample_00</IncludePath>
+    <LibraryPath>$(SolutionDir)/../MiniEngine/DirectXTK/Bin/Desktop_2019_Win10/Win32/Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/../MiniEngine;$(SolutionDir)/Sample_00;$(SolutionDir)/../ExEngine;$(SolutionDir)/../ExEngine/bulletPhysics/src;$(SolutionDir)/../ExEngine/effekseer/src/Effekseer;$(SolutionDir)/../ExEngine/effekseer/src/EffekseerRendererDX12</IncludePath>
+    <LibraryPath>$(SolutionDir)/../MiniEngine/DirectXTK/Bin/Desktop_2019_Win10/x64/Debug;$(SolutionDir)/exlib/x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/../MiniEngine;$(SolutionDir)/Sample_00;$(SolutionDir)/../ExEngine;$(SolutionDir)/../ExEngine/bulletPhysics/src;$(SolutionDir)/../ExEngine/effekseer/src/Effekseer;$(SolutionDir)/../ExEngine/effekseer/src/EffekseerRendererDX12</IncludePath>
     <LibraryPath>$(SolutionDir)/../MiniEngine/DirectXTK/Bin/Desktop_2019_Win10/x64/Debug;$(SolutionDir)/exlib/x64;$(LibraryPath)</LibraryPath>
@@ -143,6 +179,21 @@
       <AdditionalDependencies>DXGI.lib;dxguid.lib;DirectXTK12.lib;d3d12.lib;d3dcompiler.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>DXGI.lib;dxguid.lib;DirectXTK12.lib;d3d12.lib;d3dcompiler.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -150,6 +201,22 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>DXGI.lib;dxguid.lib;DirectXTK12.lib;d3d12.lib;d3dcompiler.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_DEBUGWIREFRAME;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -243,13 +310,17 @@
     <ClCompile Include="..\..\ExEngine\level2D\CaslFile.cpp" />
     <ClCompile Include="..\..\ExEngine\level2D\Level2D.cpp" />
     <ClCompile Include="..\..\ExEngine\level2D\MapChip2D.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CapsuleCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CharacterController.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\MeshCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\Physics.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\RigidBody.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp" />
     <ClCompile Include="..\..\MiniEngine\Animation.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationClip.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationPlayController.cpp" />
@@ -313,9 +384,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Wireframe|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -331,14 +404,18 @@
     <ClInclude Include="..\..\ExEngine\level2D\CaslFile.h" />
     <ClInclude Include="..\..\ExEngine\level2D\Level2D.h" />
     <ClInclude Include="..\..\ExEngine\level2D\MapChip2D.h" />
+    <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\CapsuleCollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\CharacterController.h" />
+    <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h" />
     <ClInclude Include="..\..\ExEngine\physics\ICollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\MeshCollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\Physics.h" />
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h" />
     <ClInclude Include="..\..\ExEngine\physics\RigidBody.h" />
     <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h" />
     <ClInclude Include="..\..\MiniEngine\Animation.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationClip.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationPlayController.h" />

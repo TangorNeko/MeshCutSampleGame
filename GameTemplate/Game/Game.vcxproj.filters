@@ -302,6 +302,18 @@
     <ClCompile Include="AxisCalculator.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -573,6 +585,18 @@
     </ClInclude>
     <ClInclude Include="AxisCalculator.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h">
+      <Filter>ExEngine\physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

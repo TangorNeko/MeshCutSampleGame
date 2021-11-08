@@ -40,6 +40,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+
+#ifdef _DEBUGWIREFRAME
+		PhysicsWorld::GetInstance()->DebugDrawWorld(renderContext);
+#endif
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		
 		//////////////////////////////////////

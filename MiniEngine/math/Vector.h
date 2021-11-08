@@ -1,6 +1,6 @@
 #pragma once
 #include "../../GameTemplate/Game/MakeHashFromString.h"
-
+#include "btBulletDynamicsCommon.h"
 class Matrix;
 
 
@@ -259,6 +259,13 @@ public:
 		dst.x = x;
 		dst.y = y;
 		dst.z = z;
+	}
+	template<>
+	void CopyTo(btVector3& dst) const
+	{
+		dst.setX(x);
+		dst.setY(y);
+		dst.setZ(z);
 	}
 	/// <summary>
 	/// ベクトルの設定。
@@ -631,6 +638,14 @@ public:
 		dst.y = y;
 		dst.z = z;
 		dst.w = w;
+	}
+	template<>
+	void CopyTo(btQuaternion& dst) const
+	{
+		dst.setX(x);
+		dst.setY(y);
+		dst.setZ(z);
+		dst.setW(w);
 	}
 	
 	/// <summary>

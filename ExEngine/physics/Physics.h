@@ -1,6 +1,9 @@
 #pragma once
 
 #include <memory>
+#include "DebugWireframe.h"
+#include "CharacterController.h"
+class CharacterController;
 
 class PhysicsWorld
 {
@@ -10,6 +13,7 @@ class PhysicsWorld
 	std::unique_ptr<btBroadphaseInterface>				 m_overlappingPairCache;	//!<ブロードフェーズ。衝突判定の枝切り。
 	std::unique_ptr<btSequentialImpulseConstraintSolver> m_constraintSolver;		//!<コンストレイントソルバー。拘束条件の解決処理。
 	std::unique_ptr<btDiscreteDynamicsWorld>			 m_dynamicWorld;			//!<ワールド。
+	DebugWireframe m_debugWireframe;
 #if BUILD_LEVEL!=BUILD_LEVEL_MASTER
 	CPhysicsDebugDraw									 m_debugDraw;
 #endif
@@ -30,9 +34,9 @@ public:
 		delete m_instance;
 		m_instance = nullptr;
 	}
-	
+
 	void Update(float deltaTime);
-	void DebubDrawWorld(RenderContext& rc);
+	void DebugDrawWorld(RenderContext& rc);
 	void Release();
 	/*!
 	* @brief	重力を設定。。
@@ -75,7 +79,7 @@ public:
 	{
 		m_dynamicWorld->convexSweepTest(castShape, convexFromWorld, convexToWorld, resultCallback, allowedCcdPenetration);
 	}
-#if 0
+#if 1
 	/*!
 	* @brief	コリジョンオブジェクトをワールドに登録。
 	*@param[in]	colliObj	コリジョンオブジェクト。
@@ -98,12 +102,12 @@ public:
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 	void ContactTest(
-		CRigidBody& rb,
+		RigidBody& rb,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 		
 	void ContactTest(
-		CCharacterController& charaCon,
+		CharacterController& charaCon,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 #endif		
