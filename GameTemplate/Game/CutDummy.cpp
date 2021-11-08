@@ -11,7 +11,7 @@ namespace Game
 	bool CutDummy::Start()
 	{
 		//カプセル状のコライダーを作成
-		m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight);
+		m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight * 2);
 
 		RigidBodyInitData rbInitData;
 
@@ -21,9 +21,12 @@ namespace Game
 		//コライダーをセット
 		rbInitData.collider = &m_capsuleCollider;
 
+		Quaternion colliderRot;
+		colliderRot.Multiply(m_dummyModel->GetRotation(), colliderRot);
+		colliderRot.Multiply(m_capsuleRot, colliderRot);
 		//初期座標と回転をセット
 		rbInitData.pos = m_dummyModel->GetPosition();
-		rbInitData.rot = m_dummyModel->GetRotation();
+		rbInitData.rot = colliderRot;
 
 		//回転のしやすさを設定する。(0～1、サンプルのまま)
 		rbInitData.localInteria.Set(
@@ -48,6 +51,7 @@ namespace Game
 		m_rigidBody.GetPositionAndRotation(pos, rot);
 
 		m_dummyModel->SetPosition(pos);
+		rot.Multiply(m_toModelRot);
 		m_dummyModel->SetRotation(rot);
 	}
 }

@@ -34,6 +34,7 @@ namespace Game
 	void Enemy::Update()
 	{
 		m_enemyRender->SetPosition(m_position);
+		m_enemyRender->SetRotation(m_qRot);
 
 		if (m_hp <= 0)
 		{

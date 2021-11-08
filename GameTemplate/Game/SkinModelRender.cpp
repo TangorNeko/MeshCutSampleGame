@@ -133,6 +133,24 @@ namespace Game
 			dummy->SetCapsuleHeight(heightAndRadius.x);
 			dummy->SetCapsuleRadius(heightAndRadius.y);
 
+			//カプセルの軸がローカル座標系なのでワールド座標系に変換
+			Matrix modelWorldMatrix = backModel->GetWorldMatrix();
+			modelWorldMatrix.Apply(capsuleAxis);
+			Vector3 localOrigin = Vector3::Zero;
+			modelWorldMatrix.Apply(localOrigin);
+			capsuleAxis -= localOrigin;
+			capsuleAxis.Normalize();
+
+			//カプセルは最初に軸が傾いている分回転させるが、そのままだとモデルもその回転についてくるので、
+			//戻すクォータニオンも求めておく
+			Quaternion capsuleRot,toModelRot;
+			//カプセルの傾きのクォータニオン
+			capsuleRot.SetRotation(Vector3::Up, capsuleAxis);
+			//カプセルの傾きを戻す(モデルに乗算する)クォータニオン
+			toModelRot.SetRotation(capsuleAxis, Vector3::Up);
+
+			dummy->SetRotations(capsuleRot, toModelRot);
+
 			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
 		}

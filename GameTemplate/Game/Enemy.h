@@ -20,12 +20,18 @@ namespace Game
 		{
 			return m_position;
 		}
+		
+		void SetRotation(const Quaternion rot)
+		{
+			m_qRot = rot;
+		}
 
 		void Damage(float damage);
 	private:
 		SkinModelRender* m_enemyRender = nullptr;
 		Vector3 m_position = Vector3::Zero;
-		float m_hp = 100.0f;
+		Quaternion m_qRot = Quaternion::Identity;
+		float m_hp = 25.0f;
 		FontRender* m_canCutTextRender = nullptr;
 	};
 }

@@ -17,7 +17,6 @@ namespace Game
 
 	private:
 		SkinModelRender* m_playerModel = nullptr;
-		CharacterController m_charaCon;
 		Vector3 m_position = Vector3::Zero;
 		PlayerMove m_playerMove;
 		PlayerCamera m_playerCamera;
