@@ -33,7 +33,9 @@ namespace Game
 		}
 	private:
 		SkinModelRender* m_dummyModel = nullptr;
-		CCapsuleCollider m_capsuleCollider;
+		//ˆêŽžŽg—p’âŽ~
+		//CCapsuleCollider m_capsuleCollider;
+		SphereCollider m_sphereCollider;
 		float m_dummyRadius = 1.0f;
 		float m_dummyHeight = 1.0f;
 		RigidBody m_rigidBody;

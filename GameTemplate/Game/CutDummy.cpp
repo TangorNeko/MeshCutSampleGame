@@ -11,15 +11,18 @@ namespace Game
 	bool CutDummy::Start()
 	{
 		//カプセル状のコライダーを作成
-		m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight * 2);
-
+		//m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight * 2);
+		
+		//球状のコライダーを作成
+		m_sphereCollider.Create(m_dummyRadius);
 		RigidBodyInitData rbInitData;
 
 		//重量をセット(サンプルのまま)
-		rbInitData.mass = 3.0f;
+		rbInitData.mass = 0.1f;
 
 		//コライダーをセット
-		rbInitData.collider = &m_capsuleCollider;
+		//rbInitData.collider = &m_capsuleCollider;
+		rbInitData.collider = &m_sphereCollider;
 
 		Quaternion colliderRot;
 		colliderRot.Multiply(m_dummyModel->GetRotation(), colliderRot);
