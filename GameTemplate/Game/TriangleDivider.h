@@ -13,12 +13,9 @@ namespace Util
 	public:
 
 		/**
-		 * @brief 初期化
+		 * @brief 計算に使用するデータの初期化
 		 * @param[in] planeData 分割に使用する平面のデータ
 		 * @param[in,out] vertexBufferContainer 分割されるメッシュの頂点バッファ
-		 * @param[out] frontIndexBuffer 分割後、分割面の表側と判定されたメッシュのインデックスバッファ
-		 * @param[out] backIndexBuffer 分割後、分割面の裏側と判定されたメッシュのインデックスバッファ
-		 * @param[out] newVertexContainer 新しく生成された頂点のインデックスを格納する連想配列
 		*/
 		void Init(const PlaneData& planeData,
 			std::vector<TkmFile::SVertex>* vertexBufferContainer)
@@ -30,6 +27,11 @@ namespace Util
 			m_isInited = m_isDataSet && m_isReceiverSet;
 		}
 
+		/**
+		 * @brief 受け取り用のデータの初期化
+		 * @param[out] frontIndexBuffer 分割後、分割面の表側と判定されたメッシュのインデックスバッファ
+		 * @param[out] backIndexBuffer 分割後、分割面の裏側と判定されたメッシュのインデックスバッファ
+		*/
 		void InitReceiver(TkmFile::SIndexbuffer16* frontIndexBuffer,
 			TkmFile::SIndexbuffer16* backIndexBuffer)
 		{
@@ -40,14 +42,23 @@ namespace Util
 			m_isInited = m_isDataSet && m_isReceiverSet;
 		}
 
+		/**
+		 * @brief 分割平面が三角形を分割するかのみ判定する
+		 * @param triangleData[in] 分割を実行する三角形のデータ
+		 * @return 
+		*/
 		bool DivideCheck(const TriangleData& triangleData);
 
 		/**
-		 * @brief 分割の実行(仮)　必ず分割平面をセットしてから呼ぶ事
+		 * @brief 分割の実行　必ず分割平面をセットしてから呼ぶ事
 		 * @param triangleData[in] 分割を実行する三角形のデータ
 		*/
 		void Divide(const TriangleData& triangleData);
 
+		/**
+		 * @brief 切断面にある頂点同士のつながりを格納する集合
+		 * @param cutSurfaceSegmentSet 
+		*/
 		void SetCutSeg(std::set<std::pair<uint16_t, uint16_t>>* cutSurfaceSegmentSet)
 		{
 			m_cutSurfaceSegmentSet = cutSurfaceSegmentSet;
@@ -72,6 +83,10 @@ namespace Util
 			m_diagonalPoint = -1;
 		}
 
+		/**
+		 * @brief 三角形が平面に分割されているかだけを判定する
+		 * @return 分断されている?
+		*/
 		bool IsDivide();
 
 		/**
@@ -112,6 +127,11 @@ namespace Util
 		*/
 		void GetDividedPoint();
 
+		/**
+		 * @brief 切断面を構成する線分のインデックスの組をソートしてコンテナに格納する
+		 * @param i0 切断面を構成する線分の始点のインデックス
+		 * @param i1 切断面を構成する線分の終点のインデックス
+		*/
 		void InsertSortedPairToSet(uint16_t i0, uint16_t i1)
 		{
 			if (i0 < i1)
@@ -124,9 +144,9 @@ namespace Util
 			}
 		}
 	private:
-		bool m_isDataSet = false;
-		bool m_isReceiverSet = false;
-		bool m_isInited = false;					//初期化されている?
+		bool m_isDataSet = false;					//計算に使用するデータはセットされた?
+		bool m_isReceiverSet = false;				//受け取り用のコンテナはセットされた?
+		bool m_isInited = false;					//初期化されている?(計算、受け取り用のデータがどちらもセットされた?)
 		bool m_alreadyGetAnyDividePoint = false;	//すでに分割頂点を1つでも取得した?
 		int m_sumOfIndexes;							//3つのインデックスの合計
 		PlaneData m_planeData;						//分割平面データ

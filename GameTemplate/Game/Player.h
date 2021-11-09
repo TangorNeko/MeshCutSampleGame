@@ -16,13 +16,13 @@ namespace Game
 		void Update() override;
 
 	private:
-		SkinModelRender* m_playerModel = nullptr;
-		Vector3 m_position = Vector3::Zero;
-		PlayerMove m_playerMove;
-		PlayerCamera m_playerCamera;
-		PlayerAnimation m_playerAnimation;
-		PlayerAttack m_playerAttack;
-		PlayerCut m_playerCut;
+		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル
+		Vector3 m_position = Vector3::Zero;			//プレイヤーの座標
+		PlayerMove m_playerMove;					//プレイヤーの移動クラス
+		PlayerCamera m_playerCamera;				//プレイヤーのカメラクラス
+		PlayerAnimation m_playerAnimation;			//プレイヤーのアニメーションクラス
+		PlayerAttack m_playerAttack;				//プレイヤーの攻撃クラス
+		PlayerCut m_playerCut;						//プレイヤーの切断クラス
 	};
 }
 

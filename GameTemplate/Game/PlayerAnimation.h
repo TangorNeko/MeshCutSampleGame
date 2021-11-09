@@ -19,16 +19,17 @@ namespace Game
 			return static_cast<int>(enAnim_Num);
 		}
 	private:
+		//プレイヤーのアニメーション一覧
 		enum
 		{
-			enAnim_Idle,
-			enAnim_Walk,
-			enAnim_Attack,
-			enAnim_Num
+			enAnim_Idle,//待機
+			enAnim_Walk,//歩行
+			enAnim_Attack,//攻撃
+			enAnim_Num//アニメーションの数
 		};
-		AnimationClip m_animationClips[enAnim_Num];
+		AnimationClip m_animationClips[enAnim_Num];	//プレイヤーのアニメーションクリップ
 
-		Vector3 m_prevPosition = Vector3::Zero;
+		Vector3 m_prevPosition = Vector3::Zero;//前フレームのプレイヤーの位置
 	};
 }
 

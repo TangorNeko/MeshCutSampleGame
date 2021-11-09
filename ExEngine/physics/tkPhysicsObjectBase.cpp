@@ -21,7 +21,7 @@ using namespace std;
 	void CPhysicsObjectBase::CreateCapsule(Vector3 pos, Quaternion rot, float radius, float height )
 	{
 		Release();
-		auto capusuleCollider = make_unique<CCapsuleCollider>();
+		auto capusuleCollider = make_unique<CapsuleCollider>();
 		capusuleCollider->Init(radius, height);
 		m_collider = move(capusuleCollider);
 		CreateCommon(pos, rot);

@@ -15,9 +15,9 @@ namespace Game
 		void Update() override;
 
 	private:
-		BackGround* m_backGround = nullptr;
-		Player* m_player = nullptr;
-		Enemy* m_enemy[4] = { nullptr,nullptr,nullptr,nullptr };
+		BackGround* m_backGround = nullptr;						//ステージクラス
+		Player* m_player = nullptr;								//プレイヤークラス
+		Enemy* m_enemy[4] = { nullptr,nullptr,nullptr,nullptr };//エネミークラス
 	};
 }
 

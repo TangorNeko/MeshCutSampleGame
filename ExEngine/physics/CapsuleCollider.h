@@ -7,7 +7,7 @@
 #include "ICollider.h"
 
 
-class CCapsuleCollider : public ICollider
+class CapsuleCollider : public ICollider
 {
 public:
 	/// <summary>

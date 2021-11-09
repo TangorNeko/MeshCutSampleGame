@@ -180,6 +180,10 @@ namespace Game
 			return m_isDividable;
 		}
 
+		/**
+		 * @brief モデルを取得
+		 * @return モデル
+		*/
 		Model* GetModel()
 		{
 			return m_model;
@@ -198,16 +202,29 @@ namespace Game
 		*/
 		void SetModelCenterAsOrigin();
 
+		/**
+		 * @brief 切断された回数をセット
+		 * @param divideNum 切断された回数
+		*/
 		void SetDivideNum(int divideNum)
 		{
 			m_divideNum = divideNum;
 		}
 
+		/**
+		 * @brief モデルを元にカプセルの縦方向の軸、高さ、幅を計算する
+		 * @param heightAndRadius 高さ、幅の受け取り用Vector2クラス(xに高さ、yに幅を格納する)
+		 * @return 
+		*/
 		Vector3 CalcCapsuleData(Vector2& heightAndRadius)
 		{
 			return m_model->CalcCapsuleData(heightAndRadius);
 		}
 
+		/**
+		 * @brief スキンモデルの所有者を登録
+		 * @param gameObject 所有者のポインタ
+		*/
 		void SetOwner(IGameObject* gameObject)
 		{
 			m_owner = gameObject;

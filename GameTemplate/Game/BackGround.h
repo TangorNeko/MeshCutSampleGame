@@ -11,9 +11,8 @@ namespace Game
 		void Update() override;
 
 	private:
-		SkinModelRender* m_stageModel = nullptr;
-		PhysicsStaticObject m_physicsStaticObject;
-		Vector3 m_position = Vector3::Zero;
+		SkinModelRender* m_stageModel = nullptr;	//ステージのモデル
+		PhysicsStaticObject m_physicsStaticObject;	//ステージのモデルの当たり判定
 	};
 }
 

@@ -30,29 +30,21 @@ namespace Util
 		int backSize = static_cast<int>(m_vertexIndexesPack.backVertexIndexes.size());
 		int onPlaneSize = static_cast<int>(m_vertexIndexesPack.onPlaneVertexIndexes.size());
 
-		//非分割
-		if (frontSize == 3 || backSize == 3 || onPlaneSize == 3) { return false; }
+		//片側に3点が寄っているか、面上に3点がある場合分割されていない
+		//NOTE:面上に3点がある場合、切断の際は分割されていると判定するが、
+		//切断チェックの場合は薄皮1枚だけになる可能性があるので分割していないと判定している。
+		if (frontSize == 3 || backSize == 3 || onPlaneSize == 3) 
+		{
+			return false;
+		}
 
-
-		//分割_表側に頂点2つ
-		if (frontSize == 2 && backSize == 1)
+		//面の前後にに1点ずつあった場合分割されている
+		if (frontSize >= 1 && backSize >= 1)
 		{
 			return true;
 		}
 
-		//分割_裏側に頂点2つ
-		if (frontSize == 1 && backSize == 2)
-		{
-			return true;
-		}
-
-		//分割_面上に頂点1つ
-		if (frontSize == 1 && backSize == 1 && onPlaneSize == 1)
-		{
-			return true;
-		}
-
-		//残りはどちらかに2つと面上に1つのパターンなので分割していない
+		//残りはどちらかに2つと面上に1つのパターンなので分割されていない
 		return false;
 	}
 

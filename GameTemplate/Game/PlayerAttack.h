@@ -16,8 +16,8 @@ namespace Game
 
 	private:
 		SkinModelRender* m_testHitBox = nullptr;
-		float m_attackTime = 0.0f;
-		bool m_isAttacking = false;
+		float m_attackTime = 0.0f;				//UŒ‚ŠÔ
+		bool m_isAttacking = false;				//UŒ‚’†?
 	};
 }
 

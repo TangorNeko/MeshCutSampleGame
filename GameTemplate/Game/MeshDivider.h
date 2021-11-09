@@ -17,10 +17,19 @@ namespace Util
 			m_divideMesh = mesh;
 		}
 
+		/**
+		 * @brief メッシュを分断しているかのチェック
+		 * @param cutNormal 切断面上の一点からの法線の向き
+		 * @param cutPoint 切断面上の一点の座標
+		 * @return 
+		*/
 		bool DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint);
 
 		/**
-		 * @brief メッシュの分割(仮)
+		 * @brief メッシュの分割
+		 * @param cutNormal 切断面上の一点からの法線の向き
+		 * @param cutPoint 切断面上の一点の座標
+		 * @return 
 		*/
 		std::pair<TkmFile::SMesh, TkmFile::SMesh> Divide(const Vector3& cutNormal, const Vector3& cutPoint);
 

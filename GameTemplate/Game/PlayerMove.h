@@ -14,9 +14,9 @@ namespace Game
 
 		void TurnModelToMoveDirection(SkinModelRender* modelRender);
 	private:
-		CharacterController m_charaCon;
-		Vector3 m_moveAmount = Vector3::Zero;
-		Quaternion m_toMoveDirectionRot = Quaternion::Identity;
+		CharacterController m_charaCon;							//プレイヤーのキャラコン
+		Vector3 m_moveAmount = Vector3::Zero;					//プレイヤーの移動量
+		Quaternion m_toMoveDirectionRot = Quaternion::Identity;	//プレイヤーの移動方向へのクォータニオン
 	};
 }
 
