@@ -141,6 +141,16 @@ public:
 		return DirectX::XMVector2LengthSq(xmv).m128_f32[0];
 	}
 
+	/**
+	 * @brief ベクトルの正規化
+	*/
+	void Normalize()
+	{
+		DirectX::XMVECTOR xmv = DirectX::XMLoadFloat2(&vec);
+		xmv = DirectX::XMVector2Normalize(xmv);
+		DirectX::XMStoreFloat2(&vec, xmv);
+	}
+
 	/// <summary>
 	/// 線形補完。
 	/// </summary>

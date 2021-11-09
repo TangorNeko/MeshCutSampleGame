@@ -26,12 +26,22 @@ namespace Game
 		{
 			Vector3 CutPoint = playerPosition + PLAYER_TO_CUTPOINT;
 			m_testCutPlane->SetPosition(CutPoint);
-			m_cutDeg += g_pad[0]->GetRStickXF();
-
 			Vector3 cutNormal = { 1.0f,0.0f,0.0f };
-			m_cutPlaneQRot.SetRotationDegZ(m_cutDeg);
-			m_cutPlaneQRot.Multiply(playerQRot);
+			Vector2 input = { g_pad[0]->GetRStickXF(),g_pad[0]->GetRStickYF() };
+			if (input.LengthSq() > 0.0f)
+			{
+				input.Normalize();
+				angle = Dot(input, { 0.0f,1.0f });
+				angle = acos(angle);
+
+				if (input.x > 0.0f)
+				{
+					angle *= -1;
+				}
+			}
+			m_cutPlaneQRot.SetRotationZ(angle);
 			m_cutPlaneQRot.Apply(cutNormal);
+			m_cutPlaneQRot.Multiply(playerQRot);
 			m_testCutPlane->SetRotation(m_cutPlaneQRot);
 
 			//NOTE:プロト用　切断した残りが常に下側になるようにする
@@ -42,8 +52,8 @@ namespace Game
 				cutNormal *= -1.0f;
 			}
 
-			//切断モード中にYボタンで切断
-			if (g_pad[0]->IsTrigger(enButtonY))
+			//切断モード中にRB1ボタンで切断
+			if (g_pad[0]->IsTrigger(enButtonRB1))
 			{
 				Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, CutPoint, CUT_RANGE);
 			}
@@ -59,8 +69,7 @@ namespace Game
 
 
 			m_cutPlaneQRot = Quaternion::Identity;
-			m_cutDeg = 0.0f;
-
+			angle = 0.0f;
 
 			m_isCutMode = true;
 		}
