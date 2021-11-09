@@ -27,12 +27,14 @@ namespace Game
 	{
 		m_enemyRender = NewGO<SkinModelRender>(0);
 		m_enemyRender->Init(PATH_ENEMYMODEL);
+		m_enemyRender->SetOwner(this);
 
 		return true;
 	}
 
 	void Enemy::Update()
 	{
+		m_position.x += 1.0f;
 		m_enemyRender->SetPosition(m_position);
 		m_enemyRender->SetRotation(m_qRot);
 
@@ -43,6 +45,11 @@ namespace Game
 
 			m_canCutTextRender->SetPosition(screenPos);
 		}
+	}
+
+	void Enemy::OnDivide()
+	{
+		m_position = Vector3::Zero;
 	}
 
 	void Enemy::Damage(float damage)

@@ -44,6 +44,10 @@ public:
 		(void)renderContext;
 	}
 	
+	virtual void OnDivide()
+	{
+
+	}
 public:
 	/*!
 	*@brief StartŠÖ”‚ªŠ®—¹‚µ‚½H

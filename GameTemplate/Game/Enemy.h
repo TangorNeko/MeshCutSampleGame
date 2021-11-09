@@ -10,6 +10,8 @@ namespace Game
 
 		void Update() override;
 
+		void OnDivide() override;
+
 	public:
 		void SetPosition(const Vector3& position)
 		{
