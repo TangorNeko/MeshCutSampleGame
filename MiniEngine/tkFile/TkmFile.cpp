@@ -492,3 +492,20 @@ Vector3 TkmFile::CalcCapsuleAxis(Vector2& heightAndRadius)
 
 	return capsuleAxis;
 }
+
+bool TkmFile::DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint)
+{
+	Util::MeshDivider meshDivider;
+	for (auto& mesh : m_meshParts)
+	{
+		meshDivider.Init(&mesh);
+		bool isDivided = meshDivider.DivideCheck(cutNormal, cutPoint);
+
+		if (isDivided == true)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

@@ -11,31 +11,29 @@ namespace Game
 	bool CutDummy::Start()
 	{
 		//カプセル状のコライダーを作成
-		//m_capsuleCollider.Init(m_dummyRadius,m_dummyHeight * 2);
+		m_capsuleCollider.Init(m_dummyRadius/1.5f,m_dummyHeight/1.5f);
 		
 		//球状のコライダーを作成
-		m_sphereCollider.Create(m_dummyRadius);
 		RigidBodyInitData rbInitData;
 
 		//重量をセット(サンプルのまま)
 		rbInitData.mass = 0.1f;
 
 		//コライダーをセット
-		//rbInitData.collider = &m_capsuleCollider;
-		rbInitData.collider = &m_sphereCollider;
+		rbInitData.collider = &m_capsuleCollider;
 
-		Quaternion colliderRot;
-		colliderRot.Multiply(m_dummyModel->GetRotation(), colliderRot);
-		colliderRot.Multiply(m_capsuleRot, colliderRot);
+		//モデルの回転を保存しておく
+		m_modelRot = m_dummyModel->GetRotation();
+
 		//初期座標と回転をセット
 		rbInitData.pos = m_dummyModel->GetPosition();
-		rbInitData.rot = colliderRot;
+		rbInitData.rot = m_capsuleRot;
 
 		//回転のしやすさを設定する。(0～1、サンプルのまま)
 		rbInitData.localInteria.Set(
-			0.5f,
-			0.5f,
-			0.5f
+			0.1f,
+			0.1f,
+			0.1f
 		);
 
 		m_rigidBody.Init(rbInitData);
@@ -51,10 +49,22 @@ namespace Game
 	{
 		Vector3 pos;
 		Quaternion rot;
+		
+		//剛体の座標と回転を受け取り
 		m_rigidBody.GetPositionAndRotation(pos, rot);
 
+		//座標はそのままモデルに適用
 		m_dummyModel->SetPosition(pos);
-		rot.Multiply(m_toModelRot);
+
+		//rotは上方向からカプセル方向への回転
+		//m_toModelRotはその回転を逆にした回転なので、
+		//m_toModelRotを乗算する事によって常にモデルは上向きになる。
+		rot.Multiply(m_toModelRot,rot);
+
+		//そこに元のモデルの回転を乗算することでカプセルとモデルの回転が整合する
+		rot.Multiply(m_modelRot, rot);
+		
+		//回転を適用
 		m_dummyModel->SetRotation(rot);
 	}
 }

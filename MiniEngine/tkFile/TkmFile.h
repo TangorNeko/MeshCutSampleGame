@@ -220,6 +220,8 @@ public:
 	void SetOriginOffset(const Vector3& offset);
 
 	Vector3 CalcCapsuleAxis(Vector2& heightAndRadius);
+
+	bool DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

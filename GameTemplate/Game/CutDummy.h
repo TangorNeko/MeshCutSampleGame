@@ -6,7 +6,7 @@ namespace Game
 	{
 	public:
 		~CutDummy();
-	
+
 		bool Start();
 
 		void Update();
@@ -34,13 +34,14 @@ namespace Game
 	private:
 		SkinModelRender* m_dummyModel = nullptr;
 		//ˆêŽžŽg—p’âŽ~
-		//CCapsuleCollider m_capsuleCollider;
-		SphereCollider m_sphereCollider;
+		CCapsuleCollider m_capsuleCollider;
+		//SphereCollider m_sphereCollider;
 		float m_dummyRadius = 1.0f;
 		float m_dummyHeight = 1.0f;
 		RigidBody m_rigidBody;
 		Quaternion m_capsuleRot = Quaternion::Identity;
 		Quaternion m_toModelRot = Quaternion::Identity;
+		Quaternion m_modelRot = Quaternion::Identity;
 	};
 }
 

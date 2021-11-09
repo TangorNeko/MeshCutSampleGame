@@ -5,6 +5,36 @@
 
 namespace Util
 {
+	bool MeshDivider::DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint)
+	{
+		TriangleDivider triangleDivider;
+
+		PlaneData plane;
+		plane.SetNormal(cutNormal);
+		plane.SetPoint(cutPoint);
+		triangleDivider.Init(plane, &m_divideMesh->vertexBuffer);
+
+		for (auto& index : m_divideMesh->indexBuffer16Array)
+		{
+			for (auto it = index.indices.begin();it != index.indices.end();it += 3)
+			{
+				TriangleData triangleData;
+				triangleData.vertexIndexes[0] = *it;
+				triangleData.vertexIndexes[1] = *(it + 1);
+				triangleData.vertexIndexes[2] = *(it + 2);
+
+				bool isDivide = triangleDivider.DivideCheck(triangleData);
+
+				if (isDivide == true)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	std::pair<TkmFile::SMesh,TkmFile::SMesh> MeshDivider::Divide(const Vector3& cutNormal, const Vector3& cutPoint)
 	{
 		TriangleDivider triangleDivider;
@@ -18,8 +48,8 @@ namespace Util
 		triangleDivider.SetCutSeg(&cutSurfaceSegmentSet);
 
 
-		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer,&m_frontIndexBuffer,&m_backIndexBuffer);
-
+		triangleDivider.Init(plane,&m_divideMesh->vertexBuffer);
+		triangleDivider.InitReceiver(&m_frontIndexBuffer, &m_backIndexBuffer);
 
 		std::vector<TkmFile::SIndexbuffer16> frontIndexBufferArray;
 		std::vector<TkmFile::SIndexbuffer16> backIndexBufferArray;

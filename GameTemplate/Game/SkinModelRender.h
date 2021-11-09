@@ -207,7 +207,13 @@ namespace Game
 		{
 			return m_model->CalcCapsuleData(heightAndRadius);
 		}
+
+		void SetOwner(IGameObject* gameObject)
+		{
+			m_owner = gameObject;
+		}
 	private:
+		IGameObject* m_owner = nullptr;				//スキンモデルの所有者
 		Model* m_model = nullptr;					//モデル
 		Vector3 m_position = Vector3::Zero;			//座標
 		Quaternion m_qRot = Quaternion::Identity;	//回転

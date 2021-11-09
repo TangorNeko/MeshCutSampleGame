@@ -4,6 +4,58 @@
 
 namespace Util
 {
+	bool TriangleDivider::DivideCheck(const TriangleData& triangleData)
+	{
+		if (m_isDataSet == false)
+		{
+			MessageBoxA(nullptr, "切断判定前のデータの初期化がされていません。", "エラー", MB_OK);
+			std::abort();
+		}
+		//三角形のデータをリセット
+		DataReset();
+
+		//三角形のデータをセット
+		m_triangleData = triangleData;
+
+		//三角形の頂点を元に表、裏、面上にグループ分けする。
+		VertexGrouping();
+
+		return IsDivide();
+	}
+
+	bool TriangleDivider::IsDivide()
+	{
+		//表側、裏側、平面上にいくつ頂点があるかを取得
+		int frontSize = static_cast<int>(m_vertexIndexesPack.frontVertexIndexes.size());
+		int backSize = static_cast<int>(m_vertexIndexesPack.backVertexIndexes.size());
+		int onPlaneSize = static_cast<int>(m_vertexIndexesPack.onPlaneVertexIndexes.size());
+
+		//非分割
+		if (frontSize == 3 || backSize == 3 || onPlaneSize == 3) { return false; }
+
+
+		//分割_表側に頂点2つ
+		if (frontSize == 2 && backSize == 1)
+		{
+			return true;
+		}
+
+		//分割_裏側に頂点2つ
+		if (frontSize == 1 && backSize == 2)
+		{
+			return true;
+		}
+
+		//分割_面上に頂点1つ
+		if (frontSize == 1 && backSize == 1 && onPlaneSize == 1)
+		{
+			return true;
+		}
+
+		//残りはどちらかに2つと面上に1つのパターンなので分割していない
+		return false;
+	}
+
 	void TriangleDivider::Divide(const TriangleData& triangleData)
 	{
 		//データの初期化前に切断が実行された場合エラー。

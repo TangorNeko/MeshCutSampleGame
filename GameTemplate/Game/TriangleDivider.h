@@ -21,22 +21,32 @@ namespace Util
 		 * @param[out] newVertexContainer 新しく生成された頂点のインデックスを格納する連想配列
 		*/
 		void Init(const PlaneData& planeData,
-			std::vector<TkmFile::SVertex>* vertexBufferContainer,
-			TkmFile::SIndexbuffer16* frontIndexBuffer,
-			TkmFile::SIndexbuffer16* backIndexBuffer)
+			std::vector<TkmFile::SVertex>* vertexBufferContainer)
 		{
 			m_planeData = planeData;
 			m_vertexBuffer = vertexBufferContainer;
+			m_isDataSet = true;
+
+			m_isInited = m_isDataSet && m_isReceiverSet;
+		}
+
+		void InitReceiver(TkmFile::SIndexbuffer16* frontIndexBuffer,
+			TkmFile::SIndexbuffer16* backIndexBuffer)
+		{
 			m_frontIndexBuffer = frontIndexBuffer;
 			m_backIndexBuffer = backIndexBuffer;
-			m_isInited = true;
+			m_isReceiverSet = true;
+
+			m_isInited = m_isDataSet && m_isReceiverSet;
 		}
+
+		bool DivideCheck(const TriangleData& triangleData);
 
 		/**
 		 * @brief 分割の実行(仮)　必ず分割平面をセットしてから呼ぶ事
 		 * @param triangleData[in] 分割を実行する三角形のデータ
 		*/
-		void Divide(const TriangleData& TriangleData);
+		void Divide(const TriangleData& triangleData);
 
 		void SetCutSeg(std::set<std::pair<uint16_t, uint16_t>>* cutSurfaceSegmentSet)
 		{
@@ -61,6 +71,8 @@ namespace Util
 			//新頂点対角のインデックスを初期化
 			m_diagonalPoint = -1;
 		}
+
+		bool IsDivide();
 
 		/**
 		 * @brief 三角形がどう分割されているかを判定し、適切なTriangleMakerを返す
@@ -112,6 +124,8 @@ namespace Util
 			}
 		}
 	private:
+		bool m_isDataSet = false;
+		bool m_isReceiverSet = false;
 		bool m_isInited = false;					//初期化されている?
 		bool m_alreadyGetAnyDividePoint = false;	//すでに分割頂点を1つでも取得した?
 		int m_sumOfIndexes;							//3つのインデックスの合計

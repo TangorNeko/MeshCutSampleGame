@@ -108,6 +108,12 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 	modelLocalCutNormal.Normalize();
 
 	//TODO:分割前に面がモデル全体の頂点を1つでも分割するかの判定?
+	bool isDivided = m_tkmFile.DivideCheck(modelLocalCutNormal, modelLocalCutPoint);
+
+	if (isDivided == false)
+	{
+		return nullptr;
+	}
 
 	Model* newmodel = new Model;
 

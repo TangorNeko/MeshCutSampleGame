@@ -6,7 +6,7 @@
 
 namespace
 {
-	const Vector3 ENEMY_POSITION[4] = { { 200.0f,0.0f,200.0f }, { 100.0f,0.0f,200.0f } ,{ -100.0f,150.0f,-300.0f } ,{ 200.0f,0.0f,-200.0f } };
+	const Vector3 ENEMY_POSITION[4] = { { 200.0f,150.0f,500.0f }, { -300.0f,150.0f,200.0f } ,{ -100.0f,150.0f,-300.0f } ,{ 200.0f,0.0f,-200.0f } };
 }
 
 namespace Game
@@ -28,9 +28,19 @@ namespace Game
 		}
 
 		//NOTE:テスト用
-		Quaternion testRot;
-		testRot.SetRotationDegX(50.0f);
-		m_enemy[2]->SetRotation(testRot);
+		Quaternion testRotX;
+		testRotX.SetRotationDegX(50.0f);
+		m_enemy[2]->SetRotation(testRotX);
+
+		Quaternion testRotZ;
+		testRotZ.SetRotationDegZ(60.0f);
+		m_enemy[1]->SetRotation(testRotZ);
+
+		Quaternion testRotY;
+		testRotY.SetRotationY(79.0f);
+		testRotX.Multiply(testRotZ);
+		testRotX.Multiply(testRotY);;
+		m_enemy[0]->SetRotation(testRotX);
 		return true;
 	}
 

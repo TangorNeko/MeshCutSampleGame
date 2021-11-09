@@ -17,6 +17,8 @@ namespace Util
 			m_divideMesh = mesh;
 		}
 
+		bool DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint);
+
 		/**
 		 * @brief ƒƒbƒVƒ…‚Ì•ªŠ„(‰¼)
 		*/

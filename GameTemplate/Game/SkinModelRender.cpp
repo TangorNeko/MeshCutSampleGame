@@ -89,6 +89,11 @@ namespace Game
 			//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
 			Model* backModel = m_model->Divide(m_modelInitData, cutNormal, cutPoint);
 
+			if (backModel == nullptr)
+			{
+				return;
+			}
+
 			//完全に1つもメッシュ、マテリアルが残らなかった時の処理
 			if (backModel->GetTkmFile().GetNumMesh() == 0)
 			{
@@ -153,6 +158,11 @@ namespace Game
 
 			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
+
+			if (m_owner != nullptr)
+			{
+				m_owner->OnDivide();
+			}
 		}
 	}
 
