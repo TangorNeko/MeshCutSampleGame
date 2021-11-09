@@ -79,7 +79,11 @@ namespace Game
 	{
 		m_isDividable = isDividable;
 
-		//TODO:falseにした時に切断不可にさせる処理、そもそも切断可能にした後に不可に戻すような状況があるのか
+		if (m_isDividable == false)
+		{
+			//カット可能モデルから削除
+			ModelCutManager::GetInstance()->RemoveCuttable(this);
+		}
 	}
 
 	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint)

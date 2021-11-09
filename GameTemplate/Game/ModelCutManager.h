@@ -33,7 +33,7 @@ namespace Game
 		}
 
 		/**
-		 * @brief 
+		 * @brief インスタンスの取得
 		 * @return CubObjectManagerインスタンス 
 		*/
 		static ModelCutManager* GetInstance()
@@ -42,7 +42,7 @@ namespace Game
 		}
 
 		/**
-		 * @brief 
+		 * @brief 切断するモデルのリストに追加する
 		 * @param cuttableModel 切断するモデル
 		*/
 		void AddCuttable(SkinModelRender* cuttableModel)
@@ -56,6 +56,20 @@ namespace Game
 		}
 
 		/**
+		 * @brief 指定したモデルを切断するモデルのリストから
+		 * @param cuttableModel 
+		*/
+		void RemoveCuttable(SkinModelRender* cuttableModel)
+		{
+			//切断するモデルのリストから削除する
+			auto it = m_cutModelPtrSet.find(cuttableModel);
+			if (it != m_cutModelPtrSet.end())
+			{
+				m_cutModelPtrSet.erase(it);
+			}
+		}
+
+		/**
 		 * @brief 現在の切断が終了した後追加されるモデル(切断後の新規モデル)をセット
 		 * @param cuttableModel 追加されるモデル
 		*/
@@ -63,7 +77,7 @@ namespace Game
 		{
 			//NOTE:そのままm_cutModelPtrSetに挿入すると、切断の結果できたモデルをもう一度切断してしまい
 			//その切断でできたモデルをもう一度切断し...のループが起こるので別にセットして後から追加する
-			m_nextCutModelPtrList.insert(cuttableModel);
+			m_nextCutModelPtrSet.insert(cuttableModel);
 		}
 
 		/**
@@ -75,6 +89,6 @@ namespace Game
 
 	private:
 		std::set<SkinModelRender*> m_cutModelPtrSet;		//切断可能なモデルのコンテナ
-		std::set<SkinModelRender*> m_nextCutModelPtrList;	//切断が終了した後追加されるモデルのコンテナ
+		std::set<SkinModelRender*> m_nextCutModelPtrSet;	//切断が終了した後追加されるモデルのコンテナ
 	};
 }
