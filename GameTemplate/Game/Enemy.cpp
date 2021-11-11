@@ -49,7 +49,7 @@ namespace Game
 
 	void Enemy::OnDivide()
 	{
-		m_position = Vector3::Zero;
+		OutputDebugStringA("OnDivide");
 	}
 
 	void Enemy::Damage(float damage)

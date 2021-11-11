@@ -139,8 +139,10 @@ namespace Game
 			//カプセルのデータをセット
 			//TODO:回転も適用
 			//heightAndRadiusのxに高さ、yに半径が入っている
-			dummy->SetCapsuleHeight(heightAndRadius.x);
-			dummy->SetCapsuleRadius(heightAndRadius.y);
+			//NOTE:切断されるモデルの拡大率はxyzすべて同一でないとそもそもうまく斬れないので、
+			//いずれかの拡大率を乗算すればモデルの大きさに合ったカプセルの大きさになる
+			dummy->SetCapsuleHeight(heightAndRadius.x * m_scale.x);
+			dummy->SetCapsuleRadius(heightAndRadius.y * m_scale.x);
 
 			//カプセルの軸がローカル座標系なのでワールド座標系に変換
 			Matrix modelWorldMatrix = backModel->GetWorldMatrix();
@@ -172,13 +174,11 @@ namespace Game
 
 	void SkinModelRender::SetModelCenterAsOrigin()
 	{
-		Vector4 originToCenter = m_model->GetOriginToCenter();
-		Vector3 OriginOffset = { originToCenter.x,originToCenter.y ,originToCenter.z };
+		Vector3 OriginOffset = m_model->GetOriginToCenter();
 		m_model->SetOriginOffset(OriginOffset, m_modelInitData);
 
 		Vector3 worldOrigin = OriginOffset;
 
-		//NOTE:モデルが拡大されている場合wに入っている距離も拡大されるのではないか?その場合はどう計算したらいいだろうか。
 		m_model->GetWorldMatrix().Apply(worldOrigin);
 		SetPosition(worldOrigin);
 	}
