@@ -40,8 +40,8 @@ namespace Game
 				}
 			}
 			m_cutPlaneQRot.SetRotationZ(angle);
-			m_cutPlaneQRot.Apply(cutNormal);
 			m_cutPlaneQRot.Multiply(playerQRot);
+			m_cutPlaneQRot.Apply(cutNormal);
 			m_testCutPlane->SetRotation(m_cutPlaneQRot);
 
 			//NOTE:プロト用　切断した残りが常に下側になるようにする
