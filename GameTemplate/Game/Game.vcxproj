@@ -360,6 +360,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
+    <ClCompile Include="AnimationState.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="CutDummy.cpp" />
@@ -462,6 +463,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="AnimationState.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="CutDummy.h" />

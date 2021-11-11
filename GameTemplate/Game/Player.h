@@ -21,6 +21,7 @@ namespace Game
 		PlayerMove m_playerMove;					//プレイヤーの移動クラス
 		PlayerCamera m_playerCamera;				//プレイヤーのカメラクラス
 		PlayerAnimation m_playerAnimation;			//プレイヤーのアニメーションクラス
+		PlayerAnimationParam m_playerAnimationParam;//プレイヤーのアニメーション制御ステータス
 		PlayerAttack m_playerAttack;				//プレイヤーの攻撃クラス
 		PlayerCut m_playerCut;						//プレイヤーの切断クラス
 	};

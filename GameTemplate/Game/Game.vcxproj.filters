@@ -66,6 +66,9 @@
     <Filter Include="ヘッダー ファイル\MeshCut\TriangleMaker">
       <UniqueIdentifier>{80280c3c-3dbe-4fe5-a960-467db8ad9479}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Player\AnimationState">
+      <UniqueIdentifier>{a93feb0c-3c81-4cd0-8b49-1e93597f1255}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp">
       <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,6 +603,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h">
       <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationState.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
