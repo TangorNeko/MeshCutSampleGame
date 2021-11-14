@@ -3,8 +3,8 @@
 
 namespace
 {
-	const float PLAYER_HEIGHT = 10.0f;
-	const float PLAYER_RADIUS = 5.0f;
+	const float PLAYER_HEIGHT = 120.0f;
+	const float PLAYER_RADIUS = 30.0f;
 	const float MOVE_SPEED = 5.0f;
 }
 
