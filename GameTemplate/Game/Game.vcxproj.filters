@@ -69,6 +69,9 @@
     <Filter Include="ソース ファイル\Player\AnimationState">
       <UniqueIdentifier>{a93feb0c-3c81-4cd0-8b49-1e93597f1255}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Player\AnimationState">
+      <UniqueIdentifier>{5def4e44-7f03-483f-9e86-c616ce6f74bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -319,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="AnimationState.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackAnimationState.cpp">
+      <Filter>ソース ファイル\Player\AnimationState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMoveAnimationState.cpp">
+      <Filter>ソース ファイル\Player\AnimationState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -606,6 +615,15 @@
     </ClInclude>
     <ClInclude Include="AnimationState.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimationParam.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackAnimationState.h">
+      <Filter>ヘッダー ファイル\Player\AnimationState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMoveAnimationState.h">
+      <Filter>ヘッダー ファイル\Player\AnimationState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -371,9 +371,11 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
+    <ClCompile Include="PlayerAttackAnimationState.cpp" />
     <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="PlayerCut.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="PlayerMoveAnimationState.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
@@ -473,10 +475,13 @@
     <ClInclude Include="ModelCutManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="PlayerAnimationParam.h" />
     <ClInclude Include="PlayerAttack.h" />
+    <ClInclude Include="PlayerAttackAnimationState.h" />
     <ClInclude Include="PlayerCamera.h" />
     <ClInclude Include="PlayerCut.h" />
     <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="PlayerMoveAnimationState.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />
     <ClInclude Include="ITriangleMaker.h" />
