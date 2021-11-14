@@ -12,6 +12,7 @@ namespace Game
 		enAnim_Attack,//攻撃
 		enAnim_Attack2,
 		enAnim_Attack3,
+		enAnim_CutMode,//切断モード
 		enAnim_Num//アニメーションの数
 	};
 
@@ -19,6 +20,7 @@ namespace Game
 	struct PlayerAnimationParam
 	{
 		bool isWalking = false;
+		bool isCutMode = false;
 		int comboNum = 0;
 		int attackingTime = 0;
 		Vector3 playerPosition = Vector3::Zero;

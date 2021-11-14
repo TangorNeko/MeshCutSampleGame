@@ -37,6 +37,11 @@ namespace Game
 		if (g_pad[0]->IsPress(enButtonLB1) == false)
 		{
 			m_playerMove.Move(m_position,m_playerAnimationParam);
+			m_playerAnimationParam.isCutMode = false;;
+		}
+		else
+		{
+			m_playerAnimationParam.isCutMode = true;
 		}
 
 		//ˆÚ“®•ûŒü‚Éƒ‚ƒfƒ‹‚ðŒü‚¯‚é

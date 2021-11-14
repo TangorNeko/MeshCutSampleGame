@@ -12,5 +12,8 @@ namespace Game
 
 	void InitAttack3(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 
+	
+	void InitCutMode(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
 }
 

@@ -17,6 +17,11 @@ namespace Game
 					return enAnim_Attack2;
 				}
 
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -37,6 +42,11 @@ namespace Game
 					return enAnim_Attack3;
 				}
 
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -48,6 +58,26 @@ namespace Game
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
 				if (param.comboNum == 0)
+				{
+					return enAnim_Idle;
+				}
+
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+	
+
+	void InitCutMode(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.isCutMode == false)
 				{
 					return enAnim_Idle;
 				}

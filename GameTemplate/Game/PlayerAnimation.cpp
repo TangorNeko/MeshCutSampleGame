@@ -11,6 +11,7 @@ namespace
 	const char* PATH_ANIM_ATTACK = "Assets/animData/player/Combo1_1_St1.tka";
 	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";
 	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
+	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/Idle_St1.tka";
 	const float SPEED_PLAYER_ANIM = 1.0f;
 }
 
@@ -37,6 +38,8 @@ namespace Game
 		m_animationClips[enAnim_Attack2].SetLoopFlag(false);
 		m_animationClips[enAnim_Attack3].Load(PATH_ANIM_ATTACK3);
 		m_animationClips[enAnim_Attack3].SetLoopFlag(false);
+		m_animationClips[enAnim_CutMode].Load(PATH_ANIM_CUTMODE);
+		m_animationClips[enAnim_CutMode].SetLoopFlag(true);
 
 		//アニメーションステートを初期化
 		for (int i = 0;i<enAnim_Num;i++)
@@ -50,6 +53,7 @@ namespace Game
 		InitAttack1(m_animationState[enAnim_Attack]);
 		InitAttack2(m_animationState[enAnim_Attack2]);
 		InitAttack3(m_animationState[enAnim_Attack3]);
+		InitCutMode(m_animationState[enAnim_CutMode]);
 		
 		//初期状態で再生されるアニメーションのステートを格納
 		m_playingAnimState = m_animationState[enAnim_Idle];

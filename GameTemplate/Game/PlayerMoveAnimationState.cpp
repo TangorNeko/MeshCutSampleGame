@@ -18,6 +18,11 @@ namespace Game
 					return enAnim_Walk;
 				}
 
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -35,6 +40,11 @@ namespace Game
 				if (param.isWalking == false)
 				{
 					return enAnim_Idle;
+				}
+
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
 				}
 
 				return playerAnimState->GetMyState();
