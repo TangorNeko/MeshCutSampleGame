@@ -8,7 +8,7 @@ namespace Game
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
 				//前の位置と変わってた場合歩きアニメーション、それ以外は待機アニメーション
-				if (param.attackNum == 1)
+				if (param.comboNum == 1)
 				{
 					return enAnim_Attack;
 				}
@@ -27,7 +27,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.attackNum == 1)
+				if (param.comboNum == 1)
 				{
 					return enAnim_Attack;
 				}

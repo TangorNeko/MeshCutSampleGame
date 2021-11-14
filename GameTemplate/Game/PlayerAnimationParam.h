@@ -19,8 +19,8 @@ namespace Game
 	struct PlayerAnimationParam
 	{
 		bool isWalking = false;
-		int attackNum = false;
-		float attackingTime = 0.0f;
+		int comboNum = 0;
+		int attackingTime = 0;
 		Vector3 playerPosition = Vector3::Zero;
 	};
 }

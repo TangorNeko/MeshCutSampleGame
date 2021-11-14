@@ -16,7 +16,7 @@ namespace Game
 		m_charaCon.Init(PLAYER_RADIUS, PLAYER_HEIGHT,playerPosition);
 	}
 
-	void PlayerMove::Move(Vector3& playerPosition)
+	void PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
 		//各軸の入力を取得
 		float rightMoveAmount = g_pad[0]->GetLStickXF();
@@ -43,6 +43,23 @@ namespace Game
 
 		//キャラコンに渡す。
 		playerPosition = m_charaCon.Execute(m_moveAmount, 1.0f);
+
+
+
+		//アニメーション関連　後から分離しよう
+		
+		//座標が変化していれば歩きフラオン
+		if (m_prevPosition.LengthSq() != playerPosition.LengthSq())
+		{
+			animParam.isWalking = true;
+		}
+		else //変化していなければ歩きフラグオフ
+		{
+			animParam.isWalking = false;
+		}
+
+		//今フレームの座標を格納
+		m_prevPosition = playerPosition;
 	}
 
 	Quaternion PlayerMove::CalcToModelDirectionQRot()

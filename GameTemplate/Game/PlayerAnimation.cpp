@@ -55,53 +55,18 @@ namespace Game
 		m_playingAnimState = m_animationState[enAnim_Idle];
 	}
 
-	void PlayerAnimation::Update(SkinModelRender* playerRender)
+	void PlayerAnimation::Update(SkinModelRender* playerRender,PlayerAnimationParam& animParam)
 	{
-
-		if (m_prevPosition.LengthSq() != playerRender->GetPosition().LengthSq())
-		{
-			m_animationParam.isWalking = true;
-		}
-		else
-		{
-			m_animationParam.isWalking = false;
-		}
-
-		if (g_pad[0]->IsTrigger(enButtonY) && m_animationParam.attackNum == false)
-		{
-			m_animationParam.attackNum = 1;
-		}
-
-		if (1 <= m_animationParam.attackNum)
-		{
-			m_animationParam.attackingTime += 1.0f;
-
-			if (m_animationParam.attackingTime > 20.0f && g_pad[0]->IsTrigger(enButtonY) && m_animationParam.attackNum <= 2)
-			{
-				m_animationParam.attackingTime = 0.0f;
-				m_animationParam.attackNum++;
-			}
-
-			if (m_animationParam.attackingTime > 60.0f)
-			{
-				m_animationParam.attackNum = 0;
-				m_animationParam.attackingTime = 0.0f;
-			}
-		}
-
 		//アニメーションのスピードをセット
 		playerRender->SetAnimationSpeed(SPEED_PLAYER_ANIM);
 
 		//アニメーションの遷移のチェック
-		PlayerAnimationEnum nextAnim = m_playingAnimState->StateChangeCheck(m_animationParam);
+		PlayerAnimationEnum nextAnim = m_playingAnimState->StateChangeCheck(animParam);
 
 		//アニメーションの再生
 		playerRender->PlayAnimation(nextAnim,0.1f);
 
 		//現在再生しているアニメーションのステートを格納
 		m_playingAnimState = m_animationState[nextAnim];
-
-		//最後にプレイヤーの位置を取得
-		m_prevPosition = playerRender->GetPosition();
 	}
 }

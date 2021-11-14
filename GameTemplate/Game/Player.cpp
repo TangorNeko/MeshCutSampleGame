@@ -36,7 +36,7 @@ namespace Game
 		//NOTE:仮。LB1押している時は移動させない
 		if (g_pad[0]->IsPress(enButtonLB1) == false)
 		{
-			m_playerMove.Move(m_position);
+			m_playerMove.Move(m_position,m_playerAnimationParam);
 		}
 
 		//移動方向にモデルを向ける
@@ -48,7 +48,7 @@ namespace Game
 
 
 		//攻撃のアップデート
-		m_playerAttack.Update(m_position);
+		m_playerAttack.Update(m_position, m_playerAnimationParam);
 		
 		//切断のアップデート
 		m_playerCut.Update(m_position, m_playerMove.CalcToModelDirectionQRot());
@@ -62,7 +62,7 @@ namespace Game
 		//TODO:LB1を押した時はプレイヤーの向きにカメラを移動
 
 		//アニメーションのアップデート
-		m_playerAnimation.Update(m_playerModel);
+		m_playerAnimation.Update(m_playerModel, m_playerAnimationParam);
 
 		//移動の結果をモデルに反映
 		m_playerModel->SetPosition(m_position);

@@ -5,9 +5,12 @@
 namespace
 {
 	const char* PATH_HITBOXMODEL = "Assets/modelData/ball.tkm";
-	const float TIME_ATTACK_END = 30.0f;
+	const int TIME_ATTACK_END = 60;
+	const int TIME_COMBO_ACCEPTABLE = 20;
+	const int TIME_ATTACK_COLLISION = 14;
 	const float ATTACK_RANGE = 200.0f;
 	const float ATTACK_DAMAGE = 25.0f;
+	const EnButton BUTTON_ATTACK = enButtonX;
 }
 
 namespace Game
@@ -20,44 +23,80 @@ namespace Game
 		}
 	}
 
-	void PlayerAttack::Update(const Vector3& playerPosition)
+	void PlayerAttack::Update(const Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
-		//攻撃中ならモデルを追従してタイマーに加算
-		if (m_isAttacking == true)
+		//攻撃していない状態で攻撃ボタンを押すと
+		if (g_pad[0]->IsTrigger(BUTTON_ATTACK) && m_comboNum == 0)
 		{
-			m_testHitBox->SetPosition(playerPosition);
+			//コンボ段数をインクリメント
+			m_comboNum++;
+		}
+
+		//コンボ1以降を出しているなら
+		if (m_comboNum >= 1)
+		{
+			//攻撃のカウントをインクリメント
 			m_attackTime++;
-		}
 
-		//攻撃中でない時にXボタンを押すと攻撃
-		if (g_pad[0]->IsTrigger(enButtonX) && m_isAttacking == false)
-		{
-			m_testHitBox = NewGO<SkinModelRender>(0);
-			m_testHitBox->Init(PATH_HITBOXMODEL);
-			m_testHitBox->SetPosition(playerPosition);
-			m_isAttacking = true;
+			//当たり判定があれば
+			if (m_testHitBox != nullptr)
+			{
+				//当たり判定の座標をプレイヤーの位置にセット
+				m_testHitBox->SetPosition(playerPosition);
+			}
 
-			//近くの敵にダメージを与える
-			QueryGOs<Enemy>("enemy", [&playerPosition](Enemy* enemy)
-				{
-					Vector3 distance = playerPosition - enemy->GetPosition();
+			//攻撃の当たり判定を作成する時間になったら
+			if (m_attackTime == TIME_ATTACK_COLLISION)
+			{
+				//当たり判定を作成
+				m_testHitBox = NewGO<SkinModelRender>(0);
+				m_testHitBox->Init(PATH_HITBOXMODEL);
+				m_testHitBox->SetPosition(playerPosition);
 
-					if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
+
+				//近くの敵にダメージを与える
+				QueryGOs<Enemy>("enemy", [&playerPosition](Enemy* enemy)
 					{
-						enemy->Damage(ATTACK_DAMAGE);
+						Vector3 distance = playerPosition - enemy->GetPosition();
+
+						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
+						{
+							enemy->Damage(ATTACK_DAMAGE);
+						}
+						return true;
 					}
-					return true;
-				}
-			);
+				);
+			}
+
+			//1,2段目までの攻撃開始コンボ受付時間以内で、攻撃ボタンを押すと
+			if (g_pad[0]->IsTrigger(BUTTON_ATTACK) && m_attackTime > TIME_COMBO_ACCEPTABLE && m_comboNum <= 2)
+			{
+				//次のコンボに移るため当たり判定は削除
+				DeleteGO(m_testHitBox);
+				m_testHitBox = nullptr;
+
+				//コンボ段数をインクリメント
+				m_comboNum++;
+
+				//攻撃時間もリセット
+				m_attackTime = 0;
+			}
+
+			//攻撃終了フレームを超えると完全に攻撃終了
+			if (m_attackTime > TIME_ATTACK_END)
+			{
+				//当たり判定を削除
+				DeleteGO(m_testHitBox);
+				m_testHitBox = nullptr;
+
+				//コンボ段数と攻撃時間をリセット
+				m_comboNum = 0;
+				m_attackTime = 0;
+			}
 		}
 
-		//攻撃後60フレーム経つとモデル削除
-		if (m_attackTime > TIME_ATTACK_END)
-		{
-			DeleteGO(m_testHitBox);
-			m_testHitBox = nullptr;
-			m_isAttacking = false;
-			m_attackTime = 0.0f;
-		}
+		//アニメーション用
+		animParam.comboNum = m_comboNum;
+		animParam.attackingTime = m_attackTime;
 	}
 }

@@ -7,12 +7,12 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.attackNum == 0)
+				if (param.comboNum == 0)
 				{
 					return enAnim_Idle;
 				}
 
-				if (param.attackingTime == 0.0f)
+				if (param.attackingTime == 0)
 				{
 					return enAnim_Attack2;
 				}
@@ -27,12 +27,12 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.attackNum == 0)
+				if (param.comboNum == 0)
 				{
 					return enAnim_Idle;
 				}
 
-				if (param.attackingTime == 0.0f)
+				if (param.attackingTime == 0)
 				{
 					return enAnim_Attack3;
 				}
@@ -47,7 +47,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.attackNum == 0)
+				if (param.comboNum == 0)
 				{
 					return enAnim_Idle;
 				}

@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerAnimationParam.h"
 
 namespace Game
 {
@@ -7,7 +8,7 @@ namespace Game
 	public:
 		~PlayerAttack();
 
-		void Update(const Vector3& playerPosition);
+		void Update(const Vector3& playerPosition,PlayerAnimationParam& animParam);
 
 		SkinModelRender* GetModel()
 		{
@@ -16,8 +17,8 @@ namespace Game
 
 	private:
 		SkinModelRender* m_testHitBox = nullptr;
-		float m_attackTime = 0.0f;				//攻撃時間
-		bool m_isAttacking = false;				//攻撃中?
+		int m_attackTime = 0;			//攻撃時間
+		int m_comboNum = 0;				//攻撃段数(0:攻撃していない　1:コンボ1　2:コンボ2　3:コンボ3)
 	};
 }
 
