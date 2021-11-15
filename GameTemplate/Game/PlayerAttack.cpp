@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerAttack.h"
 #include "Enemy.h"
+#include "BossTank.h"
 
 namespace
 {
@@ -66,6 +67,17 @@ namespace Game
 						return true;
 					}
 				);
+
+				//ボスに近ければダメージを与える
+				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
+				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する
+				BossTank* bossTank = FindGO<BossTank>("bosstank");
+				Vector3 distance = playerPosition - bossTank->GetPosition();
+
+				if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
+				{
+					bossTank->Damage(ATTACK_DAMAGE);
+				}
 			}
 
 			//1,2段目までの攻撃開始コンボ受付時間以内で、攻撃ボタンを押すと

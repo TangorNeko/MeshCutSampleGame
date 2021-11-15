@@ -11,10 +11,19 @@ namespace Game
 
 		void Update() override;
 
+		void OnDivide() override;
+
 		void SetPosition(const Vector3& position)
 		{
 			m_position = position;
 		}
+
+		Vector3 GetPosition()
+		{
+			return m_position;
+		}
+
+		void Damage(float damage);
 	private:
 		Vector3 m_position = Vector3::Zero;
 		SkinModelRender* m_baseRender;
@@ -24,7 +33,8 @@ namespace Game
 		Quaternion m_turretRot;
 		float m_baseDeg;
 		float m_turretDeg;
-		float m_hp = 100.0f;
+		float m_hp = 1000.0f;
+		bool m_isCannonBreak = false;
 	};
 }
 

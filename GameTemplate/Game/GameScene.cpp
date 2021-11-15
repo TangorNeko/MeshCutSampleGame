@@ -29,7 +29,7 @@ namespace Game
 			m_enemy[i]->SetPosition(ENEMY_POSITION[i]);
 		}
 
-		m_bossTank = NewGO<BossTank>(0);
+		m_bossTank = NewGO<BossTank>(0,"bosstank");
 		m_bossTank->SetPosition(BOSS_POSITION);
 
 		//NOTE:テスト用

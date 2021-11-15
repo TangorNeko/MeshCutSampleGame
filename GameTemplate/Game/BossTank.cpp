@@ -27,8 +27,15 @@ namespace Game
 		m_baseRender->Init(MODEL_PATH_BASE);
 		m_turretRender->Init(MODEL_PATH_TURRET);
 		m_cannonRender->Init(MODEL_PATH_CANNON);
+		m_cannonRender->SetOwner(this);
 
 		return true;
+	}
+
+	void BossTank::OnDivide()
+	{
+		//TODO:砲身が壊れたフラグ、行動を分岐させるのに使う
+		m_isCannonBreak = true;
 	}
 
 	void BossTank::Update()
@@ -44,5 +51,27 @@ namespace Game
 		m_baseRender->SetPosition(m_position);
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
+	}
+
+	void BossTank::Damage(float damage)
+	{
+		m_hp -= damage;
+
+		//体力半分で砲身切断可能に
+		if (m_hp <= 500.0f)
+		{
+			m_cannonRender->SetDivideFlag(true);
+			ModelCutManager::GetInstance()->AddCuttable(m_cannonRender);
+		}
+	
+		//体力0なら砲塔と本体も切断可能に
+		if (m_hp < 0)
+		{
+			m_hp = 0;
+			m_baseRender->SetDivideFlag(true);
+			m_turretRender->SetDivideFlag(true);
+			ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
+			ModelCutManager::GetInstance()->AddCuttable(m_turretRender);
+		}
 	}
 }
