@@ -117,8 +117,15 @@ namespace Game
 	{
 		if (m_isDividable == true && m_divideNum <= MODE_MAX_DIVIDE_NUM)
 		{
+			Vector3 coreRemainCutNormal = cutNormal;
+			//コアの座標を残すように判定し必要なら法線を反転する
+			if (IsCoreOnFront(coreRemainCutNormal, cutPoint) == false)
+			{
+				coreRemainCutNormal *= -1.0f;
+			}
+
 			//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
-			Model* backModel = m_model->Divide(m_modelInitData, cutNormal, cutPoint);
+			Model* backModel = m_model->Divide(m_modelInitData, coreRemainCutNormal, cutPoint);
 
 			if (backModel == nullptr)
 			{
@@ -208,5 +215,27 @@ namespace Game
 
 		m_model->GetWorldMatrix().Apply(worldOrigin);
 		SetPosition(worldOrigin);
+	}
+
+	bool SkinModelRender::IsCoreOnFront(const Vector3& cutNormal, const Vector3& cutPoint)
+	{
+		//切断面の一点からコアへのベクトルと法線方向のベクトルを求めて正規化する
+		Vector3 corePosition = m_position + m_toCorePosition;
+		Vector3 pointToCore = corePosition - cutPoint;
+		pointToCore.Normalize();
+
+		//内積を求める
+		float dot = Dot(pointToCore, cutNormal);
+
+		//内積の結果が0以上なら法線と同じ方向　つまり表にある
+		if (dot >= 0)
+		{
+			return true;
+		}
+		else
+		{
+			//0未満なら法線と違う方向　つまり裏にある
+			return false;
+		}
 	}
 }

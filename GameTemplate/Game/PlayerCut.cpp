@@ -43,14 +43,6 @@ namespace Game
 			m_cutPlaneQRot.Apply(cutNormal);
 			m_testCutPlane->SetRotation(m_cutPlaneQRot);
 
-			//NOTE:プロト用　切断した残りが常に下側になるようにする
-			Vector3 up = Vector3::Up;
-			float deg = up.Dot(cutNormal);
-			if (deg > 0)
-			{
-				cutNormal *= -1.0f;
-			}
-
 			//切断モード中にRB1ボタンで切断
 			if (g_pad[0]->IsTrigger(enButtonRB1))
 			{

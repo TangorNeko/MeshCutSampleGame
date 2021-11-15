@@ -232,6 +232,32 @@ namespace Game
 		{
 			m_owner = gameObject;
 		}
+
+		/**
+		 * @brief モデルの原点からコアまでのベクトルを設定
+		 * @param toCoreVec モデルの原点からコアまでのベクトル
+		*/
+		void SetToCoreVector(const Vector3& toCoreVec)
+		{
+			m_toCoreVector = toCoreVec;
+		}
+
+		/**
+		 * @brief モデルの原点からコアまでのベクトルを取得
+		 * @return モデルの原点からコアまでのベクトル
+		*/
+		Vector3 GetToCoreVector()
+		{
+			return m_toCoreVector;
+		}
+
+		/**
+		 * @brief コアの座標が切断平面の表側にあるか?
+		 * @param cutNormal 切断面の一点からの法線の向き
+		 * @param cutPoint 切断面の一点の座標
+		 * @return 
+		*/
+		bool IsCoreOnFront(const Vector3& cutNormal, const Vector3& cutPoint);
 	private:
 		IGameObject* m_owner = nullptr;				//スキンモデルの所有者
 		Model* m_model = nullptr;					//モデル
@@ -245,6 +271,7 @@ namespace Game
 		float m_animationSpeed = 1.0f;				//アニメーションの速度
 		bool m_isDividable = false;					//切断可能?
 		int m_divideNum = 0;						//切断された回数
+		Vector3 m_toCoreVector = Vector3::Zero;	//モデルの原点から切断した時に残したいコア部分へのベクトル
 
 		//NOTE:切断して新しくできたモデルを初期化するためには元のモデルのModelInitDataが
 		//必要なので、SkinModelRenderのメンバ変数として入れている
