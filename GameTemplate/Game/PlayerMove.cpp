@@ -6,6 +6,8 @@ namespace
 	const float PLAYER_HEIGHT = 120.0f;
 	const float PLAYER_RADIUS = 30.0f;
 	const float MOVE_SPEED = 5.0f;
+	const float DASH_SPEED = 7.5f;
+	const EnButton BUTTON_RUN = enButtonRB2;
 }
 
 namespace Game
@@ -39,7 +41,15 @@ namespace Game
 		//移動方向を正規化
 		m_moveAmount.Normalize();
 
-		m_moveAmount *= MOVE_SPEED;
+		//走りボタンを押していれば走る
+		if (g_pad[0]->IsPress(BUTTON_RUN))
+		{
+			m_moveAmount *= DASH_SPEED;
+		}
+		else
+		{
+			m_moveAmount *= MOVE_SPEED;
+		}
 
 		//キャラコンに渡す。
 		playerPosition = m_charaCon.Execute(m_moveAmount, 1.0f);
@@ -48,14 +58,26 @@ namespace Game
 
 		//アニメーション関連　後から分離しよう
 		
-		//座標が変化していれば歩きフラオン
+		//座標が変化していれば
 		if (m_prevPosition.LengthSq() != playerPosition.LengthSq())
 		{
-			animParam.isWalking = true;
+			//走りボタンを押していればダッシュ
+			if (g_pad[0]->IsPress(BUTTON_RUN))
+			{
+				animParam.isRunning = true;
+				animParam.isWalking = false;
+			}
+			else
+			{
+				//押していなければ歩き
+				animParam.isWalking = true;
+				animParam.isRunning = false;
+			}
 		}
-		else //変化していなければ歩きフラグオフ
+		else //変化していなければ歩き、走りフラグオフ
 		{
 			animParam.isWalking = false;
+			animParam.isRunning = false;
 		}
 
 		//今フレームの座標を格納

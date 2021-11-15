@@ -73,6 +73,20 @@ namespace Game
 	}
 	
 
+	void InitGuard(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.isGuarding == false)
+				{
+					return enAnim_Idle;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
 	void InitCutMode(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum

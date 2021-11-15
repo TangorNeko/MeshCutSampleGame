@@ -44,6 +44,16 @@ namespace Game
 			m_playerAnimationParam.isCutMode = true;
 		}
 
+		//TODO:仮のガードアニメ　後からクラス分離
+		if (g_pad[0]->IsPress(enButtonRB1))
+		{
+			m_playerAnimationParam.isGuarding = true;
+		}
+		else
+		{
+			m_playerAnimationParam.isGuarding = false;
+		}
+
 		//移動方向にモデルを向ける
 		m_playerMove.TurnModelToMoveDirection(m_playerModel);
 

@@ -13,6 +13,11 @@ namespace Game
 					return enAnim_Attack;
 				}
 
+				if (param.isRunning == true)
+				{
+					return enAnim_Run;
+				}
+
 				if (param.isWalking == true)
 				{
 					return enAnim_Walk;
@@ -21,6 +26,11 @@ namespace Game
 				if (param.isCutMode == true)
 				{
 					return enAnim_CutMode;
+				}
+
+				if (param.isGuarding == true)
+				{
+					return enAnim_Guard;
 				}
 
 				return playerAnimState->GetMyState();
@@ -35,6 +45,11 @@ namespace Game
 				if (param.comboNum == 1)
 				{
 					return enAnim_Attack;
+				}
+
+				if (param.isRunning == true)
+				{
+					return enAnim_Run;
 				}
 
 				if (param.isWalking == false)
@@ -54,6 +69,30 @@ namespace Game
 
 	void InitRun(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.comboNum == 1)
+				{
+					return enAnim_Attack;
+				}
 
+				if (param.isWalking == true)
+				{
+					return enAnim_Walk;
+				}
+
+				if (param.isRunning == false)
+				{
+					return enAnim_Idle;
+				}
+
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
 	}
 }

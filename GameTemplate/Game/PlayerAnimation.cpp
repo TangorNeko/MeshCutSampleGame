@@ -8,9 +8,13 @@ namespace
 {
 	const char* PATH_ANIM_IDLE = "Assets/animData/player/Idle_St1.tka";
 	const char* PATH_ANIM_WALK = "Assets/animData/player/Walk_St1.tka";
+	//TODO:走りモーションに変更
+	const char* PATH_ANIM_RUN = "Assets/animData/player/Combo1_1_St1.tka";
 	const char* PATH_ANIM_ATTACK = "Assets/animData/player/Combo1_1_St1.tka";
 	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";
 	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
+	//TODO:ガードモーションに変更
+	const char* PATH_ANIM_GUARD = "Assets/animData/player/Walk_St1.tka";
 	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/Idle_St1.tka";
 	const float SPEED_PLAYER_ANIM = 1.0f;
 }
@@ -32,12 +36,16 @@ namespace Game
 		m_animationClips[enAnim_Idle].SetLoopFlag(true);
 		m_animationClips[enAnim_Walk].Load(PATH_ANIM_WALK);
 		m_animationClips[enAnim_Walk].SetLoopFlag(true);
+		m_animationClips[enAnim_Run].Load(PATH_ANIM_RUN);
+		m_animationClips[enAnim_Run].SetLoopFlag(true);
 		m_animationClips[enAnim_Attack].Load(PATH_ANIM_ATTACK);
 		m_animationClips[enAnim_Attack].SetLoopFlag(false);
 		m_animationClips[enAnim_Attack2].Load(PATH_ANIM_ATTACK2);
 		m_animationClips[enAnim_Attack2].SetLoopFlag(false);
 		m_animationClips[enAnim_Attack3].Load(PATH_ANIM_ATTACK3);
 		m_animationClips[enAnim_Attack3].SetLoopFlag(false);
+		m_animationClips[enAnim_Guard].Load(PATH_ANIM_GUARD);
+		m_animationClips[enAnim_Guard].SetLoopFlag(true);
 		m_animationClips[enAnim_CutMode].Load(PATH_ANIM_CUTMODE);
 		m_animationClips[enAnim_CutMode].SetLoopFlag(true);
 
@@ -48,11 +56,14 @@ namespace Game
 			m_animationState[i]->SetState(static_cast<PlayerAnimationEnum>(i));
 		}
 
+		//各アニメーションステートの遷移条件をセット
 		InitIdle(m_animationState[enAnim_Idle]);
 		InitWalk(m_animationState[enAnim_Walk]);
+		InitRun(m_animationState[enAnim_Run]);
 		InitAttack1(m_animationState[enAnim_Attack]);
 		InitAttack2(m_animationState[enAnim_Attack2]);
 		InitAttack3(m_animationState[enAnim_Attack3]);
+		InitGuard(m_animationState[enAnim_Guard]);
 		InitCutMode(m_animationState[enAnim_CutMode]);
 		
 		//初期状態で再生されるアニメーションのステートを格納
