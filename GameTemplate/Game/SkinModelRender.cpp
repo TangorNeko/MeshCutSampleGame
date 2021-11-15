@@ -220,7 +220,7 @@ namespace Game
 	bool SkinModelRender::IsCoreOnFront(const Vector3& cutNormal, const Vector3& cutPoint)
 	{
 		//切断面の一点からコアへのベクトルと法線方向のベクトルを求めて正規化する
-		Vector3 corePosition = m_position + m_toCorePosition;
+		Vector3 corePosition = m_position + m_toCoreVector;
 		Vector3 pointToCore = corePosition - cutPoint;
 		pointToCore.Normalize();
 
