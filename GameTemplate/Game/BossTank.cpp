@@ -6,6 +6,9 @@ namespace
 	const char* MODEL_PATH_BASE = "Assets/modelData/TankBase.tkm";
 	const char* MODEL_PATH_TURRET = "Assets/modelData/TankTurret.tkm";
 	const char* MODEL_PATH_CANNON = "Assets/modelData/TankCannon.tkm";
+	const wchar_t* CANNONCUT_TEXT = L"Can Cut Cannon";
+	const wchar_t* ALLCUT_TEXT = L"Can Cut All";
+	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
 
 namespace Game
@@ -51,6 +54,13 @@ namespace Game
 		m_baseRender->SetPosition(m_position);
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
+
+		if (m_hp <= 500.0f)
+		{
+			Vector2 screenPos;
+			g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, m_position);
+			m_fontRender->SetPosition(screenPos);
+		}
 	}
 
 	void BossTank::Damage(float damage)
@@ -60,6 +70,14 @@ namespace Game
 		//‘Ì—Í”¼•ª‚Å–CgØ’f‰Â”\‚É
 		if (m_hp <= 500.0f)
 		{
+			if (m_fontRender == nullptr)
+			{
+				m_fontRender = NewGO<FontRender>(0);
+				m_fontRender->SetText(CANNONCUT_TEXT);
+				m_fontRender->SetShadowFlag(true);
+				m_fontRender->SetShadowColor(SHADOWCOLOR_BLACK);
+			}
+
 			m_cannonRender->SetDivideFlag(true);
 			ModelCutManager::GetInstance()->AddCuttable(m_cannonRender);
 		}
@@ -68,6 +86,7 @@ namespace Game
 		if (m_hp < 0)
 		{
 			m_hp = 0;
+			m_fontRender->SetText(ALLCUT_TEXT);
 			m_baseRender->SetDivideFlag(true);
 			m_turretRender->SetDivideFlag(true);
 			ModelCutManager::GetInstance()->AddCuttable(m_baseRender);

@@ -44,6 +44,7 @@ public:
 		(void)renderContext;
 	}
 	
+	//TODO:引数にSkinModelRenderを持たせるようにして切断されたモデルにアクセスできるようにしてもいいかもしれない
 	virtual void OnDivide()
 	{
 

@@ -26,9 +26,10 @@ namespace Game
 		void Damage(float damage);
 	private:
 		Vector3 m_position = Vector3::Zero;
-		SkinModelRender* m_baseRender;
-		SkinModelRender* m_turretRender;
-		SkinModelRender* m_cannonRender;
+		SkinModelRender* m_baseRender = nullptr;
+		SkinModelRender* m_turretRender = nullptr;
+		SkinModelRender* m_cannonRender = nullptr;
+		FontRender* m_fontRender = nullptr;
 		Quaternion m_baseRot;
 		Quaternion m_turretRot;
 		float m_baseDeg;
