@@ -3,10 +3,12 @@
 #include "BackGround.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "BossTank.h"
 
 namespace
 {
 	const Vector3 ENEMY_POSITION[4] = { { 200.0f,150.0f,500.0f }, { -300.0f,150.0f,200.0f } ,{ -100.0f,150.0f,-300.0f } ,{ 200.0f,0.0f,-200.0f } };
+	const Vector3 BOSS_POSITION = { 0.0f,0.0f,-1500.0f };
 }
 
 namespace Game
@@ -26,6 +28,9 @@ namespace Game
 			m_enemy[i] = NewGO<Enemy>(0, "enemy");
 			m_enemy[i]->SetPosition(ENEMY_POSITION[i]);
 		}
+
+		m_bossTank = NewGO<BossTank>(0);
+		m_bossTank->SetPosition(BOSS_POSITION);
 
 		//NOTE:テスト用
 		Quaternion testRotX;

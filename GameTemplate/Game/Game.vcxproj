@@ -363,6 +363,7 @@
     <ClCompile Include="AnimationState.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />
+    <ClCompile Include="BossTank.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -468,6 +469,7 @@
     <ClInclude Include="AnimationState.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="AxisCalculator.h" />
+    <ClInclude Include="BossTank.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FontRender.h" />

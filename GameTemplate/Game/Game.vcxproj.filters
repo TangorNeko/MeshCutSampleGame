@@ -329,6 +329,9 @@
     <ClCompile Include="PlayerMoveAnimationState.cpp">
       <Filter>ソース ファイル\Player\AnimationState</Filter>
     </ClCompile>
+    <ClCompile Include="BossTank.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -624,6 +627,9 @@
     </ClInclude>
     <ClInclude Include="PlayerMoveAnimationState.h">
       <Filter>ヘッダー ファイル\Player\AnimationState</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTank.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
