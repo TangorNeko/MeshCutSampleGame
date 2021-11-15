@@ -67,6 +67,33 @@ namespace Game
 		Init(modelPath, nullptr, nullptr, 0, modelUpAxis);
 	}
 
+	void SkinModelRender::InitUnlit(const char* modelPath, EnModelUpAxis modelUpAxis)
+	{
+		//モデルがなければ生成
+		if (m_model == nullptr)
+		{
+			m_model = new Model;
+		}
+
+		//モデルのファイルパスの指定
+		m_modelInitData.m_tkmFilePath = modelPath;
+
+		//シェーダーパスの指定
+		m_modelInitData.m_fxFilePath = "Assets/shader/unlit.fx";
+
+		//シェーダーの頂点シェーダーのエントリー関数名の指定
+		m_modelInitData.m_vsEntryPointFunc = "VSMain";
+
+		//シェーダーのピクセルシェーダーのエントリー関数名の指定
+		m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
+
+		//モデルデータの上方向の軸を指定
+		m_modelInitData.m_modelUpAxis = modelUpAxis;
+
+		//モデルの初期化
+		m_model->Init(m_modelInitData);
+	}
+
 	void SkinModelRender::InitFromModel(Model* model)
 	{
 		if (m_model == nullptr)

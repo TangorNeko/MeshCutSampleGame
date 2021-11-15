@@ -52,6 +52,9 @@ namespace Game
 		*/
 		void Init(const char* modelPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
 
+
+		void InitUnlit(const char* modelPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
+
 		/**
 		 * @brief モデルクラスのポインタからの初期化
 		 * @param model 

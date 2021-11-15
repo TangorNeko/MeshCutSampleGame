@@ -3,8 +3,7 @@
 
 namespace
 {
-	const char* PATH_CUTPLANEMODEL = "Assets/modelData/testCutPlane.tkm";
-	const Vector3 SCALE_CUTPLANE = { 0.25f,1.0f,1.0f };
+	const char* PATH_CUTPLANEMODEL = "Assets/modelData/CutIndicator.tkm";
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
 	const float CUT_RANGE = 500.0f;
 }
@@ -63,8 +62,7 @@ namespace Game
 		if (g_pad[0]->IsPress(enButtonLB1) && m_isCutMode == false)
 		{
 			m_testCutPlane = NewGO<SkinModelRender>(0);
-			m_testCutPlane->Init(PATH_CUTPLANEMODEL);
-			m_testCutPlane->SetScale(SCALE_CUTPLANE);
+			m_testCutPlane->InitUnlit(PATH_CUTPLANEMODEL);
 			m_testCutPlane->SetPosition(playerPosition);
 
 
