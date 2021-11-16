@@ -5,7 +5,11 @@ namespace Game
 {
 	CutDummy::~CutDummy()
 	{
-
+		//カットされていなかったらモデルを削除
+		if (m_isCut == false)
+		{
+			DeleteGO(m_dummyModel);
+		}
 	}
 
 	bool CutDummy::Start()
@@ -42,7 +46,22 @@ namespace Game
 		//線形移動する要素を設定する。
 		//0を指定した軸は移動しない。
 		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
+
+		//所有者をセット
+		m_dummyModel->SetOwner(this);
 		return true;
+	}
+
+	void CutDummy::OnDivide()
+	{
+		//分割後の元のモデルをダミーとして作成
+		m_dummyModel->MakeDummy();
+
+		//カットされたフラグをオン
+		m_isCut = true;
+
+		//ダミーとして新しく作成されたので、自身のクラスは不要
+		DeleteGO(this);
 	}
 
 	void CutDummy::Update()

@@ -7,9 +7,11 @@ namespace Game
 	public:
 		~CutDummy();
 
-		bool Start();
+		bool Start() override;
 
-		void Update();
+		void Update() override;
+
+		void OnDivide() override;
 
 		/**
 		 * @brief スキンモデルを直接登録する
@@ -54,6 +56,7 @@ namespace Game
 		Quaternion m_capsuleRot = Quaternion::Identity;		//上方向からカプセルの軸方向へ回転させるクォータニオン
 		Quaternion m_toModelRot = Quaternion::Identity;		//カプセルの軸方向から上方向へ回転させる(カプセル軸への回転を戻す)クォータニオン
 		Quaternion m_modelRot = Quaternion::Identity;		//元々のモデルのクォータニオン
+		bool m_isCut = false;								//切断された?
 	};
 }
 
