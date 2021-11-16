@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PlayerAttack.h"
-#include "Enemy.h"
+#include "EnemyMissile.h"
 #include "BossTank.h"
 
 namespace
@@ -56,7 +56,7 @@ namespace Game
 
 
 				//‹ß‚­‚Ì“G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-				QueryGOs<Enemy>("enemy", [&playerPosition](Enemy* enemy)
+				QueryGOs<EnemyMissile>("enemy", [&playerPosition](EnemyMissile* enemy)
 					{
 						Vector3 distance = playerPosition - enemy->GetPosition();
 

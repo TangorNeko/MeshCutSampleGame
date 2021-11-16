@@ -2,7 +2,7 @@
 #include "GameScene.h"
 #include "BackGround.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "EnemyMissile.h"
 #include "BossTank.h"
 
 namespace
@@ -25,7 +25,7 @@ namespace Game
 
 		for (int i = 0; i < 4; i++)
 		{
-			m_enemy[i] = NewGO<Enemy>(0, "enemy");
+			m_enemy[i] = NewGO<EnemyMissile>(0, "enemy");
 			m_enemy[i]->SetPosition(ENEMY_POSITION[i]);
 		}
 

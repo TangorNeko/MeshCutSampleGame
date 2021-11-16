@@ -365,7 +365,7 @@
     <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="BossTank.cpp" />
     <ClCompile Include="CutDummy.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyMissile.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ModelCutManager.cpp" />
@@ -471,7 +471,7 @@
     <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="BossTank.h" />
     <ClInclude Include="CutDummy.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyMissile.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ModelCutManager.h" />
