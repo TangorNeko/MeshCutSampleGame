@@ -8,13 +8,11 @@ namespace
 {
 	const char* PATH_ANIM_IDLE = "Assets/animData/player/Idle_St1.tka";
 	const char* PATH_ANIM_WALK = "Assets/animData/player/Walk_St1.tka";
-	//TODO:走りモーションに変更
-	const char* PATH_ANIM_RUN = "Assets/animData/player/Combo1_1_St1.tka";
+	const char* PATH_ANIM_RUN = "Assets/animData/player/Run_St1.tka";
 	const char* PATH_ANIM_ATTACK = "Assets/animData/player/Combo1_1_St1.tka";
 	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";
 	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
-	//TODO:ガードモーションに変更
-	const char* PATH_ANIM_GUARD = "Assets/animData/player/Walk_St1.tka";
+	const char* PATH_ANIM_GUARD = "Assets/animData/player/Guard.tka";
 	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/Idle_St1.tka";
 	const float SPEED_PLAYER_ANIM = 1.0f;
 }
