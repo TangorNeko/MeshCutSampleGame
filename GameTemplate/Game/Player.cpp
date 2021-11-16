@@ -5,6 +5,7 @@ namespace
 {
 	const char* PATH_PLAYER_MODEL = "Assets/modelData/Samurai.tkm";
 	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Samurai.tks";
+	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
 
 namespace Game
@@ -27,11 +28,25 @@ namespace Game
 		m_playerMove.Init(m_position);
 		m_playerModel->SetPosition(m_position);
 
+		//プレイヤーのHP表示
+		m_hpRender = NewGO<FontRender>(1);
+		wchar_t buffer[256];
+		swprintf_s(buffer, L"HP:%d",m_hp);
+		m_hpRender->SetText(buffer);
+		m_hpRender->SetShadowFlag(true);
+		m_hpRender->SetShadowColor(SHADOWCOLOR_BLACK);
 		return true;
 	}
 
 	void Player::Update()
 	{
+		//プレイヤーのHP表示
+		//TODO:クラス分離
+		wchar_t buffer[256];
+		swprintf_s(buffer, L"HP:%d", m_hp);
+		m_hpRender->SetText(buffer);
+		m_hpRender->SetPosition({ -600.0f,330.0f });
+
 		//移動
 		//NOTE:仮。LB1押している時は移動させない
 		if (g_pad[0]->IsPress(enButtonLB1) == false)

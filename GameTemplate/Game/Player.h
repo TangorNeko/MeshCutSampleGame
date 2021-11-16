@@ -24,6 +24,8 @@ namespace Game
 		PlayerAnimationParam m_playerAnimationParam;//プレイヤーのアニメーション制御ステータス
 		PlayerAttack m_playerAttack;				//プレイヤーの攻撃クラス
 		PlayerCut m_playerCut;						//プレイヤーの切断クラス
+		int m_hp = 1000;
+		FontRender* m_hpRender = nullptr;
 	};
 }
 
