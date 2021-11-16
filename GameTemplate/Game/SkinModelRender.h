@@ -52,7 +52,11 @@ namespace Game
 		*/
 		void Init(const char* modelPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
 
-
+		/**
+		 * @brief ライティングなしでモデルを初期化
+		 * @param modelPath モデルファイルのパス(.tkm)
+		 * @param modelUpAxis モデルの上方向の軸
+		*/
 		void InitUnlit(const char* modelPath, EnModelUpAxis modelUpAxis = enModelUpAxisZ);
 
 		/**
@@ -223,6 +227,11 @@ namespace Game
 		{
 			return m_model->CalcCapsuleData(heightAndRadius);
 		}
+
+		/**
+		 * @brief 自らのモデルから物理演算するダミーを作成する
+		*/
+		void MakeDummy();
 
 		/**
 		 * @brief スキンモデルの所有者を登録

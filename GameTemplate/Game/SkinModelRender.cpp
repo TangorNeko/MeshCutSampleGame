@@ -158,43 +158,8 @@ namespace Game
 			backModelRender->SetDivideNum(m_divideNum);
 
 			//物理エンジンを利用したダミーの作成
-			//NOTE:カットされるモデルの本体はずっと物理エンジンを使用しない形で残ります。
 
-			//切り離されたモデルの原点をAABBからモデルの中心に設定し、中心からAABBまでの一点までの距離を取得
-			backModelRender->SetModelCenterAsOrigin();
-
-			//カプセルのデータを取得
-			Vector2 heightAndRadius;
-			Vector3 capsuleAxis = backModelRender->CalcCapsuleData(heightAndRadius);
-
-			CutDummy* dummy = NewGO<CutDummy>(0);
-			dummy->SetSkinModel(backModelRender);
-
-			//カプセルのデータをセット
-			//TODO:回転も適用
-			//heightAndRadiusのxに高さ、yに半径が入っている
-			//NOTE:切断されるモデルの拡大率はxyzすべて同一でないとそもそもうまく斬れないので、
-			//いずれかの拡大率を乗算すればモデルの大きさに合ったカプセルの大きさになる
-			dummy->SetCapsuleHeight(heightAndRadius.x * m_scale.x);
-			dummy->SetCapsuleRadius(heightAndRadius.y * m_scale.x);
-
-			//カプセルの軸がローカル座標系なのでワールド座標系に変換
-			Matrix modelWorldMatrix = backModel->GetWorldMatrix();
-			modelWorldMatrix.Apply(capsuleAxis);
-			Vector3 localOrigin = Vector3::Zero;
-			modelWorldMatrix.Apply(localOrigin);
-			capsuleAxis -= localOrigin;
-			capsuleAxis.Normalize();
-
-			//カプセルは最初に軸が傾いている分回転させるが、そのままだとモデルもその回転についてくるので、
-			//戻すクォータニオンも求めておく
-			Quaternion capsuleRot,toModelRot;
-			//カプセルの傾きのクォータニオン
-			capsuleRot.SetRotation(Vector3::Up, capsuleAxis);
-			//カプセルの傾きを戻す(モデルに乗算する)クォータニオン
-			toModelRot.SetRotation(capsuleAxis, Vector3::Up);
-
-			dummy->SetRotations(capsuleRot, toModelRot);
+			backModelRender->MakeDummy();
 
 			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
@@ -204,6 +169,45 @@ namespace Game
 				m_owner->OnDivide();
 			}
 		}
+	}
+
+	void SkinModelRender::MakeDummy()
+	{
+		//切り離されたモデルの原点をAABBからモデルの中心に設定し、中心からAABBまでの一点までの距離を取得
+		SetModelCenterAsOrigin();
+
+		//カプセルのデータを取得
+		Vector2 heightAndRadius;
+		Vector3 capsuleAxis = CalcCapsuleData(heightAndRadius);
+
+		CutDummy* dummy = NewGO<CutDummy>(0);
+		dummy->SetSkinModel(this);
+
+		//カプセルのデータをセット
+		
+		//heightAndRadiusのxに高さ、yに半径が入っている
+		//NOTE:切断されるモデルの拡大率はxyzすべて同一でないとそもそもうまく斬れないので、
+		//いずれかの拡大率を乗算すればモデルの大きさに合ったカプセルの大きさになる
+		dummy->SetCapsuleHeight(heightAndRadius.x * m_scale.x);
+		dummy->SetCapsuleRadius(heightAndRadius.y * m_scale.x);
+
+		//カプセルの軸がローカル座標系なのでワールド座標系に変換
+		Matrix modelWorldMatrix = m_model->GetWorldMatrix();
+		modelWorldMatrix.Apply(capsuleAxis);
+		Vector3 localOrigin = Vector3::Zero;
+		modelWorldMatrix.Apply(localOrigin);
+		capsuleAxis -= localOrigin;
+		capsuleAxis.Normalize();
+
+		//カプセルは最初に軸が傾いている分回転させるが、そのままだとモデルもその回転についてくるので、
+		//戻すクォータニオンも求めておく
+		Quaternion capsuleRot, toModelRot;
+		//カプセルの傾きのクォータニオン
+		capsuleRot.SetRotation(Vector3::Up, capsuleAxis);
+		//カプセルの傾きを戻す(モデルに乗算する)クォータニオン
+		toModelRot.SetRotation(capsuleAxis, Vector3::Up);
+
+		dummy->SetRotations(capsuleRot, toModelRot);
 	}
 
 	void SkinModelRender::SetModelCenterAsOrigin()
