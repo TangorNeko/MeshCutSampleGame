@@ -26,15 +26,18 @@ namespace Game
 		void Damage(float damage);
 	private:
 		Vector3 m_position = Vector3::Zero;
+		BoxCollider m_boxCollider;
+		RigidBody m_rigidBody;
 		SkinModelRender* m_baseRender = nullptr;
 		SkinModelRender* m_turretRender = nullptr;
 		SkinModelRender* m_cannonRender = nullptr;
 		FontRender* m_fontRender = nullptr;
+		FontRender* m_hpRender = nullptr;
 		Quaternion m_baseRot;
 		Quaternion m_turretRot;
 		float m_baseDeg;
 		float m_turretDeg;
-		float m_hp = 1000.0f;
+		int m_hp = 1000;
 		bool m_isCannonBreak = false;
 	};
 }
