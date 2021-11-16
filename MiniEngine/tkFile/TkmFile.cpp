@@ -475,18 +475,21 @@ Vector3 TkmFile::CalcCapsuleAxis(Vector2& heightAndRadius)
 	float maxHeight = 0.0f;
 	float maxRadius = 0.0f;
 
+	//すべての頂点を走査
 	for (auto& pos : posArray)
-	{
+	{	//カプセルの軸に合わせて射影を求め、高さと半径を求める
 		float height = fabsf(Dot(capsuleAxis, pos));
 
 		float rad = acos(height/pos.Length());
 
 		float radius = height * tan(rad);
 
+		//求めた値の方が大きかったら最大値として格納
 		maxHeight = max(maxHeight, height);
 		maxRadius = max(maxRadius, radius);
 	}
 
+	//戻り値用のVector2クラスに高さと半径を格納する
 	heightAndRadius.x = maxHeight;
 	heightAndRadius.y = maxRadius;
 
@@ -496,16 +499,22 @@ Vector3 TkmFile::CalcCapsuleAxis(Vector2& heightAndRadius)
 bool TkmFile::DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint)
 {
 	Util::MeshDivider meshDivider;
+
+	//メッシュパーツを走査
 	for (auto& mesh : m_meshParts)
 	{
 		meshDivider.Init(&mesh);
+
+		//メッシュパーツを平面が切断するか判定
 		bool isDivided = meshDivider.DivideCheck(cutNormal, cutPoint);
 
+		//一箇所でも切断の必要があれば真を返す
 		if (isDivided == true)
 		{
 			return true;
 		}
 	}
 
+	//すべてのメッシュパーツが切断の必要がなかったので偽を返す
 	return false;
 }
