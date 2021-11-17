@@ -19,6 +19,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 	Game::ModelCutManager::CreateInstance();
+	//リソースバンクマネージャーのインスタンスを作成
+	Engine::ResourceBankManager::CreateInstance();
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -71,6 +73,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();
+
+	//リソースバンクマネージャーを削除
+	Engine::ResourceBankManager::DeleteInstance();
 	return 0;
 }
 

@@ -103,8 +103,8 @@ void Material::InitPipelineState(DXGI_FORMAT colorBufferFormat)
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = { 0 };
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 	psoDesc.pRootSignature = m_rootSignature.Get();
-	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsSkinModel.GetCompiledBlob());
-	psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psModel.GetCompiledBlob());
+	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsSkinModel->GetCompiledBlob());
+	psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psModel->GetCompiledBlob());
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
@@ -129,11 +129,11 @@ void Material::InitPipelineState(DXGI_FORMAT colorBufferFormat)
 	m_skinModelPipelineState.Init(psoDesc);
 
 	//続いてスキンなしモデル用を作成。
-	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsNonSkinModel.GetCompiledBlob());
+	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsNonSkinModel->GetCompiledBlob());
 	m_nonSkinModelPipelineState.Init(psoDesc);
 
 	//続いて半透明マテリアル用。
-	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsSkinModel.GetCompiledBlob());
+	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsSkinModel->GetCompiledBlob());
 	psoDesc.BlendState.IndependentBlendEnable = TRUE;
 	psoDesc.BlendState.RenderTarget[0].BlendEnable = TRUE;
 	psoDesc.BlendState.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -143,7 +143,7 @@ void Material::InitPipelineState(DXGI_FORMAT colorBufferFormat)
 	
 	m_transSkinModelPipelineState.Init(psoDesc);
 
-	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsNonSkinModel.GetCompiledBlob());
+	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsNonSkinModel->GetCompiledBlob());
 	m_transNonSkinModelPipelineState.Init(psoDesc);
 
 }
@@ -154,12 +154,33 @@ void Material::InitShaders(
 	const char* psEntryPointFunc
 )
 {
+	//リソースバンクへの登録がwchar_tではできないので登録だけcharでするために変換。
+	char c_fxFilePath[256];
+	wcstombs(c_fxFilePath, fxFilePath, 256);
+
 	//スキンなしモデル用のシェーダーをロードする。
-	m_vsNonSkinModel.LoadVS(fxFilePath, vsEntryPointFunc);
+	m_vsNonSkinModel = Engine::ResourceBankManager::GetInstance()->GetShaderFromBank(c_fxFilePath, vsEntryPointFunc);
+	if (m_vsNonSkinModel == nullptr)
+	{
+		m_vsNonSkinModel = new Shader;
+		m_vsNonSkinModel->LoadVS(fxFilePath, vsEntryPointFunc);
+		Engine::ResourceBankManager::GetInstance()->RegistShaderToBank(c_fxFilePath, vsEntryPointFunc, m_vsNonSkinModel);
+	}
 	//スキンありモデル用のシェーダーをロードする。
-	m_vsSkinModel.LoadVS(fxFilePath, vsSkinEntriyPointFunc);
-	
-	m_psModel.LoadPS(fxFilePath, psEntryPointFunc);
+	m_vsSkinModel = Engine::ResourceBankManager::GetInstance()->GetShaderFromBank(c_fxFilePath, vsSkinEntriyPointFunc);
+	if (m_vsSkinModel == nullptr)
+	{
+		m_vsSkinModel = new Shader;
+		m_vsSkinModel->LoadVS(fxFilePath, vsSkinEntriyPointFunc);
+		Engine::ResourceBankManager::GetInstance()->RegistShaderToBank(c_fxFilePath, vsSkinEntriyPointFunc, m_vsSkinModel);
+	}
+	m_psModel = Engine::ResourceBankManager::GetInstance()->GetShaderFromBank(c_fxFilePath, psEntryPointFunc);
+	if (m_psModel == nullptr)
+	{
+		m_psModel = new Shader;
+		m_psModel->LoadPS(fxFilePath, psEntryPointFunc);
+		Engine::ResourceBankManager::GetInstance()->RegistShaderToBank(c_fxFilePath, psEntryPointFunc, m_psModel);
+	}
 }
 void Material::BeginRender(RenderContext& rc, int hasSkin)
 {

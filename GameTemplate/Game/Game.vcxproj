@@ -377,6 +377,7 @@
     <ClCompile Include="PlayerCut.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerMoveAnimationState.cpp" />
+    <ClCompile Include="ResourceBankManager.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
@@ -484,6 +485,7 @@
     <ClInclude Include="PlayerCut.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerMoveAnimationState.h" />
+    <ClInclude Include="ResourceBankManager.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />
     <ClInclude Include="ITriangleMaker.h" />
@@ -493,6 +495,7 @@
     <ClInclude Include="ThreeOnBackTriangle.h" />
     <ClInclude Include="ThreeOnFrontTriangle.h" />
     <ClInclude Include="ThreeOnPlaneTriangle.h" />
+    <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="TriangleDivideStruct.h" />
     <ClInclude Include="TriangleDivider.h" />
     <ClInclude Include="stdafx.h" />

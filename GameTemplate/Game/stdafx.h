@@ -6,3 +6,4 @@
 #include "SkinModelRender.h"
 #include "FontRender.h"
 #include "ModelCutManager.h"
+#include "ResourceBankManager.h"
