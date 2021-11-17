@@ -20,7 +20,7 @@ namespace Game
 
 		if (m_canCutTextRender != nullptr)
 		{
-			DeleteGO(m_missileRender);
+			DeleteGO(m_canCutTextRender);
 		}
 	}
 
