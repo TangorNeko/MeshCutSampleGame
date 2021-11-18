@@ -5,6 +5,9 @@
 namespace
 {
 	const char* PATH_MISSILEMODEL = "Assets/modelData/TankMissile.tkm";
+	const float COLLISION_HEIGHT = 350.0f;
+	const float COLLISION_RADIUS = 50.0f;
+	const float DEG_TO_MISSILE_DIRECTION = 90.0f;
 	const wchar_t* CANCUT_TEXT = L"Can Cut";
 	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
@@ -29,7 +32,7 @@ namespace Game
 		m_missileRender = NewGO<SkinModelRender>(0);
 		m_missileRender->Init(PATH_MISSILEMODEL);
 		m_missileRender->SetOwner(this);
-
+		m_testCapsule.CreateCapsule(m_position, m_qRot, COLLISION_RADIUS, COLLISION_HEIGHT);
 		return true;
 	}
 
@@ -38,6 +41,13 @@ namespace Game
 		m_position.x += 1.0f;
 		m_missileRender->SetPosition(m_position);
 		m_missileRender->SetRotation(m_qRot);
+		m_testCapsule.SetPosition(m_position);
+
+		//ミサイルは初期状態で横に傾いているため当たり判定のカプセルをミサイルの向きに合わせるための回転が必要
+		Quaternion toMissileModelRot;
+		toMissileModelRot.SetRotationDegX(DEG_TO_MISSILE_DIRECTION);
+		toMissileModelRot.Multiply(m_qRot);
+		m_testCapsule.SetRotation(toMissileModelRot);
 
 		if (m_hp <= 0)
 		{

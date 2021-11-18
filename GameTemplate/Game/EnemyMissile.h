@@ -1,4 +1,5 @@
 #pragma once
+#include "../../ExEngine/physics/tkPhysicsGhostObject.h"
 
 namespace Game
 {
@@ -52,5 +53,6 @@ namespace Game
 		float m_hp = 25.0f;								//体力(後に削除予定)
 		FontRender* m_canCutTextRender = nullptr;		//カット可能テキスト(後に削除予定)
 		bool m_isCut = false;							//カットされた?
+		CPhysicsGhostObject m_testCapsule;
 	};
 }
