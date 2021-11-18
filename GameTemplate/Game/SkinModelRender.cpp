@@ -166,7 +166,7 @@ namespace Game
 
 			if (m_owner != nullptr)
 			{
-				m_owner->OnDivide();
+				m_owner->OnDivide(this);
 			}
 		}
 	}

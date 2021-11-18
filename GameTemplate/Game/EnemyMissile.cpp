@@ -48,7 +48,7 @@ namespace Game
 		}
 	}
 
-	void EnemyMissile::OnDivide()
+	void EnemyMissile::OnDivide(const SkinModelRender* skinModelRender)
 	{
 		OutputDebugStringA("OnDivide");
 		m_missileRender->MakeDummy();

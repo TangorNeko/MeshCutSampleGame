@@ -7,6 +7,10 @@
 #include <list>
 #include <string>
 class RenderContext;
+namespace Game
+{
+	class SkinModelRender;
+}
 
 /*!
 	*@brief	ゲームオブジェクト。
@@ -45,7 +49,7 @@ public:
 	}
 	
 	//TODO:引数にSkinModelRenderを持たせるようにして切断されたモデルにアクセスできるようにしてもいいかもしれない
-	virtual void OnDivide()
+	virtual void OnDivide(const Game::SkinModelRender* skinModelRender)
 	{
 
 	}

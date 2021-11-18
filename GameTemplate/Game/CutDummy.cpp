@@ -52,7 +52,7 @@ namespace Game
 		return true;
 	}
 
-	void CutDummy::OnDivide()
+	void CutDummy::OnDivide(const SkinModelRender* skinModelRender)
 	{
 		//分割後の元のモデルをダミーとして作成
 		m_dummyModel->MakeDummy();

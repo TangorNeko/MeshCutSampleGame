@@ -61,7 +61,7 @@ namespace Game
 		return true;
 	}
 
-	void BossTank::OnDivide()
+	void BossTank::OnDivide(const SkinModelRender* skinModelRender)
 	{
 		//TODO:砲身が壊れたフラグ、行動を分岐させるのに使う
 		m_isCannonBreak = true;

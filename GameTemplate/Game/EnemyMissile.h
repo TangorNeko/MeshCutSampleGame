@@ -10,7 +10,7 @@ namespace Game
 
 		void Update() override;
 
-		void OnDivide() override;
+		void OnDivide(const SkinModelRender* skinModelRender) override;
 
 	public:
 		/**
