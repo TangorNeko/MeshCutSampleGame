@@ -107,7 +107,7 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 	//念の為正規化
 	modelLocalCutNormal.Normalize();
 
-	//TODO:分割前に面がモデル全体の頂点を1つでも分割するかの判定?
+	//分割前に面がモデル全体の頂点を1つでも分割するかの判定
 	bool isDivided = m_tkmFile.DivideCheck(modelLocalCutNormal, modelLocalCutPoint);
 
 	if (isDivided == false)
@@ -119,7 +119,12 @@ Model* Model::Divide(const ModelInitData& initData, const Vector3& worldCutNorma
 
 	//分割
 	newmodel->m_tkmFile.SetMeshParts(m_tkmFile.Divide(modelLocalCutNormal, modelLocalCutPoint));
-	newmodel->TkmFileToMeshParts(initData);
+	
+	//NOTE:分割後のモデルは直後に原点の移動を行い初期化するのでこの時点で初期化するのは無駄な処理が呼ばれそうなので上軸だけ渡す。
+	//分割後のモデルの原点を移動させないようなケースがあるなら初期化を検討
+	//newmodel->TkmFileToMeshParts(initData);
+	newmodel->m_modelUpAxis = initData.m_modelUpAxis;
+	
 	newmodel->SetWorldMatrix(m_world);
 
 	wchar_t wfxFilePath[256] = { L"" };
