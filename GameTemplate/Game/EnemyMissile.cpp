@@ -1,87 +1,62 @@
 #include "stdafx.h"
 #include "EnemyMissile.h"
-#include "CutDummy.h"
 
 namespace
 {
 	const char* PATH_MISSILEMODEL = "Assets/modelData/TankMissile.tkm";
-	const float COLLISION_HEIGHT = 350.0f;
-	const float COLLISION_RADIUS = 50.0f;
-	const wchar_t* CANCUT_TEXT = L"Can Cut";
-	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
+	const float TRIGGER_HEIGHT = 350.0f;
+	const float TRIGGER_RADIUS = 50.0f;
 }
 
 namespace Game
 {
 	EnemyMissile::~EnemyMissile()
 	{
+		//斬られた時の引き渡しの時以外でデストラクタが呼ばれたらモデルを削除
 		if (m_missileRender != nullptr && m_isCut == false)
 		{
 			DeleteGO(m_missileRender);
-		}
-
-		if (m_canCutTextRender != nullptr)
-		{
-			DeleteGO(m_canCutTextRender);
 		}
 	}
 
 	bool EnemyMissile::Start()
 	{
+		//モデルを作成
 		m_missileRender = NewGO<SkinModelRender>(0);
 		m_missileRender->Init(PATH_MISSILEMODEL);
+
+		//OnDivide関数で斬られた時の処理を記述するために所有者を設定
 		m_missileRender->SetOwner(this);
-		m_capsuleTrigger.CreateCapsule(m_position, m_qRot, COLLISION_RADIUS, COLLISION_HEIGHT);
+
+		//最初から斬れるようにしておく
+		m_missileRender->SetDivideFlag(true);
+		Game::ModelCutManager::GetInstance()->AddCuttable(m_missileRender);
+
+		//カプセルトリガーを作成
+		m_capsuleTrigger.CreateCapsule(m_position, m_qRot, TRIGGER_RADIUS, TRIGGER_HEIGHT);
 		return true;
 	}
 
 	void EnemyMissile::Update()
 	{
+		//モデルの座標と回転をセット
 		m_missileRender->SetPosition(m_position);
 		m_missileRender->SetRotation(m_qRot);
+
+		//カプセルトリガーの座標と回転をセット
 		m_capsuleTrigger.SetPosition(m_position);
 		m_capsuleTrigger.SetRotation(m_qRot);
-
-
-		if (m_hp <= 0)
-		{
-			Vector2 screenPos;
-			g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, m_position);
-
-			m_canCutTextRender->SetPosition(screenPos);
-		}
 	}
 
 	void EnemyMissile::OnDivide(const SkinModelRender* skinModelRender)
 	{
-		OutputDebugStringA("OnDivide");
+		//ダミーを作成
 		m_missileRender->MakeDummy();
+
+		//カットされたフラグをオンに
 		m_isCut = true;
 
+		//モデルレンダーをダミークラスに引き渡したので削除
 		DeleteGO(this);
-	}
-
-	void EnemyMissile::Damage(float damage)
-	{
-		if (m_isCut == false)
-		{
-			if (m_hp > 0)
-			{
-				m_hp -= damage;
-
-				if (m_hp <= 0)
-				{
-					m_hp = 0;
-
-					m_missileRender->SetDivideFlag(true);
-					Game::ModelCutManager::GetInstance()->AddCuttable(m_missileRender);
-
-					m_canCutTextRender = NewGO<FontRender>(0);
-					m_canCutTextRender->SetText(CANCUT_TEXT);
-					m_canCutTextRender->SetShadowFlag(true);
-					m_canCutTextRender->SetShadowColor(SHADOWCOLOR_BLACK);
-				}
-			}
-		}
 	}
 }
