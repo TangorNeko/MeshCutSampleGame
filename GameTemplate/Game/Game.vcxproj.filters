@@ -72,6 +72,12 @@
     <Filter Include="ヘッダー ファイル\Player\AnimationState">
       <UniqueIdentifier>{5def4e44-7f03-483f-9e86-c616ce6f74bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{6c95f72d-cc8a-458c-ae83-bca2c2077c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{90039e27-5ef0-4258-8bfe-d11e1b5703d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,9 +266,6 @@
     <ClCompile Include="BackGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMissile.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="FontRender.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -329,11 +332,17 @@
     <ClCompile Include="PlayerMoveAnimationState.cpp">
       <Filter>ソース ファイル\Player\AnimationState</Filter>
     </ClCompile>
-    <ClCompile Include="BossTank.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceBankManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTank.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMissile.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMissileMove.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,9 +565,6 @@
     <ClInclude Include="BackGround.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMissile.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="FontRender.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -631,14 +637,20 @@
     <ClInclude Include="PlayerMoveAnimationState.h">
       <Filter>ヘッダー ファイル\Player\AnimationState</Filter>
     </ClInclude>
-    <ClInclude Include="BossTank.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceBankManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TResourceBank.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTank.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMissile.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMissileMove.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

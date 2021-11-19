@@ -15,6 +15,13 @@ namespace Game
 
 		void Update() override;
 
+	public:
+
+		const Vector3& GetPosition() const
+		{
+			return m_position;
+		}
+
 	private:
 		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル
 		Vector3 m_position = Vector3::Zero;			//プレイヤーの座標

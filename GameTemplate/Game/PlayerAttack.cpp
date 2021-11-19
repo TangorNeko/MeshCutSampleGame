@@ -54,20 +54,6 @@ namespace Game
 				m_testHitBox->Init(PATH_HITBOXMODEL);
 				m_testHitBox->SetPosition(playerPosition);
 
-
-				//近くの敵にダメージを与える
-				QueryGOs<EnemyMissile>("enemy", [&playerPosition](EnemyMissile* enemy)
-					{
-						Vector3 distance = playerPosition - enemy->GetPosition();
-
-						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
-						{
-							enemy->Damage(ATTACK_DAMAGE);
-						}
-						return true;
-					}
-				);
-
 				//ボスに近ければダメージを与える
 				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
 				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する

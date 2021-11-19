@@ -1,5 +1,6 @@
 #pragma once
 #include "../../ExEngine/physics/tkPhysicsGhostObject.h"
+#include "EnemyMissileMove.h"
 
 namespace Game
 {
@@ -46,5 +47,6 @@ namespace Game
 		Quaternion m_qRot = Quaternion::Identity;		//‰ñ“]
 		bool m_isCut = false;							//ƒJƒbƒg‚³‚ê‚½?
 		CPhysicsGhostObject m_capsuleTrigger;
+		EnemyMissileMove m_missileMove;
 	};
 }

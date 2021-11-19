@@ -34,11 +34,16 @@ namespace Game
 
 		//カプセルトリガーを作成
 		m_capsuleTrigger.CreateCapsule(m_position, m_qRot, TRIGGER_RADIUS, TRIGGER_HEIGHT);
+
+		//ターゲットを探す
+		m_missileMove.FindTarget();
 		return true;
 	}
 
 	void EnemyMissile::Update()
 	{
+		m_missileMove.Update(m_position);
+
 		//モデルの座標と回転をセット
 		m_missileRender->SetPosition(m_position);
 		m_missileRender->SetRotation(m_qRot);
