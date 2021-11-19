@@ -43,6 +43,7 @@ namespace Game
 	void EnemyMissile::Update()
 	{
 		m_missileMove.Update(m_position);
+		m_missileRotation.Update(m_qRot, m_missileMove.GetDirection());
 
 		//モデルの座標と回転をセット
 		m_missileRender->SetPosition(m_position);

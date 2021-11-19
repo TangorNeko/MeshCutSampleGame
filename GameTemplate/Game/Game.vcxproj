@@ -367,6 +367,7 @@
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="EnemyMissile.cpp" />
     <ClCompile Include="EnemyMissileMove.cpp" />
+    <ClCompile Include="EnemyMissileRotation.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ModelCutManager.cpp" />
@@ -475,6 +476,7 @@
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="EnemyMissile.h" />
     <ClInclude Include="EnemyMissileMove.h" />
+    <ClInclude Include="EnemyMissileRotation.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ModelCutManager.h" />

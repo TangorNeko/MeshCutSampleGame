@@ -1,6 +1,7 @@
 #pragma once
 #include "../../ExEngine/physics/tkPhysicsGhostObject.h"
 #include "EnemyMissileMove.h"
+#include "EnemyMissileRotation.h"
 
 namespace Game
 {
@@ -48,5 +49,6 @@ namespace Game
 		bool m_isCut = false;							//ƒJƒbƒg‚³‚ê‚½?
 		CPhysicsGhostObject m_capsuleTrigger;
 		EnemyMissileMove m_missileMove;
+		EnemyMissileRotation m_missileRotation;
 	};
 }
