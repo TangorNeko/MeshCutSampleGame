@@ -87,7 +87,7 @@ namespace Game
 	Quaternion PlayerMove::CalcToModelDirectionQRot()
 	{
 		//移動量が最小値以上(移動量に変化があった)の時のみ計算
-		if (m_moveAmount.LengthSq() < FLT_MIN)
+		if (m_moveAmount.LengthSq() < FLT_EPSILON)
 		{
 			return m_toMoveDirectionRot;
 		}
@@ -105,7 +105,7 @@ namespace Game
 	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
 	{
 		//移動量が限りなく少ない場合向きを変更しない
-		if (m_moveAmount.LengthSq() > FLT_MIN && modelRender != nullptr)
+		if (m_moveAmount.LengthSq() > FLT_EPSILON && modelRender != nullptr)
 		{
 			//モデルに回転を反映させる。
 			modelRender->SetRotation(CalcToModelDirectionQRot());
