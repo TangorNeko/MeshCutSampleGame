@@ -89,6 +89,10 @@ namespace Game
 			//カメラの移動
 			m_playerCamera.Update(m_position);
 		}
+		else
+		{
+			m_playerCamera.UpdateCutMode(m_position);
+		}
 		//TODO:LB1を押した時はプレイヤーの向きにカメラを移動
 
 		//アニメーションのアップデート

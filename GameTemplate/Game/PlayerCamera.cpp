@@ -5,11 +5,8 @@ namespace
 {
 	const Vector3 PLAYER_TO_TARGET = { 0.0f,150.0f,0.0f };
 	const float TOCAMERA_LENGTH = 500.0f;
-	//斬撃モード時のカメラの近さのイメージ
-	/*
-	const Vector3 PLAYER_TO_TARGET = { 30.0f,160.0f,0.0f };
-	const float TOCAMERA_LENGTH = 80.0f;
-	*/
+	const Vector3 CUTMODE_PLAYER_TO_TARGET = { 30.0f,160.0f,0.0f };
+	const float CUTMODE_TOCAMERA_LENGTH = 80.0f;
 	const float CAMERA_SPEED = 2.0f;
 }
 
@@ -42,6 +39,21 @@ namespace Game
 
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
 		Vector3 cameraPosition = m_cameraTarget + m_toCameraDirection * TOCAMERA_LENGTH;
+
+		//カメラ位置をセット
+		g_camera3D->SetPosition(cameraPosition);
+	}
+
+	void PlayerCamera::UpdateCutMode(const Vector3& playerPosition)
+	{
+		//カメラのターゲットはプレイヤーの位置から計算する
+		m_cameraTarget = playerPosition;
+		m_cameraTarget += CUTMODE_PLAYER_TO_TARGET;
+
+		g_camera3D->SetTarget(m_cameraTarget);
+
+		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
+		Vector3 cameraPosition = m_cameraTarget + m_toCameraDirection * CUTMODE_TOCAMERA_LENGTH;
 
 		//カメラ位置をセット
 		g_camera3D->SetPosition(cameraPosition);
