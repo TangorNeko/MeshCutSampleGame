@@ -14,6 +14,11 @@ namespace Game
 		Quaternion CalcToModelDirectionQRot();
 
 		void TurnModelToMoveDirection(SkinModelRender* modelRender);
+
+		CharacterController& GetCharaCon()
+		{
+			return m_charaCon;
+		}
 	private:
 		CharacterController m_charaCon;							//プレイヤーのキャラコン
 		Vector3 m_moveAmount = Vector3::Zero;					//プレイヤーの移動量

@@ -22,6 +22,13 @@ namespace Game
 			return m_position;
 		}
 
+		CharacterController& GetCharaCon()
+		{
+			return m_playerMove.GetCharaCon();
+		}
+
+		void Damage(int damage);
+
 	private:
 		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル
 		Vector3 m_position = Vector3::Zero;			//プレイヤーの座標

@@ -97,4 +97,9 @@ namespace Game
 		//ˆÚ“®‚ÌŒ‹‰Ê‚ðƒ‚ƒfƒ‹‚É”½‰f
 		m_playerModel->SetPosition(m_position);
 	}
+
+	void Player::Damage(int damage)
+	{
+		m_hp -= damage;
+	}
 }
