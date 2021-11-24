@@ -13,7 +13,7 @@ namespace Game
 
 		Quaternion CalcToModelDirectionQRot();
 
-		void TurnModelToMoveDirection(SkinModelRender* modelRender);
+		void TurnModelToPlayerDirection(SkinModelRender* modelRender);
 
 		const Vector3& GetPlayerDirection()
 		{

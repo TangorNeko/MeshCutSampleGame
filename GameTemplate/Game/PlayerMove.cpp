@@ -92,12 +92,6 @@ namespace Game
 
 	Quaternion PlayerMove::CalcToModelDirectionQRot()
 	{
-		//移動量が最小値以上(移動量に変化があった)の時のみ計算
-		if (m_playerDirection.LengthSq() < FLT_EPSILON)
-		{
-			return m_toMoveDirectionRot;
-		}
-
 		//移動方向のx,zから回転角度を取得
 		float turnAngle = atan2(m_playerDirection.x, m_playerDirection.z);
 
@@ -108,13 +102,9 @@ namespace Game
 		return m_toMoveDirectionRot;
 	}
 
-	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
+	void PlayerMove::TurnModelToPlayerDirection(SkinModelRender* modelRender)
 	{
-		//移動量が限りなく少ない場合向きを変更しない
-		if (m_playerDirection.LengthSq() > FLT_EPSILON && modelRender != nullptr)
-		{
-			//モデルに回転を反映させる。
-			modelRender->SetRotation(CalcToModelDirectionQRot());
-		}
+		//モデルに回転を反映させる。
+		modelRender->SetRotation(CalcToModelDirectionQRot());
 	}
 }
