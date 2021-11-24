@@ -41,6 +41,12 @@ namespace Game
 		//移動方向を正規化
 		m_moveAmount.Normalize();
 
+		//移動量が最小値以上(移動量に変化があった)の時のみ向きを格納
+		if (m_moveAmount.LengthSq() > FLT_EPSILON)
+		{
+			m_playerDirection = m_moveAmount;
+		}
+
 		//走りボタンを押していれば走る
 		if (g_pad[0]->IsPress(BUTTON_RUN))
 		{
@@ -87,13 +93,13 @@ namespace Game
 	Quaternion PlayerMove::CalcToModelDirectionQRot()
 	{
 		//移動量が最小値以上(移動量に変化があった)の時のみ計算
-		if (m_moveAmount.LengthSq() < FLT_EPSILON)
+		if (m_playerDirection.LengthSq() < FLT_EPSILON)
 		{
 			return m_toMoveDirectionRot;
 		}
 
 		//移動方向のx,zから回転角度を取得
-		float turnAngle = atan2(m_moveAmount.x, m_moveAmount.z);
+		float turnAngle = atan2(m_playerDirection.x, m_playerDirection.z);
 
 		//回転角度分のクォータニオンを作成
 		m_toMoveDirectionRot = Quaternion::Identity;
@@ -105,7 +111,7 @@ namespace Game
 	void PlayerMove::TurnModelToMoveDirection(SkinModelRender* modelRender)
 	{
 		//移動量が限りなく少ない場合向きを変更しない
-		if (m_moveAmount.LengthSq() > FLT_EPSILON && modelRender != nullptr)
+		if (m_playerDirection.LengthSq() > FLT_EPSILON && modelRender != nullptr)
 		{
 			//モデルに回転を反映させる。
 			modelRender->SetRotation(CalcToModelDirectionQRot());
