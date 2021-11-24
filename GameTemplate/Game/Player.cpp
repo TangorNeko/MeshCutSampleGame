@@ -47,9 +47,11 @@ namespace Game
 		m_hpRender->SetText(buffer);
 		m_hpRender->SetPosition({ -600.0f,330.0f });
 
+		bool isCutMode = g_pad[0]->IsPress(enButtonLB1);
+
 		//移動
 		//NOTE:仮。LB1押している時は移動させない
-		if (g_pad[0]->IsPress(enButtonLB1) == false)
+		if (isCutMode == false)
 		{
 			m_playerMove.Move(m_position,m_playerAnimationParam);
 			m_playerAnimationParam.isCutMode = false;;
@@ -69,12 +71,33 @@ namespace Game
 			m_playerAnimationParam.isGuarding = false;
 		}
 
-		//移動方向にモデルを向ける
-		m_playerMove.TurnModelToMoveDirection(m_playerModel);
+		if (isCutMode == false)
+		{
+			//カメラの移動
+			m_playerCamera.Update(m_position);
+		}
+		else
+		{
+			//切断モード用カメラの移動
+			Vector3 newDirection = m_playerCamera.UpdateCutMode(m_position,m_playerMove.GetPlayerDirection());
 
-		//NOTE:仮で攻撃モデルと切断モデルを移動に追従させている　後から使わないようにする
-		m_playerMove.TurnModelToMoveDirection(m_playerAttack.GetModel());
-		m_playerMove.TurnModelToMoveDirection(m_playerCut.GetModel());
+			//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
+			m_playerMove.SetPlayerDirection(newDirection);
+		}
+
+		//プレイヤーの向きにモデルを向ける
+		m_playerMove.TurnModelToPlayerDirection(m_playerModel);
+
+		//NOTE:仮で攻撃モデルと切断モデルを向きに追従させている　後から使わないようにする
+		if (m_playerAttack.GetModel() != nullptr)
+		{
+			m_playerMove.TurnModelToPlayerDirection(m_playerAttack.GetModel());
+		}
+
+		if (m_playerCut.GetModel() != nullptr)
+		{
+			m_playerMove.TurnModelToPlayerDirection(m_playerCut.GetModel());
+		}
 
 
 		//攻撃のアップデート
@@ -83,17 +106,6 @@ namespace Game
 		//切断のアップデート
 		m_playerCut.Update(m_position, m_playerMove.CalcToModelDirectionQRot());
 
-		//NOTE:仮。LB1押している時はカメラを動かせない
-		if (g_pad[0]->IsPress(enButtonLB1) == false)
-		{
-			//カメラの移動
-			m_playerCamera.Update(m_position);
-		}
-		else
-		{
-			m_playerCamera.UpdateCutMode(m_position);
-		}
-		//TODO:LB1を押した時はプレイヤーの向きにカメラを移動
 
 		//アニメーションのアップデート
 		m_playerAnimation.Update(m_playerModel, m_playerAnimationParam);
