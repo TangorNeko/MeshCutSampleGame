@@ -51,16 +51,15 @@ namespace Game
 
 	void EnemyMissileMove::CalcAvg(Vector3& direction)
 	{
-		Vector3 currentFrameDirection = direction;
-
 		//向きをリストの後ろに詰めていく
-		m_pastDirectionList.push_back(currentFrameDirection);
+		m_pastDirectionList.push_back(direction);
 
 		int listSize = static_cast<int>(m_pastDirectionList.size());
 		//リストのサイズが15より多いなら
 		if (listSize > 15)
 		{
 			m_pastDirectionList.pop_front();
+			listSize--;
 		}
 
 		Vector3 directionSum = Vector3::Zero;
@@ -69,6 +68,6 @@ namespace Game
 			directionSum += pastDirection;
 		}
 		
-		direction = directionSum / (listSize + 1);
+		direction = directionSum / listSize;
 	}
 }
