@@ -43,6 +43,7 @@ namespace Game
 			m_qRot = rot;
 		}
 	private:
+		Player* m_trackingPlayer = nullptr;
 		SkinModelRender* m_missileRender = nullptr;		//スキンモデルレンダー
 		Vector3 m_position = Vector3::Zero;				//座標
 		Quaternion m_qRot = Quaternion::Identity;		//回転

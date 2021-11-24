@@ -4,7 +4,7 @@
 
 namespace
 {
-	const float MISSILE_SPEED = 9.0f;
+	const float MISSILE_SPEED = 30.0f;
 	const Vector3 ERROR_VECTOR3 = { 1000.0f,1000.0f,1000.0f };
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
 }
@@ -13,11 +13,6 @@ namespace Game
 {
 	EnemyMissileMove::EnemyMissileMove()
 	{
-	}
-
-	void EnemyMissileMove::FindTarget()
-	{
-		m_trackingPlayer = FindGO<Player>("player");
 	}
 
 	void EnemyMissileMove::Update(Vector3& position)

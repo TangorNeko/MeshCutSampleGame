@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "EnemyMissile.h"
+#include "Player.h"
 
 namespace
 {
 	const char* PATH_MISSILEMODEL = "Assets/modelData/TankMissile.tkm";
-	const float TRIGGER_HEIGHT = 350.0f;
+	const float TRIGGER_HEIGHT = 300.0f;
 	const float TRIGGER_RADIUS = 50.0f;
 }
 
@@ -36,7 +37,10 @@ namespace Game
 		m_capsuleTrigger.CreateCapsule(m_position, m_qRot, TRIGGER_RADIUS, TRIGGER_HEIGHT);
 
 		//ターゲットを探す
-		m_missileMove.FindTarget();
+		m_trackingPlayer = FindGO<Player>("player");
+
+		//ミサイルの移動クラスにターゲットを渡す
+		m_missileMove.SetTarget(m_trackingPlayer);
 		return true;
 	}
 

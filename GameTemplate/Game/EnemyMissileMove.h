@@ -9,7 +9,10 @@ namespace Game
 	public:
 		EnemyMissileMove();
 
-		void FindTarget();
+		void SetTarget(const Player* targetPlayer)
+		{
+			m_trackingPlayer = targetPlayer;
+		}
 
 		void Update(Vector3& position);
 
@@ -17,6 +20,8 @@ namespace Game
 		{
 			return m_moveDirection;
 		}
+
+		
 
 	private:
 		
