@@ -15,6 +15,8 @@ namespace Game
 
 		void OnDivide(const SkinModelRender* skinModelRender) override;
 
+		void PlayerHitTest();
+
 	public:
 		/**
 		 * @brief 座標をセット

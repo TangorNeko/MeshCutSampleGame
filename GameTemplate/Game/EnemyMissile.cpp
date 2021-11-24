@@ -56,6 +56,8 @@ namespace Game
 		//カプセルトリガーの座標と回転をセット
 		m_capsuleTrigger.SetPosition(m_position);
 		m_capsuleTrigger.SetRotation(m_qRot);
+
+		PlayerHitTest();
 	}
 
 	void EnemyMissile::OnDivide(const SkinModelRender* skinModelRender)
@@ -68,5 +70,21 @@ namespace Game
 
 		//モデルレンダーをダミークラスに引き渡したので削除
 		DeleteGO(this);
+	}
+
+	void EnemyMissile::PlayerHitTest()
+	{
+		PhysicsWorld::GetInstance()->ContactTest(m_trackingPlayer->GetCharaCon(), [&](const btCollisionObject& contactObject)
+			{
+				//追いかけているプレイヤーのキャラコンと自分のトリガーが接触していたら
+				if (m_capsuleTrigger.IsSelf(contactObject) == true) {
+					//ダメージを与える
+					m_trackingPlayer->Damage(500);
+
+					//自らを削除
+					DeleteGO(this);
+				}
+			}
+		);
 	}
 }
