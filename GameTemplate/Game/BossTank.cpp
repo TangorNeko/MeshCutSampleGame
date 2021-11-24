@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BossTank.h"
+#include "EnemyMissile.h"
 
 namespace
 {
@@ -87,6 +88,14 @@ namespace Game
 		if (g_pad[0]->IsPress(enButtonDown))
 		{
 			m_baseDeg -= 1.0f;
+		}
+
+		if (g_pad[0]->IsTrigger(enButtonLB3))
+		{
+			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
+			Vector3 pos = m_position;
+			pos.y += 200.0f;
+			missile->SetPosition(pos);
 		}
 
 		m_turretRot.SetRotationDegY(m_turretDeg);

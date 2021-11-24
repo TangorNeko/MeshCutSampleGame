@@ -78,6 +78,9 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{90039e27-5ef0-4258-8bfe-d11e1b5703d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy\Missile">
+      <UniqueIdentifier>{98ea5de6-82ad-4687-a997-d0dc3ba58d67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -339,13 +342,13 @@
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMissile.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy\Missile</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMissileMove.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy\Missile</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMissileRotation.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy\Missile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
