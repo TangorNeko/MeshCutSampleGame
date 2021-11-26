@@ -56,6 +56,8 @@ namespace Game
 		float m_turretDeg;
 		int m_hp = 1000;
 		bool m_isCannonBreak = false;
+		bool m_isTurretBreak = false;
+		bool m_isBaseBreak = false;
 		EnemyTask m_tankTask[BossTankTasks::enTaskNum];
 		std::queue<EnemyTask> m_taskQueue;
 	};

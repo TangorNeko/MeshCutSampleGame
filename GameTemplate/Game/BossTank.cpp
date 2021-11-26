@@ -16,9 +16,12 @@ namespace Game
 {
 	BossTank::~BossTank()
 	{
-		DeleteGO(m_baseRender);
-		DeleteGO(m_turretRender);
-		DeleteGO(m_cannonRender);
+		if (m_isTurretBreak == false && m_isBaseBreak == false)
+		{
+			DeleteGO(m_baseRender);
+			DeleteGO(m_turretRender);
+			DeleteGO(m_cannonRender);
+		}
 	}
 
 	bool BossTank::Start()
@@ -32,6 +35,8 @@ namespace Game
 		m_turretRender->Init(MODEL_PATH_TURRET);
 		m_cannonRender->Init(MODEL_PATH_CANNON);
 		m_cannonRender->SetToCoreVector({ 0.0f,175.0f,0.0f });
+		m_baseRender->SetOwner(this);
+		m_turretRender->SetOwner(this);
 		m_cannonRender->SetOwner(this);
 
 		//当たり判定の初期化
@@ -49,8 +54,32 @@ namespace Game
 
 	void BossTank::OnDivide(const SkinModelRender* skinModelRender)
 	{
-		//TODO:砲身が壊れたフラグ、行動を分岐させるのに使う
-		m_isCannonBreak = true;
+		if (skinModelRender == m_cannonRender)
+		{
+			//砲身が壊れたフラグをオン、行動を分岐させるのに使う
+			m_isCannonBreak = true;
+		}
+
+		//NOTE:baseRenderとturretRenderはおそらく同じくフレームで切断されるが、
+		//どちらも切断された時のみDeleteする。
+		if (skinModelRender == m_baseRender)
+		{
+			m_baseRender->MakeDummy();
+			m_isBaseBreak = true;
+		}
+
+		if (skinModelRender == m_turretRender)
+		{
+			m_turretRender->MakeDummy();
+			m_isTurretBreak = true;
+		}
+
+		//砲塔と本体がどちらも斬られたら完全にダミーに移行する
+		if (m_isTurretBreak && m_isBaseBreak)
+		{
+			m_cannonRender->MakeDummy();
+			DeleteGO(this);
+		}
 	}
 
 	void BossTank::Update()
