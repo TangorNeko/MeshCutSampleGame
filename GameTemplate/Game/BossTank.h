@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyTask.h"
+#include "BossTankCollision.h"
 #include "BossTankTasks.h"
 
 namespace Game
@@ -43,8 +44,7 @@ namespace Game
 		}
 	private:
 		Vector3 m_position = Vector3::Zero;
-		BoxCollider m_boxCollider;
-		RigidBody m_rigidBody;
+		BossTankCollision m_bossTankCollision;
 		SkinModelRender* m_baseRender = nullptr;
 		SkinModelRender* m_turretRender = nullptr;
 		SkinModelRender* m_cannonRender = nullptr;

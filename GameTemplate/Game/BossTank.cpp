@@ -41,26 +41,12 @@ namespace Game
 		m_hpRender->SetShadowFlag(true);
 		m_hpRender->SetShadowColor(SHADOWCOLOR_BLACK);
 
+		//“–‚½‚è”»’è‚Ì‰Šú‰»
+		m_bossTankCollision.Init(m_position, m_baseRot);
 
-		m_boxCollider.Create({ 400.0f,175.0f,800.0f });
-		RigidBodyInitData rbInitData;
-		rbInitData.mass = 100.0f;
-		rbInitData.collider = &m_boxCollider;
-		rbInitData.pos = m_position;
-		rbInitData.rot = m_baseRot;
-
-		rbInitData.localInteria.Set(
-			0.0f,
-			0.0f,
-			0.0f
-		);
-
+		//ƒ^ƒXƒN‚Ì“o˜^
 		BossTankTasks bossTankTasks;
 		bossTankTasks.SubmitTo(this);
-
-		m_rigidBody.Init(rbInitData);
-		m_rigidBody.SetFriction(10.0f);
-		m_rigidBody.SetLinearFactor(0.0f, 0.0f, 0.0f);
 
 		return true;
 	}
@@ -125,8 +111,6 @@ namespace Game
 
 		m_turretRot.Multiply(m_baseRot, m_turretRot);
 
-		Vector3 rbPos = m_position;
-		m_rigidBody.SetPositionAndRotation(m_position, m_baseRot);
 		m_baseRender->SetRotation(m_baseRot);
 		m_turretRender->SetRotation(m_turretRot);
 		m_cannonRender->SetRotation(m_turretRot);
@@ -135,6 +119,8 @@ namespace Game
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
 		m_cannonRender->SetToCoreVector({ 0.0f,175.0f,0.0f });
+
+		m_bossTankCollision.Update(m_position, m_baseRot);
 
 		wchar_t buffer[256];
 		swprintf_s(buffer, L"BOSSHP:%d", m_hp);
