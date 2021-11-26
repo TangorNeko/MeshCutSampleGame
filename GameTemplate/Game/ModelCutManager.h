@@ -45,15 +45,7 @@ namespace Game
 		 * @brief 切断するモデルのリストに追加する
 		 * @param cuttableModel 切断するモデル
 		*/
-		void AddCuttable(SkinModelRender* cuttableModel)
-		{
-			//切断フラグがtrueなら
-			if (cuttableModel->GetDivideFlag() == true)
-			{
-				//カットするモデルのコンテナに挿入
-				m_cutModelPtrSet.insert(cuttableModel);
-			}
-		}
+		void AddCuttable(SkinModelRender* cuttableModel);
 
 		/**
 		 * @brief 指定したモデルを切断するモデルのリストから

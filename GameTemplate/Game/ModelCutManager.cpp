@@ -5,6 +5,16 @@ namespace Game
 {
 	ModelCutManager* ModelCutManager::m_instance = nullptr;
 
+	void ModelCutManager::AddCuttable(SkinModelRender* cuttableModel)
+	{
+		//切断フラグがtrueなら
+		if (cuttableModel->GetDivideFlag() == true)
+		{
+			//カットするモデルのコンテナに挿入
+			m_cutModelPtrSet.insert(cuttableModel);
+		}
+	}
+
 	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, float cutDistance)
 	{
 		//切断モデルのリストを走査

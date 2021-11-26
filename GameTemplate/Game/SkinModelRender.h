@@ -7,6 +7,9 @@ namespace Game
 	private:
 		~SkinModelRender()
 		{
+			//切断可能リストから削除
+			ModelCutManager::GetInstance()->RemoveCuttable(this);
+
 			//モデルが存在していたら削除
 			if (m_model != nullptr)
 			{

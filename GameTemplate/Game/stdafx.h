@@ -3,7 +3,7 @@
 
 #include "MiniEngine.h"
 #include "ExEngine.h"
+#include "ModelCutManager.h"
 #include "SkinModelRender.h"
 #include "FontRender.h"
-#include "ModelCutManager.h"
 #include "ResourceBankManager.h"
