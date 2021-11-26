@@ -31,18 +31,14 @@ namespace Game
 		m_baseRender->Init(MODEL_PATH_BASE);
 		m_turretRender->Init(MODEL_PATH_TURRET);
 		m_cannonRender->Init(MODEL_PATH_CANNON);
+		m_cannonRender->SetToCoreVector({ 0.0f,175.0f,0.0f });
 		m_cannonRender->SetOwner(this);
-
-		m_hpRender = NewGO<FontRender>(1);
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"BOSSHP:%d", m_hp);
-		m_hpRender->SetText(buffer);
-		m_hpRender->SetPosition({ 350.0f,-300.0f });
-		m_hpRender->SetShadowFlag(true);
-		m_hpRender->SetShadowColor(SHADOWCOLOR_BLACK);
 
 		//当たり判定の初期化
 		m_bossTankCollision.Init(m_position, m_baseRot);
+
+		//体力等の表示の初期化
+		m_bossTankDisplay.Init(m_hp);
 
 		//タスクの登録
 		BossTankTasks bossTankTasks;
@@ -118,20 +114,12 @@ namespace Game
 		m_baseRender->SetPosition(m_position);
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
-		m_cannonRender->SetToCoreVector({ 0.0f,175.0f,0.0f });
 
+		//当たり判定の更新
 		m_bossTankCollision.Update(m_position, m_baseRot);
 
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"BOSSHP:%d", m_hp);
-		m_hpRender->SetText(buffer);
-
-		if (m_hp <= 500.0f)
-		{
-			Vector2 screenPos;
-			g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, m_position);
-			m_fontRender->SetPosition(screenPos);
-		}
+		//体力等の情報の更新
+		m_bossTankDisplay.Update(m_hp, m_position);
 	}
 
 	void BossTank::Damage(float damage)
@@ -141,14 +129,6 @@ namespace Game
 		//体力半分で砲身切断可能に
 		if (m_hp <= 500.0f)
 		{
-			if (m_fontRender == nullptr)
-			{
-				m_fontRender = NewGO<FontRender>(0);
-				m_fontRender->SetText(CANNONCUT_TEXT);
-				m_fontRender->SetShadowFlag(true);
-				m_fontRender->SetShadowColor(SHADOWCOLOR_BLACK);
-			}
-
 			m_cannonRender->SetDivideFlag(true);
 			ModelCutManager::GetInstance()->AddCuttable(m_cannonRender);
 		}
@@ -157,7 +137,6 @@ namespace Game
 		if (m_hp <= 0)
 		{
 			m_hp = 0;
-			m_fontRender->SetText(ALLCUT_TEXT);
 			m_baseRender->SetDivideFlag(true);
 			m_turretRender->SetDivideFlag(true);
 			ModelCutManager::GetInstance()->AddCuttable(m_baseRender);

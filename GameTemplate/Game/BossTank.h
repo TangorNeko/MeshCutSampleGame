@@ -2,6 +2,7 @@
 #include "EnemyTask.h"
 #include "BossTankCollision.h"
 #include "BossTankTasks.h"
+#include "BossTankDisplay.h"
 
 namespace Game
 {
@@ -48,8 +49,7 @@ namespace Game
 		SkinModelRender* m_baseRender = nullptr;
 		SkinModelRender* m_turretRender = nullptr;
 		SkinModelRender* m_cannonRender = nullptr;
-		FontRender* m_fontRender = nullptr;
-		FontRender* m_hpRender = nullptr;
+		BossTankDisplay m_bossTankDisplay;
 		Quaternion m_baseRot;
 		Quaternion m_turretRot;
 		float m_baseDeg;

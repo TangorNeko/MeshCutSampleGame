@@ -366,7 +366,10 @@
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BossTankCollision.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTankDisplay.cpp">
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -686,7 +689,10 @@
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BossTankCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTankDisplay.h">
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
