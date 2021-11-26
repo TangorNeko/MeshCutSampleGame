@@ -85,5 +85,12 @@ namespace Game
 		
 		//回転を適用
 		m_dummyModel->SetRotation(rot);
+
+		//時間の経過でダミーを削除
+		m_timer++;
+		if (m_timer == 360)
+		{
+			DeleteGO(this);
+		}
 	}
 }

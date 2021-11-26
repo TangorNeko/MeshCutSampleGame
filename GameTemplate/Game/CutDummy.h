@@ -57,6 +57,7 @@ namespace Game
 		Quaternion m_toModelRot = Quaternion::Identity;		//カプセルの軸方向から上方向へ回転させる(カプセル軸への回転を戻す)クォータニオン
 		Quaternion m_modelRot = Quaternion::Identity;		//元々のモデルのクォータニオン
 		bool m_isCut = false;								//切断された?
+		int m_timer = 0;									//消滅タイマー
 	};
 }
 
