@@ -12,9 +12,9 @@ namespace Game
 {
 	PlayerCut::~PlayerCut()
 	{
-		if (m_testCutPlane != nullptr)
+		if (m_cutPlaneRender != nullptr)
 		{
-			DeleteGO(m_testCutPlane);
+			DeleteGO(m_cutPlaneRender);
 		}
 	}
 
@@ -24,7 +24,7 @@ namespace Game
 		if (m_isCutMode == true)
 		{
 			Vector3 CutPoint = playerPosition + PLAYER_TO_CUTPOINT;
-			m_testCutPlane->SetPosition(CutPoint);
+			m_cutPlaneRender->SetPosition(CutPoint);
 			Vector3 cutNormal = { 1.0f,0.0f,0.0f };
 			Vector2 input = { g_pad[0]->GetRStickXF(),g_pad[0]->GetRStickYF() };
 			if (input.LengthSq() > 0.0f)
@@ -41,7 +41,7 @@ namespace Game
 			m_cutPlaneQRot.SetRotationZ(angle);
 			m_cutPlaneQRot.Multiply(playerQRot);
 			m_cutPlaneQRot.Apply(cutNormal);
-			m_testCutPlane->SetRotation(m_cutPlaneQRot);
+			m_cutPlaneRender->SetRotation(m_cutPlaneQRot);
 
 			//切断モード中にRB1ボタンで切断
 			if (g_pad[0]->IsTrigger(enButtonRB1))
@@ -53,9 +53,9 @@ namespace Game
 		//切断モードでない時はLB1を押すと切断モードに移行
 		if (g_pad[0]->IsPress(enButtonLB1) && m_isCutMode == false)
 		{
-			m_testCutPlane = NewGO<SkinModelRender>(0);
-			m_testCutPlane->InitUnlit(PATH_CUTPLANEMODEL);
-			m_testCutPlane->SetPosition(playerPosition);
+			m_cutPlaneRender = NewGO<SkinModelRender>(0);
+			m_cutPlaneRender->InitUnlit(PATH_CUTPLANEMODEL);
+			m_cutPlaneRender->SetPosition(playerPosition);
 
 
 			m_cutPlaneQRot = Quaternion::Identity;
@@ -67,8 +67,8 @@ namespace Game
 		//切断モード中にLB1の入力がなくなると切断モード終了
 		if (g_pad[0]->IsPress(enButtonLB1) == false && m_isCutMode == true)
 		{
-			DeleteGO(m_testCutPlane);
-			m_testCutPlane = nullptr;
+			DeleteGO(m_cutPlaneRender);
+			m_cutPlaneRender = nullptr;
 			m_isCutMode = false;
 		}
 	}
