@@ -55,6 +55,9 @@ namespace Game
 			0.0f
 		);
 
+		BossTankTasks bossTankTasks;
+		bossTankTasks.SubmitTo(this);
+
 		m_rigidBody.Init(rbInitData);
 		m_rigidBody.SetFriction(10.0f);
 		m_rigidBody.SetLinearFactor(0.0f, 0.0f, 0.0f);
@@ -92,10 +95,29 @@ namespace Game
 
 		if (g_pad[0]->IsTrigger(enButtonLB3))
 		{
-			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-			Vector3 pos = m_position;
-			pos.y += 200.0f;
-			missile->SetPosition(pos);
+			//NOTE:タスクはコピーで登録している。コピーの是非は要検討
+			m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+			m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+		}
+
+		if (m_taskQueue.size() > 0)
+		{
+			bool isEnd = m_taskQueue.front().Execute();
+
+			if (isEnd)
+			{
+				m_taskQueue.pop();
+			}
+		}
+
+		if (g_pad[0]->IsTrigger(enButtonLB2))
+		{
+			while (m_taskQueue.size() != 0)
+			{
+				m_taskQueue.front().Terminate();
+				m_taskQueue.pop();
+			}
 		}
 
 		m_turretRot.SetRotationDegY(m_turretDeg);

@@ -1,4 +1,6 @@
 #pragma once
+#include "EnemyTask.h"
+#include "BossTankTasks.h"
 
 namespace Game
 {
@@ -24,6 +26,21 @@ namespace Game
 		}
 
 		void Damage(float damage);
+
+		void SetTask(int taskNum, EnemyTask task)
+		{
+			m_tankTask[taskNum] = task;
+		}
+
+		void SetTurretDeg(float deg)
+		{
+			m_turretDeg = deg;
+		}
+
+		float GetTurretDeg()
+		{
+			return m_turretDeg;
+		}
 	private:
 		Vector3 m_position = Vector3::Zero;
 		BoxCollider m_boxCollider;
@@ -39,6 +56,8 @@ namespace Game
 		float m_turretDeg;
 		int m_hp = 1000;
 		bool m_isCannonBreak = false;
+		EnemyTask m_tankTask[BossTankTasks::enTaskNum];
+		std::queue<EnemyTask> m_taskQueue;
 	};
 }
 

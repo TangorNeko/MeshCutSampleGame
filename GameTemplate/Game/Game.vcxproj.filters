@@ -81,6 +81,15 @@
     <Filter Include="ソース ファイル\Enemy\Missile">
       <UniqueIdentifier>{98ea5de6-82ad-4687-a997-d0dc3ba58d67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy\BossTank">
+      <UniqueIdentifier>{c3f8e3e9-edf8-4e36-a1bb-7bad6f9022c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\BossTank">
+      <UniqueIdentifier>{f702b821-9a71-4631-8f3a-a79cbdd36222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Missile">
+      <UniqueIdentifier>{e9a99225-31d1-4810-b993-275fc2757be2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -338,9 +347,6 @@
     <ClCompile Include="ResourceBankManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BossTank.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyMissile.cpp">
       <Filter>ソース ファイル\Enemy\Missile</Filter>
     </ClCompile>
@@ -349,6 +355,15 @@
     </ClCompile>
     <ClCompile Include="EnemyMissileRotation.cpp">
       <Filter>ソース ファイル\Enemy\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTank.cpp">
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
+    </ClCompile>
+    <ClCompile Include="BossTankTasks.cpp">
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTask.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -650,15 +665,21 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BossTank.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMissile.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Missile</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMissileMove.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Missile</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMissileRotation.h">
+      <Filter>ヘッダー ファイル\Enemy\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTankTasks.h">
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTask.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

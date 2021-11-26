@@ -364,10 +364,12 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="BossTank.cpp" />
+    <ClCompile Include="BossTankTasks.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="EnemyMissile.cpp" />
     <ClCompile Include="EnemyMissileMove.cpp" />
     <ClCompile Include="EnemyMissileRotation.cpp" />
+    <ClCompile Include="EnemyTask.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ModelCutManager.cpp" />
@@ -473,10 +475,12 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="BossTank.h" />
+    <ClInclude Include="BossTankTasks.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="EnemyMissile.h" />
     <ClInclude Include="EnemyMissileMove.h" />
     <ClInclude Include="EnemyMissileRotation.h" />
+    <ClInclude Include="EnemyTask.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ModelCutManager.h" />
