@@ -43,6 +43,16 @@ namespace Game
 		{
 			return m_turretDeg;
 		}
+		
+		void SetBaseDeg(float deg)
+		{
+			m_baseDeg = deg;
+		}
+
+		float GetBaseDeg()
+		{
+			return m_baseDeg;
+		}
 	private:
 		Vector3 m_position = Vector3::Zero;
 		BossTankCollision m_bossTankCollision;
@@ -50,10 +60,10 @@ namespace Game
 		SkinModelRender* m_turretRender = nullptr;
 		SkinModelRender* m_cannonRender = nullptr;
 		BossTankDisplay m_bossTankDisplay;
-		Quaternion m_baseRot;
-		Quaternion m_turretRot;
-		float m_baseDeg;
-		float m_turretDeg;
+		Quaternion m_baseRot = Quaternion::Identity;
+		Quaternion m_turretRot = Quaternion::Identity;
+		float m_baseDeg = 0.0f;
+		float m_turretDeg = 0.0f;
 		int m_hp = 1000;
 		bool m_isCannonBreak = false;
 		bool m_isTurretBreak = false;

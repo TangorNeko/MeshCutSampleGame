@@ -9,6 +9,7 @@ namespace Game
 	{
 		SubmitMissileTask(bossTank);
 		SubmitWaitTask(bossTank);
+		SubmitRollingTask(bossTank);
 	}
 
 	void BossTankTasks::SubmitMissileTask(BossTank* bossTank)
@@ -68,7 +69,20 @@ namespace Game
 	{
 		EnemyTask RollingTask;
 
+		RollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
+			{
+				bossTank->SetTurretDeg(bossTank->GetTurretDeg() + 15.0f);
 
+				if (taskTime == 23)
+				{
+					return true;
+				}
+
+				return false;
+			}
+		);
+
+		bossTank->SetTask(enRolling, RollingTask);
 	}
 
 	void BossTankTasks::SubmitSummonTask(BossTank* bossTank)

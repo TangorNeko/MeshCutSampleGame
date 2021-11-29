@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BossTank.h"
 #include "EnemyMissile.h"
+#include "Player.h"
 
 namespace
 {
@@ -106,10 +107,25 @@ namespace Game
 
 		if (g_pad[0]->IsTrigger(enButtonLB3))
 		{
-			//NOTE:タスクはコピーで登録している。コピーの是非は要検討
-			m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
-			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-			m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+			m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
+		}
+
+		if (m_taskQueue.size() == 0)
+		{
+			Player* player = FindGO<Player>("player");
+
+			Vector3 distance = player->GetPosition() - m_position;
+
+			if (distance.LengthSq() <= 500.0f * 500.0f)
+			{
+				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+			}
+			else
+			{
+				m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+			}
 		}
 
 		if (m_taskQueue.size() > 0)
