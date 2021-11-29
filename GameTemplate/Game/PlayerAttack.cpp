@@ -9,7 +9,7 @@ namespace
 	const int TIME_ATTACK_END = 60;
 	const int TIME_COMBO_ACCEPTABLE = 20;
 	const int TIME_ATTACK_COLLISION = 14;
-	const float ATTACK_RANGE = 200.0f;
+	const float ATTACK_RANGE = 500.0f;
 	const float ATTACK_DAMAGE = 25.0f;
 	const EnButton BUTTON_ATTACK = enButtonX;
 }
@@ -57,6 +57,7 @@ namespace Game
 				//ボスに近ければダメージを与える
 				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
 				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する
+				//TODO:ミサイル等の重要でない敵オブジェクトは通常攻撃でも斬れるようにする?
 				BossTank* bossTank = FindGO<BossTank>("bosstank");
 				Vector3 distance = playerPosition - bossTank->GetPosition();
 
