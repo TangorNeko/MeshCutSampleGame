@@ -38,14 +38,22 @@ void GameObjectManager::ExecuteUpdate()
 		}
 	}
 
-
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->UpdateWrapper();
+	if (m_isPause == true)
+	{
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->PauseWrapper();
+			}
 		}
 	}
-	//物理エンジンのアップデートを呼び出す。
-	PhysicsWorld::GetInstance()->Update(1.0f/60.0f);
+	else
+	{
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->UpdateWrapper();
+			}
+		}
+	}
 }
 void GameObjectManager::ExecuteRender(RenderContext& rc)
 {

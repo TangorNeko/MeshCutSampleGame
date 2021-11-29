@@ -48,8 +48,19 @@ public:
 		(void)renderContext;
 	}
 	
-	//TODO:引数にSkinModelRenderを持たせるようにして切断されたモデルにアクセスできるようにしてもいいかもしれない
+	/**
+	 * @brief ゲームオブジェクトが所有するスキンモデルが切断された時呼ばれる関数
+	 * @param skinModelRender 切断されたスキンモデルレンダーのポインタ
+	*/
 	virtual void OnDivide(const Game::SkinModelRender* skinModelRender)
+	{
+
+	}
+
+	/**
+	 * @brief ポーズ中の処理
+	*/
+	virtual void Pause()
 	{
 
 	}
@@ -135,6 +146,14 @@ public:
 			Update();
 		}
 	}
+
+	void PauseWrapper()
+	{
+		if (m_isActive && m_isStart && !m_isDead) {
+			Pause();
+		}
+	}
+
 	void StartWrapper()
 	{
 		if (m_isActive && !m_isStart && !m_isDead ) {
