@@ -9,6 +9,10 @@ namespace Game
 
 		void Update(const Vector3& playerPosition,const Quaternion& playerQRot);
 
+		void CutUpdate(const Vector3& playerPosition,const Quaternion& playerQRot);
+
+		void NormalUpdate(const Vector3& playerPosition,const Quaternion& playerQRot);
+
 		SkinModelRender* GetModel()
 		{
 			return m_cutPlaneRender;
