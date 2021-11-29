@@ -29,12 +29,19 @@ namespace Game
 		{
 			return m_charaCon;
 		}
+
+		void KnockDown(const Vector3& moveAmount);
 	private:
 		CharacterController m_charaCon;							//プレイヤーのキャラコン
 		Vector3 m_moveAmount = Vector3::Zero;					//プレイヤーの移動量
 		Vector3 m_prevPosition = Vector3::Zero;					//1フレーム前のプレイヤーの座標
 		Vector3 m_playerDirection = Vector3::Front;				//プレイヤーの向き
 		Quaternion m_toMoveDirectionRot = Quaternion::Identity;	//プレイヤーの移動方向へのクォータニオン
+
+		//TODO:変数の必要性を検証したのち正式にm_をつけメンバー変数とする
+		bool isKnockDown = false;
+		int knockDownFrame = 0;
+		Vector3 knockDownAmount = Vector3::Zero;
 	};
 }
 

@@ -29,6 +29,17 @@ namespace Game
 
 		void Damage(int damage);
 
+		void KnockDown(const Vector3 moveAmount)
+		{
+			m_playerMove.KnockDown(moveAmount);
+		}
+
+		//TODO:仮です。ガードは専用関数を作る、
+		//アニメーションパラメーターは直接使いたくない。
+		bool isGuard()
+		{
+			return m_playerAnimationParam.isGuarding;
+		}
 	private:
 		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル
 		Vector3 m_position = Vector3::Zero;			//プレイヤーの座標

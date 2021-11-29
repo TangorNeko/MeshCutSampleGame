@@ -20,6 +20,28 @@ namespace Game
 
 	void PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//TODO:超場当たり処理、KnockBackMoveとかに分離した方がいいね...
+		if (isKnockDown)
+		{
+			animParam.isKnockDown = true;
+
+			if (knockDownFrame <= 40)
+			{
+				playerPosition = m_charaCon.Execute(knockDownAmount, 1.0f);
+			}
+
+			knockDownFrame++;
+			animParam.downTime = knockDownFrame;
+
+			if (knockDownFrame == 150)
+			{
+				isKnockDown = false;
+				animParam.isKnockDown = false;
+				knockDownFrame = 0;
+			}
+			return;
+		}
+
 		//各軸の入力を取得
 		float rightMoveAmount = g_pad[0]->GetLStickXF();
 		float forwardMoveAmount = g_pad[0]->GetLStickYF();
@@ -88,6 +110,12 @@ namespace Game
 
 		//今フレームの座標を格納
 		m_prevPosition = playerPosition;
+	}
+
+	void PlayerMove::KnockDown(const Vector3& moveAmount)
+	{
+		isKnockDown = true;
+		knockDownAmount = moveAmount;
 	}
 
 	Quaternion PlayerMove::CalcToModelDirectionQRot()
