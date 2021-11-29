@@ -77,7 +77,7 @@ namespace Game
 		 * @param cutNormal 切断面の一点からの法線の向き
 		 * @param cutPoint 切断面の一点の座標
 		*/
-		void QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, float cutDistance);
+		void QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
 
 	private:
 		std::set<SkinModelRender*> m_cutModelPtrSet;		//切断可能なモデルのコンテナ

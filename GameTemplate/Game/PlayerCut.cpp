@@ -23,8 +23,8 @@ namespace Game
 		//Ø’fƒ‚[ƒh‚ªƒIƒ“‚È‚çØ’fƒ‚ƒfƒ‹‚ð³‚µ‚­‰ñ“]‚³‚¹‚é
 		if (m_isCutMode == true)
 		{
-			Vector3 CutPoint = playerPosition + PLAYER_TO_CUTPOINT;
-			m_cutPlaneRender->SetPosition(CutPoint);
+			Vector3 cutPoint = playerPosition + PLAYER_TO_CUTPOINT;
+			m_cutPlaneRender->SetPosition(cutPoint);
 			Vector3 cutNormal = { 1.0f,0.0f,0.0f };
 			Vector2 input = { g_pad[0]->GetRStickXF(),g_pad[0]->GetRStickYF() };
 			if (input.LengthSq() > 0.0f)
@@ -46,7 +46,17 @@ namespace Game
 			//Ø’fƒ‚[ƒh’†‚ÉRB1ƒ{ƒ^ƒ“‚ÅØ’f
 			if (g_pad[0]->IsTrigger(enButtonRB1))
 			{
-				Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, CutPoint, CUT_RANGE);
+				Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, [cutPoint](const SkinModelRender* cutObject)->bool
+					{
+						Vector3 distance = cutObject->GetPosition() - cutPoint;
+
+						if (distance.LengthSq() < CUT_RANGE * CUT_RANGE)
+						{
+							return true;
+						}
+						return false;
+					}
+				);
 			}
 		}
 

@@ -15,23 +15,19 @@ namespace Game
 		}
 	}
 
-	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, float cutDistance)
+	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
 	{
 		//Ø’fƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğ‘–¸
 		for (auto* cutObject : m_cutModelPtrSet)
 		{
-			//Ø’f–Ê‚Æ‚ÌØ’fƒ‚ƒfƒ‹‚Ì‹——£‚ğ’²‚×‚é
-			Vector3 dist = cutPoint - cutObject->GetPosition();
+			//Ø’f‚·‚é‚©‚Ì”»’èŠÖ”‚ğÀs
+			bool divideJudge = cutJudgeFunc(cutObject);
 
-			//Ø’f‰Â”\‹——£‚æ‚è’·‚©‚Á‚½‚ç
-			if (dist.LengthSq() > cutDistance * cutDistance)
+			//Ø’f‚·‚é‚Æ”»’è‚³‚ê‚½‚çØ’f
+			if (divideJudge)
 			{
-				//Ø’f‚¹‚¸Ÿ‚Ìƒ‹[ƒv‚Ö
-				continue;
+				cutObject->Divide(cutNormal, cutPoint);
 			}
-
-			//Ø’f‰Â”\‹——£‚É‚¢‚é‚Ì‚ÅØ’f
-			cutObject->Divide(cutNormal, cutPoint);
 		}
 
 		//Ø’f‚ÌŒ‹‰ÊV‚µ‚­‚Å‚«‚½Ø’f‰Â”\ƒ‚ƒfƒ‹‚ğƒŠƒXƒg‚ÉÏ‚ñ‚Å‚¢‚­
