@@ -41,7 +41,15 @@ namespace Game
 		CalcAvg(m_moveDirection);
 
 		//現在の座標からプレイヤー向きにスピード分移動させる
-		position += m_moveDirection * MISSILE_SPEED;
+		//TODO:切断モード中のスローのイメージ、プレイヤー以外をスローにするようなクラスを作成する
+		if (g_pad[0]->IsPress(enButtonLB1))
+		{
+			position += m_moveDirection * MISSILE_SPEED /4;
+		}
+		else
+		{
+			position += m_moveDirection * MISSILE_SPEED;
+		}
 	}
 
 	void EnemyMissileMove::CalcAvg(Vector3& direction)

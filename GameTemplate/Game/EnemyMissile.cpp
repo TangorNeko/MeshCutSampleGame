@@ -79,7 +79,7 @@ namespace Game
 				//追いかけているプレイヤーのキャラコンと自分のトリガーが接触していたら
 				if (m_capsuleTrigger.IsSelf(contactObject) == true) {
 					//ダメージを与える
-					m_trackingPlayer->Damage(500);
+					m_trackingPlayer->Damage(50);
 
 					//自らを削除
 					DeleteGO(this);
