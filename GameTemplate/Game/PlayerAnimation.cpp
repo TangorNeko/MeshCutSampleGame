@@ -14,6 +14,8 @@ namespace
 	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
 	const char* PATH_ANIM_GUARD = "Assets/animData/player/Guard.tka";
 	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/Idle_St1.tka";
+	const char* PATH_ANIM_KNOCKDOWN = "Assets/animData/player/Hit_KnockDown.tka";
+	const char* PATH_ANIM_GETUP = "Assets/animData/player/Getup_2.tka";
 	const float SPEED_PLAYER_ANIM = 1.0f;
 }
 
@@ -46,6 +48,10 @@ namespace Game
 		m_animationClips[enAnim_Guard].SetLoopFlag(true);
 		m_animationClips[enAnim_CutMode].Load(PATH_ANIM_CUTMODE);
 		m_animationClips[enAnim_CutMode].SetLoopFlag(true);
+		m_animationClips[enAnim_KnockDown].Load(PATH_ANIM_KNOCKDOWN);
+		m_animationClips[enAnim_KnockDown].SetLoopFlag(false);
+		m_animationClips[enAnim_GetUp].Load(PATH_ANIM_GETUP);
+		m_animationClips[enAnim_GetUp].SetLoopFlag(false);
 
 		//アニメーションステートを初期化
 		for (int i = 0;i<enAnim_Num;i++)
@@ -63,6 +69,8 @@ namespace Game
 		InitAttack3(m_animationState[enAnim_Attack3]);
 		InitGuard(m_animationState[enAnim_Guard]);
 		InitCutMode(m_animationState[enAnim_CutMode]);
+		InitKnockDown(m_animationState[enAnim_KnockDown]);
+		InitGetUp(m_animationState[enAnim_GetUp]);
 		
 		//初期状態で再生されるアニメーションのステートを格納
 		m_playingAnimState = m_animationState[enAnim_Idle];

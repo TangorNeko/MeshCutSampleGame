@@ -9,4 +9,8 @@ namespace Game
 	void InitWalk(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 
 	void InitRun(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+	void InitKnockDown(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+	void InitGetUp(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 }

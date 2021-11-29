@@ -22,6 +22,16 @@ namespace Game
 					return enAnim_CutMode;
 				}
 
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
+				if (param.isGuarding == true)
+				{
+					return enAnim_Guard;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -47,6 +57,16 @@ namespace Game
 					return enAnim_CutMode;
 				}
 
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
+				if (param.isGuarding == true)
+				{
+					return enAnim_Guard;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -65,6 +85,16 @@ namespace Game
 				if (param.isCutMode == true)
 				{
 					return enAnim_CutMode;
+				}
+
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
+				if (param.isGuarding == true)
+				{
+					return enAnim_Guard;
 				}
 
 				return playerAnimState->GetMyState();
@@ -94,6 +124,11 @@ namespace Game
 				if (param.isCutMode == false)
 				{
 					return enAnim_Idle;
+				}
+
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
 				}
 
 				return playerAnimState->GetMyState();

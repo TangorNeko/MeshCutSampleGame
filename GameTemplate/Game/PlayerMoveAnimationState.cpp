@@ -33,6 +33,11 @@ namespace Game
 					return enAnim_Guard;
 				}
 
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -62,6 +67,11 @@ namespace Game
 					return enAnim_CutMode;
 				}
 
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -89,6 +99,39 @@ namespace Game
 				if (param.isCutMode == true)
 				{
 					return enAnim_CutMode;
+				}
+
+				if (param.isKnockDown == true)
+				{
+					return enAnim_KnockDown;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
+	void InitKnockDown(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.downTime >= 100)
+				{
+					return enAnim_GetUp;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+	
+	void InitGetUp(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.downTime >= 150)
+				{
+					return enAnim_Idle;
 				}
 
 				return playerAnimState->GetMyState();
