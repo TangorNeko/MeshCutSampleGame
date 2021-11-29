@@ -2,6 +2,7 @@
 #include "BossTankTasks.h"
 #include "BossTank.h"
 #include "EnemyMissile.h"
+#include "Player.h"
 
 namespace Game
 {
@@ -15,15 +16,6 @@ namespace Game
 	void BossTankTasks::SubmitMissileTask(BossTank* bossTank)
 	{
 		EnemyTask MissileTask;
-
-		MissileTask.SetStartFunc([bossTank]()
-			{
-				EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-				Vector3 pos = bossTank->GetPosition();
-				pos.y += 200.0f;
-				missile->SetPosition(pos);
-			}
-		);
 
 		MissileTask.SetUpdateFunc([bossTank](int taskTime)
 			{
@@ -56,12 +48,6 @@ namespace Game
 			}
 		);
 
-		MissileTask.SetEndFunc([bossTank]()
-			{
-				bossTank->SetTurretDeg(bossTank->GetTurretDeg() + 30.0f);
-			}
-		);
-
 		bossTank->SetTask(enMissile, MissileTask);
 	}
 
@@ -75,6 +61,14 @@ namespace Game
 
 				if (taskTime == 23)
 				{
+					//TODO:‹——£‚Å‚Í‚È‚­ƒgƒŠƒK[‚Å”»’è‚µ‚½‚¢Š
+					Player* player = FindGO<Player>("player");
+					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+					if (distance.LengthSq() < 700 * 700 && player->isGuard() == false)
+					{
+						distance.Normalize();
+						player->KnockDown(distance * 60);
+					}
 					return true;
 				}
 
@@ -106,7 +100,7 @@ namespace Game
 
 		WaitTask.SetUpdateFunc([](int taskTime)
 			{
-				if (taskTime == 360)
+				if (taskTime == 180)
 				{
 					return true;
 				}

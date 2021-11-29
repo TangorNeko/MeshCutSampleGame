@@ -85,38 +85,13 @@ namespace Game
 
 	void BossTank::Update()
 	{
-		if (g_pad[0]->IsPress(enButtonLeft))
-		{
-			m_turretDeg += 1.0f;
-		}
-
-		if (g_pad[0]->IsPress(enButtonRight))
-		{
-			m_turretDeg -= 1.0f;
-		}
-
-		if (g_pad[0]->IsPress(enButtonUp))
-		{
-			m_baseDeg += 1.0f;
-		}
-
-		if (g_pad[0]->IsPress(enButtonDown))
-		{
-			m_baseDeg -= 1.0f;
-		}
-
-		if (g_pad[0]->IsTrigger(enButtonLB3))
-		{
-			m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
-		}
-
 		if (m_taskQueue.size() == 0)
 		{
 			Player* player = FindGO<Player>("player");
 
 			Vector3 distance = player->GetPosition() - m_position;
 
-			if (distance.LengthSq() <= 500.0f * 500.0f)
+			if (distance.LengthSq() <= 700.0f * 700.0f)
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
@@ -124,6 +99,8 @@ namespace Game
 			else
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
 		}
