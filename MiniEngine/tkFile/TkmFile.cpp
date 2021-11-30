@@ -2,6 +2,7 @@
 #include "tkFile/TkmFile.h"
 #include "../GameTemplate/Game/MeshDivider.h"
 #include "../GameTemplate/Game/AxisCalculator.h"
+#include "../geometry/BSP.h"
 
 
 //法線スムージング。
@@ -62,30 +63,31 @@ public:
 		if(mesh.isFlatShading == 0)
 		{
 			//重複している頂点の法線を平均化
+			BSP bsp;
 			std::vector<SSmoothVertex> smoothVertex;
 			smoothVertex.reserve(mesh.vertexBuffer.size());
 			for (auto& v : mesh.vertexBuffer) {
+				bsp.AddLeaf(v.pos, &v.normal);
 				smoothVertex.push_back({ v.normal, &v });
 			}
-			for (auto& va : smoothVertex) {	
-				for (auto& vb : smoothVertex) {
-					
-					if (va.vertex != vb.vertex
-						&& va.vertex->pos.x == vb.vertex->pos.x
-						&& va.vertex->pos.y == vb.vertex->pos.y
-						&& va.vertex->pos.z == vb.vertex->pos.z
-						) {
+			bsp.Build();
+			
+
+			//スムージング処理
+			for (auto& va : smoothVertex) {
+				bsp.WalkTree(va.vertex->pos, [&](BSP::SLeaf* leaf) {
+					if (va.vertex->pos.x == leaf->position.x
+						&& va.vertex->pos.y == leaf->position.y
+						&& va.vertex->pos.z == leaf->position.z) {
 						//同じ座標。
-						if (va.vertex->normal.Dot(vb.vertex->normal) > 0.0f) {
+						auto* normal = static_cast<Vector3*>(leaf->extraData);
+						if (va.vertex->normal.Dot(*normal) > 0.0f) {
 							//同じ向き。
-							va.newNormal += vb.vertex->normal;
+							va.newNormal += *normal;
 						}
 					}
-				}
+					});
 				va.newNormal.Normalize();
-			}
-			for (auto& va : smoothVertex) {
-				va.vertex->normal = va.newNormal;
 			}
 		}
 	}

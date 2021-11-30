@@ -90,6 +90,9 @@
     <Filter Include="ヘッダー ファイル\Enemy\Missile">
       <UniqueIdentifier>{e9a99225-31d1-4810-b993-275fc2757be2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MiniEngine\geometry">
+      <UniqueIdentifier>{ad9393c3-a830-44d7-8899-ebe42a64e58c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -373,6 +376,12 @@
     </ClCompile>
     <ClCompile Include="MiniEnemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\geometry\AABB.cpp">
+      <Filter>MiniEngine\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\geometry\BSP.cpp">
+      <Filter>MiniEngine\geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -699,6 +708,12 @@
     </ClInclude>
     <ClInclude Include="MiniEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\geometry\AABB.h">
+      <Filter>MiniEngine\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\geometry\BSP.h">
+      <Filter>MiniEngine\geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

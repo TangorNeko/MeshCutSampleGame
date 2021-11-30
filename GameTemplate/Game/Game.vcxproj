@@ -329,6 +329,8 @@
     <ClCompile Include="..\..\MiniEngine\DescriptorHeap.cpp" />
     <ClCompile Include="..\..\MiniEngine\font\Font.cpp" />
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp" />
+    <ClCompile Include="..\..\MiniEngine\geometry\AABB.cpp" />
+    <ClCompile Include="..\..\MiniEngine\geometry\BSP.cpp" />
     <ClCompile Include="..\..\MiniEngine\GPUBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\GraphicsEngine.cpp" />
     <ClCompile Include="..\..\MiniEngine\HID\GamePad.cpp" />
@@ -438,6 +440,8 @@
     <ClInclude Include="..\..\MiniEngine\DescriptorHeap_inline.h" />
     <ClInclude Include="..\..\MiniEngine\font\Font.h" />
     <ClInclude Include="..\..\MiniEngine\font\FontEngine.h" />
+    <ClInclude Include="..\..\MiniEngine\geometry\AABB.h" />
+    <ClInclude Include="..\..\MiniEngine\geometry\BSP.h" />
     <ClInclude Include="..\..\MiniEngine\GPUBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\GraphicsEngine.h" />
     <ClInclude Include="..\..\MiniEngine\HID\GamePad.h" />
