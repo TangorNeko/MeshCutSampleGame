@@ -245,7 +245,7 @@ namespace Util
 		}
 	}
 
-	void CutSurfaceMaker::MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray)
+	void CutSurfaceMaker::MakeSurface(std::vector<TkmFile::SVertex>& vertexBuffer, std::vector<TkmFile::SVertex>& backVertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray)
 	{
 
 		//格納した座標から多角形分割
@@ -299,8 +299,11 @@ namespace Util
 			triangulateVertexes.clear();
 		}
 
+		//新しく作成する裏側用の空の頂点バッファに元々のモデルの頂点バッファをコピーしておく
+		backVertexBuffer = vertexBuffer;
+
 		//頂点バッファの最後の位置(追加した場合のインデックス)を取得
-		int startIndex = vertexBuffer->size();
+		int startIndex = vertexBuffer.size();
 		//ここから頂点の生成
 		int uvCount = 0;
 		for (auto pos : m_vectorContainer)
@@ -308,14 +311,9 @@ namespace Util
 			TkmFile::SVertex addVert;
 			addVert.pos = pos;
 
-			//NOTE:切断面座標系を使用
-			//TODO:front側の切断面だと反転させて、back側の切断面だとそのままにして別々にpushする?
-			addVert.normal = m_ez * -1;
-			addVert.tangent = m_ex * -1;
-			addVert.binormal = m_ey * -1;
 
 			//TODO:UVは仮
-			addVert.uv = { 0.05f * uvCount,0.05f * uvCount};
+			addVert.uv = Vector2::Zero;
 			uvCount++;
 
 			//スキン関係?よく分からない
@@ -324,7 +322,23 @@ namespace Util
 			addVert.indices[2] = 0;
 			addVert.indices[3] = 0;
 			addVert.skinWeights = { 0.0f,0.0f,0.0f,0.0f };
-			vertexBuffer->push_back(addVert);
+
+			//NOTE:切断面座標系を使用
+			//切断面座標系のZ軸は表側向きなので、裏側の切断面の法線はそのまま使用する。
+			addVert.normal = m_ez;
+			addVert.tangent = m_ex;
+			addVert.binormal = m_ey;
+
+			//裏側のモデル用の頂点バッファに格納
+			backVertexBuffer.push_back(addVert);
+
+			//表側の切断面の法線が表側向きだと逆になるので反転する。
+			addVert.normal *= -1;
+			addVert.tangent *= -1;
+			addVert.binormal *= -1;
+
+			//表側のモデル用の頂点バッファに格納
+			vertexBuffer.push_back(addVert);
 		}
 
 		//リンクごとに分けられたインデックスバッファの配列を走査する

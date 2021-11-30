@@ -110,10 +110,12 @@ namespace Util
 		csm.ConvertFromSet();
 		csm.MakeLinkFromSet();
 		bool needToMakeSurface = csm.CalcIn2D(cutNormal);
+
+		Util::VertexBuffer backVertexBuffer;
 		if (needToMakeSurface == true)
 		{
 			//切断面を生成する必要があれば生成
-			csm.MakeSurface(&m_divideMesh->vertexBuffer, &frontIndexBufferArray, &backIndexBufferArray);
+			csm.MakeSurface(m_divideMesh->vertexBuffer, backVertexBuffer ,&frontIndexBufferArray, &backIndexBufferArray);
 		}
 
 		TkmFile::SMesh FrontNewMesh,BackNewMesh;
@@ -148,7 +150,7 @@ namespace Util
 		}
 
 		FrontNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;
-		BackNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;
+		BackNewMesh.vertexBuffer = backVertexBuffer;
 
 		//IndexBuffer16Arrayのみを使っているようなのでそちらのみ格納
 		FrontNewMesh.indexBuffer16Array = frontIndexBufferArray;

@@ -44,10 +44,11 @@ namespace Util
 		/**
 		 * @brief 切断面の生成
 		 * @param vertexBuffer モデルの頂点バッファ
+		 * @param backVertexBuffer 受け取り用　裏側の頂点バッファ
 		 * @param frontIndexBufferArray 表側のインデックスバッファの配列
 		 * @param backIndexBufferArray 裏側のインデックスバッファの配列
 		*/
-		void MakeSurface(std::vector<TkmFile::SVertex>* vertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray);
+		void MakeSurface(std::vector<TkmFile::SVertex>& vertexBuffer, std::vector<TkmFile::SVertex>& backVertexBuffer,std::vector<TkmFile::SIndexbuffer16>* frontIndexBufferArray, std::vector<TkmFile::SIndexbuffer16>* backIndexBufferArray);
 	private:
 		std::set<std::pair<uint16_t, uint16_t>>* m_segmentSet = nullptr;	//切断面上にある線分のインデックスの組み合わせの集合
 		std::vector<TkmFile::SVertex>* m_vertexContainer = nullptr;			//モデルの頂点バッファ
