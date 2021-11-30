@@ -70,6 +70,7 @@ namespace Game
 		bool m_isBaseBreak = false;
 		EnemyTask m_tankTask[BossTankTasks::enTaskNum];
 		std::queue<EnemyTask> m_taskQueue;
+		bool m_isSummonMinions = false;
 	};
 }
 

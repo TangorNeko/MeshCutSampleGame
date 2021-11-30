@@ -50,6 +50,9 @@ namespace Game
 		BossTankTasks bossTankTasks;
 		bossTankTasks.SubmitTo(this);
 
+		//出現時の待機タスク
+		m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+
 		return true;
 	}
 
@@ -85,13 +88,21 @@ namespace Game
 
 	void BossTank::Update()
 	{
+		//プレイヤーの行動パターン、別に分離したい
 		if (m_taskQueue.size() == 0)
 		{
 			Player* player = FindGO<Player>("player");
 
 			Vector3 distance = player->GetPosition() - m_position;
 
-			if (distance.LengthSq() <= 700.0f * 700.0f)
+			if (m_hp <= 500 && m_isSummonMinions == false && m_isCannonBreak == true)
+			{
+				m_taskQueue.push(m_tankTask[BossTankTasks::enSummon]);
+
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_isSummonMinions = true;
+			}
+			else if (distance.LengthSq() <= 1000.0f * 1000.0f)
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
