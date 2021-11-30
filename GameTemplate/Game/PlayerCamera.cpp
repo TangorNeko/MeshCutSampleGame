@@ -85,8 +85,11 @@ namespace Game
 		g_camera3D->SetPosition(cameraPosition);
 
 		//カメラ移動後の新しいプレイヤーの向きを返す
-		Vector3 newDirection = playerDirection;
-		qRotY.Apply(newDirection);
-		return newDirection;
+		//TODO:現在の処理は切断モードに入った際プレイヤーの向きがカメラに追従するようになっているが、
+		//MGR本家ではプレイヤーの向きがカメラに追従する処理になっていた。変更してもいいかも。
+		Vector3 front = g_camera3D->GetForward();
+		front.y = 0.0f;
+		front.Normalize();
+		return front;
 	}
 }
