@@ -421,7 +421,10 @@ std::vector< TkmFile::SMesh> TkmFile::Divide(const Vector3& cutNormal,const Vect
 
 Vector3 TkmFile::GetOriginToCenter()
 {
+	//座標値の合計
 	Vector3 sumOfPos = Vector3::Zero;
+
+	//座標値の数
 	int numOfPos = 0;
 
 	for (auto& mesh : m_meshParts)
@@ -430,6 +433,7 @@ Vector3 TkmFile::GetOriginToCenter()
 		{
 			for (auto vertexIndex : indexBuffer.indices)
 			{
+				//頂点バッファに格納されている座標を合計に加算していく
 				Vector3 vertPos = mesh.vertexBuffer.at(vertexIndex).pos;
 				sumOfPos += vertPos;
 				numOfPos++;
@@ -437,8 +441,9 @@ Vector3 TkmFile::GetOriginToCenter()
 		}
 	}
 
+	//座標値の合計を座標値の数で割って中心を求める
 	Vector3 centerPos = sumOfPos / numOfPos;
-	return { centerPos.x,centerPos.y,centerPos.z};
+	return centerPos;
 }
 
 void TkmFile::SetOriginOffset(const Vector3& offset)
@@ -447,6 +452,7 @@ void TkmFile::SetOriginOffset(const Vector3& offset)
 	{
 		for (auto& vertex : mesh.vertexBuffer)
 		{
+			//引数で受け取ったオフセット分座標をずらす
 			vertex.pos -= offset;
 		}
 	}
