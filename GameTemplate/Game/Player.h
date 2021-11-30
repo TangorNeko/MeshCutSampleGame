@@ -17,6 +17,12 @@ namespace Game
 
 	public:
 
+		void SetPosition(const Vector3& position)
+		{
+			m_position = position;
+			m_playerMove.GetCharaCon().SetPosition(m_position);
+		}
+
 		const Vector3& GetPosition() const
 		{
 			return m_position;
