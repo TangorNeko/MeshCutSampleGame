@@ -117,5 +117,11 @@ namespace Game
 	void Player::Damage(int damage)
 	{
 		m_hp -= damage;
+
+		if (m_hp < 0)
+		{
+			//TODO:Ž€–Sˆ—
+			m_hp = 0;
+		}
 	}
 }
