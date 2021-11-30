@@ -371,6 +371,9 @@
     <ClCompile Include="BossTankDisplay.cpp">
       <Filter>ソース ファイル\Enemy\BossTank</Filter>
     </ClCompile>
+    <ClCompile Include="MiniEnemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -693,6 +696,9 @@
     </ClInclude>
     <ClInclude Include="BossTankDisplay.h">
       <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniEnemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
