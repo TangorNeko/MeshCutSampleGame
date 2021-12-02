@@ -385,6 +385,7 @@
     <ClCompile Include="PlayerAttackAnimationState.cpp" />
     <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="PlayerCut.cpp" />
+    <ClCompile Include="PlayerDisplay.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerMoveAnimationState.cpp" />
     <ClCompile Include="ResourceBankManager.cpp" />
@@ -503,6 +504,7 @@
     <ClInclude Include="PlayerAttackAnimationState.h" />
     <ClInclude Include="PlayerCamera.h" />
     <ClInclude Include="PlayerCut.h" />
+    <ClInclude Include="PlayerDisplay.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerMoveAnimationState.h" />
     <ClInclude Include="ResourceBankManager.h" />

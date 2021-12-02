@@ -25,27 +25,21 @@ namespace Game
 
 		//モデルの初期化
 		m_playerModel->Init(PATH_PLAYER_MODEL, PATH_PLAYER_SKELETON,m_playerAnimation.GetAnimationClip(),m_playerAnimation.GetAnimClipNum(),enModelUpAxisZ);
-		m_playerMove.Init(m_position);
 		m_playerModel->SetPosition(m_position);
 
+		//プレイヤーの移動クラスの初期化
+		m_playerMove.Init(m_position);
+
 		//プレイヤーのHP表示
-		m_hpRender = NewGO<FontRender>(1);
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"HP:%d",m_hp);
-		m_hpRender->SetText(buffer);
-		m_hpRender->SetShadowFlag(true);
-		m_hpRender->SetShadowColor(SHADOWCOLOR_BLACK);
+		m_playerDisplay.Init(m_hp);
+	
 		return true;
 	}
 
 	void Player::Update()
 	{
-		//プレイヤーのHP表示
-		//TODO:クラス分離
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"HP:%d", m_hp);
-		m_hpRender->SetText(buffer);
-		m_hpRender->SetPosition({ -600.0f,330.0f });
+		//プレイヤーのHP表示の更新
+		m_playerDisplay.Update(m_hp);
 
 		bool isCutMode = g_pad[0]->IsPress(enButtonLB1);
 

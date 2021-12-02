@@ -4,6 +4,7 @@
 #include "PlayerAnimation.h"
 #include "PlayerAttack.h"
 #include "PlayerCut.h"
+#include "PlayerDisplay.h"
 
 namespace Game
 {
@@ -55,6 +56,7 @@ namespace Game
 		PlayerAnimationParam m_playerAnimationParam;//プレイヤーのアニメーション制御ステータス
 		PlayerAttack m_playerAttack;				//プレイヤーの攻撃クラス
 		PlayerCut m_playerCut;						//プレイヤーの切断クラス
+		PlayerDisplay m_playerDisplay;				//プレイヤーの情報表示クラス
 		int m_hp = 1000;
 		FontRender* m_hpRender = nullptr;
 	};
