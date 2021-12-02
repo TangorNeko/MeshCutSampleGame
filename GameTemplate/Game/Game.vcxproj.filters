@@ -383,6 +383,9 @@
     <ClCompile Include="..\..\MiniEngine\geometry\BSP.cpp">
       <Filter>MiniEngine\geometry</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAnimationInitializer.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -714,6 +717,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\geometry\BSP.h">
       <Filter>MiniEngine\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimationInitializer.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

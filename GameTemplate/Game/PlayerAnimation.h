@@ -4,6 +4,8 @@
 
 namespace Game
 {
+	using PlayerAnimationState = AnimationState<PlayerAnimationParam, PlayerAnimationEnum>;
+
 	class PlayerAnimation
 	{
 	public:
@@ -40,10 +42,9 @@ namespace Game
 		}
 
 	private:
-		AnimationClip m_animationClips[enAnim_Num];												//プレイヤーのアニメーションクリップ
-		AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* m_animationState[enAnim_Num];//プレイヤーのアニメーションステート
-		AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* m_playingAnimState;			//再生中のアニメーションのアニメーションステート
-		float m_attackingTime = 0.0f;
+		AnimationClip m_animationClips[enAnim_Num];				//プレイヤーのアニメーションクリップ
+		PlayerAnimationState* m_animationState[enAnim_Num];		//プレイヤーのアニメーションステート
+		PlayerAnimationState* m_playingAnimState;				//再生中のアニメーションのアニメーションステート
 	};
 }
 
