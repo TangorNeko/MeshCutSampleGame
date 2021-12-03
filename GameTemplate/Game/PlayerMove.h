@@ -30,6 +30,11 @@ namespace Game
 			return m_charaCon;
 		}
 
+		const Quaternion& GetPlayerDirectionRot()
+		{
+			return m_toMoveDirectionRot;
+		}
+
 		void KnockDown(const Vector3& moveAmount);
 	private:
 		CharacterController m_charaCon;							//プレイヤーのキャラコン
