@@ -47,6 +47,7 @@ namespace Game
 		//0を指定した軸は移動しない。
 		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 1.0f);
 
+		m_rigidBody.AddForce({ 0.0f,50.0f,0.0f }, m_dummyModel->GetPosition());
 		//所有者をセット
 		m_dummyModel->SetOwner(this);
 		return true;
