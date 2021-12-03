@@ -39,4 +39,30 @@ namespace Game
 		//新しくできた切断可能モデルのリストを削除
 		m_nextCutModelPtrSet.clear();
 	}
+
+	void ModelCutManager::QueryCut(const Vector3& cutNormal, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
+	{
+		//切断モデルのリストを走査
+		for (auto* cutObject : m_cutModelPtrSet)
+		{
+			//切断するかの判定関数を実行
+			bool divideJudge = cutJudgeFunc(cutObject);
+
+			//切断すると判定されたら切断
+			if (divideJudge)
+			{
+				//切断原点から切断
+				cutObject->Divide(cutNormal, cutObject->GetPosition());
+			}
+		}
+
+		//切断の結果新しくできた切断可能モデルをリストに積んでいく
+		for (auto* addObject : m_nextCutModelPtrSet)
+		{
+			m_cutModelPtrSet.insert(addObject);
+		}
+
+		//新しくできた切断可能モデルのリストを削除
+		m_nextCutModelPtrSet.clear();
+	}
 }

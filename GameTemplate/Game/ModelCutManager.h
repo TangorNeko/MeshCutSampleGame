@@ -79,6 +79,8 @@ namespace Game
 		*/
 		void QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
 
+
+		void QueryCut(const Vector3& cutNormal, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
 	private:
 		std::set<SkinModelRender*> m_cutModelPtrSet;		//切断可能なモデルのコンテナ
 		std::set<SkinModelRender*> m_nextCutModelPtrSet;	//切断が終了した後追加されるモデルのコンテナ
