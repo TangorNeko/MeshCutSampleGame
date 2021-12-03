@@ -8,6 +8,9 @@
 namespace
 {
 	const Vector3 MINION_POSITIONS[4] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
+	const int MISSILE_TIME_FIRST = 30;
+	const int MISSILE_TIME_SECOND = 60;
+	const int MISSILE_TIME_THIRD = 90;
 }
 
 namespace Game
@@ -26,7 +29,7 @@ namespace Game
 
 		MissileTask.SetUpdateFunc([bossTank](int taskTime)
 			{
-				if (taskTime == 20)
+				if (taskTime == MISSILE_TIME_FIRST)
 				{
 					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
 					Vector3 pos = bossTank->GetPosition();
@@ -34,7 +37,7 @@ namespace Game
 					missile->SetPosition(pos);
 				}
 
-				if (taskTime == 40)
+				if (taskTime == MISSILE_TIME_SECOND)
 				{
 					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
 					Vector3 pos = bossTank->GetPosition();
@@ -42,7 +45,7 @@ namespace Game
 					missile->SetPosition(pos);
 				}
 
-				if (taskTime == 60)
+				if (taskTime == MISSILE_TIME_THIRD)
 				{
 					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
 					Vector3 pos = bossTank->GetPosition();
