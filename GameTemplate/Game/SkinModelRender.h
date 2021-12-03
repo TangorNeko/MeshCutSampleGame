@@ -222,6 +222,15 @@ namespace Game
 		}
 
 		/**
+		 * @brief 切断された回数を取得
+		 * @return 
+		*/
+		int GetDivideNum() const
+		{
+			return m_divideNum;
+		}
+
+		/**
 		 * @brief モデルを元にカプセルの縦方向の軸、高さ、幅を計算する
 		 * @param heightAndRadius 高さ、幅の受け取り用Vector2クラス(xに高さ、yに幅を格納する)
 		 * @return 
