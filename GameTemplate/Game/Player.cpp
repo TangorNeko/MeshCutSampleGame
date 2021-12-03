@@ -82,12 +82,7 @@ namespace Game
 		//プレイヤーの向きにモデルを向ける
 		m_playerMove.TurnModelToPlayerDirection(m_playerModel);
 
-		//NOTE:仮で攻撃モデルと切断モデルを向きに追従させている　後から使わないようにする
-		if (m_playerAttack.GetModel() != nullptr)
-		{
-			m_playerMove.TurnModelToPlayerDirection(m_playerAttack.GetModel());
-		}
-
+		//NOTE:仮で切断モデルを向きに追従させている　後から使わないようにする
 		if (m_playerCut.GetModel() != nullptr)
 		{
 			m_playerMove.TurnModelToPlayerDirection(m_playerCut.GetModel());
@@ -95,7 +90,7 @@ namespace Game
 
 
 		//攻撃のアップデート
-		m_playerAttack.Update(m_position, m_playerAnimationParam);
+		m_playerAttack.Update(m_position, m_playerAnimationParam,m_playerMove.GetPlayerDirectionRot());
 		
 		//切断のアップデート
 		m_playerCut.Update(m_position, m_playerMove.CalcToModelDirectionQRot());

@@ -5,12 +5,17 @@
 
 namespace
 {
-	const char* PATH_HITBOXMODEL = "Assets/modelData/ball.tkm";
+	const char* PATH_HITBOXMODEL = "Assets/modelData/CutIndicator.tkm";
 	const int TIME_ATTACK_END = 60;
 	const int TIME_COMBO_ACCEPTABLE = 20;
 	const int TIME_ATTACK_COLLISION = 14;
 	const float ATTACK_RANGE = 500.0f;
 	const float ATTACK_DAMAGE = 25.0f;
+	const Vector3 ATTACK_CUT_NORMAL[3] = {
+		{0.1f,0.9f,-0.1f},
+		{0.5f,0.5f,0.2f},
+		{0.3f,0.9f,0.1f}
+	};
 	const EnButton BUTTON_ATTACK = enButtonX;
 }
 
@@ -24,9 +29,10 @@ namespace Game
 			DeleteGO(m_testHitBox);
 		}
 		*/
+		
 	}
 
-	void PlayerAttack::Update(const Vector3& playerPosition, PlayerAnimationParam& animParam)
+	void PlayerAttack::Update(const Vector3& playerPosition, PlayerAnimationParam& animParam, const Quaternion& toMoveRot)
 	{
 		//攻撃していない状態で攻撃ボタンを押すと
 		if (g_pad[0]->IsTrigger(BUTTON_ATTACK) && m_comboNum == 0)
@@ -42,11 +48,19 @@ namespace Game
 			m_attackTime++;
 
 			//当たり判定があれば
+			
 			/*
 			if (m_testHitBox != nullptr)
 			{
+				Vector3 cutPos = { 0.0f,120.0f,0.0f };
+				cutPos += playerPosition;
 				//当たり判定の座標をプレイヤーの位置にセット
-				m_testHitBox->SetPosition(playerPosition);
+
+				Quaternion QRot;
+				QRot.SetRotation(Vector3::Right, ATTACK_CUT_NORMAL[m_comboNum-1]);
+				QRot.Multiply(toMoveRot);
+				m_testHitBox->SetRotation(QRot);
+				m_testHitBox->SetPosition(cutPos);
 			}
 			*/
 
@@ -71,12 +85,34 @@ namespace Game
 				{
 					bossTank->Damage(ATTACK_DAMAGE);
 				}
+
+				Vector3 cutPoint = { 0.0f,120.0f,0.0f };
+				cutPoint += playerPosition;
+
+				Vector3 cutNormal = ATTACK_CUT_NORMAL[m_comboNum - 1];
+				cutNormal.Normalize();
+
+				toMoveRot.Apply(cutNormal);
+				
+
+				ModelCutManager::GetInstance()->QueryCut(cutNormal, [cutPoint](const SkinModelRender* cutObject)->bool
+					{
+						Vector3 distance = cutObject->GetPosition() - cutPoint;
+
+						if (distance.LengthSq() < 600 * 600 && cutObject->GetDivideNum() == 0)
+						{
+							return true;
+						}
+						return false;
+					}
+				);
 			}
 
 			//1,2段目までの攻撃開始コンボ受付時間以内で、攻撃ボタンを押すと
 			if (g_pad[0]->IsTrigger(BUTTON_ATTACK) && m_attackTime > TIME_COMBO_ACCEPTABLE && m_comboNum <= 2)
 			{
 				//次のコンボに移るため当たり判定は削除
+				
 				/*
 				DeleteGO(m_testHitBox);
 				m_testHitBox = nullptr;

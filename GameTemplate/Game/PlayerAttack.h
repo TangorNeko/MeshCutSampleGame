@@ -8,7 +8,7 @@ namespace Game
 	public:
 		~PlayerAttack();
 
-		void Update(const Vector3& playerPosition,PlayerAnimationParam& animParam);
+		void Update(const Vector3& playerPosition,PlayerAnimationParam& animParam,const Quaternion& toMoveRot);
 
 		SkinModelRender* GetModel()
 		{
