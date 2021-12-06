@@ -5,7 +5,6 @@ namespace
 {
 	const char* PATH_PLAYER_MODEL = "Assets/modelData/Samurai.tkm";
 	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Samurai.tks";
-	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
 
 namespace Game
@@ -78,22 +77,18 @@ namespace Game
 			//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
 			m_playerMove.SetPlayerDirection(newDirection);
 		}
+		
+		//プレイヤーの向きから回転を計算
+		m_playerMove.CalcToModelDirectionQRot();
 
 		//プレイヤーの向きにモデルを向ける
-		m_playerMove.TurnModelToPlayerDirection(m_playerModel);
-
-		//NOTE:仮で切断モデルを向きに追従させている　後から使わないようにする
-		if (m_playerCut.GetModel() != nullptr)
-		{
-			m_playerMove.TurnModelToPlayerDirection(m_playerCut.GetModel());
-		}
-
+		m_playerModel->SetRotation(m_playerMove.GetPlayerDirectionRot());
 
 		//攻撃のアップデート
 		m_playerAttack.Update(m_position, m_playerAnimationParam,m_playerMove.GetPlayerDirectionRot());
 		
 		//切断のアップデート
-		m_playerCut.Update(m_position, m_playerMove.CalcToModelDirectionQRot());
+		m_playerCut.Update(m_position, m_playerMove.GetPlayerDirectionRot());
 
 
 		//アニメーションのアップデート

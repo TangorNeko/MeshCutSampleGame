@@ -118,7 +118,7 @@ namespace Game
 		knockDownAmount = moveAmount;
 	}
 
-	Quaternion PlayerMove::CalcToModelDirectionQRot()
+	void PlayerMove::CalcToModelDirectionQRot()
 	{
 		//ˆÚ“®•ûŒü‚Ìx,z‚©‚ç‰ñ“]Šp“x‚ðŽæ“¾
 		float turnAngle = atan2(m_playerDirection.x, m_playerDirection.z);
@@ -126,13 +126,5 @@ namespace Game
 		//‰ñ“]Šp“x•ª‚ÌƒNƒH[ƒ^ƒjƒIƒ“‚ðì¬
 		m_toMoveDirectionRot = Quaternion::Identity;
 		m_toMoveDirectionRot.SetRotation(Vector3::AxisY, turnAngle);
-
-		return m_toMoveDirectionRot;
-	}
-
-	void PlayerMove::TurnModelToPlayerDirection(SkinModelRender* modelRender)
-	{
-		//ƒ‚ƒfƒ‹‚É‰ñ“]‚ð”½‰f‚³‚¹‚éB
-		modelRender->SetRotation(CalcToModelDirectionQRot());
 	}
 }

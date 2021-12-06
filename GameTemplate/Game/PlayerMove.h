@@ -11,9 +11,7 @@ namespace Game
 
 		void Move(Vector3& playerPosition,PlayerAnimationParam& animParam);
 
-		Quaternion CalcToModelDirectionQRot();
-
-		void TurnModelToPlayerDirection(SkinModelRender* modelRender);
+		void CalcToModelDirectionQRot();
 
 		const Vector3& GetPlayerDirection()
 		{
