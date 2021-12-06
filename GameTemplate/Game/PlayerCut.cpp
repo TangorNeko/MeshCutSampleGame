@@ -69,7 +69,7 @@ namespace Game
 		//Ø’fƒ‚[ƒh’†‚ÉRB1ƒ{ƒ^ƒ“‚ÅØ’f
 		if (g_pad[0]->IsTrigger(enButtonRB1))
 		{
-			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, [cutPoint](const SkinModelRender* cutObject)->bool
+			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint,Vector3::Zero, [cutPoint](const SkinModelRender* cutObject)->bool
 				{
 					Vector3 distance = cutObject->GetPosition() - cutPoint;
 

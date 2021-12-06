@@ -72,15 +72,24 @@ namespace Game
 			m_nextCutModelPtrSet.insert(cuttableModel);
 		}
 
+		//TODO:cutPointと渡す版と渡さない版の引数の渡し方が分かりづらい、構造体にする?
+
 		/**
-		 * @brief m_cutModelPtrSetに登録されているモデルのうち、cutPointから一定距離以内のものを切断する
+		 * @brief m_cutModelPtrSetに登録されているモデルを、渡した関数によって判断してcutPointから切断する
 		 * @param cutNormal 切断面の一点からの法線の向き
 		 * @param cutPoint 切断面の一点の座標
+		 * @param cutForce 切断後のモデルに与える力
+		 * @param cutJudgeFunc 切断するかを判定する関数
 		*/
-		void QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
+		void QueryCut(const Vector3& cutNormal, const Vector3& cutPoint,const Vector3& cutForce, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
 
-
-		void QueryCut(const Vector3& cutNormal, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
+		/**
+		 * @brief m_cutModelPtrSetに登録されているモデルを、渡した関数によって判断してモデルの原点から切断する
+		 * @param cutNormal モデルの原点から見た切断面の法線の向き
+		 * @param cutForce 切断後のモデルに与える力
+		 * @param cutJudgeFunc 切断するかを判定する関数
+		*/
+		void QueryCut(const Vector3& cutNormal,const Vector3& cutForce, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc);
 	private:
 		std::set<SkinModelRender*> m_cutModelPtrSet;		//切断可能なモデルのコンテナ
 		std::set<SkinModelRender*> m_nextCutModelPtrSet;	//切断が終了した後追加されるモデルのコンテナ

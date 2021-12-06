@@ -16,6 +16,12 @@ namespace
 		{0.5f,0.5f,0.2f},
 		{0.3f,0.9f,0.1f}
 	};
+
+	const Vector3 ATTACK_CUT_FORCE[3] = {
+		{0.9f,0.1f,-0.1f},
+		{-0.5f,0.5f,0.2f},
+		{0.9f,0.3f,0.1f}
+	};
 	const EnButton BUTTON_ATTACK = enButtonX;
 }
 
@@ -93,9 +99,14 @@ namespace Game
 				cutNormal.Normalize();
 
 				toMoveRot.Apply(cutNormal);
+
+				Vector3 cutForce = ATTACK_CUT_FORCE[m_comboNum - 1];
+				cutForce.Normalize();
+
+				toMoveRot.Apply(cutForce);
 				
 
-				ModelCutManager::GetInstance()->QueryCut(cutNormal, [cutPoint](const SkinModelRender* cutObject)->bool
+				ModelCutManager::GetInstance()->QueryCut(cutNormal, cutForce * 30,[cutPoint](const SkinModelRender* cutObject)->bool
 					{
 						Vector3 distance = cutObject->GetPosition() - cutPoint;
 

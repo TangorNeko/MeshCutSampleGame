@@ -15,7 +15,7 @@ namespace Game
 		}
 	}
 
-	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
+	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutPoint, const Vector3& cutForce, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
 	{
 		//Ø’fƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ð‘–¸
 		for (auto* cutObject : m_cutModelPtrSet)
@@ -26,7 +26,7 @@ namespace Game
 			//Ø’f‚·‚é‚Æ”»’è‚³‚ê‚½‚çØ’f
 			if (divideJudge)
 			{
-				cutObject->Divide(cutNormal, cutPoint);
+				cutObject->Divide(cutNormal, cutPoint, cutForce);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace Game
 		m_nextCutModelPtrSet.clear();
 	}
 
-	void ModelCutManager::QueryCut(const Vector3& cutNormal, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
+	void ModelCutManager::QueryCut(const Vector3& cutNormal, const Vector3& cutForce, std::function<bool(const SkinModelRender* modelRender)> cutJudgeFunc)
 	{
 		//Ø’fƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ð‘–¸
 		for (auto* cutObject : m_cutModelPtrSet)
@@ -52,7 +52,7 @@ namespace Game
 			if (divideJudge)
 			{
 				//Ø’fŒ´“_‚©‚çØ’f
-				cutObject->Divide(cutNormal, cutObject->GetPosition(),Vector3::Zero);
+				cutObject->Divide(cutNormal, cutObject->GetPosition(), cutForce);
 			}
 		}
 
