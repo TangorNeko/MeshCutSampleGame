@@ -5,6 +5,7 @@ namespace
 {
 	const char* PATH_CUTPLANEMODEL = "Assets/modelData/CutIndicator.tkm";
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
+	const Vector3 CUT_FORCE_DOWN = Vector3::Down * 30.0f;
 	const float CUT_RANGE = 500.0f;
 }
 
@@ -65,11 +66,16 @@ namespace Game
 		m_cutPlaneQRot.Apply(cutNormal);
 		m_cutPlaneRender->SetRotation(m_cutPlaneQRot);
 
+		//Ža‚Á‚½Û‚Ì—Í‚ÌŒü‚«
+		//‰½‚àŒü‚«‚ð•Ï‚¦‚Ä‚¢‚È‚¢Žž‚Í‰ºŒü‚«
+		Vector3 cutForce = CUT_FORCE_DOWN;
+		//Ø’f–Ê‚Ì‰ñ“]‚É‡‚í‚¹‚Ä—Í‚ÌŒü‚«‚à‰ñ“]‚³‚¹‚é
+		m_cutPlaneQRot.Apply(cutForce);
 
 		//Ø’fƒ‚[ƒh’†‚ÉRB1ƒ{ƒ^ƒ“‚ÅØ’f
 		if (g_pad[0]->IsTrigger(enButtonRB1))
 		{
-			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint,Vector3::Zero, [cutPoint](const SkinModelRender* cutObject)->bool
+			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, cutForce, [cutPoint](const SkinModelRender* cutObject)->bool
 				{
 					Vector3 distance = cutObject->GetPosition() - cutPoint;
 
