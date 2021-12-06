@@ -203,8 +203,19 @@ namespace Game
 		 * @brief モデルの切断
 		 * @param cutNormal 切断面の一点からの法線の向き
 		 * @param cutPoint 切断面の一点の座標
+		 * @param cutForce 切断時にかかる力
 		*/
-		void Divide(const Vector3& cutNormal, const Vector3& cutPoint);
+		void Divide(const Vector3& cutNormal, const Vector3& cutPoint, const Vector3& cutForce);
+
+		/**
+		 * @brief モデルの切断
+		 * @param cutNormal 切断面の一点からの法線の向き
+		 * @param cutPoint 切断面の一点の座標
+		*/
+		void Divide(const Vector3& cutNormal, const Vector3& cutPoint)
+		{
+			Divide(cutNormal, cutPoint, Vector3::Zero);
+		}
 
 		/**
 		 * @brief モデルの原点をモデルのAABBの中心に合わせる
@@ -242,8 +253,9 @@ namespace Game
 
 		/**
 		 * @brief 自らのモデルから物理演算するダミーを作成する
+		 * @param cutForce 最初にダミーにかかる力
 		*/
-		void MakeDummy();
+		void MakeDummy(const Vector3& cutForce);
 
 		/**
 		 * @brief スキンモデルの所有者を登録

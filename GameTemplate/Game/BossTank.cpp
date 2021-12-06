@@ -56,7 +56,7 @@ namespace Game
 		return true;
 	}
 
-	void BossTank::OnDivide(const SkinModelRender* skinModelRender)
+	void BossTank::OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce)
 	{
 		if (skinModelRender == m_cannonRender)
 		{
@@ -68,20 +68,20 @@ namespace Game
 		//どちらも切断された時のみDeleteする。
 		if (skinModelRender == m_baseRender)
 		{
-			m_baseRender->MakeDummy();
+			m_baseRender->MakeDummy(cutForce);
 			m_isBaseBreak = true;
 		}
 
 		if (skinModelRender == m_turretRender)
 		{
-			m_turretRender->MakeDummy();
+			m_turretRender->MakeDummy(cutForce);
 			m_isTurretBreak = true;
 		}
 
 		//砲塔と本体がどちらも斬られたら完全にダミーに移行する
 		if (m_isTurretBreak && m_isBaseBreak)
 		{
-			m_cannonRender->MakeDummy();
+			m_cannonRender->MakeDummy(Vector3::Zero);
 			DeleteGO(this);
 		}
 	}

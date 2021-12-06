@@ -52,9 +52,9 @@ public:
 	 * @brief ゲームオブジェクトが所有するスキンモデルが切断された時呼ばれる関数
 	 * @param skinModelRender 切断されたスキンモデルレンダーのポインタ
 	*/
-	virtual void OnDivide(const Game::SkinModelRender* skinModelRender)
+	virtual void OnDivide(const Game::SkinModelRender* skinModelRender,const Vector3& cutForce)
 	{
-
+		//TODO:渡すパラメーターが増えそう。Unityのコリジョンみたいに構造体で受け取る?
 	}
 
 	/**

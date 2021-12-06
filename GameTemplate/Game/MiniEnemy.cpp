@@ -31,13 +31,13 @@ namespace Game
 		}
 	}
 
-	void MiniEnemy::OnDivide(const SkinModelRender* cutModel)
+	void MiniEnemy::OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce)
 	{
 		m_isDead = true;
 
-		m_baseRender->MakeDummy();
-		m_turretRender->MakeDummy();
-		m_cannonRender->MakeDummy();
+		m_baseRender->MakeDummy(cutForce);
+		m_turretRender->MakeDummy(cutForce);
+		m_cannonRender->MakeDummy(cutForce);
 
 		DeleteGO(this);
 	}

@@ -113,7 +113,7 @@ namespace Game
 		}
 	}
 
-	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint)
+	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint, const Vector3& cutForce)
 	{
 		if (m_isDividable == true && m_divideNum <= MODE_MAX_DIVIDE_NUM)
 		{
@@ -159,19 +159,19 @@ namespace Game
 
 			//物理エンジンを利用したダミーの作成
 
-			backModelRender->MakeDummy();
+			backModelRender->MakeDummy(cutForce);
 
 			//カット可能なモデル一覧に追加
 			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
 
 			if (m_owner != nullptr)
 			{
-				m_owner->OnDivide(this);
+				m_owner->OnDivide(this,cutForce);
 			}
 		}
 	}
 
-	void SkinModelRender::MakeDummy()
+	void SkinModelRender::MakeDummy(const Vector3& cutForce)
 	{
 		//切り離されたモデルの原点をAABBからモデルの中心に設定し、中心からAABBまでの一点までの距離を取得
 		SetModelCenterAsOrigin();
@@ -208,6 +208,7 @@ namespace Game
 		toModelRot.SetRotation(capsuleAxis, Vector3::Up);
 
 		dummy->SetRotations(capsuleRot, toModelRot);
+		dummy->SetCutForce(cutForce);
 	}
 
 	void SkinModelRender::SetModelCenterAsOrigin()

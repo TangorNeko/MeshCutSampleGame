@@ -52,7 +52,7 @@ namespace Game
 			if (divideJudge)
 			{
 				//Ø’fŒ´“_‚©‚çØ’f
-				cutObject->Divide(cutNormal, cutObject->GetPosition());
+				cutObject->Divide(cutNormal, cutObject->GetPosition(),Vector3::Zero);
 			}
 		}
 

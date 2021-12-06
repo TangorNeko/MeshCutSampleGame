@@ -11,7 +11,7 @@ namespace Game
 
 		void Update() override;
 
-		void OnDivide(const SkinModelRender* skinModelRender) override;
+		void OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce) override;
 
 		/**
 		 * @brief スキンモデルを直接登録する
@@ -47,6 +47,11 @@ namespace Game
 			m_capsuleRot = capsuleRot;
 			m_toModelRot = toModelRot;
 		}
+
+		void SetCutForce(const Vector3& force)
+		{
+			cutForce = force;
+		}
 	private:
 		SkinModelRender* m_dummyModel = nullptr;			//ダミー用のモデル
 		CapsuleCollider m_capsuleCollider;					//カプセル状のコライダー
@@ -58,6 +63,7 @@ namespace Game
 		Quaternion m_modelRot = Quaternion::Identity;		//元々のモデルのクォータニオン
 		bool m_isCut = false;								//切断された?
 		int m_timer = 0;									//消滅タイマー
+		Vector3 cutForce = Vector3::Zero;
 	};
 }
 

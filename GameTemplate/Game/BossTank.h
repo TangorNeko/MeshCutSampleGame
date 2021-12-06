@@ -15,7 +15,7 @@ namespace Game
 
 		void Update() override;
 
-		void OnDivide(const SkinModelRender* skinModelRender) override;
+		void OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce) override;
 
 		void SetPosition(const Vector3& position)
 		{

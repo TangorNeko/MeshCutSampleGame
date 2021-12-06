@@ -60,10 +60,10 @@ namespace Game
 		PlayerHitTest();
 	}
 
-	void EnemyMissile::OnDivide(const SkinModelRender* skinModelRender)
+	void EnemyMissile::OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce)
 	{
 		//ダミーを作成
-		m_missileRender->MakeDummy();
+		m_missileRender->MakeDummy(cutForce);
 
 		//カットされたフラグをオンに
 		m_isCut = true;
