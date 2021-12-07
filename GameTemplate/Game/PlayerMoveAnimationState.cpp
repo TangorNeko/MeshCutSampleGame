@@ -3,7 +3,7 @@
 
 namespace Game
 {
-	void InitIdle(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerMoveAnimationState::InitIdle(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -43,7 +43,7 @@ namespace Game
 		);
 	}
 
-	void InitWalk(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerMoveAnimationState::InitWalk(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -77,7 +77,7 @@ namespace Game
 		);
 	}
 
-	void InitRun(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerMoveAnimationState::InitRun(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -111,7 +111,7 @@ namespace Game
 		);
 	}
 
-	void InitKnockDown(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerMoveAnimationState::InitKnockDown(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -125,7 +125,7 @@ namespace Game
 		);
 	}
 	
-	void InitGetUp(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerMoveAnimationState::InitGetUp(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{

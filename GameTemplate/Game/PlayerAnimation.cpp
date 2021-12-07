@@ -13,9 +13,9 @@ namespace Game
 {
 	PlayerAnimation::~PlayerAnimation()
 	{
-		for (int i = 0;i < enAnim_Num;i++)
+		for (int animationNumber = 0;animationNumber < enAnim_Num;animationNumber++)
 		{
-			delete m_animationState[i];
+			delete m_animationState[animationNumber];
 		}
 	}
 

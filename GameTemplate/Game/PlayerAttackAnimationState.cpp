@@ -3,7 +3,7 @@
 
 namespace Game
 {
-	void InitAttack1(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerAttackAnimationState::InitAttack1(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -38,7 +38,7 @@ namespace Game
 	}
 
 
-	void InitAttack2(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerAttackAnimationState::InitAttack2(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -73,7 +73,7 @@ namespace Game
 	}
 
 
-	void InitAttack3(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerAttackAnimationState::InitAttack3(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -103,7 +103,7 @@ namespace Game
 	}
 	
 
-	void InitGuard(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerAttackAnimationState::InitGuard(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
@@ -117,7 +117,7 @@ namespace Game
 		);
 	}
 
-	void InitCutMode(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	void PlayerAttackAnimationState::InitCutMode(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{

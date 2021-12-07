@@ -54,22 +54,27 @@ namespace Game
 	void PlayerAnimationInitializer::InitAnimationState(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* animationState[enAnim_Num])
 	{
 		//アニメーションステートを初期化
-		for (int i = 0;i < enAnim_Num;i++)
+		for (int animationNumber = 0;animationNumber < enAnim_Num;animationNumber++)
 		{
-			animationState[i] = new AnimationState<PlayerAnimationParam, PlayerAnimationEnum>;
-			animationState[i]->SetState(static_cast<PlayerAnimationEnum>(i));
+			animationState[animationNumber] = new AnimationState<PlayerAnimationParam, PlayerAnimationEnum>;
+			
+			//自分がどのアニメーションのステートなのかを設定
+			animationState[animationNumber]->SetState(static_cast<PlayerAnimationEnum>(animationNumber));
 		}
 
 		//各アニメーションステートの遷移条件をセット
-		InitIdle(animationState[enAnim_Idle]);
-		InitWalk(animationState[enAnim_Walk]);
-		InitRun(animationState[enAnim_Run]);
-		InitAttack1(animationState[enAnim_Attack]);
-		InitAttack2(animationState[enAnim_Attack2]);
-		InitAttack3(animationState[enAnim_Attack3]);
-		InitGuard(animationState[enAnim_Guard]);
-		InitCutMode(animationState[enAnim_CutMode]);
-		InitKnockDown(animationState[enAnim_KnockDown]);
-		InitGetUp(animationState[enAnim_GetUp]);
+		PlayerMoveAnimationState moveAnimationState;
+		moveAnimationState.InitIdle(animationState[enAnim_Idle]);
+		moveAnimationState.InitWalk(animationState[enAnim_Walk]);
+		moveAnimationState.InitRun(animationState[enAnim_Run]);
+		moveAnimationState.InitKnockDown(animationState[enAnim_KnockDown]);
+		moveAnimationState.InitGetUp(animationState[enAnim_GetUp]);
+
+		PlayerAttackAnimationState attackAnimationState;
+		attackAnimationState.InitAttack1(animationState[enAnim_Attack]);
+		attackAnimationState.InitAttack2(animationState[enAnim_Attack2]);
+		attackAnimationState.InitAttack3(animationState[enAnim_Attack3]);
+		attackAnimationState.InitGuard(animationState[enAnim_Guard]);
+		attackAnimationState.InitCutMode(animationState[enAnim_CutMode]);
 	}
 }
