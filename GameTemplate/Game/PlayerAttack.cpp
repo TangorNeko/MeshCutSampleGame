@@ -9,7 +9,8 @@ namespace
 	const int TIME_ATTACK_END = 60;
 	const int TIME_COMBO_ACCEPTABLE = 20;
 	const int TIME_ATTACK_COLLISION = 14;
-	const float ATTACK_RANGE = 500.0f;
+	const int MAX_CUT_NUM = 2;
+	const float ATTACK_RANGE = 600.0f;
 	const float ATTACK_DAMAGE = 25.0f;
 	const Vector3 ATTACK_CUT_NORMAL[3] = {
 		{0.1f,0.9f,-0.1f},
@@ -80,17 +81,7 @@ namespace Game
 				m_testHitBox->SetPosition(playerPosition);
 				*/
 
-				//ボスに近ければダメージを与える
-				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
-				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する
-				//TODO:ミサイル等の重要でない敵オブジェクトは通常攻撃でも斬れるようにする?
-				BossTank* bossTank = FindGO<BossTank>("bosstank");
-				Vector3 distance = playerPosition - bossTank->GetPosition();
-
-				if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
-				{
-					bossTank->Damage(ATTACK_DAMAGE);
-				}
+				
 
 				Vector3 cutPoint = { 0.0f,120.0f,0.0f };
 				cutPoint += playerPosition;
@@ -110,13 +101,29 @@ namespace Game
 					{
 						Vector3 distance = cutObject->GetPosition() - cutPoint;
 
-						if (distance.LengthSq() < 600 * 600 && cutObject->GetDivideNum() == 0)
+						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE && cutObject->GetDivideNum() <= MAX_CUT_NUM)
 						{
 							return true;
 						}
 						return false;
 					}
 				);
+
+				//ボスに近ければダメージを与える
+				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
+				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する
+				//TODO:ミサイル等の重要でない敵オブジェクトは通常攻撃でも斬れるようにする?
+				BossTank* bossTank = FindGO<BossTank>("bosstank");
+
+				if (bossTank != nullptr)
+				{
+					Vector3 distance = playerPosition - bossTank->GetPosition();
+
+					if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
+					{
+						bossTank->Damage(ATTACK_DAMAGE);
+					}
+				}
 			}
 
 			//1,2段目までの攻撃開始コンボ受付時間以内で、攻撃ボタンを押すと
