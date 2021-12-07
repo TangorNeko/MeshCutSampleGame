@@ -4,6 +4,7 @@
 #include "EnemyMissile.h"
 #include "Player.h"
 #include "MiniEnemy.h"
+#include "EnemyRock.h"
 
 namespace
 {
@@ -21,6 +22,8 @@ namespace Game
 		SubmitWaitTask(bossTank);
 		SubmitRollingTask(bossTank);
 		SubmitSummonTask(bossTank);
+		SubmitRockTask(bossTank);
+		SubmitChargeTask(bossTank);
 	}
 
 	void BossTankTasks::SubmitMissileTask(BossTank* bossTank)
@@ -117,11 +120,77 @@ namespace Game
 	void BossTankTasks::SubmitChargeTask(BossTank* bossTank)
 	{
 		EnemyTask ChargeTask;
+
+		ChargeTask.SetUpdateFunc([bossTank](int taskTime)->bool
+			{
+				bossTank->SetBaseDeg(bossTank->GetBaseDeg() + 15.0f);
+
+				if (taskTime == 23)
+				{
+					//TODO:‹——£‚Å‚Í‚È‚­ƒgƒŠƒK[‚Å”»’è‚µ‚½‚¢Š
+					Player* player = FindGO<Player>("player");
+					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+					if (distance.LengthSq() < 700 * 700 && player->isGuard() == false)
+					{
+						distance.Normalize();
+						player->KnockDown(distance * 60);
+					}
+					return true;
+				}
+
+				return false;
+			}
+		);
+
+		bossTank->SetTask(enCharge, ChargeTask);
 	}
 
 	void BossTankTasks::SubmitRockTask(BossTank* bossTank)
 	{
 		EnemyTask RockTask;
+
+		auto createRock = [bossTank](const Vector3& pos) {
+			EnemyRock* rock = NewGO<EnemyRock>(0, "rock");
+			Player* player = FindGO<Player>("player");
+			Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+			distance.Normalize();
+			rock->SetPosition(pos);
+			rock->SetDirection(distance);
+		};
+
+		RockTask.SetUpdateFunc([bossTank,createRock](int taskTime)
+			{
+				if (taskTime == 30)
+				{
+					Vector3 pos = bossTank->GetPosition();
+					pos.y += 200.0f;
+					createRock(pos);
+				}
+
+				if (taskTime == 35)
+				{
+					Vector3 pos = bossTank->GetPosition();
+					pos.y += 200.0f;
+					pos.x += 100.0f;
+					createRock(pos);
+				}
+
+				if (taskTime == 38)
+				{
+					Vector3 pos = bossTank->GetPosition();
+					pos.y += 200.0f;
+					pos.x -= 100.0f;
+					createRock(pos);
+
+					return true;
+				}
+
+
+				return false;
+			}
+		);
+
+		bossTank->SetTask(enRock, RockTask);
 	}
 
 	void BossTankTasks::SubmitWaitTask(BossTank* bossTank)

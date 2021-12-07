@@ -10,6 +10,7 @@ namespace
 	const char* MODEL_PATH_CANNON = "Assets/modelData/TankCannon.tkm";
 	const wchar_t* CANNONCUT_TEXT = L"Can Cut Cannon";
 	const wchar_t* ALLCUT_TEXT = L"Can Cut All";
+	const float DISTANCE_RANGED_ATTACK = 1000.0f;
 	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
 
@@ -95,6 +96,7 @@ namespace Game
 
 			Vector3 distance = player->GetPosition() - m_position;
 
+			//–C‘ä‚ðŽa‚ç‚ê‚Ä‚Ü‚¾ŽG‹›“G‚ð¢Š«‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç
 			if (m_hp <= 500 && m_isSummonMinions == false && m_isCannonBreak == true)
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enSummon]);
@@ -102,17 +104,38 @@ namespace Game
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_isSummonMinions = true;
 			}
-			else if (distance.LengthSq() <= 1000.0f * 1000.0f)
+			else if (m_hp <= 500 && m_isCannonBreak == true)
 			{
-				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				//–C‘ä‚ª‰ó‚ê‚½Žž
+				if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
+				{
+					//“ËiUŒ‚
+					//(¡‚Í‚Ü‚¾‰ñ“]UŒ‚)
+					m_taskQueue.push(m_tankTask[BossTankTasks::enCharge]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				}
+				else
+				{
+					//ŠâUŒ‚
+					m_taskQueue.push(m_tankTask[BossTankTasks::enRock]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				}
 			}
 			else
 			{
-				m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				//–C‘ä‚ª‰ó‚ê‚Ä‚¢‚È‚¢Žž
+				if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
+				{
+					m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				}
+				else
+				{
+					m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+					m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				}
 			}
 		}
 
