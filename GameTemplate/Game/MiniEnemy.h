@@ -27,6 +27,9 @@ namespace Game
 		int m_frame = 0;
 		float m_turretDeg = 0.0f;
 		bool m_isDead = false;
+		bool m_isCannonBreak = false;
+		bool m_isTurretBreak = false;
+		bool m_isBaseBreak = false;
 	};
 }
 
