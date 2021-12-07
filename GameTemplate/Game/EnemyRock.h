@@ -31,9 +31,9 @@ namespace Game
 		void PlayerHitTest();
 	private:
 		Player* m_targetPlayer = nullptr;
-		Vector3 m_position;
-		Quaternion m_qRot;
-		Vector3 m_moveDirection;
+		Vector3 m_position = Vector3::Zero;
+		Quaternion m_qRot = Quaternion::Identity;
+		Vector3 m_moveDirection = Vector3::Front;
 		SkinModelRender* m_rockModel = nullptr;
 		CPhysicsGhostObject m_sphereTrigger;
 		bool m_isCut = false;
