@@ -2,6 +2,16 @@
 #include "EnemyRock.h"
 #include "Player.h"
 
+namespace
+{
+	const char* PATH_ROCKMODEL = "Assets/modelData/stone.tkm";
+	const Vector3 ROCK_SCALE = { 5.0f,5.0f,5.0f };
+	const float ROCK_COLLISION_RADIUS = 75.0f;
+	const float ROCK_MOVESPEED = 30.0f;
+	const float ROCK_GRAVITY = 0.5f;
+	const int ROCK_DAMAGE = 50;
+}
+
 namespace Game
 {
 	EnemyRock::~EnemyRock()
@@ -15,16 +25,25 @@ namespace Game
 
 	bool EnemyRock::Start()
 	{
+		//岩のモデルを初期化
 		m_rockModel = NewGO<SkinModelRender>(0);
-		m_rockModel->Init("Assets/modelData/stone.tkm");
-		m_rockModel->SetOwner(this);
-		m_rockModel->SetDivideFlag(true);
-		m_rockModel->SetScale({ 5.0f,5.0f,5.0f });
+		m_rockModel->Init(PATH_ROCKMODEL);
+		m_rockModel->SetScale(ROCK_SCALE);
+
+		//モデルの中心を原点にする
 		m_rockModel->SetModelCenterAsOrigin();
+
+		//モデルの所有者を設定
+		m_rockModel->SetOwner(this);
+
+		//最初から切断可能にしておく
+		m_rockModel->SetDivideFlag(true);
 		Game::ModelCutManager::GetInstance()->AddCuttable(m_rockModel);
 
-		m_sphereTrigger.CreateSphere(m_position, Quaternion::Identity, 75.0f);
+		//球状の当たり判定を作成
+		m_sphereTrigger.CreateSphere(m_position, Quaternion::Identity, ROCK_COLLISION_RADIUS);
 
+		//ダメージを与えるプレイヤーを探す
 		m_targetPlayer = FindGO<Player>("player");
 
 		return true;
@@ -44,13 +63,15 @@ namespace Game
 
 	void EnemyRock::Update()
 	{
-		m_position += m_moveDirection * 30;
-		m_position.y -= 0.5f;
+		//移動処理
+		m_position += m_moveDirection * ROCK_MOVESPEED;
+		m_position.y -= ROCK_GRAVITY;
 
+		//モデルと当たり判定に座標をセット
 		m_rockModel->SetPosition(m_position);
-
 		m_sphereTrigger.SetPosition(m_position);
 
+		//プレイヤーとのヒットを確認
 		PlayerHitTest();
 	}
 
@@ -58,10 +79,10 @@ namespace Game
 	{
 		PhysicsWorld::GetInstance()->ContactTest(m_targetPlayer->GetCharaCon(), [&](const btCollisionObject& contactObject)
 			{
-				//追いかけているプレイヤーのキャラコンと自分のトリガーが接触していたら
+				//プレイヤーのキャラコンと自分のトリガーが接触していたら
 				if (m_sphereTrigger.IsSelf(contactObject) == true) {
 					//ダメージを与える
-					m_targetPlayer->Damage(50);
+					m_targetPlayer->Damage(ROCK_DAMAGE);
 
 					//自らを削除
 					DeleteGO(this);
