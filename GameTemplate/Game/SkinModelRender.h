@@ -267,7 +267,7 @@ namespace Game
 		}
 
 		/**
-		 * @brief モデルの原点からコアまでのベクトルを設定
+		 * @brief モデルの原点からコアまでのベクトルを設定、切断時にコア座標のある側のモデルが優先して残される(コア座標のない側がダミーになる)
 		 * @param toCoreVec モデルの原点からコアまでのベクトル
 		*/
 		void SetToCoreVector(const Vector3& toCoreVec)

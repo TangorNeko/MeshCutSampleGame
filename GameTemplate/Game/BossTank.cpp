@@ -10,6 +10,7 @@ namespace
 	const char* MODEL_PATH_CANNON = "Assets/modelData/TankCannon.tkm";
 	const wchar_t* CANNONCUT_TEXT = L"Can Cut Cannon";
 	const wchar_t* ALLCUT_TEXT = L"Can Cut All";
+	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,0.0f };
 	const float DISTANCE_RANGED_ATTACK = 1000.0f;
 	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 }
@@ -28,15 +29,20 @@ namespace Game
 
 	bool BossTank::Start()
 	{
+		//車体、砲塔、砲身を別々のモデルとして生成
 		m_baseRender = NewGO<SkinModelRender>(0);
 		m_turretRender = NewGO<SkinModelRender>(0);
 		m_cannonRender = NewGO<SkinModelRender>(0);
 
-
+		//初期化
 		m_baseRender->Init(MODEL_PATH_BASE);
 		m_turretRender->Init(MODEL_PATH_TURRET);
 		m_cannonRender->Init(MODEL_PATH_CANNON);
-		m_cannonRender->SetToCoreVector({ 0.0f,175.0f,0.0f });
+
+		//砲身のコア(切断された場合に残したい場所の座標)を設定
+		m_cannonRender->SetToCoreVector(CANNON_VECTOR_TOCORE);
+
+		//モデルの所有者を設定
 		m_baseRender->SetOwner(this);
 		m_turretRender->SetOwner(this);
 		m_cannonRender->SetOwner(this);
@@ -59,6 +65,7 @@ namespace Game
 
 	void BossTank::OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce)
 	{
+		//斬られたのが砲身なら
 		if (skinModelRender == m_cannonRender)
 		{
 			//砲身が壊れたフラグをオン、行動を分岐させるのに使う
@@ -67,14 +74,19 @@ namespace Game
 
 		//NOTE:baseRenderとturretRenderはおそらく同じくフレームで切断されるが、
 		//どちらも切断された時のみDeleteする。
+
+		//斬られたのが車体なら
 		if (skinModelRender == m_baseRender)
 		{
+			//元々の車体のモデルをダミーとして生成
 			m_baseRender->MakeDummy(cutForce);
 			m_isBaseBreak = true;
 		}
 
+		//斬られたのが砲塔なら
 		if (skinModelRender == m_turretRender)
 		{
+			//元々の砲塔のモデルをダミーとして作成
 			m_turretRender->MakeDummy(cutForce);
 			m_isTurretBreak = true;
 		}
@@ -82,14 +94,17 @@ namespace Game
 		//砲塔と本体がどちらも斬られたら完全にダミーに移行する
 		if (m_isTurretBreak && m_isBaseBreak)
 		{
-			m_cannonRender->MakeDummy(Vector3::Zero);
+			//残っていた砲身もダミーに
+			m_cannonRender->MakeDummy(cutForce);
+
+			//すべてダミーになったのでボスとしての挙動は不要なので削除
 			DeleteGO(this);
 		}
 	}
 
 	void BossTank::Update()
 	{
-		//プレイヤーの行動パターン、別に分離したい
+		//ボスの行動パターン、別に分離したい
 		if (m_taskQueue.size() == 0)
 		{
 			Player* player = FindGO<Player>("player");
@@ -139,16 +154,23 @@ namespace Game
 			}
 		}
 
+
+		//キューにタスクがある場合
 		if (m_taskQueue.size() > 0)
 		{
+			//先頭のタスクを実行してタスクが終わったかどうかを取得
 			bool isEnd = m_taskQueue.front().Execute();
 
+
+			//タスクが終わったら
 			if (isEnd)
 			{
+				//終わったタスクをキューから削除
 				m_taskQueue.pop();
 			}
 		}
 
+		//デバッグ用、現在のタスクをリセットする
 		if (g_pad[0]->IsTrigger(enButtonLB2))
 		{
 			while (m_taskQueue.size() != 0)
@@ -158,15 +180,20 @@ namespace Game
 			}
 		}
 
+		//砲塔の回転角度から回転を作成
 		m_turretRot.SetRotationDegY(m_turretDeg);
+		//車体の回転角度から回転を作成
 		m_baseRot.SetRotationDegY(m_baseDeg);
 
+		//砲塔の回転に車体の回転をかけ合わせる(車体の回転に砲塔が追従するため)
 		m_turretRot.Multiply(m_baseRot, m_turretRot);
 
+		//計算した回転をセット
 		m_baseRender->SetRotation(m_baseRot);
 		m_turretRender->SetRotation(m_turretRot);
 		m_cannonRender->SetRotation(m_turretRot);
 
+		//座標をセット
 		m_baseRender->SetPosition(m_position);
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
@@ -180,6 +207,7 @@ namespace Game
 
 	void BossTank::Damage(float damage)
 	{
+		//体力を減らす
 		m_hp -= damage;
 
 		//体力半分で砲身切断可能に

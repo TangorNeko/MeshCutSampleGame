@@ -18,18 +18,47 @@ namespace Game
 			enTaskNum
 		};
 
+		/**
+		 * @brief 受け取ったボスにタスクをセットする
+		 * @param bossTank タスクをセットするボス
+		*/
 		void SubmitTo(BossTank* bossTank);
 
+	private:
+		/**
+		 * @brief ミサイルを発射するタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitMissileTask(BossTank* bossTank);
 
+		/**
+		 * @brief 回転攻撃をするタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitRollingTask(BossTank* bossTank);
 
+		/**
+		 * @brief 雑魚敵を召喚するタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitSummonTask(BossTank* bossTank);
 
+		/**
+		 * @brief 突進攻撃をするタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitChargeTask(BossTank* bossTank);
 
+		/**
+		 * @brief 岩を発射するタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitRockTask(BossTank* bossTank);
 
+		/**
+		 * @brief 待機するタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
 		void SubmitWaitTask(BossTank* bossTank);
 	};
 }

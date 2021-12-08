@@ -8,10 +8,23 @@
 
 namespace
 {
-	const Vector3 MINION_POSITIONS[4] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
 	const int MISSILE_TIME_FIRST = 30;
 	const int MISSILE_TIME_SECOND = 60;
 	const int MISSILE_TIME_THIRD = 90;
+	const float MISSILE_SHOT_HEIGHT = 200.0f;
+	const float ROLLING_DEG = 15.0f;
+	const int ROLLING_TIME_END = 23;
+	const float ROLLING_RANGE = 700.0f;
+	const float ROLLING_KNOCKDOWN_POWER = 60.0f;
+	const int SUMMON_TIME = 30;
+	const int SUMMON_NUM = 4;
+	const Vector3 MINION_POSITIONS[SUMMON_NUM] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
+	const float ROCK_SHOT_HEIGHT = 200.0f;
+	const float ROCK_SHOT_XOFFSET = 100.0f;
+	const int ROCK_TIME_FIRST = 30;
+	const int ROCK_TIME_SECOND = 35;
+	const int ROCK_TIME_THIRD = 38;
+	const int WAIT_TIME = 180;
 }
 
 namespace Game
@@ -30,30 +43,33 @@ namespace Game
 	{
 		EnemyTask MissileTask;
 
-		MissileTask.SetUpdateFunc([bossTank](int taskTime)
+		//ミサイルを発射する処理
+		auto ShotMissile = [bossTank]()
+		{
+			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
+			Vector3 pos = bossTank->GetPosition();
+			pos.y += MISSILE_SHOT_HEIGHT;
+			missile->SetPosition(pos);
+		};
+
+		MissileTask.SetUpdateFunc([bossTank,ShotMissile](int taskTime)
 			{
+				//規定フレームになるとミサイルを発射する
 				if (taskTime == MISSILE_TIME_FIRST)
 				{
-					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					missile->SetPosition(pos);
+					ShotMissile();
 				}
 
 				if (taskTime == MISSILE_TIME_SECOND)
 				{
-					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					missile->SetPosition(pos);
+					ShotMissile();
 				}
 
 				if (taskTime == MISSILE_TIME_THIRD)
 				{
-					EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					missile->SetPosition(pos);
+					ShotMissile();
+
+					//三発目を撃ったらタスクは終了
 					return true;
 				}
 
@@ -61,6 +77,7 @@ namespace Game
 			}
 		);
 
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enMissile, MissileTask);
 	}
 
@@ -70,18 +87,12 @@ namespace Game
 
 		RollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-				bossTank->SetTurretDeg(bossTank->GetTurretDeg() + 15.0f);
+				//毎フレーム少しずつ回転させていく
+				bossTank->SetTurretDeg(bossTank->GetTurretDeg() + ROLLING_DEG);
 
-				if (taskTime == 23)
+				//規定フレームになったら終了
+				if (taskTime == ROLLING_TIME_END)
 				{
-					//TODO:距離ではなくトリガーで判定したい所
-					Player* player = FindGO<Player>("player");
-					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
-					if (distance.LengthSq() < 700 * 700 && player->isGuard() == false)
-					{
-						distance.Normalize();
-						player->KnockDown(distance * 60);
-					}
 					return true;
 				}
 
@@ -89,6 +100,25 @@ namespace Game
 			}
 		);
 
+		//タスクの終了時にダメージ判定をする
+		RollingTask.SetEndFunc([bossTank]()
+			{
+				//TODO:距離ではなくトリガーで判定したい所
+				Player* player = FindGO<Player>("player");
+				Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+
+				//プレイヤーとの距離が近かったら
+				if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+				{
+					distance.Normalize();
+
+					//プレイヤーを大きく吹き飛ばす
+					player->KnockDown(distance * 60);
+				}
+			}
+		);
+
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enRolling, RollingTask);
 	}
 
@@ -98,15 +128,17 @@ namespace Game
 
 		SummonTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-				if (taskTime == 30)
+				if (taskTime == SUMMON_TIME)
 				{
-					MiniEnemy* enemy[4];
-					for (int i = 0; i < 4; i++)
+					//雑魚敵を召喚
+					MiniEnemy* enemy[SUMMON_NUM];
+					for (int i = 0; i < SUMMON_NUM; i++)
 					{
 						enemy[i] = NewGO<MiniEnemy>(0, "enemy");
 						enemy[i]->SetPosition(MINION_POSITIONS[i]);
 					}
 
+					//召喚したらタスクは終わり
 					return true;
 				}
 
@@ -114,6 +146,7 @@ namespace Game
 			}
 		);
 
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enSummon, SummonTask);
 	}
 
@@ -123,18 +156,12 @@ namespace Game
 
 		ChargeTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-				bossTank->SetBaseDeg(bossTank->GetBaseDeg() + 15.0f);
+				//毎フレーム少しずつ回転させていく
+				bossTank->SetBaseDeg(bossTank->GetBaseDeg() + ROLLING_DEG);
 
-				if (taskTime == 23)
+				//規定フレームになったら終了
+				if (taskTime == ROLLING_TIME_END)
 				{
-					//TODO:距離ではなくトリガーで判定したい所
-					Player* player = FindGO<Player>("player");
-					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
-					if (distance.LengthSq() < 700 * 700 && player->isGuard() == false)
-					{
-						distance.Normalize();
-						player->KnockDown(distance * 60);
-					}
 					return true;
 				}
 
@@ -142,6 +169,25 @@ namespace Game
 			}
 		);
 
+		//タスクの終了時にダメージ判定をする
+		ChargeTask.SetEndFunc([bossTank]()
+			{
+				//TODO:距離ではなくトリガーで判定したい所
+				Player* player = FindGO<Player>("player");
+				Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+
+				//プレイヤーとの距離が近かったら
+				if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+				{
+					distance.Normalize();
+
+					//プレイヤーを大きく吹き飛ばす
+					player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
+				}
+			}
+		);
+
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enCharge, ChargeTask);
 	}
 
@@ -149,7 +195,8 @@ namespace Game
 	{
 		EnemyTask RockTask;
 
-		auto createRock = [bossTank](const Vector3& pos) {
+		//岩を作成する関数
+		auto ShotRock = [bossTank](const Vector3& pos) {
 			EnemyRock* rock = NewGO<EnemyRock>(0, "rock");
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - bossTank->GetPosition();
@@ -158,30 +205,32 @@ namespace Game
 			rock->SetDirection(distance);
 		};
 
-		RockTask.SetUpdateFunc([bossTank,createRock](int taskTime)
+		RockTask.SetUpdateFunc([bossTank,ShotRock](int taskTime)
 			{
-				if (taskTime == 30)
+				//規定フレームになると岩を発射
+				if (taskTime == ROCK_TIME_FIRST)
 				{
 					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					createRock(pos);
+					pos.y += ROCK_SHOT_HEIGHT;
+					ShotRock(pos);
 				}
 
-				if (taskTime == 35)
+				if (taskTime == ROCK_TIME_SECOND)
 				{
 					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					pos.x += 100.0f;
-					createRock(pos);
+					pos.y += ROCK_SHOT_HEIGHT;
+					pos.x += ROCK_SHOT_XOFFSET;
+					ShotRock(pos);
 				}
 
-				if (taskTime == 38)
+				if (taskTime == ROCK_TIME_THIRD)
 				{
 					Vector3 pos = bossTank->GetPosition();
-					pos.y += 200.0f;
-					pos.x -= 100.0f;
-					createRock(pos);
+					pos.y += ROCK_SHOT_HEIGHT;
+					pos.x -= ROCK_SHOT_XOFFSET;
+					ShotRock(pos);
 
+					//3つ発射したらタスクは終了
 					return true;
 				}
 
@@ -190,6 +239,7 @@ namespace Game
 			}
 		);
 
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enRock, RockTask);
 	}
 
@@ -199,8 +249,9 @@ namespace Game
 
 		WaitTask.SetUpdateFunc([](int taskTime)
 			{
-				if (taskTime == 180)
+				if (taskTime == WAIT_TIME)
 				{
+					//待機時間分待機したらタスクは終了
 					return true;
 				}
 				else
@@ -210,6 +261,7 @@ namespace Game
 			}
 		);
 
+		//ボスにこのタスクをセットする
 		bossTank->SetTask(enWait, WaitTask);
 	}
 }

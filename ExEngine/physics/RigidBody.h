@@ -3,11 +3,11 @@
 class ICollider;
 //剛体初期化情報。
 struct RigidBodyInitData {
-	Vector3 pos;					//座標。
-	Quaternion rot;					//回転。
-	Vector3 localInteria;			//慣性テンソル。回転のしやすさ的なもの。
-	ICollider* collider = nullptr;	//コライダー。
-	float mass = 0;					//質量。
+	Vector3 pos = Vector3::Zero;			//座標。
+	Quaternion rot = Quaternion::Identity;	//回転。
+	Vector3 localInteria = Vector3::Zero;	//慣性テンソル。回転のしやすさ的なもの。
+	ICollider* collider = nullptr;			//コライダー。
+	float mass = 0;							//質量。
 
 };
 
@@ -116,7 +116,7 @@ public:
 		Vector3 v = { x, y, z };
 		SetLinearFactor(v);
 	}
-	void SetLinearFactor(Vector3& linearFactor)
+	void SetLinearFactor(const Vector3& linearFactor)
 	{
 		btVector3 v;
 		v.setValue(linearFactor.x, linearFactor.y, linearFactor.z);
