@@ -15,6 +15,9 @@ namespace Game
 
 		void OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce) override;
 
+		/**
+		 * @brief プレイヤーとの当たり判定
+		*/
 		void PlayerHitTest();
 
 	public:
@@ -45,13 +48,13 @@ namespace Game
 			m_qRot = rot;
 		}
 	private:
-		Player* m_trackingPlayer = nullptr;
+		Player* m_trackingPlayer = nullptr;				//追尾するプレイヤー
 		SkinModelRender* m_missileRender = nullptr;		//スキンモデルレンダー
 		Vector3 m_position = Vector3::Zero;				//座標
 		Quaternion m_qRot = Quaternion::Identity;		//回転
 		bool m_isCut = false;							//カットされた?
-		CPhysicsGhostObject m_capsuleTrigger;
-		EnemyMissileMove m_missileMove;
-		EnemyMissileRotation m_missileRotation;
+		CPhysicsGhostObject m_capsuleTrigger;			//当たり判定のトリガー
+		EnemyMissileMove m_missileMove;					//ミサイルの移動処理クラス
+		EnemyMissileRotation m_missileRotation;			//ミサイルの回転処理クラス
 	};
 }

@@ -7,6 +7,7 @@ namespace
 	const char* PATH_MISSILEMODEL = "Assets/modelData/TankMissile.tkm";
 	const float TRIGGER_HEIGHT = 300.0f;
 	const float TRIGGER_RADIUS = 50.0f;
+	const int MISSILE_DAMAGE = 50;
 }
 
 namespace Game
@@ -46,7 +47,10 @@ namespace Game
 
 	void EnemyMissile::Update()
 	{
+		//ミサイルの移動処理
 		m_missileMove.Update(m_position);
+
+		//ミサイルの回転処理
 		m_missileRotation.Update(m_qRot, m_missileMove.GetDirection());
 
 		//モデルの座標と回転をセット
@@ -57,6 +61,7 @@ namespace Game
 		m_capsuleTrigger.SetPosition(m_position);
 		m_capsuleTrigger.SetRotation(m_qRot);
 
+		//プレイヤーとのヒットを確認
 		PlayerHitTest();
 	}
 
@@ -79,7 +84,7 @@ namespace Game
 				//追いかけているプレイヤーのキャラコンと自分のトリガーが接触していたら
 				if (m_capsuleTrigger.IsSelf(contactObject) == true) {
 					//ダメージを与える
-					m_trackingPlayer->Damage(50);
+					m_trackingPlayer->Damage(MISSILE_DAMAGE);
 
 					//自らを削除
 					DeleteGO(this);

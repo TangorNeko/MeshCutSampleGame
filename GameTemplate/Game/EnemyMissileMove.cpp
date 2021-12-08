@@ -7,11 +7,12 @@ namespace
 	const float MISSILE_SPEED = 30.0f;
 	const Vector3 ERROR_VECTOR3 = { 1000.0f,1000.0f,1000.0f };
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
+	const int DIRECTIONLIST_MAX = 15;
 }
 
 namespace Game
 {
-	EnemyMissileMove::EnemyMissileMove()
+	EnemyMissileMove::~EnemyMissileMove()
 	{
 	}
 
@@ -38,6 +39,7 @@ namespace Game
 		//プレイヤーへのベクトルを正規化
 		m_moveDirection.Normalize();
 
+		//最近のフレームとの平均値を取り、移動方向を決める
 		CalcAvg(m_moveDirection);
 
 		//現在の座標からプレイヤー向きにスピード分移動させる
@@ -58,19 +60,23 @@ namespace Game
 		m_pastDirectionList.push_back(direction);
 
 		int listSize = static_cast<int>(m_pastDirectionList.size());
-		//リストのサイズが15より多いなら
-		if (listSize > 15)
+		//リストのサイズが最大値より多いなら
+		if (listSize > DIRECTIONLIST_MAX)
 		{
+			//一番昔に追加された要素を削除
 			m_pastDirectionList.pop_front();
 			listSize--;
 		}
 
 		Vector3 directionSum = Vector3::Zero;
+
+		//過去のフレームの移動方向を加算していく
 		for (auto& pastDirection : m_pastDirectionList)
 		{
 			directionSum += pastDirection;
 		}
 		
+		//過去のフレームの移動方向との平均が現フレームの移動方向になる
 		direction = directionSum / listSize;
 	}
 }

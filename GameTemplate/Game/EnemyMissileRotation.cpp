@@ -4,6 +4,7 @@
 namespace
 {
 	const float DIRECTION_ERROR_LENGTHSQ = 10.0f;
+	const float ROTATEAXIS_ERROR_LENGTHSQ = 0.5f;
 }
 
 namespace Game
@@ -20,7 +21,7 @@ namespace Game
 		Vector3 rotateAxis = Cross(Vector3::Up, direction);
 
 		//外積の結果が不正だった場合何もしない
-		if (rotateAxis.LengthSq() < 0.5)
+		if (rotateAxis.LengthSq() < ROTATEAXIS_ERROR_LENGTHSQ)
 		{
 			return;
 		}
@@ -33,7 +34,7 @@ namespace Game
 		rotDeg = acos(rotDeg);
 		rotDeg = Math::RadToDeg(rotDeg);
 
-		//セット
+		//回転をセット
 		qRot.SetRotationDeg(rotateAxis, rotDeg);
 	}
 }
