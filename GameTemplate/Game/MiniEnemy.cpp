@@ -17,12 +17,14 @@ namespace
 	int FRAME_ATTACK_START = 80;
 	int FRAME_ATTACK_HIT = 105;
 	int FRAME_ACTION_END = 300;
+	int ATTACK_DAMAGE = 25;
 }
 
 namespace Game
 {
 	MiniEnemy::~MiniEnemy()
 	{
+		//どこも斬られていなかった場合のみモデルを削除
 		if (m_isDead == false)
 		{
 			DeleteGO(m_baseRender);
@@ -33,21 +35,55 @@ namespace Game
 
 	void MiniEnemy::OnDivide(const SkinModelRender* skinModelRender, const Vector3& cutForce)
 	{
+		//斬られたので死亡
 		m_isDead = true;
 
-		m_baseRender->MakeDummy(cutForce);
-		m_turretRender->MakeDummy(cutForce);
-		m_cannonRender->MakeDummy(cutForce);
+		//斬られたのが車体なら
+		if (skinModelRender == m_baseRender)
+		{
+			//車体モデルからダミー生成
+			m_baseRender->MakeDummy(cutForce);
+			m_turretRender->SetModelCenterAsOrigin();
+			m_cannonRender->SetModelCenterAsOrigin();
+			m_isBaseBreak = true;
+		}
 
-		DeleteGO(this);
+		//斬られたのが砲塔なら
+		if (skinModelRender == m_turretRender)
+		{
+			//砲塔モデルからダミー生成
+			m_turretRender->MakeDummy(cutForce);
+			m_baseRender->SetModelCenterAsOrigin();
+			m_cannonRender->SetModelCenterAsOrigin();
+			m_isTurretBreak = true;
+		}
+
+		//斬られたのが砲身なら
+		if (skinModelRender == m_cannonRender)
+		{
+			//砲身モデルからダミー生成
+			m_cannonRender->MakeDummy(cutForce);
+			m_baseRender->SetModelCenterAsOrigin();
+			m_turretRender->SetModelCenterAsOrigin();
+			m_isCannonBreak = true;
+		}
+
+		//すべての部位が斬られたら
+		if (m_isBaseBreak && m_isTurretBreak && m_isCannonBreak)
+		{
+			//もう処理の必要がないので削除
+			DeleteGO(this);
+		}
 	}
 
 	bool MiniEnemy::Start()
 	{
+		//車体、砲塔、砲身を別々のモデルとして生成
 		m_baseRender = NewGO<SkinModelRender>(0);
 		m_turretRender = NewGO<SkinModelRender>(0);
 		m_cannonRender = NewGO<SkinModelRender>(0);
 
+		//初期化
 		m_baseRender->Init(MODEL_PATH_BASE);
 		m_turretRender->Init(MODEL_PATH_TURRET);
 		m_cannonRender->Init(MODEL_PATH_CANNON);
@@ -56,10 +92,12 @@ namespace Game
 		m_turretRender->SetScale(ENEMY_SIZE);
 		m_cannonRender->SetScale(ENEMY_SIZE);
 
+		//モデルの所有者を設定
 		m_baseRender->SetOwner(this);
 		m_turretRender->SetOwner(this);
 		m_cannonRender->SetOwner(this);
 
+		//各部位を最初から斬れるようにしておく
 		m_baseRender->SetDivideFlag(true);
 		m_turretRender->SetDivideFlag(true);
 		m_cannonRender->SetDivideFlag(true);
@@ -72,32 +110,39 @@ namespace Game
 
 	void MiniEnemy::Update()
 	{
+		//死んでいた場合何もしない
 		if (m_isDead == true)
 		{
 			return;
 		}
 
-		m_frame++;
-		if (m_frame == FRMAE_MOVE_START)
+		//移動開始フレームなら
+		if (m_actionFrame == FRMAE_MOVE_START)
 		{
+			//プレイヤーへの向きを計算
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - m_position;
 			distance.Normalize();
+			
+			//移動方向はプレイヤーへの向き
+			m_moveDirection = distance;
 
-			move = distance;
-
-			rotation.SetRotation(Vector3::Front, distance);
+			//プレイヤーに向かって車体を向ける
+			m_baseRot.SetRotation(Vector3::Front, distance);
 		}
-		else if (m_frame > FRMAE_MOVE_START && m_frame < FRAME_ATTACK_START)
+		else if (m_actionFrame > FRMAE_MOVE_START && m_actionFrame < FRAME_ATTACK_START)
 		{
-			m_position += move * CHARGE_SPEED;
+			//プレイヤーに向かって移動するる
+			m_position += m_moveDirection * CHARGE_SPEED;
 		}
-		else if (m_frame > FRAME_ATTACK_START && m_frame < FRAME_ATTACK_HIT)
+		else if (m_actionFrame > FRAME_ATTACK_START && m_actionFrame < FRAME_ATTACK_HIT)
 		{
+			//砲身を回す
 			m_turretDeg -= ROTATE_DEG;
 		}
-		else if (m_frame == FRAME_ATTACK_HIT)
+		else if (m_actionFrame == FRAME_ATTACK_HIT)
 		{
+			//プレイヤーに攻撃し、軽く吹き飛ばす
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - m_position;
 
@@ -105,26 +150,32 @@ namespace Game
 			{
 				distance.Normalize();
 				player->KnockDown(distance * KNOCKDOWN_SPEED);
+				player->Damage(ATTACK_DAMAGE);
 			}
 		}
-		else if (m_frame == FRAME_ACTION_END)
+		else if (m_actionFrame == FRAME_ACTION_END)
 		{
-			m_frame = FRAME_ACTION_START;
+			//開始フレームにリセット
+			m_actionFrame = FRAME_ACTION_START;
 		}
 
+		//座標をセット
 		m_baseRender->SetPosition(m_position);
 		m_turretRender->SetPosition(m_position);
 		m_cannonRender->SetPosition(m_position);
 
-		Quaternion Rot = rotation;
-		Quaternion turretRot = Quaternion::Identity;
+		//砲塔の回転をセット
+		m_turretRot.SetRotationDegY(m_turretDeg);
 
-		turretRot.SetRotationDegY(m_turretDeg);
+		//砲塔の回転に車体の回転をかけ合わせる
+		m_turretRot.Multiply(m_baseRot, m_turretRot);
 
-		turretRot.Multiply(Rot, turretRot);
+		//計算した回転をセット
+		m_baseRender->SetRotation(m_baseRot);
+		m_turretRender->SetRotation(m_turretRot);
+		m_cannonRender->SetRotation(m_turretRot);
 
-		m_baseRender->SetRotation(rotation);
-		m_turretRender->SetRotation(turretRot);
-		m_cannonRender->SetRotation(turretRot);
+		//経過フレームを増加させる
+		m_actionFrame++;
 	}
 }
