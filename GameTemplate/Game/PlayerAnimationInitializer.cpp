@@ -12,7 +12,7 @@ namespace
 	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";
 	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
 	const char* PATH_ANIM_GUARD = "Assets/animData/player/Guard.tka";
-	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/Idle_St1.tka";
+	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/CutPose.tka";
 	const char* PATH_ANIM_KNOCKDOWN = "Assets/animData/player/Hit_KnockDown.tka";
 	const char* PATH_ANIM_GETUP = "Assets/animData/player/Getup_2.tka";
 }
