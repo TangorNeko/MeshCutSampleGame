@@ -31,7 +31,9 @@ namespace Game
 
 		//プレイヤーのHP表示
 		m_playerDisplay.Init(m_hp);
-	
+
+		//初期の向きをセット
+		m_playerMove.SetPlayerDirection(Vector3::Back);
 		return true;
 	}
 

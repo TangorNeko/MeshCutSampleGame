@@ -5,9 +5,10 @@ namespace
 {
 	const Vector3 PLAYER_TO_TARGET = { 0.0f,150.0f,0.0f };
 	const float TOCAMERA_LENGTH = 500.0f;
-	const Vector3 CUTMODE_PLAYER_TO_TARGET = { 50.0f,160.0f,0.0f };
+	const Vector3 CUTMODE_PLAYER_TO_TARGET = { 45.0f,160.0f,0.0f };
 	const float CUTMODE_TOCAMERA_LENGTH = 80.0f;
 	const float CAMERA_SPEED = 2.0f;
+	const float CAMERA_MAX_DEG_X = 45.0f;
 }
 
 namespace Game
@@ -26,6 +27,14 @@ namespace Game
 
 		float degY = g_pad[0]->GetRStickXF() * CAMERA_SPEED;
 		float degX = g_pad[0]->GetRStickYF() * -CAMERA_SPEED;
+
+		//X軸カメラの角度制限
+		m_totalDegX += degX;
+		if (m_totalDegX <= -CAMERA_MAX_DEG_X || m_totalDegX >= CAMERA_MAX_DEG_X)
+		{
+			m_totalDegX -= degX;
+			degX = 0;
+		}
 
 		//入力分回す
 		qRotY.SetRotationDegY(degY);
@@ -65,14 +74,22 @@ namespace Game
 		Quaternion qRotX = Quaternion::Identity;
 
 		//切断モード中は左スティックでカメラ移動させる
-		float degY = g_pad[0]->GetLStickXF() * CAMERA_SPEED;
-		float degX = g_pad[0]->GetLStickYF() * -CAMERA_SPEED;
+		float inputDegY = g_pad[0]->GetLStickXF() * CAMERA_SPEED;
+		float inputDegX = g_pad[0]->GetLStickYF() * -CAMERA_SPEED;
+
+		//X軸カメラの角度制限
+		m_totalDegX += inputDegX;
+		if (m_totalDegX <= -CAMERA_MAX_DEG_X || m_totalDegX >= CAMERA_MAX_DEG_X)
+		{
+			m_totalDegX -= inputDegX;
+			inputDegX = 0;
+		}
 
 		//入力分回す
-		qRotY.SetRotationDegY(degY);
+		qRotY.SetRotationDegY(inputDegY);
 
 		//カメラの上下移動の軸はカメラの右とする
-		qRotX.SetRotationDeg(g_camera3D->GetRight(), degX);
+		qRotX.SetRotationDeg(g_camera3D->GetRight(), inputDegX);
 
 		//カメラターゲットからカメラまでの向きに回転を適用
 		qRotY.Apply(m_toCameraDirection);
@@ -86,7 +103,7 @@ namespace Game
 
 		//カメラ移動後の新しいプレイヤーの向きを返す
 		//TODO:現在の処理は切断モードに入った際プレイヤーの向きがカメラに追従するようになっているが、
-		//MGR本家ではプレイヤーの向きがカメラに追従する処理になっていた。変更してもいいかも。
+		//MGR本家ではプレイヤーの向きにカメラが追従する処理になっていた。変更してもいいかも。
 		Vector3 front = g_camera3D->GetForward();
 		front.y = 0.0f;
 		front.Normalize();
