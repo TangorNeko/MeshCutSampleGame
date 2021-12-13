@@ -45,6 +45,15 @@ namespace Game
 		bool isKnockDown = false;
 		int knockDownFrame = 0;
 		Vector3 knockDownAmount = Vector3::Zero;
+
+		//TODO:仮ミサイルジャンプ用変数
+		Vector3 m_targetPos[4] = { Vector3::Zero,Vector3::Zero,Vector3::Zero ,Vector3::Zero };
+		int m_moveState = 0;
+		int m_targetCount = 0;
+		int m_jumpFrameCount = 0;
+		int m_distanceCount = 0;
+		bool m_isMovingUp = true;
+		bool m_isMoveStartFrame = true;
 	};
 }
 
