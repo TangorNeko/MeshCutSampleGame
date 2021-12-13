@@ -366,6 +366,7 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="BossTank.cpp" />
+    <ClCompile Include="BossTankBehave.cpp" />
     <ClCompile Include="BossTankCollision.cpp" />
     <ClCompile Include="BossTankDisplay.cpp" />
     <ClCompile Include="BossTankTasks.cpp" />
@@ -485,8 +486,10 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="BossTank.h" />
+    <ClInclude Include="BossTankBehave.h" />
     <ClInclude Include="BossTankCollision.h" />
     <ClInclude Include="BossTankDisplay.h" />
+    <ClInclude Include="BossTankStatus.h" />
     <ClInclude Include="BossTankTasks.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="EnemyMissile.h" />
