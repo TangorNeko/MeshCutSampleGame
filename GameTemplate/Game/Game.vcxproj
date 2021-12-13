@@ -395,6 +395,7 @@
     <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
     <ClCompile Include="OneOnPlaneTriangle.cpp" />
+    <ClCompile Include="StepObject.cpp" />
     <ClCompile Include="ThreeOnBackTriangle.cpp" />
     <ClCompile Include="ThreeOnFrontTriangle.cpp" />
     <ClCompile Include="ThreeOnPlaneTriangle.cpp" />
@@ -519,6 +520,7 @@
     <ClInclude Include="MakeHashFromString.h" />
     <ClInclude Include="MeshDivider.h" />
     <ClInclude Include="OneOnPlaneTriangle.h" />
+    <ClInclude Include="StepObject.h" />
     <ClInclude Include="ThreeOnBackTriangle.h" />
     <ClInclude Include="ThreeOnFrontTriangle.h" />
     <ClInclude Include="ThreeOnPlaneTriangle.h" />
