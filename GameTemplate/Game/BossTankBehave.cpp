@@ -19,6 +19,8 @@ namespace Game
 
 	void BossTankBehave::Execute(BossTankStatus& bossTankStatus)
 	{
+		CheckEvent(bossTankStatus);
+
 		//キューにタスクがない場合
 		if (m_taskQueue.size() == 0)
 		{
@@ -44,6 +46,15 @@ namespace Game
 		}
 	}
 
+	void BossTankBehave::CheckEvent(BossTankStatus& bossTankStatus)
+	{
+		//HPが半分以下になった時、行動を中断して砲身切断イベントへ
+		if (bossTankStatus.isStepAttack == false && bossTankStatus.hp <= 500)
+		{
+			TerminateTask();
+			bossTankStatus.isStepAttack = true;
+		}
+	}
 	void BossTankBehave::SelectTask(BossTankStatus& bossTankStatus)
 	{
 		Player* player = FindGO<Player>("player");
@@ -78,7 +89,15 @@ namespace Game
 		else
 		{
 			//砲台が壊れていない時
-			if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
+			if (bossTankStatus.hp <= 500)
+			{
+				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enStep]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+			}
+			else if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
@@ -104,5 +123,14 @@ namespace Game
 			//終わったタスクをキューから削除
 			m_taskQueue.pop();
 		}
+	}
+
+	void BossTankBehave::TerminateTask()
+	{
+		while (m_taskQueue.size() != 0)
+			{
+				m_taskQueue.front().Terminate();
+				m_taskQueue.pop();
+			}
 	}
 }

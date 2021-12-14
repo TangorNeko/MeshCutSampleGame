@@ -33,6 +33,12 @@ namespace Game
 		void Execute(BossTankStatus& bossTankStatus);
 
 		/**
+		 * @brief 実行中のタスクより優先して行われるイベントをチェックする
+		 * @param bossTankStatus 行動分岐に使うボスのステータス
+		*/
+		void CheckEvent(BossTankStatus& bossTankStatus);
+
+		/**
 		 * @brief 次のタスクを選択する
 		 * @param bossTankStatus 選択に使うボスのステータス
 		*/
@@ -42,6 +48,8 @@ namespace Game
 		 * @brief タスクを実行する
 		*/
 		void ExecuteTask();
+
+		void TerminateTask();
 	private:
 		EnemyTask m_tankTask[BossTankTasks::enTaskNum];		//ボスのタスクの配列(原本、ここからキューにコピーされる)
 		std::queue<EnemyTask> m_taskQueue;					//ボスのタスクキュー
