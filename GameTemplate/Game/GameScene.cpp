@@ -4,7 +4,6 @@
 #include "Player.h"
 #include "EnemyMissile.h"
 #include "BossTank.h"
-#include "StepObject.h"
 
 namespace
 {
@@ -27,12 +26,6 @@ namespace Game
 
 		m_bossTank = NewGO<BossTank>(0,"bosstank");
 		m_bossTank->SetPosition(BOSS_POSITION);
-
-		StepObject* stepObject = NewGO<StepObject>(0, "targetObject");
-		stepObject->SetPosition({ 0.0f,200.0f,-200.0f });
-
-		stepObject = NewGO<StepObject>(0, "targetObject");
-		stepObject->SetPosition({ 100.0f,300.0f,-700.0f });
 
 		return true;
 	}
