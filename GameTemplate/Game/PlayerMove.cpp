@@ -23,14 +23,14 @@ namespace Game
 	void PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
 		//NOTE:仮のミサイルジャンプ処理
-		if (g_pad[0]->IsPress(enButtonA))
+		if (g_pad[0]->IsPress(enButtonB))
 		{
 			m_targetCount = 1;
 		
 			//追跡するターゲットを取得　まだ2つ存在することしか想定していない]
 			//追跡開始の瞬間だけQueryGOsしてもいいが、ジャンプ先が遠いと到達時には大分座標がずれていたので
 			//仮でAボタンを押している間毎フレーム検索している
-			QueryGOs<StepObject>("targetObject", [this](StepObject* targetObject)->bool
+			QueryGOs<StepObject>("stepObject", [this](StepObject* targetObject)->bool
 				{
 					m_targetPos[m_targetCount] = targetObject->GetPosition();
 					m_targetCount++;
@@ -69,8 +69,8 @@ namespace Game
 			if (m_isMoveStartFrame == true)
 			{
 				//現在のターゲット位置から次のターゲット位置への距離を測定
-				Vector3 distanceBetweenTargets = m_targetPos[m_moveState] - m_targetPos[m_moveState + 1];
-
+				Vector3 distanceBetweenTargets = m_targetPos[m_moveState-1] - m_targetPos[m_moveState];
+				distanceBetweenTargets.y = 0.0f;
 				//距離を移動速度で割って移動にかかるフレームを計算
 				m_distanceCount = distanceBetweenTargets.Length() / MISSILEJUMP_SPEED;
 				m_isMoveStartFrame = false;
@@ -80,13 +80,13 @@ namespace Game
 			m_jumpFrameCount++;
 
 			//移動にかかるフレームの半分までは上移動、過ぎると下移動
-			if (m_jumpFrameCount <= m_distanceCount / 2)
+			if (m_jumpFrameCount >= m_distanceCount / 2)
 			{
-				m_isMovingUp = true;
+				m_isMovingUp = false;
 			}
 			else
 			{
-				m_isMovingUp = false;
+				m_isMovingUp = true;
 			}
 
 			//上下移動用のベクトル
@@ -97,12 +97,12 @@ namespace Game
 				if (m_isMovingUp)
 				{
 					//上移動中なら上移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * 20;
+					jumpMoveVector = Vector3::Up * 20 * m_jumpFrameCount;
 				}
 				else
 				{
 					//下移動中なら下移動ベクトルを格納
-					jumpMoveVector = Vector3::Down * 20;
+					jumpMoveVector = Vector3::Up * 20 * (m_distanceCount - m_jumpFrameCount);
 				}
 			}
 
@@ -117,6 +117,8 @@ namespace Game
 			
 			//キャラコンに実行させる。
 			playerPosition = m_charaCon.Execute(distance,1.0f);
+
+			playerPosition += jumpMoveVector;
 
 			//仮、走り中にする
 			animParam.isRunning = true;
@@ -190,10 +192,17 @@ namespace Game
 			m_moveAmount *= MOVE_SPEED;
 		}
 
+		if (m_charaCon.IsOnGround() == true)
+		{
+			m_aerialFrame = 0;
+		}
+		Vector3 Down = Vector3::Down * m_aerialFrame;
+
+		m_moveAmount += Down;
 		//キャラコンに渡す。
 		playerPosition = m_charaCon.Execute(m_moveAmount, 1.0f);
 
-
+		m_aerialFrame++;
 
 		//アニメーション関連　後から分離しよう
 		

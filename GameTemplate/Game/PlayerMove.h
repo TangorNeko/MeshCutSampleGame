@@ -40,6 +40,7 @@ namespace Game
 		Vector3 m_prevPosition = Vector3::Zero;					//1フレーム前のプレイヤーの座標
 		Vector3 m_playerDirection = Vector3::Front;				//プレイヤーの向き
 		Quaternion m_toMoveDirectionRot = Quaternion::Identity;	//プレイヤーの移動方向へのクォータニオン
+		int m_aerialFrame = 0;									//空中にいるフレーム数
 
 		//TODO:変数の必要性を検証したのち正式にm_をつけメンバー変数とする
 		bool isKnockDown = false;
