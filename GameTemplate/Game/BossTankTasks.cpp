@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "MiniEnemy.h"
 #include "EnemyRock.h"
+#include "StepObject.h"
 
 namespace
 {
@@ -37,6 +38,7 @@ namespace Game
 		SubmitSummonTask(bossTank);
 		SubmitRockTask(bossTank);
 		SubmitChargeTask(bossTank);
+		SubmitStepTask(bossTank);
 	}
 
 	void BossTankTasks::SubmitMissileTask(BossTank* bossTank)
@@ -263,5 +265,87 @@ namespace Game
 
 		//ボスにこのタスクをセットする
 		bossTank->SetTask(enWait, WaitTask);
+	}
+
+	void BossTankTasks::SubmitStepTask(BossTank* bossTank)
+	{
+		EnemyTask StepTask;
+
+		//TODO:仮、マジックナンバーだらけなので整理する
+		StepTask.SetUpdateFunc([bossTank](int taskTime)->bool
+			{
+
+				if (taskTime <= 100 && taskTime >= 30)
+				{
+					float t = (taskTime - 30) / 70.0f;
+					Vector3 cameraPosition;
+					Vector3 cameraTarget;
+					Player* player = FindGO<Player>("player");
+					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
+					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					g_camera3D->SetPosition(cameraPosition);
+					g_camera3D->SetTarget(cameraTarget);
+				}
+
+				if (taskTime > 100 && taskTime < 275)
+				{
+					g_camera3D->SetPosition({ 0.0f, 1000.0f, 0.0f });
+					g_camera3D->SetTarget({ 0.0f, 0.0f, -1500.0f });
+				}
+
+				if (taskTime == 150)
+				{
+					Player* player = FindGO<Player>("player");
+					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
+					direction.Normalize();
+
+					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+
+					Vector3 position = bossTank->GetPosition();
+					position.x += 100.0f;
+					position.y += 200.0f;
+					stepObject->SetPosition(position);
+					stepObject->SetMoveDirection(direction);
+				}
+
+
+				if (taskTime == 250)
+				{
+					Player* player = FindGO<Player>("player");
+					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
+					direction.Normalize();
+
+					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+
+					Vector3 position = bossTank->GetPosition();
+					position.x -= 100.0f;
+					position.y += 200.0f;
+					stepObject->SetPosition(position);
+					stepObject->SetMoveDirection(direction);
+				}
+
+				if (taskTime >= 275)
+				{
+					float t = (325.0f - taskTime) / 50.0f;
+					Vector3 cameraPosition;
+					Vector3 cameraTarget;
+					Player* player = FindGO<Player>("player");
+					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
+					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					g_camera3D->SetPosition(cameraPosition);
+					g_camera3D->SetTarget(cameraTarget);
+				}
+
+
+				if (taskTime == 325)
+				{
+					return true;
+				}
+
+				return false;
+			}
+		);
+
+		bossTank->SetTask(enStep,StepTask);
 	}
 }

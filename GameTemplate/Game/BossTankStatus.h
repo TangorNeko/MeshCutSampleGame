@@ -14,6 +14,7 @@ namespace Game
 		bool isTurretBreak = false;						//–C“ƒ‚ª‰ó‚³‚ê‚½?
 		bool isBaseBreak = false;						//Ô‘Ì‚ª‰ó‚³‚ê‚½?
 		bool isSummonMinions = false;					//G‹›“G‚ğ¢Š«‚µ‚½?
+		bool isStepAttack = false;						//‘Ì—Í”¼•ª‚Ì‘«êƒ~ƒTƒCƒ‹UŒ‚‚ğs‚Á‚½‚©?
 	};
 }
 

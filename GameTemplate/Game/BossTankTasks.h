@@ -14,6 +14,7 @@ namespace Game
 			enSummon,//雑魚召喚
 			enCharge,//突進攻撃
 			enRock,//岩飛ばし
+			enStep,//足場ミサイル
 			enWait,//待機
 			enTaskNum
 		};
@@ -60,6 +61,12 @@ namespace Game
 		 * @param bossTank 登録するボス
 		*/
 		void SubmitWaitTask(BossTank* bossTank);
+
+		/**
+		 * @brief 足場になるミサイルを発射するタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
+		void SubmitStepTask(BossTank* bossTank);
 	};
 }
 
