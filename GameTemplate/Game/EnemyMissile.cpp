@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EnemyMissile.h"
 #include "Player.h"
+#include "HealItem.h"
+#include <random>
 
 namespace
 {
@@ -73,6 +75,15 @@ namespace Game
 		//カットされたフラグをオンに
 		m_isCut = true;
 
+		std::random_device seed_gen;
+		std::mt19937 engine(seed_gen());
+		int random = engine();
+
+		if (random % 5 == 0)
+		{
+			HealItem* healItem = NewGO<HealItem>(0);
+			healItem->SetPosition(m_position);
+		}
 		//モデルレンダーをダミークラスに引き渡したので削除
 		DeleteGO(this);
 	}
