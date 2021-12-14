@@ -47,10 +47,10 @@ namespace Game
 		qRotX.Apply(m_toCameraDirection);
 
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
-		Vector3 cameraPosition = m_cameraTarget + m_toCameraDirection * TOCAMERA_LENGTH;
+		m_cameraPosition = m_cameraTarget + m_toCameraDirection * TOCAMERA_LENGTH;
 
 		//カメラ位置をセット
-		g_camera3D->SetPosition(cameraPosition);
+		g_camera3D->SetPosition(m_cameraPosition);
 	}
 
 	Vector3 PlayerCamera::UpdateCutMode(const Vector3& playerPosition, const Vector3& playerDirection)
@@ -96,10 +96,10 @@ namespace Game
 		qRotX.Apply(m_toCameraDirection);
 
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
-		Vector3 cameraPosition = m_cameraTarget + m_toCameraDirection * CUTMODE_TOCAMERA_LENGTH;
+		m_cameraPosition = m_cameraTarget + m_toCameraDirection * CUTMODE_TOCAMERA_LENGTH;
 
 		//カメラ位置をセット
-		g_camera3D->SetPosition(cameraPosition);
+		g_camera3D->SetPosition(m_cameraPosition);
 
 		//カメラ移動後の新しいプレイヤーの向きを返す
 		//TODO:現在の処理は切断モードに入った際プレイヤーの向きがカメラに追従するようになっているが、
