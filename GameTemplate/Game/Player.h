@@ -34,7 +34,19 @@ namespace Game
 			return m_playerMove.GetCharaCon();
 		}
 
+		const Vector3& GetCameraPosition()
+		{
+			return m_playerCamera.GetCameraPosition();
+		}
+		
+		const Vector3& GetCameraTarget()
+		{
+			return m_playerCamera.GetCameraTarget();
+		}
+
 		void Damage(int damage);
+
+		void Heal(int healValue);
 
 		void KnockDown(const Vector3 moveAmount)
 		{

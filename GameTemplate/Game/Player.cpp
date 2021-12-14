@@ -110,4 +110,14 @@ namespace Game
 			m_hp = 0;
 		}
 	}
+
+	void Player::Heal(int healValue)
+	{
+		m_hp += healValue;
+
+		if (m_hp > 1000)
+		{
+			m_hp = 1000;
+		}
+	}
 }
