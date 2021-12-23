@@ -371,6 +371,7 @@
     <ClCompile Include="BossTankDisplay.cpp" />
     <ClCompile Include="BossTankTasks.cpp" />
     <ClCompile Include="CutDummy.cpp" />
+    <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="EnemyMissile.cpp" />
     <ClCompile Include="EnemyMissileMove.cpp" />
     <ClCompile Include="EnemyMissileRotation.cpp" />
@@ -379,6 +380,7 @@
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HealItem.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="MiniEnemy.cpp" />
     <ClCompile Include="ModelCutManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -391,11 +393,13 @@
     <ClCompile Include="PlayerDisplay.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerMoveAnimationState.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="ResourceBankManager.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
     <ClCompile Include="OneOnPlaneTriangle.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StepObject.cpp" />
     <ClCompile Include="ThreeOnBackTriangle.cpp" />
     <ClCompile Include="ThreeOnFrontTriangle.cpp" />
@@ -494,6 +498,7 @@
     <ClInclude Include="BossTankStatus.h" />
     <ClInclude Include="BossTankTasks.h" />
     <ClInclude Include="CutDummy.h" />
+    <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="EnemyMissile.h" />
     <ClInclude Include="EnemyMissileMove.h" />
     <ClInclude Include="EnemyMissileRotation.h" />
@@ -502,6 +507,7 @@
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="HealItem.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="MiniEnemy.h" />
     <ClInclude Include="ModelCutManager.h" />
     <ClInclude Include="Player.h" />
@@ -515,6 +521,7 @@
     <ClInclude Include="PlayerDisplay.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerMoveAnimationState.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="ResourceBankManager.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />
@@ -522,6 +529,7 @@
     <ClInclude Include="MakeHashFromString.h" />
     <ClInclude Include="MeshDivider.h" />
     <ClInclude Include="OneOnPlaneTriangle.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StepObject.h" />
     <ClInclude Include="ThreeOnBackTriangle.h" />
     <ClInclude Include="ThreeOnFrontTriangle.h" />

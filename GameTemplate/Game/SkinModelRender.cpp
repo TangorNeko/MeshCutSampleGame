@@ -44,6 +44,9 @@ namespace Game
 		//モデルデータの上方向の軸を指定
 		m_modelInitData.m_modelUpAxis = modelUpAxis;
 
+		m_modelInitData.m_expandConstantBufferSize = Light::LightManager::GetInstance()->GetLigDataSize();
+		m_modelInitData.m_expandConstantBuffer = Light::LightManager::GetInstance()->GetLigDatas();
+
 		//モデルの初期化
 		m_model->Init(m_modelInitData);
 

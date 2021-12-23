@@ -12,7 +12,8 @@ namespace Game
 {
 	BackGround::~BackGround()
 	{
-
+		DeleteGO(m_stageModel);
+		DeleteGO(m_stageLight);
 	}
 
 	bool BackGround::Start()
@@ -21,6 +22,11 @@ namespace Game
 		m_stageModel->Init(PATH_STAGEMODEL);
 		m_stageModel->SetPosition(STAGE_POSITION);
 		m_stageModel->SetScale(STAGE_SCALE);
+
+		m_stageLight = NewGO<Light::DirectionLight>(0);
+		m_stageLight->SetColor(Vector3::One);
+		m_stageLight->SetDirection(Vector3::Down);
+
 		m_physicsStaticObject.CreateFromModel(m_stageModel->GetModel(),m_stageModel->GetModel()->GetWorldMatrix());
 
 		return true;

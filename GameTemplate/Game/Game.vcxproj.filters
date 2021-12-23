@@ -93,6 +93,12 @@
     <Filter Include="MiniEngine\geometry">
       <UniqueIdentifier>{ad9393c3-a830-44d7-8899-ebe42a64e58c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Light">
+      <UniqueIdentifier>{5ce117ef-7947-4f13-82a5-3ca8a47e4e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Light">
+      <UniqueIdentifier>{0ece39f2-d992-4e65-b3c7-638cc01d6341}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -400,6 +406,18 @@
     </ClCompile>
     <ClCompile Include="HealItem.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionLight.cpp">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -753,6 +771,18 @@
     </ClInclude>
     <ClInclude Include="HealItem.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionLight.h">
+      <Filter>ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
