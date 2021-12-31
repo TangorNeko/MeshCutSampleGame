@@ -15,6 +15,10 @@ namespace
 	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/CutPose.tka";
 	const char* PATH_ANIM_KNOCKDOWN = "Assets/animData/player/Hit_KnockDown.tka";
 	const char* PATH_ANIM_GETUP = "Assets/animData/player/Getup_2.tka";
+	const char* PATH_ANIM_JUMP = "Assets/animData/player/Jump.tka";
+	const char* PATH_ANIM_UNEQUIP = "Assets/animData/player/Unequip_St1.tka";
+	const char* PATH_ANIM_UNEQUIP_IDLE = "Assets/animData/player/Idle_Unequip.tka";
+	const char* PATH_ANIM_BACKHANDSPRING = "Assets/animData/player/BackHandspring.tka";
 }
 
 namespace Game
@@ -49,6 +53,14 @@ namespace Game
 		animationClips[enAnim_KnockDown].SetLoopFlag(false);
 		animationClips[enAnim_GetUp].Load(PATH_ANIM_GETUP);
 		animationClips[enAnim_GetUp].SetLoopFlag(false);
+		animationClips[enAnim_Jump].Load(PATH_ANIM_JUMP);
+		animationClips[enAnim_Jump].SetLoopFlag(false);
+		animationClips[enAnim_Unequip].Load(PATH_ANIM_UNEQUIP);
+		animationClips[enAnim_Unequip].SetLoopFlag(false);
+		animationClips[enAnim_Idle_Unequip].Load(PATH_ANIM_UNEQUIP_IDLE);
+		animationClips[enAnim_Idle_Unequip].SetLoopFlag(true);
+		animationClips[enAnim_BackHandspring].Load(PATH_ANIM_BACKHANDSPRING);
+		animationClips[enAnim_BackHandspring].SetLoopFlag(false);
 	}
 
 	void PlayerAnimationInitializer::InitAnimationState(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* animationState[enAnim_Num])
@@ -69,6 +81,10 @@ namespace Game
 		moveAnimationState.InitRun(animationState[enAnim_Run]);
 		moveAnimationState.InitKnockDown(animationState[enAnim_KnockDown]);
 		moveAnimationState.InitGetUp(animationState[enAnim_GetUp]);
+		moveAnimationState.InitJump(animationState[enAnim_Jump]);
+		moveAnimationState.InitUnequip(animationState[enAnim_Unequip]);
+		moveAnimationState.InitUnequipIdle(animationState[enAnim_Idle_Unequip]);
+		moveAnimationState.InitBackHandspring(animationState[enAnim_BackHandspring]);
 
 		PlayerAttackAnimationState attackAnimationState;
 		attackAnimationState.InitAttack1(animationState[enAnim_Attack]);

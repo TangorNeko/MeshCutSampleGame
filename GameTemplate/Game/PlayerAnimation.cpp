@@ -40,6 +40,8 @@ namespace Game
 		//アニメーションの再生
 		playerRender->PlayAnimation(nextAnim,TIME_ANIMATION_INTERPOLATE);
 
+		animParam.isPlayingAnimation = playerRender->IsPlayingAnimation();
+
 		//現在再生しているアニメーションのステートを格納
 		m_playingAnimState = m_animationState[nextAnim];
 	}

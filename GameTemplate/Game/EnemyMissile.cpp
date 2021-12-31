@@ -6,7 +6,7 @@
 
 namespace
 {
-	const char* PATH_MISSILEMODEL = "Assets/modelData/TankMissile.tkm";
+	const char* PATH_MISSILEMODEL = "Assets/modelData/Missile_Bullet.tkm";
 	const float TRIGGER_HEIGHT = 300.0f;
 	const float TRIGGER_RADIUS = 50.0f;
 	const int MISSILE_DAMAGE = 50;

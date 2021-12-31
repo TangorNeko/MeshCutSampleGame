@@ -16,5 +16,13 @@ namespace Game
 		void InitKnockDown(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 
 		void InitGetUp(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+		void InitJump(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+		void InitUnequip(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+		void InitUnequipIdle(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+
+		void InitBackHandspring(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 	};
 }

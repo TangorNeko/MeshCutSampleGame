@@ -69,6 +69,10 @@ namespace Game
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			bossTankStatus.isSummonMinions = true;
 		}
+		else if (bossTankStatus.hp == 0)
+		{
+			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+		}
 		else if (bossTankStatus.hp <= 500 && bossTankStatus.isCannonBreak == true)
 		{
 			//–C‘ä‚ª‰ó‚ê‚½Žž

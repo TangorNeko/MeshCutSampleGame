@@ -12,12 +12,14 @@ namespace
 	const int MISSILE_TIME_FIRST = 30;
 	const int MISSILE_TIME_SECOND = 60;
 	const int MISSILE_TIME_THIRD = 90;
-	const float MISSILE_SHOT_HEIGHT = 200.0f;
+	const float MISSILE_SHOT_HEIGHT = 250.0f;
+	const Vector3 MISSILE_TO_RIGHTCANNON = { 160.0f,250.0f,0.0f };
+	const Vector3 MISSILE_TO_LEFTCANNON = { -160.0f,250.0f,0.0f };
 	const float ROLLING_DEG = 15.0f;
 	const int ROLLING_TIME_END = 23;
 	const float ROLLING_RANGE = 700.0f;
 	const float ROLLING_KNOCKDOWN_POWER = 60.0f;
-	const int SUMMON_TIME = 30;
+	const int SUMMON_TIME = 300;
 	const int SUMMON_NUM = 4;
 	const Vector3 MINION_POSITIONS[SUMMON_NUM] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
 	const float ROCK_SHOT_HEIGHT = 200.0f;
@@ -46,12 +48,10 @@ namespace Game
 		EnemyTask MissileTask;
 
 		//ミサイルを発射する処理
-		auto ShotMissile = [bossTank]()
+		auto ShotMissile = [bossTank](const Vector3& position)
 		{
 			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
-			Vector3 pos = bossTank->GetPosition();
-			pos.y += MISSILE_SHOT_HEIGHT;
-			missile->SetPosition(pos);
+			missile->SetPosition(position);
 		};
 
 		MissileTask.SetUpdateFunc([bossTank,ShotMissile](int taskTime)
@@ -59,17 +59,17 @@ namespace Game
 				//規定フレームになるとミサイルを発射する
 				if (taskTime == MISSILE_TIME_FIRST)
 				{
-					ShotMissile();
+					ShotMissile(bossTank->GetRightCannonPosition());
 				}
 
 				if (taskTime == MISSILE_TIME_SECOND)
 				{
-					ShotMissile();
+					ShotMissile(bossTank->GetLeftCannonPosition());
 				}
 
 				if (taskTime == MISSILE_TIME_THIRD)
 				{
-					ShotMissile();
+					ShotMissile(bossTank->GetRightCannonPosition());
 
 					//三発目を撃ったらタスクは終了
 					return true;
@@ -130,6 +130,38 @@ namespace Game
 
 		SummonTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
+
+				if (taskTime <= 100 && taskTime >= 0)
+				{
+					float t = (taskTime - 30) / 70.0f;
+					Vector3 cameraPosition;
+					Vector3 cameraTarget;
+					Player* player = FindGO<Player>("player");
+					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
+					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					g_camera3D->SetPosition(cameraPosition);
+					g_camera3D->SetTarget(cameraTarget);
+				}
+
+				if (taskTime > 100 && taskTime < 400)
+				{
+					g_camera3D->SetPosition({ 0.0f,1000.0f,0.0f });
+					g_camera3D->SetTarget({ 0.0f,0.0f,-1500.0f });
+				}
+
+				if (taskTime == 10)
+				{
+					Player* player = FindGO<Player>("player");
+
+					Vector3 resPos = { 0.0f,0.0f,1200.0f };
+
+					Vector3 toResPos = resPos - player->GetPosition();
+
+					toResPos.Normalize();
+
+					player->BackHandSpring(toResPos * 30);
+				}
+
 				if (taskTime == SUMMON_TIME)
 				{
 					//雑魚敵を召喚
@@ -141,6 +173,22 @@ namespace Game
 					}
 
 					//召喚したらタスクは終わり
+				}
+
+				if (taskTime >= 400 && taskTime <= 500)
+				{
+					float t = (500.0f - taskTime) / 100.0f;
+					Vector3 cameraPosition;
+					Vector3 cameraTarget;
+					Player* player = FindGO<Player>("player");
+					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
+					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					g_camera3D->SetPosition(cameraPosition);
+					g_camera3D->SetTarget(cameraTarget);
+				}
+
+				if (taskTime == 500)
+				{
 					return true;
 				}
 
@@ -293,6 +341,15 @@ namespace Game
 					g_camera3D->SetTarget({ 0.0f, 0.0f, -1500.0f });
 				}
 
+				if (taskTime == 140)
+				{
+					Player* player = FindGO<Player>("player");
+
+					Vector3 resPos = { 0.0f,0.0f,1200.0f };
+
+					player->SetPosition(resPos);
+				}
+
 				if (taskTime == 150)
 				{
 					Player* player = FindGO<Player>("player");
@@ -301,9 +358,7 @@ namespace Game
 
 					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
 
-					Vector3 position = bossTank->GetPosition();
-					position.x += 100.0f;
-					position.y += 200.0f;
+					Vector3 position = bossTank->GetRightCannonPosition();
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
 				}
@@ -317,14 +372,25 @@ namespace Game
 
 					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
 
-					Vector3 position = bossTank->GetPosition();
-					position.x -= 100.0f;
-					position.y += 200.0f;
+					Vector3 position = bossTank->GetLeftCannonPosition();
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
 				}
 
-				if (taskTime >= 275)
+				if (taskTime == 350)
+				{
+					Player* player = FindGO<Player>("player");
+					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
+					direction.Normalize();
+
+					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+
+					Vector3 position = bossTank->GetRightCannonPosition();
+					stepObject->SetPosition(position);
+					stepObject->SetMoveDirection(direction);
+				}
+
+				if (taskTime >= 275 &&  taskTime <= 325)
 				{
 					float t = (325.0f - taskTime) / 50.0f;
 					Vector3 cameraPosition;
@@ -337,7 +403,7 @@ namespace Game
 				}
 
 
-				if (taskTime == 325)
+				if (taskTime == 400)
 				{
 					return true;
 				}

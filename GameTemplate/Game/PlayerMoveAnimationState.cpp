@@ -38,6 +38,21 @@ namespace Game
 					return enAnim_KnockDown;
 				}
 
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
+				}
+
+				if (param.isUnequip == true)
+				{
+					return enAnim_Unequip;
+				}
+				
+				if (param.isBackHandSpring == true)
+				{
+					return enAnim_BackHandspring;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -70,6 +85,21 @@ namespace Game
 				if (param.isKnockDown == true)
 				{
 					return enAnim_KnockDown;
+				}
+
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
+				}
+
+				if (param.isUnequip == true)
+				{
+					return enAnim_Unequip;
+				}
+
+				if (param.isBackHandSpring == true)
+				{
+					return enAnim_BackHandspring;
 				}
 
 				return playerAnimState->GetMyState();
@@ -106,6 +136,21 @@ namespace Game
 					return enAnim_KnockDown;
 				}
 
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
+				}
+
+				if (param.isUnequip == true)
+				{
+					return enAnim_Unequip;
+				}
+
+				if (param.isBackHandSpring == true)
+				{
+					return enAnim_BackHandspring;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -130,6 +175,62 @@ namespace Game
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
 				if (param.downTime >= 150)
+				{
+					return enAnim_Idle;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
+	void PlayerMoveAnimationState::InitJump(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.isJumping == false)
+				{
+					return enAnim_Idle;
+				}
+
+				if (param.isCutMode == true)
+				{
+					return enAnim_CutMode;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
+	void PlayerMoveAnimationState::InitUnequip(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.isPlayingAnimation == false)
+				{
+					return enAnim_Idle_Unequip;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
+	void PlayerMoveAnimationState::InitUnequipIdle(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+
+	void PlayerMoveAnimationState::InitBackHandspring(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
+				if (param.handspringTime == 100)
 				{
 					return enAnim_Idle;
 				}

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerMove.h"
 #include "StepObject.h"
+#include "BossTank.h"
 
 namespace
 {
@@ -20,14 +21,71 @@ namespace Game
 		m_charaCon.Init(PLAYER_RADIUS, PLAYER_HEIGHT,playerPosition);
 	}
 
-	void PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
+	bool PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//TODO:超場当たり処理、KnockBackMoveとかに分離した方がいいね...
+		if (isKnockDown)
+		{
+			animParam.isKnockDown = true;
+
+			if (knockDownFrame <= 40)
+			{
+				playerPosition = m_charaCon.Execute(knockDownAmount, 1.0f);
+			}
+
+			knockDownFrame++;
+			animParam.downTime = knockDownFrame;
+
+			if (knockDownFrame == 150)
+			{
+				isKnockDown = false;
+				animParam.isKnockDown = false;
+				knockDownFrame = 0;
+			}
+			return false;
+		}
+
+		if (isBackHandspring)
+		{
+			animParam.isBackHandSpring = true;
+
+			if (backHandspringFrame <= 40)
+			{
+				Vector3 gravity = { 0.0f,-10.0f,0.0f };
+				playerPosition = m_charaCon.Execute(backHandSpringAmount, 1.0f);
+				playerPosition = m_charaCon.Execute(gravity, 1.0f);
+
+				Vector3 direction = backHandSpringAmount * -1.0f;
+				direction.y = 0.0f;
+
+				direction.Normalize();
+				m_playerDirection = direction;
+			}
+
+			backHandspringFrame++;
+			animParam.handspringTime = backHandspringFrame;
+
+			if (backHandspringFrame == 100)
+			{
+				isBackHandspring = false;
+				animParam.isBackHandSpring = false;
+				backHandspringFrame = 0;
+			}
+			return false;
+		}
+
+		if (g_pad[0]->IsTrigger(enButtonB))
+		{
+			m_isMissileMove = true;
+		}
 		//NOTE:仮のミサイルジャンプ処理
-		if (g_pad[0]->IsPress(enButtonB))
+		if (m_isMissileMove)
 		{
 			m_targetCount = 1;
 		
-			//追跡するターゲットを取得　まだ2つ存在することしか想定していない]
+			animParam.isJumping = true;
+
+			//追跡するターゲットを取得　まだ3つ存在することしか想定していない]
 			//追跡開始の瞬間だけQueryGOsしてもいいが、ジャンプ先が遠いと到達時には大分座標がずれていたので
 			//仮でAボタンを押している間毎フレーム検索している
 			QueryGOs<StepObject>("stepObject", [this](StepObject* targetObject)->bool
@@ -42,11 +100,20 @@ namespace Game
 			m_targetPos[0] = playerPosition;
 
 			//仮:戦車砲身横の座標
-			m_targetPos[3] = { 200.0f,200.0f,-1200.0f };
+			m_targetPos[4] = { 300.0f,250.0f,-1800.0f };
 
 			if (m_moveState == 4)
 			{
-				return;
+
+				Vector3 LastPos = { 300.0f,250.0f,-1800.0f };
+
+				Vector3 dis = LastPos - playerPosition;
+
+				if (dis.LengthSq() < 300.0f * 300.0f)
+				{
+					animParam.isJumping = false;
+					return true;
+				}
 			}
 
 			//現在のターゲットへのベクトルを求める
@@ -63,6 +130,8 @@ namespace Game
 
 				//ジャンプフレームをリセット
 				m_jumpFrameCount = 0;
+
+				animParam.isJumping = false;
 			}
 
 			//次のターゲットに移動する最初のフレームなら
@@ -74,6 +143,7 @@ namespace Game
 				//距離を移動速度で割って移動にかかるフレームを計算
 				m_distanceCount = distanceBetweenTargets.Length() / MISSILEJUMP_SPEED;
 				m_isMoveStartFrame = false;
+				animParam.isJumping = false;
 			}
 
 			//ジャンプから何フレーム目からのカウントをインクリメント
@@ -120,39 +190,44 @@ namespace Game
 
 			playerPosition += jumpMoveVector;
 
-			//仮、走り中にする
-			animParam.isRunning = true;
-			animParam.isWalking = false;
-
-			return;
-		}
-		else
-		{
-			//Aボタンから手を離すとリセット
-			m_moveState = 0;
+			return false;
 		}
 
 
-		//TODO:超場当たり処理、KnockBackMoveとかに分離した方がいいね...
-		if (isKnockDown)
+		if (g_pad[0]->IsTrigger(enButtonY))
 		{
-			animParam.isKnockDown = true;
+			m_isFrontMove = true;
+		}
 
-			if (knockDownFrame <= 40)
+		if (m_isFrontMove)
+		{
+			animParam.isJumping = true;
+
+			if (m_isJumpStartFrame)
 			{
-				playerPosition = m_charaCon.Execute(knockDownAmount, 1.0f);
+				BossTank* bossTank = FindGO<BossTank>("bosstank");
+				Vector3 targetPos = bossTank->GetFrontPosition();
+
+				m_frontMoveAmount = targetPos - playerPosition;
+				m_frontMoveAmount /= 25.0f;
+				m_jumpFrameCount = 0;
+				m_isJumpStartFrame = false;
 			}
 
-			knockDownFrame++;
-			animParam.downTime = knockDownFrame;
-
-			if (knockDownFrame == 150)
+			if (m_jumpFrameCount < 25)
 			{
-				isKnockDown = false;
-				animParam.isKnockDown = false;
-				knockDownFrame = 0;
+				playerPosition += m_frontMoveAmount;
 			}
-			return;
+			if (m_jumpFrameCount == 25)
+			{
+				animParam.isJumping = false;
+				m_charaCon.SetPosition(playerPosition);
+				return true;
+			}
+
+			m_jumpFrameCount++;
+
+			return false;
 		}
 
 		//各軸の入力を取得
@@ -230,12 +305,20 @@ namespace Game
 
 		//今フレームの座標を格納
 		m_prevPosition = playerPosition;
+
+		return false;
 	}
 
 	void PlayerMove::KnockDown(const Vector3& moveAmount)
 	{
 		isKnockDown = true;
 		knockDownAmount = moveAmount;
+	}
+
+	void PlayerMove::BackHandSpring(const Vector3& moveAmount)
+	{
+		isBackHandspring = true;
+		backHandSpringAmount = moveAmount;
 	}
 
 	void PlayerMove::CalcToModelDirectionQRot()

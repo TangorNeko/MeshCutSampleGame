@@ -4,8 +4,7 @@
 
 namespace
 {
-	const char* PATH_MODEL = "Assets/modelData/SingleBox.tkm";
-	const Vector3 SCALE_MODEL = { 0.2f,0.2f,0.2f };
+	const char* PATH_MODEL = "Assets/modelData/MediKit.tkm";
 	const Vector3 SCALE_COLLIDER = { 10.0f,10.0f,10.0f };
 	const float PICKUP_RANGE = 200.0f;
 	const int HEAL_HP = 25;
@@ -22,7 +21,6 @@ namespace Game
 	{
 		m_skinModelRender = NewGO<SkinModelRender>(0);
 		m_skinModelRender->Init(PATH_MODEL);
-		m_skinModelRender->SetScale(SCALE_MODEL);
 
 		//カプセル状のコライダーを作成
 		m_boxCollider.Create(SCALE_COLLIDER);

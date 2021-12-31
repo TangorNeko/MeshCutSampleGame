@@ -17,9 +17,12 @@ namespace Game
 		{
 			return m_cutPlaneRender;
 		}
+
+		void SetCutEvent(bool flag, const Vector3& playerPosition);
 	private:
 		SkinModelRender* m_cutPlaneRender = nullptr;			//Ø’f–Ê‚ğ¦‚·ƒ‚ƒfƒ‹
 		bool m_isCutMode = false;							//Ø’fƒ‚[ƒh’†?
+		bool m_isCutEvent = false;
 		Quaternion m_cutPlaneQRot = Quaternion::Identity;	//Ø’f–Ê‚ğ•\‚·ƒ‚ƒfƒ‹‚Ì‰ñ“]
 		float angle = 0.0f;
 	};

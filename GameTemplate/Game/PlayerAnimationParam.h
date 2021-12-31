@@ -17,6 +17,10 @@ namespace Game
 		enAnim_CutMode,//切断モード
 		enAnim_KnockDown,//ノックダウン
 		enAnim_GetUp,//起き上がる
+		enAnim_Jump,//ジャンプ
+		enAnim_Unequip,//納刀
+		enAnim_Idle_Unequip,//納刀状態での待機
+		enAnim_BackHandspring,//後転
 		enAnim_Num//アニメーションの数
 	};
 
@@ -29,9 +33,14 @@ namespace Game
 		bool isGuarding = false;
 		bool isCutMode = false;
 		bool isKnockDown = false;
+		bool isJumping = false;
+		bool isUnequip = false;
+		bool isBackHandSpring = false;
 		int downTime = 0;
 		int comboNum = 0;
 		int attackingTime = 0;
+		int handspringTime = 0;
 		Vector3 playerPosition = Vector3::Zero;
+		bool isPlayingAnimation = false;
 	};
 }

@@ -22,7 +22,7 @@ namespace Game
 	void PlayerCut::Update(const Vector3& playerPosition, const Quaternion& playerQRot)
 	{
 		//切断モードがオンかどうかで分岐
-		if (m_isCutMode == true)
+		if (m_isCutMode == true || m_isCutEvent == true)
 		{
 			CutUpdate(playerPosition, playerQRot);
 		}
@@ -35,7 +35,7 @@ namespace Game
 	void PlayerCut::CutUpdate(const Vector3& playerPosition, const Quaternion& playerQRot)
 	{
 		//切断モード中にLB1の入力がなくなると切断モード終了
-		if (g_pad[0]->IsPress(enButtonLB1) == false)
+		if (g_pad[0]->IsPress(enButtonLB1) == false && m_isCutEvent == false)
 		{
 			DeleteGO(m_cutPlaneRender);
 			m_cutPlaneRender = nullptr;
@@ -103,6 +103,31 @@ namespace Game
 			angle = 0.0f;
 
 			m_isCutMode = true;
+		}
+	}
+
+	void PlayerCut::SetCutEvent(bool flag,const Vector3& playerPosition)
+	{
+		m_isCutEvent = flag;
+
+		if (m_isCutEvent == true && m_cutPlaneRender == nullptr)
+		{
+			m_cutPlaneRender = NewGO<SkinModelRender>(0);
+			m_cutPlaneRender->InitUnlit(PATH_CUTPLANEMODEL);
+			m_cutPlaneRender->SetPosition(playerPosition);
+
+
+			m_cutPlaneQRot = Quaternion::Identity;
+			angle = 0.0f;
+		}
+
+		if (m_isCutEvent == false && m_cutPlaneRender != nullptr)
+		{
+			DeleteGO(m_cutPlaneRender);
+			m_cutPlaneRender = nullptr;
+			m_isCutMode = false;
+
+			return;
 		}
 	}
 }

@@ -46,15 +46,17 @@ namespace Game
 
 		//移動
 		//NOTE:仮。LB1押している時は移動させない
-		if (isCutMode == false)
+		if (isCutMode == false && m_eventCut == false)
 		{
-			m_playerMove.Move(m_position,m_playerAnimationParam);
-			m_playerAnimationParam.isCutMode = false;;
+			m_eventCut = m_playerMove.Move(m_position,m_playerAnimationParam);
+			m_playerAnimationParam.isCutMode = false;
 		}
 		else
 		{
 			m_playerAnimationParam.isCutMode = true;
 		}
+
+		m_playerCut.SetCutEvent(m_eventCut,m_position);
 
 		//TODO:仮のガードアニメ　後からクラス分離
 		if (g_pad[0]->IsPress(enButtonRB1))
@@ -66,18 +68,30 @@ namespace Game
 			m_playerAnimationParam.isGuarding = false;
 		}
 
-		if (isCutMode == false)
+		if (g_pad[0]->IsPress(enButtonA))
 		{
-			//カメラの移動
-			m_playerCamera.Update(m_position);
-		}
-		else
-		{
-			//切断モード用カメラの移動
-			Vector3 newDirection = m_playerCamera.UpdateCutMode(m_position,m_playerMove.GetPlayerDirection());
+			m_playerAnimationParam.isUnequip = true;
 
-			//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
-			m_playerMove.SetPlayerDirection(newDirection);
+			g_camera3D->SetPosition({ 0.0f,250.0f,-900.0f });
+
+			g_camera3D->SetTarget({ 0.0f,0.0f,-1500.0f });
+
+
+		}
+		else {
+			if (isCutMode == false && m_eventCut == false)
+			{
+				//カメラの移動
+				m_playerCamera.Update(m_position);
+			}
+			else
+			{
+				//切断モード用カメラの移動
+				Vector3 newDirection = m_playerCamera.UpdateCutMode(m_position, m_playerMove.GetPlayerDirection());
+
+				//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
+				m_playerMove.SetPlayerDirection(newDirection);
+			}
 		}
 		
 		//プレイヤーの向きから回転を計算

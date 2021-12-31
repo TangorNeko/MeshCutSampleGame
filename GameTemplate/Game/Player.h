@@ -48,9 +48,26 @@ namespace Game
 
 		void Heal(int healValue);
 
-		void KnockDown(const Vector3 moveAmount)
+		void KnockDown(const Vector3& moveAmount)
 		{
 			m_playerMove.KnockDown(moveAmount);
+		}
+
+		void BackHandSpring(const Vector3& moveAmount)
+		{
+			m_playerMove.BackHandSpring(moveAmount);
+		}
+
+		void NoticeMissileMoveEnd()
+		{
+			m_playerMove.NoticeMissileMoveEnd();
+			m_eventCut = false;
+		}
+
+		void NoticeFrontMoveEnd()
+		{
+			m_playerMove.NoticeFrontMoveEnd();
+			m_eventCut = false;
 		}
 
 		//TODO:仮です。ガードは専用関数を作る、
@@ -70,6 +87,7 @@ namespace Game
 		PlayerCut m_playerCut;						//プレイヤーの切断クラス
 		PlayerDisplay m_playerDisplay;				//プレイヤーの情報表示クラス
 		int m_hp = 1000;
+		bool m_eventCut = false;
 		FontRender* m_hpRender = nullptr;
 	};
 }

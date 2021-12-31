@@ -7,6 +7,7 @@ namespace Game
 		Vector3 position = Vector3::Zero;				//ボスの座標
 		Quaternion baseRot = Quaternion::Identity;		//車体のクォータニオン
 		Quaternion turretRot = Quaternion::Identity;	//砲塔のクォータニオン
+		Quaternion trackingRot = Quaternion::Identity;	//プレイヤー追尾用のクォータニオン
 		float baseDeg = 0.0f;							//車体の角度
 		float turretDeg = 0.0f;							//砲塔の角度
 		int hp = 1000;									//体力

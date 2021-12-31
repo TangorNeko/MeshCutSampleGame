@@ -88,10 +88,18 @@ namespace Game
 		{
 			return m_bossTankStatus.baseDeg;
 		}
+
+
+		Vector3 GetRightCannonPosition();
+
+		Vector3 GetLeftCannonPosition();
+
+		Vector3 GetFrontPosition();
 	private:
 		SkinModelRender* m_baseRender = nullptr;			//車体のモデル
 		SkinModelRender* m_turretRender = nullptr;			//砲塔のモデル
-		SkinModelRender* m_cannonRender = nullptr;			//砲身のモデル
+		SkinModelRender* m_rightCannonRender = nullptr;		//右砲身のモデル
+		SkinModelRender* m_leftCannonRender = nullptr;		//左砲身のモデル
 		BossTankStatus m_bossTankStatus;					//ボスのステータス
 		BossTankCollision m_bossTankCollision;				//ボスの当たり判定クラス
 		BossTankDisplay m_bossTankDisplay;					//ボスの情報表示クラス

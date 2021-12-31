@@ -17,7 +17,7 @@ namespace Game
 	bool StepObject::Start()
 	{
 		m_skinModelRender = NewGO<SkinModelRender>(0);
-		m_skinModelRender->Init("Assets/modelData/TankMissile.tkm");
+		m_skinModelRender->Init("Assets/modelData/Missile_Flat.tkm");
 
 		return true;
 	}
