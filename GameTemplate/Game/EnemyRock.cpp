@@ -65,7 +65,7 @@ namespace Game
 
 		if (random % 10 == 0)
 		{
-			HealItem* healItem = NewGO<HealItem>(0);
+			HealItem* healItem = NewGO<HealItem>(0,"healItem");
 			healItem->SetPosition(m_position);
 		}
 		//モデルレンダーをダミークラスに引き渡したので削除

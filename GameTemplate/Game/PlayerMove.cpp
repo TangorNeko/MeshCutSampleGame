@@ -105,7 +105,7 @@ namespace Game
 			if (m_moveState == 4)
 			{
 
-				Vector3 LastPos = { 300.0f,250.0f,-1800.0f };
+				Vector3 LastPos = { 300.0f,250.0f,-1600.0f };
 
 				Vector3 dis = LastPos - playerPosition;
 
@@ -167,12 +167,12 @@ namespace Game
 				if (m_isMovingUp)
 				{
 					//上移動中なら上移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * 20 * m_jumpFrameCount;
+					jumpMoveVector = Vector3::Up * 5.0f * m_jumpFrameCount;
 				}
 				else
 				{
 					//下移動中なら下移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * 20 * (m_distanceCount - m_jumpFrameCount);
+					jumpMoveVector = Vector3::Up * 5.0f * (m_distanceCount - m_jumpFrameCount);
 				}
 			}
 

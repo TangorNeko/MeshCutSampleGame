@@ -10,6 +10,9 @@ namespace
 	const float TRIGGER_HEIGHT = 300.0f;
 	const float TRIGGER_RADIUS = 50.0f;
 	const int MISSILE_DAMAGE = 50;
+	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";
+	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };
+	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;
 }
 
 namespace Game
@@ -21,6 +24,9 @@ namespace Game
 		{
 			DeleteGO(m_missileRender);
 		}
+
+		m_missileEffect->Stop();
+		DeleteGO(m_missileEffect);
 	}
 
 	bool EnemyMissile::Start()
@@ -44,6 +50,11 @@ namespace Game
 
 		//ミサイルの移動クラスにターゲットを渡す
 		m_missileMove.SetTarget(m_trackingPlayer);
+
+		m_missileEffect = NewGO<Effect>(0);
+		m_missileEffect->Init(EFFECT_MISSILE_PATH);
+		m_missileEffect->SetScale(EFFECT_MISSILE_SCALE);
+		m_missileEffect->Play();
 		return true;
 	}
 
@@ -63,6 +74,12 @@ namespace Game
 		m_capsuleTrigger.SetPosition(m_position);
 		m_capsuleTrigger.SetRotation(m_qRot);
 
+		Quaternion MissileRot;
+		MissileRot.SetRotationDegX(EFFECT_MISSILE_ROTATEDEG);
+		MissileRot.Multiply(m_qRot);
+		m_missileEffect->SetPosition(m_position);
+		m_missileEffect->SetRotation(MissileRot);
+
 		//プレイヤーとのヒットを確認
 		PlayerHitTest();
 	}
@@ -81,7 +98,7 @@ namespace Game
 
 		if (random % 5 == 0)
 		{
-			HealItem* healItem = NewGO<HealItem>(0);
+			HealItem* healItem = NewGO<HealItem>(0,"healItem");
 			healItem->SetPosition(m_position);
 		}
 		//モデルレンダーをダミークラスに引き渡したので削除
@@ -96,6 +113,12 @@ namespace Game
 				if (m_capsuleTrigger.IsSelf(contactObject) == true) {
 					//ダメージを与える
 					m_trackingPlayer->Damage(MISSILE_DAMAGE);
+
+					Effect* boomEffect = NewGO<Effect>(0);
+					boomEffect->Init(u"Assets/effect/Boom.efk");
+					boomEffect->SetScale({ 25.0f,25.0f,25.0f });
+					boomEffect->SetPosition(m_position);
+					boomEffect->Play();
 
 					//自らを削除
 					DeleteGO(this);

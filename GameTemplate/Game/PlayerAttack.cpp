@@ -96,12 +96,24 @@ namespace Game
 
 				toMoveRot.Apply(cutForce);
 				
+				Vector3 front = Vector3::Front;
+				toMoveRot.Apply(front);
 
-				ModelCutManager::GetInstance()->QueryCut(cutNormal, cutForce * 30,[cutPoint](const SkinModelRender* cutObject)->bool
+				ModelCutManager::GetInstance()->QueryCut(cutNormal, cutForce * 30,[cutPoint, front](const SkinModelRender* cutObject)->bool
 					{
 						Vector3 distance = cutObject->GetPosition() - cutPoint;
 
-						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE && cutObject->GetDivideNum() <= MAX_CUT_NUM)
+						Vector3 toCutObject = distance;
+						toCutObject.Normalize();
+
+						bool isInRange = false;
+						float dot = Dot(toCutObject, front);
+						if (dot >= 0.7f)
+						{
+							isInRange = true;
+						}
+
+						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE && cutObject->GetDivideNum() <= MAX_CUT_NUM && isInRange)
 						{
 							return true;
 						}

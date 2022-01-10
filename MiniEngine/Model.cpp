@@ -223,3 +223,117 @@ Vector3 Model::CalcCapsuleData(Vector2& heightAndRadius)
 {
 	return m_tkmFile.CalcCapsuleAxis(heightAndRadius);
 }
+
+bool Model::isLineHitModel(const Vector3& start, const Vector3& end, Vector3& minCrossPoint)
+{
+	const auto& meshParts = m_tkmFile.GetMeshParts();
+
+	bool isHit = false;
+	float distance = FLT_MAX;
+
+	for (const auto& mesh : meshParts)
+	{
+		//まずは16ビット版から。
+		for (const auto& indexBuffer : mesh.indexBuffer16Array)
+		{
+			//インデックスの数からポリゴンの数を計算する。
+			int numPolygon = indexBuffer.indices.size() / 3;
+			for (int polygonNo = 0; polygonNo < numPolygon; polygonNo++)
+			{
+				Vector3 vertexPosition[3];
+				//ポリゴンを構成する頂点番号をインデックスバッファから取得する。
+				int vertexNo_0 = indexBuffer.indices[polygonNo * 3 + 0];
+				int vertexNo_1 = indexBuffer.indices[polygonNo * 3 + 1];
+				int vertexNo_2 = indexBuffer.indices[polygonNo * 3 + 2];
+
+				vertexPosition[0] = mesh.vertexBuffer[vertexNo_0].pos;
+				vertexPosition[1] = mesh.vertexBuffer[vertexNo_1].pos;
+				vertexPosition[2] = mesh.vertexBuffer[vertexNo_2].pos;
+
+				m_world.Apply(vertexPosition[0]);
+				m_world.Apply(vertexPosition[1]);
+				m_world.Apply(vertexPosition[2]);
+
+
+				//ここから線との接触判定
+				//1.ポリゴンを含む無限平面との交差判定
+
+				//3つの頂点からm_vertex[0]から伸びる法線を求める
+				Vector3 v1 = vertexPosition[1] - vertexPosition[0];
+				Vector3 v2 = vertexPosition[2] - vertexPosition[0];
+
+				Vector3 normal;
+				normal.Cross(v1, v2);
+				normal.Normalize();
+
+				//法線と、m_vertex[0]から判定する線分の開始地点と終了地点で内積をとる。
+				Vector3 toStart = start - vertexPosition[0];
+				toStart.Normalize();
+
+				Vector3 toEnd = end - vertexPosition[0];
+				toEnd.Normalize();
+
+				//内積の結果が0以上なら交差していないので次のループへ。
+				if (normal.Dot(toStart) * normal.Dot(toEnd) > 0)
+				{
+					continue;
+				}
+
+				//2.交差している座標を求める
+				toStart = start - vertexPosition[0];
+
+				toEnd = end - vertexPosition[0];
+
+				Vector3 test = start - end;
+
+				float a = normal.Dot(toStart);
+
+				normal *= -1;
+
+				float b = normal.Dot(toEnd);
+
+				Vector3 crossPoint = toStart - toEnd;
+				crossPoint *= b / (a + b);
+				crossPoint += end;
+
+				//3.交点が三角形の中にあるかどうかの判定
+
+				Vector3 vA = vertexPosition[1] - vertexPosition[0];
+				Vector3 vB = vertexPosition[2] - vertexPosition[1];
+				Vector3 vC = vertexPosition[0] - vertexPosition[2];
+				Vector3 vD = crossPoint - vertexPosition[0];
+				Vector3 vE = crossPoint - vertexPosition[1];
+				Vector3 vF = crossPoint - vertexPosition[2];
+
+				vA.Cross(vD);
+				vA.Normalize();
+				vB.Cross(vE);
+				vB.Normalize();
+				vC.Cross(vF);
+				vC.Normalize();
+
+				if (vA.Dot(vB) > 0 && vA.Dot(vC) > 0)
+				{
+					//1回でも接触している。
+					isHit = true;
+
+					//接触しているので、スタートとの距離を求める
+					Vector3 dist = crossPoint - start;
+
+					//現在の最長距離よりも短いなら更新。
+					if (dist.Length() < distance)
+					{
+						minCrossPoint = crossPoint;
+						distance = dist.Length();
+					}
+				}
+				else
+				{
+					//交点が三角形の中にない。
+					continue;
+				}
+			}
+		}
+	}
+	return isHit;
+}

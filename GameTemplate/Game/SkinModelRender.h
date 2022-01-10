@@ -129,6 +129,15 @@ namespace Game
 		}
 
 		/**
+		 * @brief モデルと線分が交差している?
+		 * @param start 線分の始点
+		 * @param end 線分の終点
+		 * @param crossPoint 線分の交差点(戻り値、参照受け取り)
+		 * @return 交差している:true 交差していない:false
+		*/
+		bool isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint);
+
+		/**
 		 * @brief モデルのワールド行列を直接セットする
 		 * @param world ワールド行列
 		*/

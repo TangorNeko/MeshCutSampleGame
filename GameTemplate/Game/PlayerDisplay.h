@@ -20,6 +20,8 @@ namespace Game
 		void Update(int hp);
 	private:
 		FontRender* m_hpRender = nullptr;	//HP‚ð•`‰æ‚·‚éƒtƒHƒ“ƒg
+		SpriteRender* m_hpFrame = nullptr;
+		SpriteRender* m_hpBar = nullptr;
 	};
 }
 

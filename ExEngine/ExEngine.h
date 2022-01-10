@@ -19,3 +19,4 @@
 #include "gameObject/IGameObject.h"
 
 #include "effect/EffectEngine.h"
+#include "effect/Effect.h"

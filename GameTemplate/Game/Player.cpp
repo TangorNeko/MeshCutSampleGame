@@ -3,15 +3,15 @@
 
 namespace
 {
-	const char* PATH_PLAYER_MODEL = "Assets/modelData/Samurai.tkm";
-	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Samurai.tks";
+	const char* PATH_PLAYER_MODEL = "Assets/modelData/Player.tkm";
+	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Player.tks";
 }
 
 namespace Game
 {
 	Player::~Player()
 	{
-
+		DeleteGO(m_playerModel);
 	}
 
 	bool Player::Start()
@@ -72,9 +72,9 @@ namespace Game
 		{
 			m_playerAnimationParam.isUnequip = true;
 
-			g_camera3D->SetPosition({ 0.0f,250.0f,-900.0f });
+			g_camera3D->SetPosition({ 0.0f,250.0f,-700.0f });
 
-			g_camera3D->SetTarget({ 0.0f,0.0f,-1500.0f });
+			g_camera3D->SetTarget({ 0.0f,0.0f,-1300.0f });
 
 
 		}

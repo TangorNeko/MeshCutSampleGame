@@ -44,6 +44,7 @@ namespace Game
 		Vector3 m_position =  Vector3::Zero;			//座標
 		SkinModelRender* m_skinModelRender = nullptr;	//スキンモデルレンダー
 		int m_lifeTime = 0;								//生存時間
+		Effect* m_missileEffect = nullptr;
 	};
 }
 

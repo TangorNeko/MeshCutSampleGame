@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "TriangleDivider.h"
-#include "GameScene.h"
+#include "TitleScene.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -20,6 +19,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	PhysicsWorld::CreateInstance();
 	Light::LightManager::CreateInstance();
 	Game::ModelCutManager::CreateInstance();
+	EffectEngine::CreateInstance();
+	CSoundEngine::CreateInstance();
+	CSoundEngine::GetInstance()->Init();
 	//リソースバンクマネージャーのインスタンスを作成
 	Engine::ResourceBankManager::CreateInstance();
 
@@ -28,7 +30,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	NewGO<Game::GameScene>(0);
+	NewGO<Game::TitleScene>(0);
 
 	//FPS計測用ストップウォッチ
 	Stopwatch stopwatch;
@@ -41,10 +43,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//レンダリング開始。
 		g_engine->BeginFrame();
 
-
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
-		//////////////////////////////////////
+		//////////////////////////////////////j
 
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
@@ -53,6 +54,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		PhysicsWorld::GetInstance()->DebugDrawWorld(renderContext);
 #endif
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+
+		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+		EffectEngine::GetInstance()->Draw();
 		
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
@@ -74,7 +78,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();
-
+	//サウンドエンジンを削除
+	CSoundEngine::DeleteInstance();
 	//リソースバンクマネージャーを削除
 	Engine::ResourceBankManager::DeleteInstance();
 	return 0;

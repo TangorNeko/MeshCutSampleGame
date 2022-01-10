@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerCamera.h"
+#include "BackGround.h"
 
 namespace
 {
@@ -13,6 +14,11 @@ namespace
 
 namespace Game
 {
+	PlayerCamera::PlayerCamera()
+	{
+		m_backGround = FindGO<BackGround>("background");
+	}
+
 	void PlayerCamera::Update(const Vector3& playerPosition)
 	{
 		//カメラのターゲットはプレイヤーの位置から計算する
@@ -49,8 +55,18 @@ namespace Game
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
 		m_cameraPosition = m_cameraTarget + m_toCameraDirection * TOCAMERA_LENGTH;
 
-		//カメラ位置をセット
-		g_camera3D->SetPosition(m_cameraPosition);
+		Vector3 crossPoint;
+		bool isHit = m_backGround->isLineHitModel(m_cameraTarget, m_cameraPosition, crossPoint);
+
+		if (isHit == true)
+		{
+			g_camera3D->SetPosition(crossPoint);
+		}
+		else
+		{
+			//カメラ位置をセット
+			g_camera3D->SetPosition(m_cameraPosition);
+		}
 	}
 
 	Vector3 PlayerCamera::UpdateCutMode(const Vector3& playerPosition, const Vector3& playerDirection)

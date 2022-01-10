@@ -16,6 +16,7 @@ namespace
 	const int FRAME_ACTION_END = 300;
 	const int ATTACK_DAMAGE = 25;
 	const Vector3 FLOATING_HEIGHT = { 0.0f,100.0f,0.0f };
+	const Vector3 ATTACK_HEIGHT = { 0.0f,50.0f,0.0f };
 }
 
 namespace Game
@@ -94,6 +95,11 @@ namespace Game
 			//プレイヤーに攻撃し、軽く吹き飛ばす
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - m_position;
+
+			Game::Effect* attackEffect = NewGO<Game::Effect>(0);
+			attackEffect->Init(u"Assets/effect/ThunderAttack.efk");
+			attackEffect->SetPosition(m_position + ATTACK_HEIGHT);
+			attackEffect->Play();
 
 			if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
 			{

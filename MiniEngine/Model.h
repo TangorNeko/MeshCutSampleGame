@@ -129,6 +129,8 @@ public:
 	void SetOriginOffset(const Vector3& offset, const ModelInitData& initData);
 
 	Vector3 CalcCapsuleData(Vector2& heightAndRadius);
+
+	bool isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint);
 private:
 
 	Matrix m_world;														//ワールド行列。

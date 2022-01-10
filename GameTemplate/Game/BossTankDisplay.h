@@ -23,5 +23,7 @@ namespace Game
 	private:
 		FontRender* m_hpRender = nullptr;			//体力を表示するフォント
 		FontRender* m_cutStateRender = nullptr;		//切断状況を表示するフォント
+		SpriteRender* m_hpFrame = nullptr;
+		SpriteRender* m_hpBar = nullptr;
 	};
 }

@@ -63,13 +63,21 @@ Effekseer::EffectRef EffectEngine::LoadEffect(const char16_t* filePath)
 }
 int EffectEngine::Play(Effekseer::EffectRef effect)
 {
-	return m_manager->Play(effect, 0, 0, 0);
+	int effectHandle = m_manager->Play(effect, 0, 0, 0);
+
+	m_playingEffectList.push_back(effectHandle);
+
+	return effectHandle;
 }
 void EffectEngine::Stop(int effectHandle)
 {
 	m_manager->StopEffect(effectHandle);
 }
 
+void EffectEngine::StopAllEffects()
+{
+	m_manager->StopAllEffects();
+}
 
 void EffectEngine::Update(float deltaTime)
 {

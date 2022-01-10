@@ -97,6 +97,12 @@ namespace Game
 		m_model->Init(m_modelInitData);
 	}
 
+	bool SkinModelRender::isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint)
+	{
+		//2画面用にCSkinModelRenderはModelクラスを2つ保持しているが、どちらもカメラ以外同じなので0番目のモデルで判定する。
+		return m_model->isLineHitModel(start, end, crossPoint);
+	}
+
 	void SkinModelRender::InitFromModel(Model* model)
 	{
 		if (m_model == nullptr)
@@ -183,7 +189,7 @@ namespace Game
 		Vector2 heightAndRadius;
 		Vector3 capsuleAxis = CalcCapsuleData(heightAndRadius);
 
-		CutDummy* dummy = NewGO<CutDummy>(0);
+		CutDummy* dummy = NewGO<CutDummy>(0,"cutDummy");
 		dummy->SetSkinModel(this);
 
 		//カプセルのデータをセット

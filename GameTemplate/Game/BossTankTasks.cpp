@@ -9,14 +9,15 @@
 
 namespace
 {
-	const int MISSILE_TIME_FIRST = 30;
-	const int MISSILE_TIME_SECOND = 60;
-	const int MISSILE_TIME_THIRD = 90;
+	const int MISSILE_TIME_FIRST = 40;
+	const int MISSILE_TIME_SECOND = 70;
+	const int MISSILE_TIME_THIRD = 100;
 	const float MISSILE_SHOT_HEIGHT = 250.0f;
 	const Vector3 MISSILE_TO_RIGHTCANNON = { 160.0f,250.0f,0.0f };
 	const Vector3 MISSILE_TO_LEFTCANNON = { -160.0f,250.0f,0.0f };
 	const float ROLLING_DEG = 15.0f;
-	const int ROLLING_TIME_END = 23;
+	const int ROLLING_TIME_START = 40;
+	const int ROLLING_TIME_END = 63;
 	const float ROLLING_RANGE = 700.0f;
 	const float ROLLING_KNOCKDOWN_POWER = 60.0f;
 	const int SUMMON_TIME = 300;
@@ -24,10 +25,12 @@ namespace
 	const Vector3 MINION_POSITIONS[SUMMON_NUM] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
 	const float ROCK_SHOT_HEIGHT = 200.0f;
 	const float ROCK_SHOT_XOFFSET = 100.0f;
-	const int ROCK_TIME_FIRST = 30;
-	const int ROCK_TIME_SECOND = 35;
-	const int ROCK_TIME_THIRD = 38;
-	const int WAIT_TIME = 180;
+	const int ROCK_TIME_FIRST = 40;
+	const int ROCK_TIME_SECOND = 45;
+	const int ROCK_TIME_THIRD = 48;
+	const int WAIT_TIME = 150;
+	const Vector3 EVENT_CAMERA_POSITION = { 0.0f,200.0f,0.0f };
+	const Vector3 EFFECT_WARNING_HEIGHT = { 0.0f,250.0f,0.0f };
 }
 
 namespace Game
@@ -53,6 +56,15 @@ namespace Game
 			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
 			missile->SetPosition(position);
 		};
+
+		MissileTask.SetStartFunc([bossTank]()
+			{
+				Effect* warningEffect = NewGO<Effect>(0);
+				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
+				warningEffect->Play();
+			}
+		);
 
 		MissileTask.SetUpdateFunc([bossTank,ShotMissile](int taskTime)
 			{
@@ -87,10 +99,22 @@ namespace Game
 	{
 		EnemyTask RollingTask;
 
+		RollingTask.SetStartFunc([bossTank]()
+			{
+				Effect* warningEffect = NewGO<Effect>(0);
+				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
+				warningEffect->Play();
+			}
+		);
+
 		RollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-				//毎フレーム少しずつ回転させていく
-				bossTank->SetTurretDeg(bossTank->GetTurretDeg() + ROLLING_DEG);
+				if (taskTime >= ROLLING_TIME_START)
+				{
+					//毎フレーム少しずつ回転させていく
+					bossTank->SetTurretDeg(bossTank->GetTurretDeg() + ROLLING_DEG);
+				}
 
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
@@ -137,16 +161,16 @@ namespace Game
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
-					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
-					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					cameraPosition.Lerp(t, player->GetCameraPosition(), EVENT_CAMERA_POSITION);
+					cameraTarget.Lerp(t, player->GetCameraTarget(),bossTank->GetPosition());
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
 				if (taskTime > 100 && taskTime < 400)
 				{
-					g_camera3D->SetPosition({ 0.0f,1000.0f,0.0f });
-					g_camera3D->SetTarget({ 0.0f,0.0f,-1500.0f });
+					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
+					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
 				if (taskTime == 10)
@@ -170,6 +194,11 @@ namespace Game
 					{
 						enemy[i] = NewGO<MiniEnemy>(0, "enemy");
 						enemy[i]->SetPosition(MINION_POSITIONS[i]);
+
+						Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+						spawnEffect->SetPosition(MINION_POSITIONS[i]);
+						spawnEffect->Init(u"Assets/effect/Teleport.efk");
+						spawnEffect->Play();
 					}
 
 					//召喚したらタスクは終わり
@@ -181,8 +210,8 @@ namespace Game
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
-					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
-					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					cameraPosition.Lerp(t, player->GetCameraPosition(), EVENT_CAMERA_POSITION);
+					cameraTarget.Lerp(t, player->GetCameraTarget(), bossTank->GetPosition());
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
 				}
@@ -204,10 +233,22 @@ namespace Game
 	{
 		EnemyTask ChargeTask;
 
+		ChargeTask.SetStartFunc([bossTank]()
+			{
+				Effect* warningEffect = NewGO<Effect>(0);
+				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
+				warningEffect->Play();
+			}
+		);
+
 		ChargeTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-				//毎フレーム少しずつ回転させていく
-				bossTank->SetBaseDeg(bossTank->GetBaseDeg() + ROLLING_DEG);
+				if (taskTime >= ROLLING_TIME_START)
+				{
+					//毎フレーム少しずつ回転させていく
+					bossTank->SetBaseDeg(bossTank->GetBaseDeg() + ROLLING_DEG);
+				}
 
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
@@ -244,6 +285,15 @@ namespace Game
 	void BossTankTasks::SubmitRockTask(BossTank* bossTank)
 	{
 		EnemyTask RockTask;
+
+		RockTask.SetStartFunc([bossTank]()
+			{
+				Effect* warningEffect = NewGO<Effect>(0);
+				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
+				warningEffect->Play();
+			}
+		);
 
 		//岩を作成する関数
 		auto ShotRock = [bossTank](const Vector3& pos) {
@@ -329,16 +379,16 @@ namespace Game
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
-					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
-					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					cameraPosition.Lerp(t, player->GetCameraPosition(), EVENT_CAMERA_POSITION);
+					cameraTarget.Lerp(t, player->GetCameraTarget(), bossTank->GetPosition());
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
 				if (taskTime > 100 && taskTime < 275)
 				{
-					g_camera3D->SetPosition({ 0.0f, 1000.0f, 0.0f });
-					g_camera3D->SetTarget({ 0.0f, 0.0f, -1500.0f });
+					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
+					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
 				if (taskTime == 140)
@@ -396,8 +446,8 @@ namespace Game
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
-					cameraPosition.Lerp(t, player->GetCameraPosition(), { 0.0f,1000.0f,0.0f });
-					cameraTarget.Lerp(t, player->GetCameraTarget(), { 0.0f,0.0f,-1500.0f });
+					cameraPosition.Lerp(t, player->GetCameraPosition(), EVENT_CAMERA_POSITION);
+					cameraTarget.Lerp(t, player->GetCameraTarget(), bossTank->GetPosition());
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
 				}

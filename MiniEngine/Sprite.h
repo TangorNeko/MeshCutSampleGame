@@ -68,6 +68,14 @@ public:
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト/param>
 	void Draw(RenderContext& renderContext);
+	/**
+	 * @brief 乗算カラーを設定
+	 * @param mulColor 乗算カラー
+	*/
+	void SetMulColor(const Vector4& mulColor)
+	{
+		m_constantBufferCPU.mulColor = mulColor;
+	}
 	/// <summary>
 	/// 初期化されているか判定。
 	/// </summary>
@@ -119,7 +127,7 @@ private:
 
 	struct LocalConstantBuffer {
 		Matrix mvp;
-		Vector4 mulColor;
+		Vector4 mulColor = { 1.0f,1.0f,1.0f,1.0f };
 		Vector4 screenParam;
 	};
 	LocalConstantBuffer m_constantBufferCPU;	//CPU側の定数バッファ。

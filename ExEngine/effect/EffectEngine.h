@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <list>
 /// <summary>
 /// エフェクトエンジンクラス。
 /// </summary>
@@ -12,6 +13,7 @@ class EffectEngine {
 	Effekseer::RefPtr<EffekseerRenderer::CommandList> m_commandList;			//コマンドリスト。
 	Effekseer::ManagerRef m_manager;
 	std::map< std::u16string, Effekseer::EffectRef > m_effectMap;
+	std::list<int> m_playingEffectList;
 public:
 	/// <summary>
 	/// インスタンスの作成。
@@ -94,6 +96,11 @@ public:
 	/// </summary>
 	/// <param name="effectHandle"></param>
 	void Stop(int effectHandle);
+
+	/**
+	 * @brief すべてのエフェクトを停止
+	*/
+	void StopAllEffects();
 	/// <summary>
 	/// エフェクトをロード。
 	/// </summary>
