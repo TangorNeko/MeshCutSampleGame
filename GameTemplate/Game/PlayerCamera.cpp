@@ -10,6 +10,7 @@ namespace
 	const float CUTMODE_TOCAMERA_LENGTH = 80.0f;
 	const float CAMERA_SPEED = 2.0f;
 	const float CAMERA_MAX_DEG_X = 45.0f;
+	const float SPRINGCAMERA_SPACE = 10.0f;
 }
 
 namespace Game
@@ -60,7 +61,9 @@ namespace Game
 
 		if (isHit == true)
 		{
-			g_camera3D->SetPosition(crossPoint);
+			Vector3 toCameraDirection = m_cameraPosition - m_cameraTarget;
+			toCameraDirection.Normalize();
+			g_camera3D->SetPosition(crossPoint - toCameraDirection * SPRINGCAMERA_SPACE);
 		}
 		else
 		{
