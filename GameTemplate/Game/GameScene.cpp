@@ -2,13 +2,11 @@
 #include "GameScene.h"
 #include "BackGround.h"
 #include "Player.h"
-#include "EnemyMissile.h"
 #include "BossTank.h"
-#include "HealItem.h"
-#include "EnemyRock.h"
-#include "StepObject.h"
-#include "CutDummy.h"
 #include "MiniEnemy.h"
+#include "Fade.h"
+#include "TitleScene.h"
+#include "ProductsDeleter.h"
 
 namespace
 {
@@ -143,53 +141,38 @@ namespace Game
 
 		m_phaseWaitTime++;
 
-		if (g_pad[0]->IsTrigger(enButtonA))
+		BossTank* bosstank = FindGO<BossTank>("bosstank");
+		if (bosstank == nullptr && m_phase == 8)
 		{
-			Effect* ef = NewGO<Effect>(0);
-			ef->Init(u"Assets/effect/Warning.efk");
-			ef->SetPosition(PLAYER_START_POSITION);
-			ef->Play();
+			m_phase = 9;
+			m_phaseWaitTime = 0;
+		}
+
+		if (m_phase == 9 && m_phaseWaitTime == 280)
+		{
+			Fade* fade = NewGO<Fade>(0);
+			fade->SetFadeInRate(0.01f);
+			fade->SetWaitFrame(10);
+			fade->SetFadeOutRate(0.01f);
+		}
+
+		if (m_phase == 9 && m_phaseWaitTime == 380)
+		{
+			NewGO<TitleScene>(0, "title");
+
+			DeleteGO(this);
 		}
 	}
 
-	//TODO:GameScene以外で生成している物は専用の削除クラスがあったほうがいいかも。
+	void GameScene::NotifyGameOver()
+	{
+		m_phase = 9;
+		m_phaseWaitTime = 100;
+	}
+
 	void GameScene::DeleteProducts()
 	{
-		QueryGOs<EnemyMissile>("missile", [](EnemyMissile* enemyMissile)->bool
-			{
-				DeleteGO(enemyMissile);
-				return true;
-			}
-		);
-
-		QueryGOs<HealItem>("healItem", [](HealItem* healItem)->bool
-			{
-				DeleteGO(healItem);
-				return true;
-			}
-		);
-
-		QueryGOs<EnemyRock>("rock", [](EnemyRock* enemyRock)->bool
-			{
-				DeleteGO(enemyRock);
-				return true;
-			}
-		);
-
-		QueryGOs<StepObject>("stepObject", [](StepObject* stepObject)->bool
-			{
-				DeleteGO(stepObject);
-				return true;
-			}
-		);
-
-		QueryGOs<CutDummy>("cutDummy", [](CutDummy* cutDummy)->bool
-			{
-				DeleteGO(cutDummy);
-				return true;
-			}
-		);
-
-		EffectEngine::GetInstance()->StopAllEffects();
+		ProductsDeleter productsDeleter;
+		productsDeleter.DeleteProducts();
 	}
 }

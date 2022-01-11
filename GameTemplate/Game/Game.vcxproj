@@ -399,6 +399,7 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerMoveAnimationState.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="ProductsDeleter.cpp" />
     <ClCompile Include="ResourceBankManager.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
@@ -539,6 +540,7 @@
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerMoveAnimationState.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="ProductsDeleter.h" />
     <ClInclude Include="ResourceBankManager.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />

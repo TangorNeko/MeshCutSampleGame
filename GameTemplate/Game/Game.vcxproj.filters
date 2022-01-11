@@ -102,6 +102,63 @@
     <Filter Include="ExEngine\Effect">
       <UniqueIdentifier>{2fe6515c-a50c-48a7-9345-9c9ca75075f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\BackGround">
+      <UniqueIdentifier>{28f6d632-fb56-40ef-8129-24b3bef8ffb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BackGround">
+      <UniqueIdentifier>{8f2dbaa3-ba20-434c-8a40-a43b91436a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{b5fd03ba-fb86-4e9d-a0b1-9c6b962b49d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{f7f3dc3f-7f39-4ad7-b34d-184ec9401583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{96b4dcac-0a22-497c-95a1-a6e2a8e48a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sound">
+      <UniqueIdentifier>{41f943fb-b5c9-4459-8df7-7fb046651017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Animation">
+      <UniqueIdentifier>{4f767550-cb14-4aa7-8a29-4aac69c5e496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Animation">
+      <UniqueIdentifier>{52edf16d-ab08-4ec4-8263-a28622b9aa6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ResourceBank">
+      <UniqueIdentifier>{72af84e2-8fd4-408e-b503-8426cca85663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ResourceBank">
+      <UniqueIdentifier>{551de97f-2208-4237-ab4f-a29b274a89bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Item">
+      <UniqueIdentifier>{a24a70c9-032d-4541-92de-a7b04f9e3f5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Item">
+      <UniqueIdentifier>{783a6340-0cee-4330-8e64-b9fd967c6c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Font">
+      <UniqueIdentifier>{b011b5cb-23d0-4e56-b178-36f110f10a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Font">
+      <UniqueIdentifier>{4c879e99-14ec-4f7a-873d-4921bb0e4d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sprite">
+      <UniqueIdentifier>{8c856945-625b-47e1-ac53-29d6b7e0b150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sprite">
+      <UniqueIdentifier>{49fe8883-a4c6-4dcf-a176-eb02eda9d83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\SkinModel">
+      <UniqueIdentifier>{78813307-a84a-4287-920c-654a4133a367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SkinModel">
+      <UniqueIdentifier>{270231b5-6c27-4db7-837f-7fa791387e38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Util">
+      <UniqueIdentifier>{0485e8ba-a256-4d95-a38a-7ffe925533b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -281,18 +338,6 @@
     <ClCompile Include="TwoOnBackTriangle.cpp">
       <Filter>ソース ファイル\MeshCut\TriangleMaker</Filter>
     </ClCompile>
-    <ClCompile Include="SkinModelRender.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FontRender.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
@@ -332,9 +377,6 @@
     <ClCompile Include="CutDummy.cpp">
       <Filter>ソース ファイル\MeshCut</Filter>
     </ClCompile>
-    <ClCompile Include="AxisCalculator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
@@ -347,17 +389,11 @@
     <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerAttackAnimationState.cpp">
       <Filter>ソース ファイル\Player\AnimationState</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMoveAnimationState.cpp">
       <Filter>ソース ファイル\Player\AnimationState</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceBankManager.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMissile.cpp">
       <Filter>ソース ファイル\Enemy\Missile</Filter>
@@ -401,12 +437,6 @@
     <ClCompile Include="BossTankBehave.cpp">
       <Filter>ソース ファイル\Enemy\BossTank</Filter>
     </ClCompile>
-    <ClCompile Include="StepObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="HealItem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionLight.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
@@ -419,9 +449,6 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRender.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerDisplay.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -431,29 +458,62 @@
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp">
       <Filter>ExEngine\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="SoundEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="StepObject.cpp">
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
     </ClCompile>
-    <ClCompile Include="WaveFileBank.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>ソース ファイル\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="WaveFile.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundSource.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Fade.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="AxisCalculator.cpp">
+      <Filter>ソース ファイル\MeshCut</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Enemy\BossTank</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="GameOverNotifier.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductsDeleter.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFile.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFileBank.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
+      <Filter>ソース ファイル\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceBankManager.cpp">
+      <Filter>ソース ファイル\ResourceBank</Filter>
+    </ClCompile>
+    <ClCompile Include="HealItem.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="FontRender.cpp">
+      <Filter>ソース ファイル\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinModelRender.cpp">
+      <Filter>ソース ファイル\SkinModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -664,21 +724,6 @@
     <ClInclude Include="TriangleMakerHeader.h">
       <Filter>ヘッダー ファイル\MeshCut\TriangleMaker</Filter>
     </ClInclude>
-    <ClInclude Include="MakeHashFromString.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinModelRender.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FontRender.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
@@ -721,9 +766,6 @@
     <ClInclude Include="CutDummy.h">
       <Filter>ヘッダー ファイル\MeshCut</Filter>
     </ClInclude>
-    <ClInclude Include="AxisCalculator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
@@ -736,9 +778,6 @@
     <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerAnimationParam.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
@@ -747,12 +786,6 @@
     </ClInclude>
     <ClInclude Include="PlayerMoveAnimationState.h">
       <Filter>ヘッダー ファイル\Player\AnimationState</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceBankManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TResourceBank.h">
-      <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BossTank.h">
       <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
@@ -799,12 +832,6 @@
     <ClInclude Include="BossTankStatus.h">
       <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
     </ClInclude>
-    <ClInclude Include="StepObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="HealItem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="DirectionLight.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
@@ -817,9 +844,6 @@
     <ClInclude Include="PointLight.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRender.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerDisplay.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
@@ -829,32 +853,71 @@
     <ClInclude Include="..\..\ExEngine\effect\Effect.h">
       <Filter>ExEngine\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="StepObject.h">
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
     </ClInclude>
-    <ClInclude Include="WaveFileBank.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="BackGround.h">
+      <Filter>ヘッダー ファイル\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="WaveFile.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="NameKey.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundSource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Fade.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="AxisCalculator.h">
+      <Filter>ヘッダー ファイル\MeshCut</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Enemy\BossTank</Filter>
     </ClInclude>
     <ClInclude Include="GameOverNotifier.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductsDeleter.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFile.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFileBank.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationState.h">
+      <Filter>ヘッダー ファイル\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceBankManager.h">
+      <Filter>ヘッダー ファイル\ResourceBank</Filter>
+    </ClInclude>
+    <ClInclude Include="TResourceBank.h">
+      <Filter>ヘッダー ファイル\ResourceBank</Filter>
+    </ClInclude>
+    <ClInclude Include="HealItem.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="FontRender.h">
+      <Filter>ヘッダー ファイル\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRender.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinModelRender.h">
+      <Filter>ヘッダー ファイル\SkinModel</Filter>
+    </ClInclude>
+    <ClInclude Include="MakeHashFromString.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="NameKey.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
