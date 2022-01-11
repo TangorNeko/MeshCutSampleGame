@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BossTank.h"
 #include "Player.h"
+#include "Explosion.h"
 
 namespace
 {
@@ -109,6 +110,9 @@ namespace Game
 			//残っていた砲身もダミーに
 			m_rightCannonRender->MakeDummy(cutForce);
 			m_leftCannonRender->MakeDummy(cutForce);
+
+			Explosion* explosion = NewGO<Explosion>(0);
+			explosion->SetPosition(m_bossTankStatus.position);
 
 			//すべてダミーになったのでボスとしての挙動は不要なので削除
 			DeleteGO(this);

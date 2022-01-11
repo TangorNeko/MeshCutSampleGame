@@ -379,6 +379,7 @@
     <ClCompile Include="EnemyMissileRotation.cpp" />
     <ClCompile Include="EnemyRock.cpp" />
     <ClCompile Include="EnemyTask.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -515,6 +516,7 @@
     <ClInclude Include="EnemyMissileRotation.h" />
     <ClInclude Include="EnemyRock.h" />
     <ClInclude Include="EnemyTask.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameScene.h" />
