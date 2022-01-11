@@ -382,6 +382,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="GameOverNotifier.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HealItem.cpp" />
     <ClCompile Include="LightManager.cpp" />
@@ -519,6 +520,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="GameOverNotifier.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="HealItem.h" />
     <ClInclude Include="LightManager.h" />

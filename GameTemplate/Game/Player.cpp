@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "GameOverNotifier.h"
 
 namespace
 {
@@ -122,6 +123,10 @@ namespace Game
 		{
 			//TODO:死亡処理
 			m_hp = 0;
+
+			//ゲームオーバーを通知
+			GameOverNotifier gameOverNotifer;
+			gameOverNotifer.NotifyGameOver();
 		}
 	}
 

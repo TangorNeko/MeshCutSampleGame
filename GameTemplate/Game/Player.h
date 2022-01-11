@@ -88,7 +88,6 @@ namespace Game
 		PlayerDisplay m_playerDisplay;				//プレイヤーの情報表示クラス
 		int m_hp = 1000;
 		bool m_eventCut = false;
-		FontRender* m_hpRender = nullptr;
 	};
 }
 
