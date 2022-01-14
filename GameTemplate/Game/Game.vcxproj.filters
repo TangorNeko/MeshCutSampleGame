@@ -515,6 +515,9 @@
     <ClCompile Include="SkinModelRender.cpp">
       <Filter>ソース ファイル\SkinModel</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>ソース ファイル\BackGround</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -918,6 +921,9 @@
     </ClInclude>
     <ClInclude Include="NameKey.h">
       <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>ヘッダー ファイル\BackGround</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

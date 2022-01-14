@@ -374,6 +374,7 @@
     <ClCompile Include="BossTankTasks.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnemyMissile.cpp" />
     <ClCompile Include="EnemyMissileMove.cpp" />
     <ClCompile Include="EnemyMissileRotation.cpp" />
@@ -513,6 +514,7 @@
     <ClInclude Include="BossTankTasks.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="DirectionLight.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EnemyMissile.h" />
     <ClInclude Include="EnemyMissileMove.h" />
     <ClInclude Include="EnemyMissileRotation.h" />

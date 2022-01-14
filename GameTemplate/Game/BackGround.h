@@ -2,6 +2,7 @@
 
 namespace Game
 {
+	class Door;
 	class BackGround : public IGameObject
 	{
 	public:
@@ -21,7 +22,7 @@ namespace Game
 		bool isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint) const;
 	private:
 		SkinModelRender* m_stageModel = nullptr;	//ステージのモデル
-		SkinModelRender* m_doorModel = nullptr;		//ドアのモデル
+		Door* m_stageDoor = nullptr;				//ステージのドア
 		PhysicsStaticObject m_physicsStaticObject;	//ステージのモデルの当たり判定
 		Light::DirectionLight* m_stageLight = nullptr;//ステージの並行光源
 	};
