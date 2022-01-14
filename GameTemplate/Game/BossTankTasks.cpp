@@ -6,6 +6,7 @@
 #include "MiniEnemy.h"
 #include "EnemyRock.h"
 #include "StepObject.h"
+#include "CommandInput.h"
 
 namespace
 {
@@ -450,6 +451,11 @@ namespace Game
 					cameraTarget.Lerp(t, player->GetCameraTarget(), bossTank->GetPosition());
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
+				}
+
+				if (taskTime == 300)
+				{
+					NewGO<CommandInput>(0);
 				}
 
 

@@ -114,6 +114,7 @@ namespace Game
 				if (dis.LengthSq() < 300.0f * 300.0f)
 				{
 					animParam.isJumping = false;
+					SetPlayerDirection(Vector3::Left);
 					return true;
 				}
 			}

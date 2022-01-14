@@ -373,6 +373,7 @@
     <ClCompile Include="BossTankCollision.cpp" />
     <ClCompile Include="BossTankDisplay.cpp" />
     <ClCompile Include="BossTankTasks.cpp" />
+    <ClCompile Include="CommandInput.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="DashTutorial.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
@@ -515,6 +516,7 @@
     <ClInclude Include="BossTankDisplay.h" />
     <ClInclude Include="BossTankStatus.h" />
     <ClInclude Include="BossTankTasks.h" />
+    <ClInclude Include="CommandInput.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="DashTutorial.h" />
     <ClInclude Include="DirectionLight.h" />
