@@ -77,6 +77,8 @@ namespace Game
 		if (g_pad[0]->IsTrigger(enButtonB))
 		{
 			m_isMissileMove = true;
+			//ボスの方に向かせる
+			SetPlayerDirection(Vector3::Back);
 		}
 		//NOTE:仮のミサイルジャンプ処理
 		if (m_isMissileMove)
@@ -197,6 +199,9 @@ namespace Game
 		if (g_pad[0]->IsTrigger(enButtonY))
 		{
 			m_isFrontMove = true;
+
+			//ボスの方に向かせる
+			SetPlayerDirection(Vector3::Back);
 		}
 
 		if (m_isFrontMove)
