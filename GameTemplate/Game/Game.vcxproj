@@ -365,6 +365,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="AnimationState.cpp" />
+    <ClCompile Include="AttackTutorial.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />
     <ClCompile Include="BossTank.cpp" />
@@ -373,6 +374,7 @@
     <ClCompile Include="BossTankDisplay.cpp" />
     <ClCompile Include="BossTankTasks.cpp" />
     <ClCompile Include="CutDummy.cpp" />
+    <ClCompile Include="DashTutorial.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnemyMissile.cpp" />
@@ -504,6 +506,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="AnimationState.h" />
+    <ClInclude Include="AttackTutorial.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="AxisCalculator.h" />
     <ClInclude Include="BossTank.h" />
@@ -513,6 +516,7 @@
     <ClInclude Include="BossTankStatus.h" />
     <ClInclude Include="BossTankTasks.h" />
     <ClInclude Include="CutDummy.h" />
+    <ClInclude Include="DashTutorial.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnemyMissile.h" />

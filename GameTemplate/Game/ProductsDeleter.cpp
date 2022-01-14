@@ -7,6 +7,8 @@
 #include "StepObject.h"
 #include "CutDummy.h"
 #include "MiniEnemy.h"
+#include "AttackTutorial.h"
+#include "DashTutorial.h"
 
 namespace Game
 {
@@ -53,6 +55,10 @@ namespace Game
 				return true;
 			}
 		);
+
+		DeleteGO(FindGO<DashTutorial>("dashtutorial"));
+
+		DeleteGO(FindGO<AttackTutorial>("attacktutorial"));
 
 		EffectEngine::GetInstance()->StopAllEffects();
 	}

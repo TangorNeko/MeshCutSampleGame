@@ -7,11 +7,12 @@
 #include "Fade.h"
 #include "TitleScene.h"
 #include "ProductsDeleter.h"
+#include "DashTutorial.h"
 
 namespace
 {
 	const Vector3 BOSS_POSITION = { 0.0f,0.0f,-1300.0f };
-	const Vector3 PLAYER_START_POSITION = { 0.0f,30.0f,2000.0f };
+	const Vector3 PLAYER_START_POSITION = { 0.0f,30.0f,2500.0f };
 
 	const Vector3 MINION_POSITION_PHASE1 = { 0.0f,0.0f,-500.0f };
 
@@ -49,6 +50,9 @@ namespace Game
 
 		if (toTrigger.LengthSq() < 300.0f * 300.0f && m_phase == 0)
 		{
+			//ダッシュのチュートリアルを表示
+			NewGO<DashTutorial>(0, "dashtutorial");
+
 			m_phase = 1;
 			m_phaseWaitTime = 0;
 		}
