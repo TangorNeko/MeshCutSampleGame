@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerAnimationParam.h"
 
 namespace Game
 {
@@ -11,6 +12,8 @@ namespace Game
 		void Update(const Vector3& playerPosition);
 
 		Vector3 UpdateCutMode(const Vector3& playerPosition,const Vector3& playerDirection);
+
+		void UpdateFinishCamera(PlayerAnimationParam& animParam);
 
 		const Vector3& GetCameraPosition()
 		{

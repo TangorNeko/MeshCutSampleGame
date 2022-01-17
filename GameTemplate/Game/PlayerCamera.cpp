@@ -128,4 +128,13 @@ namespace Game
 		front.Normalize();
 		return front;
 	}
+
+	void PlayerCamera::UpdateFinishCamera(PlayerAnimationParam& animParam)
+	{
+		animParam.isUnequip = true;
+
+		g_camera3D->SetPosition({ 0.0f,250.0f,-700.0f });
+
+		g_camera3D->SetTarget({ 0.0f,0.0f,-1300.0f });
+	}
 }

@@ -37,15 +37,43 @@ namespace Game
 
 		void BackHandSpring(const Vector3& moveAmount);
 
+		void NoticeMissileMoveStart()
+		{
+			m_playerMoveEvent = enMissileMove;
+		}
+
+		void NoticeFrontMoveStart()
+		{
+			m_playerMoveEvent = enFrontMove;
+
+			//ボスの方に向かせる
+			SetPlayerDirection(Vector3::Back);
+		}
+
 		void NoticeMissileMoveEnd()
 		{
 			m_isMissileMove = false;
+
+			m_playerMoveEvent = enNormal;
 		}
 
 		void NoticeFrontMoveEnd()
 		{
 			m_isFrontMove = false;
+
+			m_playerMoveEvent = enNormal;
 		}
+
+		bool NormalMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
+		bool MissileMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
+		bool FrontMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
+		bool BackHandspringMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
+		bool KnockDownMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
 	private:
 		CharacterController m_charaCon;							//プレイヤーのキャラコン
 		Vector3 m_moveAmount = Vector3::Zero;					//プレイヤーの移動量
@@ -55,7 +83,6 @@ namespace Game
 		int m_aerialFrame = 0;									//空中にいるフレーム数
 
 		//TODO:変数の必要性を検証したのち正式にm_をつけメンバー変数とする
-		bool isKnockDown = false;
 		int knockDownFrame = 0;
 		Vector3 knockDownAmount = Vector3::Zero;
 
@@ -75,9 +102,19 @@ namespace Game
 		Vector3 m_frontMoveAmount = Vector3::Zero;
 
 		//TODO:後転用変数
-		bool isBackHandspring = false;
 		int backHandspringFrame = 0;
 		Vector3 backHandSpringAmount = Vector3::Zero;
+
+		enum MoveEvent
+		{
+			enNormal,
+			enMissileMove,
+			enFrontMove,
+			enBackHandspring,
+			enKnockDown
+		};
+
+		MoveEvent m_playerMoveEvent = enNormal;
 	};
 }
 

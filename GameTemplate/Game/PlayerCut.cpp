@@ -6,7 +6,7 @@ namespace
 	const char* PATH_CUTPLANEMODEL = "Assets/modelData/CutIndicator.tkm";
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
 	const Vector3 CUT_FORCE_DOWN = Vector3::Down * 30.0f;
-	const float CUT_RANGE = 500.0f;
+	const float CUT_RANGE = 600.0f;
 }
 
 namespace Game

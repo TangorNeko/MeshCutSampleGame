@@ -58,6 +58,16 @@ namespace Game
 			m_playerMove.BackHandSpring(moveAmount);
 		}
 
+		void NoticeMissileMoveStart()
+		{
+			m_playerMove.NoticeMissileMoveStart();
+		}
+
+		void NoticeFrontMoveStart()
+		{
+			m_playerMove.NoticeFrontMoveStart();
+		}
+
 		void NoticeMissileMoveEnd()
 		{
 			m_playerMove.NoticeMissileMoveEnd();
@@ -68,6 +78,11 @@ namespace Game
 		{
 			m_playerMove.NoticeFrontMoveEnd();
 			m_eventCut = false;
+		}
+
+		void StartFinishCamera()
+		{
+			m_isFinishCamera = true;
 		}
 
 		//TODO:仮です。ガードは専用関数を作る、
@@ -88,6 +103,8 @@ namespace Game
 		PlayerDisplay m_playerDisplay;				//プレイヤーの情報表示クラス
 		int m_hp = 1000;
 		bool m_eventCut = false;
+		bool m_isFinishCamera = false;
+		int m_finishCount = 0;
 	};
 }
 

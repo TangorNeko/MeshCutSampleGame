@@ -6,6 +6,7 @@ namespace
 {
 	const char* PATH_PLAYER_MODEL = "Assets/modelData/Player.tkm";
 	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Player.tks";
+	const int FINISH_CAMERA_START = 50;
 }
 
 namespace Game
@@ -69,30 +70,27 @@ namespace Game
 			m_playerAnimationParam.isGuarding = false;
 		}
 
-		if (g_pad[0]->IsPress(enButtonA))
+		if (m_isFinishCamera == true)
 		{
-			m_playerAnimationParam.isUnequip = true;
-
-			g_camera3D->SetPosition({ 0.0f,250.0f,-700.0f });
-
-			g_camera3D->SetTarget({ 0.0f,0.0f,-1300.0f });
-
-
+			m_finishCount++;
 		}
-		else {
-			if (isCutMode == false && m_eventCut == false)
-			{
-				//カメラの移動
-				m_playerCamera.Update(m_position);
-			}
-			else
-			{
-				//切断モード用カメラの移動
-				Vector3 newDirection = m_playerCamera.UpdateCutMode(m_position, m_playerMove.GetPlayerDirection());
 
-				//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
-				m_playerMove.SetPlayerDirection(newDirection);
-			}
+		if (m_finishCount >= FINISH_CAMERA_START)
+		{
+			m_playerCamera.UpdateFinishCamera(m_playerAnimationParam);
+		}
+		else if (isCutMode == false && m_eventCut == false)
+		{
+			//カメラの移動
+			m_playerCamera.Update(m_position);
+		}
+		else
+		{
+			//切断モード用カメラの移動
+			Vector3 newDirection = m_playerCamera.UpdateCutMode(m_position, m_playerMove.GetPlayerDirection());
+
+			//切断モードカメラで視点を変更するとプレイヤーの向きも変更されるので新しい向きを格納
+			m_playerMove.SetPlayerDirection(newDirection);
 		}
 		
 		//プレイヤーの向きから回転を計算

@@ -5,6 +5,7 @@
 #include "BossTankTasks.h"
 #include "BossTankDisplay.h"
 #include "BossTankBehave.h"
+#include "BossTankFinishCommand.h"
 
 namespace Game
 {
@@ -104,6 +105,7 @@ namespace Game
 		BossTankCollision m_bossTankCollision;				//ボスの当たり判定クラス
 		BossTankDisplay m_bossTankDisplay;					//ボスの情報表示クラス
 		BossTankBehave m_bossTankBehave;					//ボスの行動分岐
+		BossTankFinishCommand m_bossTankFinishCommand;		//ボスのトドメ用コマンド
 	};
 }
 

@@ -456,6 +456,8 @@ namespace Game
 				if (taskTime == 300)
 				{
 					NewGO<CommandInput>(0);
+					Player* player = FindGO<Player>("player");
+					player->NoticeMissileMoveStart();
 				}
 
 

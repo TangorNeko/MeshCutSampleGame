@@ -15,6 +15,7 @@ namespace Game
 {
 	CommandInput::~CommandInput()
 	{
+		DeleteGO(m_commandSprite);
 	}
 
 	bool CommandInput::Start()

@@ -86,13 +86,6 @@ namespace Game
 			m_baseRender->MakeDummy(cutForce);
 			player->NoticeFrontMoveEnd();
 			m_bossTankStatus.isBaseBreak = true;
-
-			Vector3 toResPos = player->GetPosition() - m_bossTankStatus.position;
-
-			toResPos.y = 0.0f;
-			toResPos.Normalize();
-
-			player->BackHandSpring(toResPos * 5);
 		}
 
 		//斬られたのが砲塔なら
@@ -111,6 +104,14 @@ namespace Game
 			m_rightCannonRender->MakeDummy(cutForce);
 			m_leftCannonRender->MakeDummy(cutForce);
 
+			Vector3 toResPos = player->GetPosition() - m_bossTankStatus.position;
+
+			toResPos.y = 0.0f;
+			toResPos.Normalize();
+
+			player->BackHandSpring(toResPos * 5);
+			player->StartFinishCamera();
+
 			Explosion* explosion = NewGO<Explosion>(0);
 			explosion->SetPosition(m_bossTankStatus.position);
 
@@ -121,6 +122,9 @@ namespace Game
 
 	void BossTank::Update()
 	{
+		//トドメ用のコマンドを表示するかのチェック
+		m_bossTankFinishCommand.Execute(m_bossTankStatus.position, m_bossTankStatus.hp);
+
 		//行動分岐
 		m_bossTankBehave.Execute(m_bossTankStatus);
 
@@ -144,7 +148,8 @@ namespace Game
 			m_bossTankStatus.trackingRot.SetRotation(Vector3::Front, toPlayer);
 
 		}
-			m_bossTankStatus.turretRot.Multiply(m_bossTankStatus.trackingRot);
+		
+		m_bossTankStatus.turretRot.Multiply(m_bossTankStatus.trackingRot);
 
 
 		//計算した回転をセット
