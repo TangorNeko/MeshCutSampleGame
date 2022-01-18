@@ -45,6 +45,7 @@ namespace Game
 		SubmitRockTask(bossTank);
 		SubmitChargeTask(bossTank);
 		SubmitStepTask(bossTank);
+		SubmitEventRollingTask(bossTank);
 	}
 
 	void BossTankTasks::SubmitMissileTask(BossTank* bossTank)
@@ -120,6 +121,19 @@ namespace Game
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
 				{
+					//TODO:距離ではなくトリガーで判定したい所
+					Player* player = FindGO<Player>("player");
+					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+
+					//プレイヤーとの距離が近かったら
+					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+					{
+						distance.Normalize();
+
+						//プレイヤーを大きく吹き飛ばす
+						player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
+					}
+
 					return true;
 				}
 
@@ -130,18 +144,6 @@ namespace Game
 		//タスクの終了時にダメージ判定をする
 		RollingTask.SetEndFunc([bossTank]()
 			{
-				//TODO:距離ではなくトリガーで判定したい所
-				Player* player = FindGO<Player>("player");
-				Vector3 distance = player->GetPosition() - bossTank->GetPosition();
-
-				//プレイヤーとの距離が近かったら
-				if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
-				{
-					distance.Normalize();
-
-					//プレイヤーを大きく吹き飛ばす
-					player->KnockDown(distance * 60);
-				}
 			}
 		);
 
@@ -254,6 +256,18 @@ namespace Game
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
 				{
+					//TODO:距離ではなくトリガーで判定したい所
+					Player* player = FindGO<Player>("player");
+					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+
+					//プレイヤーとの距離が近かったら
+					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+					{
+						distance.Normalize();
+
+						//プレイヤーを大きく吹き飛ばす
+						player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
+					}
 					return true;
 				}
 
@@ -264,18 +278,6 @@ namespace Game
 		//タスクの終了時にダメージ判定をする
 		ChargeTask.SetEndFunc([bossTank]()
 			{
-				//TODO:距離ではなくトリガーで判定したい所
-				Player* player = FindGO<Player>("player");
-				Vector3 distance = player->GetPosition() - bossTank->GetPosition();
-
-				//プレイヤーとの距離が近かったら
-				if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
-				{
-					distance.Normalize();
-
-					//プレイヤーを大きく吹き飛ばす
-					player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
-				}
 			}
 		);
 
@@ -376,12 +378,14 @@ namespace Game
 
 				if (taskTime <= 100 && taskTime >= 30)
 				{
+					bossTank->SetTurretDeg(0.0f);
 					float t = (taskTime - 30) / 70.0f;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
 					cameraPosition.Lerp(t, player->GetCameraPosition(), EVENT_CAMERA_POSITION);
 					cameraTarget.Lerp(t, player->GetCameraTarget(), bossTank->GetPosition());
+					player->SetPlayerDirection(Vector3::Back);
 					g_camera3D->SetPosition(cameraPosition);
 					g_camera3D->SetTarget(cameraTarget);
 				}
@@ -453,11 +457,16 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
-				if (taskTime == 300)
+				if (taskTime == 325)
 				{
 					NewGO<CommandInput>(0);
 					Player* player = FindGO<Player>("player");
 					player->NoticeMissileMoveStart();
+				}
+
+				if (taskTime == 326)
+				{
+					GameObjectManager::GetInstance()->SetPauseFlag(true);
 				}
 
 
@@ -471,5 +480,40 @@ namespace Game
 		);
 
 		bossTank->SetTask(enStep,StepTask);
+	}
+
+	void BossTankTasks::SubmitEventRollingTask(BossTank* bossTank)
+	{
+		EnemyTask EventRollingTask;
+
+		EventRollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
+			{
+				if (taskTime >= ROLLING_TIME_START)
+				{
+					//毎フレーム少しずつ回転させていく
+					bossTank->SetTurretDeg(bossTank->GetTurretDeg() + ROLLING_DEG);
+				}
+
+				//規定フレームになったら終了
+				if (taskTime == ROLLING_TIME_END)
+				{
+					//TODO:距離ではなくトリガーで判定したい所
+					Player* player = FindGO<Player>("player");
+					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
+
+					distance.Normalize();
+
+					//プレイヤーを大きく吹き飛ばす
+					player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
+
+					return true;
+				}
+
+				return false;
+			}
+		);
+
+		//ボスにこのタスクをセットする
+		bossTank->SetTask(enEventRolling, EventRollingTask);
 	}
 }

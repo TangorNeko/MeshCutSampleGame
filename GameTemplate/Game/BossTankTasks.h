@@ -15,6 +15,7 @@ namespace Game
 			enCharge,//突進攻撃
 			enRock,//岩飛ばし
 			enStep,//足場ミサイル
+			enEventRolling,//イベント用回転攻撃(回避不可)
 			enWait,//待機
 			enTaskNum
 		};
@@ -67,6 +68,12 @@ namespace Game
 		 * @param bossTank 登録するボス
 		*/
 		void SubmitStepTask(BossTank* bossTank);
+
+		/**
+		 * @brief イベント用の回転攻撃のタスクを登録する
+		 * @param bossTank 登録するボス
+		*/
+		void SubmitEventRollingTask(BossTank* bossTank);
 	};
 }
 

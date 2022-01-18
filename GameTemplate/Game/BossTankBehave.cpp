@@ -96,8 +96,11 @@ namespace Game
 			//–C‘ä‚ª‰ó‚ê‚Ä‚¢‚È‚¢Žž
 			if (bossTankStatus.hp <= MAX_HP/2)
 			{
-				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enEventRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enStep]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
+				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
@@ -110,7 +113,6 @@ namespace Game
 			else
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
