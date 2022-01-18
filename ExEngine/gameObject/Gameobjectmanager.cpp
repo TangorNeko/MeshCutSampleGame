@@ -48,6 +48,8 @@ void GameObjectManager::ExecuteUpdate()
 	}
 	else
 	{
+		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+
 		for (auto& goList : m_gameObjectListArray) {
 			for (auto& go : goList) {
 				go->UpdateWrapper();
@@ -63,4 +65,11 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
+}
+
+void GameObjectManager::SetPauseFlag(bool flag)
+{
+	m_isPause = flag;
+
+	EffectEngine::GetInstance()->SetPauseToAllEfects(flag);
 }

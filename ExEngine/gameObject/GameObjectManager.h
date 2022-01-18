@@ -126,10 +126,7 @@ public:
 		}
 	}
 	
-	void SetPauseFlag(bool flag)
-	{
-		m_isPause = flag;
-	}
+	void SetPauseFlag(bool flag);
 
 	bool GetPauseFlag()
 	{
