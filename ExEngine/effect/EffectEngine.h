@@ -50,6 +50,15 @@ public:
 	{
 		return m_manager->GetShown(handle);
 	}
+
+	/**
+	 * @brief すべてのエフェクトに対してポーズを設定する
+	 * @param flag 
+	*/
+	void SetPauseToAllEfects(bool flag)
+	{
+		m_manager->SetPausedToAllEffects(flag);
+	}
 	/// <summary>
 	/// エフェクトのワールド行列を更新。
 	/// </summary>
