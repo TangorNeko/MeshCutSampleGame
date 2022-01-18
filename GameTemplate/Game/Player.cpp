@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "GameOverNotifier.h"
+#include "BossTank.h"
 
 namespace
 {
@@ -136,5 +137,21 @@ namespace Game
 		{
 			m_hp = 1000;
 		}
+	}
+
+	void Player::NoticeMissileMoveStart()
+	{
+		m_playerMove.NoticeMissileMoveStart();
+
+		BossTank* bossTank = FindGO<BossTank>("bosstank");
+		bossTank->AllowCannonCut();
+	}
+
+	void Player::NoticeFrontMoveStart()
+	{
+		m_playerMove.NoticeFrontMoveStart();
+
+		BossTank* bossTank = FindGO<BossTank>("bosstank");
+		bossTank->AllowBodyCut();
 	}
 }

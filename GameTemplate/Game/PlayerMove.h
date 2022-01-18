@@ -74,6 +74,11 @@ namespace Game
 
 		bool KnockDownMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
 
+		void MissileMoveSuccess()
+		{
+			m_isMissileMove = true;
+		}
+
 	private:
 		CharacterController m_charaCon;							//プレイヤーのキャラコン
 		Vector3 m_moveAmount = Vector3::Zero;					//プレイヤーの移動量

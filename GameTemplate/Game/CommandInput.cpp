@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CommandInput.h"
+#include "Player.h"
 
 namespace
 {
@@ -36,6 +37,19 @@ namespace Game
 		if (m_isSuccess)
 		{
 			FadeOut();
+		}
+	}
+
+	void CommandInput::Pause()
+	{
+		if (g_pad[0]->IsTrigger(enButtonB))
+		{
+			m_isSuccess = true;
+
+			GameObjectManager::GetInstance()->SetPauseFlag(false);
+
+			Player* player = FindGO<Player>("player");
+			player->MissileMoveSuccess();
 		}
 	}
 

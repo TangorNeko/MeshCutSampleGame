@@ -13,6 +13,8 @@ namespace Game
 
 		void FadeOut();
 
+		void Pause() override;
+
 		bool isSuccess()
 		{
 			return m_isSuccess;

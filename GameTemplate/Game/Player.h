@@ -29,6 +29,11 @@ namespace Game
 			return m_position;
 		}
 
+		void SetPlayerDirection(const Vector3& direction)
+		{
+			m_playerMove.SetPlayerDirection(direction);
+		}
+
 		CharacterController& GetCharaCon()
 		{
 			return m_playerMove.GetCharaCon();
@@ -58,15 +63,9 @@ namespace Game
 			m_playerMove.BackHandSpring(moveAmount);
 		}
 
-		void NoticeMissileMoveStart()
-		{
-			m_playerMove.NoticeMissileMoveStart();
-		}
+		void NoticeMissileMoveStart();
 
-		void NoticeFrontMoveStart()
-		{
-			m_playerMove.NoticeFrontMoveStart();
-		}
+		void NoticeFrontMoveStart();
 
 		void NoticeMissileMoveEnd()
 		{
@@ -83,6 +82,11 @@ namespace Game
 		void StartFinishCamera()
 		{
 			m_isFinishCamera = true;
+		}
+
+		void MissileMoveSuccess()
+		{
+			m_playerMove.MissileMoveSuccess();
 		}
 
 		//TODO:仮です。ガードは専用関数を作る、

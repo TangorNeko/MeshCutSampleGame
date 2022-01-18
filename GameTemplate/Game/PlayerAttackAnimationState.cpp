@@ -32,6 +32,11 @@ namespace Game
 					return enAnim_Guard;
 				}
 
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -67,6 +72,11 @@ namespace Game
 					return enAnim_Guard;
 				}
 
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -95,6 +105,11 @@ namespace Game
 				if (param.isGuarding == true)
 				{
 					return enAnim_Guard;
+				}
+
+				if (param.isJumping == true)
+				{
+					return enAnim_Jump;
 				}
 
 				return playerAnimState->GetMyState();
