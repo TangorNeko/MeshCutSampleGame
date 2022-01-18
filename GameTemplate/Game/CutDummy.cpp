@@ -15,13 +15,13 @@ namespace Game
 	bool CutDummy::Start()
 	{
 		//カプセル状のコライダーを作成
-		m_capsuleCollider.Init(m_dummyRadius/1.5f,m_dummyHeight/1.5f);
+		m_capsuleCollider.Init(m_dummyRadius/3.0f,m_dummyHeight/3.0f);
 		
 		//球状のコライダーを作成
 		RigidBodyInitData rbInitData;
 
 		//重量をセット(サンプルのまま)
-		rbInitData.mass = 0.1f;
+		rbInitData.mass = 100.0f;
 
 		//コライダーをセット
 		rbInitData.collider = &m_capsuleCollider;
