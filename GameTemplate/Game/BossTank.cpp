@@ -10,6 +10,7 @@ namespace
 	const char* MODEL_PATH_CANNONRIGHT = "Assets/modelData/TankCannonRight.tkm";
 	const char* MODEL_PATH_CANNONLEFT = "Assets/modelData/TankCannonLeft.tkm";
 	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,-100.0f };
+	const int MAX_HP = 400;
 }
 
 namespace Game
@@ -207,7 +208,7 @@ namespace Game
 		m_bossTankStatus.hp -= damage;
 
 		//‘Ì—Í”¼•ª‚Å–CgØ’f‰Â”\‚É
-		if (m_bossTankStatus.hp <= 500.0f)
+		if (m_bossTankStatus.hp <= MAX_HP/2)
 		{
 			m_rightCannonRender->SetDivideFlag(true);
 			m_leftCannonRender->SetDivideFlag(true);
@@ -223,6 +224,7 @@ namespace Game
 			m_turretRender->SetDivideFlag(true);
 			ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
 			ModelCutManager::GetInstance()->AddCuttable(m_turretRender);
+			m_bossTankBehave.TerminateTask();
 		}
 	}
 

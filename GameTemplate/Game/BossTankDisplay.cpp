@@ -7,6 +7,7 @@ namespace
 	const wchar_t* ALLCUT_TEXT = L"Can Cut All";
 	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
 	const Vector2 HP_FONT_POSITION = { 350.0f,-300.0f };
+	const int MAX_HP = 400;
 }
 
 namespace Game
@@ -57,7 +58,7 @@ namespace Game
 		m_hpRender->SetText(buffer);
 		*/
 
-		if (hp <= 500.0f)
+		if (hp <= MAX_HP/2)
 		{
 			if (m_cutStateRender == nullptr)
 			{
@@ -73,14 +74,16 @@ namespace Game
 			m_cutStateRender->SetText(ALLCUT_TEXT);
 		}
 
-		if (hp <= 500.0f)
+		if (hp <= MAX_HP/2)
 		{
 			Vector2 screenPos;
 			g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, bossPosition);
 			m_cutStateRender->SetPosition(screenPos);
 		}
 
-		m_hpBar->SetScale({ hp / 1000.0f,1.0f,1.0f });
+
+		float hpBarScale = static_cast<float>(hp) / MAX_HP;
+		m_hpBar->SetScale({ hpBarScale,1.0f,1.0f });
 
 	}
 }

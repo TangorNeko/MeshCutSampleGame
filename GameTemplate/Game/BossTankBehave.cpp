@@ -7,6 +7,7 @@
 namespace
 {
 	const float DISTANCE_RANGED_ATTACK = 1000.0f;
+	const int MAX_HP = 400;
 }
 
 namespace Game
@@ -49,7 +50,7 @@ namespace Game
 	void BossTankBehave::CheckEvent(BossTankStatus& bossTankStatus)
 	{
 		//HP‚ª”¼•ªˆÈ‰º‚É‚È‚Á‚½As“®‚ğ’†’f‚µ‚Ä–CgØ’fƒCƒxƒ“ƒg‚Ö
-		if (bossTankStatus.isStepAttack == false && bossTankStatus.hp <= 500)
+		if (bossTankStatus.isStepAttack == false && bossTankStatus.hp <= MAX_HP/2)
 		{
 			TerminateTask();
 			bossTankStatus.isStepAttack = true;
@@ -62,7 +63,7 @@ namespace Game
 		Vector3 distance = player->GetPosition() - bossTankStatus.position;
 
 		//–C‘ä‚ğa‚ç‚ê‚Ä‚Ü‚¾G‹›“G‚ğ¢Š«‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç
-		if (bossTankStatus.hp <= 500 && bossTankStatus.isSummonMinions == false && bossTankStatus.isCannonBreak == true)
+		if (bossTankStatus.hp <= MAX_HP/2 && bossTankStatus.isSummonMinions == false && bossTankStatus.isCannonBreak == true)
 		{
 			m_taskQueue.push(m_tankTask[BossTankTasks::enSummon]);
 
@@ -73,7 +74,7 @@ namespace Game
 		{
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 		}
-		else if (bossTankStatus.hp <= 500 && bossTankStatus.isCannonBreak == true)
+		else if (bossTankStatus.hp <= MAX_HP/2 && bossTankStatus.isCannonBreak == true)
 		{
 			//–C‘ä‚ª‰ó‚ê‚½
 			if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
@@ -93,7 +94,7 @@ namespace Game
 		else
 		{
 			//–C‘ä‚ª‰ó‚ê‚Ä‚¢‚È‚¢
-			if (bossTankStatus.hp <= 500)
+			if (bossTankStatus.hp <= MAX_HP/2)
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enStep]);

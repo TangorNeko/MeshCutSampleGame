@@ -5,7 +5,7 @@
 
 namespace
 {
-	const float FINISH_COMMAND_RANGE = 500.0f;
+	const float FINISH_COMMAND_RANGE = 800.0f;
 }
 
 namespace Game
