@@ -96,6 +96,10 @@ namespace Game
 		Vector3 GetLeftCannonPosition();
 
 		Vector3 GetFrontPosition();
+
+		void AllowCannonCut();
+
+		void AllowBodyCut();
 	private:
 		SkinModelRender* m_baseRender = nullptr;			//ŽÔ‘Ì‚Ìƒ‚ƒfƒ‹
 		SkinModelRender* m_turretRender = nullptr;			//–C“ƒ‚Ìƒ‚ƒfƒ‹

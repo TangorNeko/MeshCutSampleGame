@@ -212,8 +212,6 @@ namespace Game
 		{
 			m_rightCannonRender->SetDivideFlag(true);
 			m_leftCannonRender->SetDivideFlag(true);
-			ModelCutManager::GetInstance()->AddCuttable(m_rightCannonRender);
-			ModelCutManager::GetInstance()->AddCuttable(m_leftCannonRender);
 		}
 	
 		//‘Ì—Í0‚È‚ç–C“ƒ‚Æ–{‘Ì‚àØ’f‰Â”\‚É
@@ -222,8 +220,6 @@ namespace Game
 			m_bossTankStatus.hp = 0;
 			m_baseRender->SetDivideFlag(true);
 			m_turretRender->SetDivideFlag(true);
-			ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
-			ModelCutManager::GetInstance()->AddCuttable(m_turretRender);
 			m_bossTankBehave.TerminateTask();
 		}
 	}
@@ -253,5 +249,17 @@ namespace Game
 		m_bossTankStatus.baseRot.Apply(toFrontVec);
 
 		return m_bossTankStatus.position + toFrontVec;
+	}
+
+	void BossTank::AllowCannonCut()
+	{
+		ModelCutManager::GetInstance()->AddCuttable(m_rightCannonRender);
+		ModelCutManager::GetInstance()->AddCuttable(m_leftCannonRender);
+	}
+
+	void BossTank::AllowBodyCut()
+	{
+		ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
+		ModelCutManager::GetInstance()->AddCuttable(m_turretRender);
 	}
 }
