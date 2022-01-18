@@ -25,6 +25,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//リソースバンクマネージャーのインスタンスを作成
 	Engine::ResourceBankManager::CreateInstance();
 
+	PhysicsWorld::GetInstance()->SetGravity(GAME_GRAVITY);
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
 	//////////////////////////////////////
@@ -48,7 +49,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////j
 
 		GameObjectManager::GetInstance()->ExecuteUpdate();
-		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 
 #ifdef _DEBUGWIREFRAME
 		PhysicsWorld::GetInstance()->DebugDrawWorld(renderContext);

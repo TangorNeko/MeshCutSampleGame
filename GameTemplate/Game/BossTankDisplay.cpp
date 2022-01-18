@@ -62,23 +62,27 @@ namespace Game
 		{
 			if (m_cutStateRender == nullptr)
 			{
+				/*
 				m_cutStateRender = NewGO<FontRender>(0);
 				m_cutStateRender->SetText(CANNONCUT_TEXT);
 				m_cutStateRender->SetShadowFlag(true);
 				m_cutStateRender->SetShadowColor(SHADOWCOLOR_BLACK);
+				*/
 			}
 		}
 		
 		if(hp <= 0)
 		{
-			m_cutStateRender->SetText(ALLCUT_TEXT);
+			//m_cutStateRender->SetText(ALLCUT_TEXT);
 		}
 
 		if (hp <= MAX_HP/2)
 		{
+			/*
 			Vector2 screenPos;
 			g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, bossPosition);
 			m_cutStateRender->SetPosition(screenPos);
+			*/
 		}
 
 

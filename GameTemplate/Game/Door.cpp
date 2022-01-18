@@ -7,7 +7,7 @@ namespace
 {
 	const char* PATH_DOORMODEL = "Assets/modelData/Door.tkm";
 
-	const float ATTACK_TUTORIAL_DISTANCE = 300.0f;
+	const float ATTACK_TUTORIAL_DISTANCE = 500.0f;
 }
 
 namespace Game
