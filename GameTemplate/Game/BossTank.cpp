@@ -11,6 +11,7 @@ namespace
 	const char* MODEL_PATH_CANNONLEFT = "Assets/modelData/TankCannonLeft.tkm";
 	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,-100.0f };
 	const int MAX_HP = 400;
+	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";
 }
 
 namespace Game
@@ -58,6 +59,12 @@ namespace Game
 
 		//タスクの登録
 		m_bossTankBehave.SubmitTo(this);
+
+		//出現エフェクトを再生
+		Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+		spawnEffect->SetPosition(m_bossTankStatus.position);
+		spawnEffect->Init(WARPEFFECT_PATH);
+		spawnEffect->Play();
 
 		return true;
 	}

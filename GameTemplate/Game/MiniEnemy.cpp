@@ -17,6 +17,7 @@ namespace
 	const int ATTACK_DAMAGE = 25;
 	const Vector3 FLOATING_HEIGHT = { 0.0f,100.0f,0.0f };
 	const Vector3 ATTACK_HEIGHT = { 0.0f,50.0f,0.0f };
+	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";
 }
 
 namespace Game
@@ -59,6 +60,12 @@ namespace Game
 		//最初から斬れるようにしておく
 		m_baseRender->SetDivideFlag(true);
 		ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
+
+		//出現エフェクトを再生
+		Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+		spawnEffect->SetPosition(m_position);
+		spawnEffect->Init(WARPEFFECT_PATH);
+		spawnEffect->Play();
 
 		return true;
 	}
