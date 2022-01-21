@@ -6,6 +6,7 @@ namespace Game
 	class Player;
 	class EnemyMissile;
 	class BossTank;
+	class GameSceneBGM;
 
 	class GameScene : public IGameObject
 	{
@@ -29,6 +30,7 @@ namespace Game
 		BackGround* m_backGround = nullptr;						//ステージクラス
 		Player* m_player = nullptr;								//プレイヤークラス
 		BossTank* m_bossTank = nullptr;							//戦車のボスクラス
+		GameSceneBGM* m_gameSceneBGM = nullptr;					//BGM再生クラス
 
 		int m_phase = 0;
 		int m_phaseWaitTime = 0;

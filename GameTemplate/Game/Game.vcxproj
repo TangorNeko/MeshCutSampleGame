@@ -389,6 +389,7 @@
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameOverNotifier.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameSceneBGM.cpp" />
     <ClCompile Include="HealItem.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="MiniEnemy.cpp" />
@@ -533,6 +534,7 @@
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameOverNotifier.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameSceneBGM.h" />
     <ClInclude Include="HealItem.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="MiniEnemy.h" />

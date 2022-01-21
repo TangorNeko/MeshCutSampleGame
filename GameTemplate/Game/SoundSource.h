@@ -113,7 +113,7 @@ namespace Game {
 		/*!
 		* @brief	一時停止。
 		*/
-		void Pause()
+		void PauseSound()
 		{
 			m_sourceVoice->Stop(/*XAUDIO2_PLAY_TAILS*/);
 		}
@@ -257,6 +257,15 @@ namespace Game {
 		* @brief	更新。
 		*/
 		void Update() override;
+
+		/**
+		 * @brief ポーズ中の動作
+		*/
+		void Pause() override
+		{
+			//ポーズ中でも音は鳴らすのでアップデートと同じ動作をさせる。
+			Update();
+		}
 	private:
 		enum EnStreamingStatus {
 			enStreamingBuffering,	//バッファリング中。

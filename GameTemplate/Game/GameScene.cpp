@@ -8,6 +8,7 @@
 #include "TitleScene.h"
 #include "ProductsDeleter.h"
 #include "DashTutorial.h"
+#include "GameSceneBGM.h"
 
 namespace
 {
@@ -32,6 +33,7 @@ namespace Game
 		DeleteGO(m_backGround);
 		DeleteGO(m_player);
 		DeleteGO(m_bossTank);
+		DeleteGO(m_gameSceneBGM);
 		DeleteProducts();
 	}
 
@@ -40,6 +42,8 @@ namespace Game
 		m_backGround = NewGO<BackGround>(0,"background");
 		m_player = NewGO<Player>(0, "player");
 		m_player->SetPosition(PLAYER_START_POSITION);
+
+		m_gameSceneBGM = NewGO<GameSceneBGM>(0, "gamescenebgm");
 		return true;
 	}
 
@@ -62,11 +66,7 @@ namespace Game
 			MiniEnemy* enemy = NewGO<MiniEnemy>(0, "enemy");
 			enemy->SetPosition(MINION_POSITION_PHASE1);
 
-			Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
-			spawnEffect->SetPosition(MINION_POSITION_PHASE1);
-			spawnEffect->Init(u"Assets/effect/Teleport.efk");
-			spawnEffect->Play();
-
+			m_gameSceneBGM->SoundChange();
 
 			m_phase = 2;
 
@@ -87,10 +87,7 @@ namespace Game
 			m_bossTank = NewGO<BossTank>(0, "bosstank");
 			m_bossTank->SetPosition(BOSS_POSITION);
 
-			Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
-			spawnEffect->Init(u"Assets/effect/Teleport.efk");
-			spawnEffect->SetPosition(BOSS_POSITION);
-			spawnEffect->Play();
+			m_gameSceneBGM->SoundChange();
 
 			m_phase = 8;
 		}
@@ -109,11 +106,6 @@ namespace Game
 			{
 				enemy[i] = NewGO<MiniEnemy>(0, "enemy");
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE3[i]);
-
-				Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
-				spawnEffect->Init(u"Assets/effect/Teleport.efk");
-				spawnEffect->SetPosition(MINION_POSITIONS_PHASE3[i]);
-				spawnEffect->Play();
 			}
 			
 			m_phase = 6;
@@ -133,11 +125,6 @@ namespace Game
 			{
 				enemy[i] = NewGO<MiniEnemy>(0, "enemy");
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE2[i]);
-
-				Game::Effect* spawnEffect = NewGO<Game::Effect>(0);
-				spawnEffect->Init(u"Assets/effect/Teleport.efk");
-				spawnEffect->SetPosition(MINION_POSITIONS_PHASE2[i]);
-				spawnEffect->Play();
 			}
 
 			m_phase = 4;
