@@ -75,17 +75,27 @@ namespace Game
 		//Ø’fƒ‚[ƒh’†‚ÉRB1ƒ{ƒ^ƒ“‚ÅØ’f
 		if (g_pad[0]->IsTrigger(enButtonRB1))
 		{
-			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, cutForce, [cutPoint](const SkinModelRender* cutObject)->bool
+			bool hitCheck = false;
+
+			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, cutForce, [cutPoint,&hitCheck](const SkinModelRender* cutObject)->bool
 				{
 					Vector3 distance = cutObject->GetPosition() - cutPoint;
 
 					if (distance.LengthSq() < CUT_RANGE * CUT_RANGE)
 					{
+						hitCheck |= true;
+
 						return true;
 					}
 					return false;
 				}
 			);
+			
+			//“–‚½‚Á‚Ä‚¢‚ê‚ÎØ’f‰¹‚ð—¬‚·
+			if (hitCheck == true)
+			{
+				SoundOneShotPlay(L"Assets/sound/CutSE.wav");
+			}
 		}
 	}
 

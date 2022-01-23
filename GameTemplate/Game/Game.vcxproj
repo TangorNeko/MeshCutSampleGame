@@ -399,6 +399,7 @@
     <ClCompile Include="PlayerAnimationInitializer.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
     <ClCompile Include="PlayerAttackAnimationState.cpp" />
+    <ClCompile Include="PlayerAttackSound.cpp" />
     <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="PlayerCut.cpp" />
     <ClCompile Include="PlayerDisplay.cpp" />
@@ -546,6 +547,7 @@
     <ClInclude Include="PlayerAnimationParam.h" />
     <ClInclude Include="PlayerAttack.h" />
     <ClInclude Include="PlayerAttackAnimationState.h" />
+    <ClInclude Include="PlayerAttackSound.h" />
     <ClInclude Include="PlayerCamera.h" />
     <ClInclude Include="PlayerCut.h" />
     <ClInclude Include="PlayerDisplay.h" />

@@ -13,6 +13,7 @@ namespace
 	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";
 	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };
 	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;
+	const wchar_t* EXPLOSION_SOUND_PATH = L"Assets/sound/ExplosionSE.wav";
 }
 
 namespace Game
@@ -119,6 +120,8 @@ namespace Game
 					boomEffect->SetScale({ 25.0f,25.0f,25.0f });
 					boomEffect->SetPosition(m_position);
 					boomEffect->Play();
+
+					SoundOneShotPlay(EXPLOSION_SOUND_PATH);
 
 					//©‚ç‚ğíœ
 					DeleteGO(this);

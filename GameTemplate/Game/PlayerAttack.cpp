@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerAttack.h"
+#include "PlayerAttackSound.h"
 #include "EnemyMissile.h"
 #include "BossTank.h"
 
@@ -99,7 +100,9 @@ namespace Game
 				Vector3 front = Vector3::Front;
 				toMoveRot.Apply(front);
 
-				ModelCutManager::GetInstance()->QueryCut(cutNormal, cutForce * 30,[cutPoint, front](const SkinModelRender* cutObject)->bool
+				bool hitCheck = false;
+
+				ModelCutManager::GetInstance()->QueryCut(cutNormal, cutForce * 30,[cutPoint, front, &hitCheck](const SkinModelRender* cutObject)->bool
 					{
 						Vector3 distance = cutObject->GetPosition() - cutPoint;
 
@@ -115,6 +118,8 @@ namespace Game
 
 						if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE && cutObject->GetDivideNum() <= MAX_CUT_NUM && isInRange)
 						{
+							hitCheck |= true;
+
 							return true;
 						}
 						return false;
@@ -133,8 +138,20 @@ namespace Game
 
 					if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
 					{
+						hitCheck |= true;
 						bossTank->Damage(ATTACK_DAMAGE);
 					}
+				}
+
+				if (hitCheck == false)
+				{
+					PlayerAttackSound playerAttackSound;
+					playerAttackSound.PlayMissSound(m_comboNum - 1);
+				}
+				else
+				{
+					PlayerAttackSound playerAttackSound;
+					playerAttackSound.PlayHitSound(m_comboNum - 1);
 				}
 			}
 

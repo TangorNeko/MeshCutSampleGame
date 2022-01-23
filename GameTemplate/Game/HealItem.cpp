@@ -8,6 +8,7 @@ namespace
 	const Vector3 SCALE_COLLIDER = { 10.0f,10.0f,10.0f };
 	const float PICKUP_RANGE = 200.0f;
 	const int HEAL_HP = 25;
+	const wchar_t* HEAL_SOUND_PATH = L"Assets/sound/HealSE.wav";
 }
 
 namespace Game
@@ -83,6 +84,7 @@ namespace Game
 		if (distance.LengthSq() < PICKUP_RANGE * PICKUP_RANGE)
 		{
 			m_player->Heal(HEAL_HP);
+			SoundOneShotPlay(HEAL_SOUND_PATH);
 			DeleteGO(this);
 		}
 	}

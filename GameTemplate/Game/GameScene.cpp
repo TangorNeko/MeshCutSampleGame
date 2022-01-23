@@ -24,6 +24,8 @@ namespace
 	const Vector3 MINION_POSITIONS_PHASE3[SUMMON_NUM_PHASE3] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
 
 	const int PHASE_WAIT_TIME = 180;
+
+	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
 }
 
 namespace Game
@@ -68,6 +70,8 @@ namespace Game
 
 			m_gameSceneBGM->SoundChange();
 
+			SoundOneShotPlay(WARP_SOUND_PATH);
+
 			m_phase = 2;
 
 		}
@@ -89,6 +93,8 @@ namespace Game
 
 			m_gameSceneBGM->SoundChange();
 
+			SoundOneShotPlay(WARP_SOUND_PATH);
+
 			m_phase = 8;
 		}
 
@@ -108,6 +114,8 @@ namespace Game
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE3[i]);
 			}
 			
+			SoundOneShotPlay(WARP_SOUND_PATH);
+
 			m_phase = 6;
 		}
 
@@ -126,6 +134,8 @@ namespace Game
 				enemy[i] = NewGO<MiniEnemy>(0, "enemy");
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE2[i]);
 			}
+
+			SoundOneShotPlay(WARP_SOUND_PATH);
 
 			m_phase = 4;
 		}

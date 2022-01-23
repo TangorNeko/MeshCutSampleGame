@@ -32,6 +32,9 @@ namespace
 	const int WAIT_TIME = 150;
 	const Vector3 EVENT_CAMERA_POSITION = { 0.0f,200.0f,0.0f };
 	const Vector3 EFFECT_WARNING_HEIGHT = { 0.0f,250.0f,0.0f };
+	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
+	const wchar_t* MISSILE_SOUND_PATH = L"Assets/sound/MissileLaunchSE.wav";
+	const wchar_t* ROLLING_SOUND_PATH = L"Assets/sound/RollingSE.wav";
 }
 
 namespace Game
@@ -57,6 +60,8 @@ namespace Game
 		{
 			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
 			missile->SetPosition(position);
+
+			SoundOneShotPlay(MISSILE_SOUND_PATH);
 		};
 
 		MissileTask.SetStartFunc([bossTank]()
@@ -112,6 +117,11 @@ namespace Game
 
 		RollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
+				if (taskTime == ROLLING_TIME_START)
+				{
+					SoundOneShotPlay(ROLLING_SOUND_PATH);
+				}
+
 				if (taskTime >= ROLLING_TIME_START)
 				{
 					//毎フレーム少しずつ回転させていく
@@ -204,6 +214,7 @@ namespace Game
 						spawnEffect->Play();
 					}
 
+					SoundOneShotPlay(WARP_SOUND_PATH);
 					//召喚したらタスクは終わり
 				}
 
@@ -416,6 +427,8 @@ namespace Game
 					Vector3 position = bossTank->GetRightCannonPosition();
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
+
+					SoundOneShotPlay(MISSILE_SOUND_PATH);
 				}
 
 
@@ -430,6 +443,8 @@ namespace Game
 					Vector3 position = bossTank->GetLeftCannonPosition();
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
+
+					SoundOneShotPlay(MISSILE_SOUND_PATH);
 				}
 
 				if (taskTime == 350)
@@ -443,6 +458,8 @@ namespace Game
 					Vector3 position = bossTank->GetRightCannonPosition();
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
+
+					SoundOneShotPlay(MISSILE_SOUND_PATH);
 				}
 
 				if (taskTime >= 275 &&  taskTime <= 325)
@@ -488,6 +505,11 @@ namespace Game
 
 		EventRollingTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
+				if (taskTime == ROLLING_TIME_START)
+				{
+					SoundOneShotPlay(ROLLING_SOUND_PATH);
+				}
+
 				if (taskTime >= ROLLING_TIME_START)
 				{
 					//毎フレーム少しずつ回転させていく

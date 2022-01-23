@@ -18,6 +18,7 @@ namespace
 	const Vector3 FLOATING_HEIGHT = { 0.0f,100.0f,0.0f };
 	const Vector3 ATTACK_HEIGHT = { 0.0f,50.0f,0.0f };
 	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";
+	const wchar_t* LIGHTNING_SOUND_PATH = L"Assets/sound/LightningSE.wav";
 }
 
 namespace Game
@@ -107,6 +108,8 @@ namespace Game
 			attackEffect->Init(u"Assets/effect/ThunderAttack.efk");
 			attackEffect->SetPosition(m_position + ATTACK_HEIGHT);
 			attackEffect->Play();
+
+			SoundOneShotPlay(LIGHTNING_SOUND_PATH);
 
 			if (distance.LengthSq() < ATTACK_RANGE * ATTACK_RANGE)
 			{
