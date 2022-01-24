@@ -131,6 +131,12 @@ public:
 	Vector3 CalcCapsuleData(Vector2& heightAndRadius);
 
 	bool isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint);
+
+	/**
+	 * @brief モデルのコピー　スケルトンに未対応
+	 * @param newModel コピー先のモデルクラスのポインタ
+	*/
+	void CopyTo(Model* newModel);
 private:
 
 	Matrix m_world;														//ワールド行列。

@@ -526,3 +526,8 @@ bool TkmFile::DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint)
 	//すべてのメッシュパーツが切断の必要がなかったので偽を返す
 	return false;
 }
+
+void TkmFile::CopyTo(TkmFile* newTkmFile)
+{
+	newTkmFile->m_meshParts = m_meshParts;
+}

@@ -22,6 +22,11 @@ namespace Game
 			m_model = new Model;
 		}
 
+		if (m_shadowModel == nullptr)
+		{
+			m_shadowModel = new Model;
+		}
+
 		//モデルのファイルパスの指定
 		m_modelInitData.m_tkmFilePath = modelPath;
 
@@ -31,7 +36,7 @@ namespace Game
 		//シェーダーの頂点シェーダーのエントリー関数名の指定
 		m_modelInitData.m_vsEntryPointFunc = "VSMain";
 
-		//シェーダーのピクセルシェーダーのエントリー関数名の指定
+		//シェーダーのスキンあり頂点シェーダーのエントリー関数名の指定
 		m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
 
 		//スケルトンが存在している時はスケルトンを初期化
@@ -44,11 +49,15 @@ namespace Game
 		//モデルデータの上方向の軸を指定
 		m_modelInitData.m_modelUpAxis = modelUpAxis;
 
+		//ここからは影用のModelInitDataと通常モデル用のModelInitDataが違うので2つに分ける。
+		ModelInitData shadowModelInitData = m_modelInitData;
+
 		m_modelInitData.m_expandConstantBufferSize = Light::LightManager::GetInstance()->GetLigDataSize();
 		m_modelInitData.m_expandConstantBuffer = Light::LightManager::GetInstance()->GetLigDatas();
 
 		//モデルの初期化
 		m_model->Init(m_modelInitData);
+		m_shadowModel->Init(m_modelInitData);
 
 		//アニメーション関連の初期化
 		m_animationClips = animClips;
@@ -99,7 +108,6 @@ namespace Game
 
 	bool SkinModelRender::isLineHitModel(const Vector3& start, const Vector3& end, Vector3& crossPoint)
 	{
-		//2画面用にCSkinModelRenderはModelクラスを2つ保持しているが、どちらもカメラ以外同じなので0番目のモデルで判定する。
 		return m_model->isLineHitModel(start, end, crossPoint);
 	}
 
@@ -124,59 +132,72 @@ namespace Game
 
 	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint, const Vector3& cutForce)
 	{
-		if (m_isDividable == true && m_divideNum <= MODE_MAX_DIVIDE_NUM)
+		//切断不可な状態なら何もしない。
+		if (m_isDividable == false || m_divideNum > MODE_MAX_DIVIDE_NUM)
 		{
-			Vector3 coreRemainCutNormal = cutNormal;
-			//コアの座標を残すように判定し必要なら法線を反転する
-			if (IsCoreOnFront(coreRemainCutNormal, cutPoint) == false)
-			{
-				coreRemainCutNormal *= -1.0f;
-			}
+			return;
+		}
 
-			//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
-			Model* backModel = m_model->Divide(m_modelInitData, coreRemainCutNormal, cutPoint);
+		Vector3 coreRemainCutNormal = cutNormal;
+		//コアの座標を残すように判定し必要なら法線を反転する
+		if (IsCoreOnFront(coreRemainCutNormal, cutPoint) == false)
+		{
+			coreRemainCutNormal *= -1.0f;
+		}
 
-			if (backModel == nullptr)
-			{
-				return;
-			}
+		//モデルを分割し、表面側のモデルを自らに格納、裏面側のモデルをポインタとして取得
+		Model* backModel = m_model->Divide(m_modelInitData, coreRemainCutNormal, cutPoint);
 
-			//完全に1つもメッシュ、マテリアルが残らなかった時の処理
-			if (backModel->GetTkmFile().GetNumMesh() == 0)
-			{
-				delete backModel;
-				return;
-			}
-			
-			//分断されたので切断回数をプラス
-			m_divideNum++;
+		//切断判定で切断されないと判断された場合何もしない
+		if (backModel == nullptr)
+		{
+			return;
+		}
 
-			//裏面側のモデルを描画するモデルレンダークラスを作成
-			SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
+		//完全に1つもメッシュ、マテリアルが残らなかった場合の処理
+		//NOTE:切断されないと判断された場合以外に完全にメッシュ、マテリアルが残らない場合があるかは不明
+		if (backModel->GetTkmFile().GetNumMesh() == 0)
+		{
+			delete backModel;
+			return;
+		}
+		
+		//分断されたので切断回数をプラス
+		m_divideNum++;
 
-			//新しく作ったモデルの初期化
-			//TODO:まとめる
-			backModelRender->InitFromModel(backModel);
-			backModelRender->SetPosition(m_position);
-			backModelRender->SetRotation(m_qRot);
-			backModelRender->SetScale(m_scale);
-			backModelRender->SetDivideFlag(true);
-			backModelRender->SetModelInitData(m_modelInitData);
+		//表側(元のモデル)の影用モデルを再構成
+		ShadowModelReconstruction();
 
-			//分割された回数を共有
-			backModelRender->SetDivideNum(m_divideNum);
+		//裏面側のモデルを描画するモデルレンダークラスを作成
+		SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
 
-			//物理エンジンを利用したダミーの作成
+		//新しく作ったモデルの初期化
+		//TODO:まとめる
+		backModelRender->InitFromModel(backModel);
+		backModelRender->SetModelInitData(m_modelInitData);
 
-			backModelRender->MakeDummy(cutForce);
+		//裏側(新しくできたモデル)の影用モデルを構成
+		//TODO:厳密には裏側の時は再構成ではない
+		backModelRender->ShadowModelReconstruction();
 
-			//カット可能なモデル一覧に追加
-			ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
+		backModelRender->SetPosition(m_position);
+		backModelRender->SetRotation(m_qRot);
+		backModelRender->SetScale(m_scale);
+		backModelRender->SetDivideFlag(true);
 
-			if (m_owner != nullptr)
-			{
-				m_owner->OnDivide(this,cutForce);
-			}
+		//分割された回数を共有
+		backModelRender->SetDivideNum(m_divideNum);
+
+		//物理エンジンを利用したダミーの作成
+
+		backModelRender->MakeDummy(cutForce);
+
+		//カット可能なモデル一覧に追加
+		ModelCutManager::GetInstance()->AddNextCuttable(backModelRender);
+
+		if (m_owner != nullptr)
+		{
+			m_owner->OnDivide(this,cutForce);
 		}
 	}
 
@@ -222,11 +243,16 @@ namespace Game
 
 	void SkinModelRender::SetModelCenterAsOrigin()
 	{
+		//モデルの現在の原点からモデルの中心へのベクトルを求める
 		Vector3 OriginOffset = m_model->GetOriginToCenter();
+
+		//ベクトル分モデルの原点をずらす
 		m_model->SetOriginOffset(OriginOffset, m_modelInitData);
+		m_shadowModel->SetOriginOffset(OriginOffset, m_modelInitData);
 
 		Vector3 worldOrigin = OriginOffset;
 
+		//そのままだと表示位置がずれるのでずらした分を打ち消すように座標移動
 		m_model->GetWorldMatrix().Apply(worldOrigin);
 		SetPosition(worldOrigin);
 	}
@@ -251,5 +277,22 @@ namespace Game
 			//0未満なら法線と違う方向　つまり裏にある
 			return false;
 		}
+	}
+
+	void SkinModelRender::ShadowModelReconstruction()
+	{
+		//現在の影モデルを削除
+		delete m_shadowModel;
+
+		//新しく影モデルを作成
+		m_shadowModel = new Model;
+
+		//モデルからコピーしてくる。
+		m_model->CopyTo(m_shadowModel);
+
+		//TODO:影用のModelInitDataの設定
+		ModelInitData shadowModelInitData = m_modelInitData;
+
+		m_shadowModel->TkmFileToMeshParts(shadowModelInitData);
 	}
 }

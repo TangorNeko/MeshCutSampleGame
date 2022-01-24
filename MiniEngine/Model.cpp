@@ -337,3 +337,10 @@ bool Model::isLineHitModel(const Vector3& start, const Vector3& end, Vector3& mi
 	}
 	return isHit;
 }
+
+void Model::CopyTo(Model* newModel)
+{
+	newModel->m_world = m_world;
+	m_tkmFile.CopyTo(&newModel->m_tkmFile);
+	newModel->m_modelUpAxis = m_modelUpAxis;
+}

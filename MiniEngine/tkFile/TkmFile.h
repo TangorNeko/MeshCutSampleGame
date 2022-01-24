@@ -222,6 +222,12 @@ public:
 	Vector3 CalcCapsuleAxis(Vector2& heightAndRadius);
 
 	bool DivideCheck(const Vector3& cutNormal, const Vector3& cutPoint);
+
+	/**
+	 * @brief TkmFileのコピー
+	 * @param newTkmFile コピー先のtkmFile
+	*/
+	void CopyTo(TkmFile* newTkmFile);
 private:
 	/// <summary>
 	/// テクスチャ名をロード。

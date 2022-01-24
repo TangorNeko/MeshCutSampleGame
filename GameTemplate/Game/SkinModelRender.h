@@ -15,6 +15,11 @@ namespace Game
 			{
 				delete m_model;
 			}
+
+			if (m_shadowModel != nullptr)
+			{
+				delete m_shadowModel;
+			}
 		}
 
 		/**
@@ -23,6 +28,11 @@ namespace Game
 		void UpdateModel()
 		{
 			m_model->UpdateWorldMatrix(m_position, m_qRot, m_scale);
+
+			if (m_shadowModel != nullptr)
+			{
+				m_shadowModel->UpdateWorldMatrix(m_position, m_qRot, m_scale);
+			}
 			m_skeleton.Update(m_model->GetWorldMatrix());
 		}
 
@@ -300,9 +310,15 @@ namespace Game
 		 * @return 
 		*/
 		bool IsCoreOnFront(const Vector3& cutNormal, const Vector3& cutPoint);
+
+		/**
+		 * @brief 影用モデルの再構成
+		*/
+		void ShadowModelReconstruction();
 	private:
 		IGameObject* m_owner = nullptr;				//スキンモデルの所有者
 		Model* m_model = nullptr;					//モデル
+		Model* m_shadowModel = nullptr;				//影用のモデル
 		Vector3 m_position = Vector3::Zero;			//座標
 		Quaternion m_qRot = Quaternion::Identity;	//回転
 		Vector3 m_scale = Vector3::One;				//拡大
