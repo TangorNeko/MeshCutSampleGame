@@ -408,7 +408,9 @@
     <ClCompile Include="PlayerMoveAnimationState.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="ProductsDeleter.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="ResourceBankManager.cpp" />
+    <ClCompile Include="ShadowRender.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
     <ClCompile Include="MeshDivider.cpp" />
@@ -557,7 +559,9 @@
     <ClInclude Include="PlayerMoveAnimationState.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="ProductsDeleter.h" />
+    <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="ResourceBankManager.h" />
+    <ClInclude Include="ShadowRender.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />
     <ClInclude Include="ITriangleMaker.h" />

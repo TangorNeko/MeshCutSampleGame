@@ -9,15 +9,15 @@ namespace
 
 namespace Game
 {
-	void SkinModelRender::Render(RenderContext& rc)
+	void SkinModelRender::Render(RenderContext& rc,Camera* camera)
 	{
 		switch (rc.GetRenderStep())
 		{
 		case RenderContext::enModel:
-			m_model->Draw(rc);
+			m_model->Draw(rc,camera);
 			break;
 		case RenderContext::enShadow:
-			m_shadowModel->Draw(rc);
+			m_shadowModel->Draw(rc,camera);
 		}
 	}
 

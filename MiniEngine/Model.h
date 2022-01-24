@@ -61,7 +61,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト</param>
-	void Draw(RenderContext& renderContext);
+	void Draw(RenderContext& renderContext,Camera* camera);
 	/// <summary>
 	/// ワールド行列を取得。
 	/// </summary>

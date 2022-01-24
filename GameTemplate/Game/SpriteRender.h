@@ -10,7 +10,7 @@ namespace Game
 		 * @brief スプライトの描画
 		 * @param rc レンダーコンテキスト
 		*/
-		void Render(RenderContext& rc) override;
+		void PostRender(RenderContext& rc) override;
 
 		/**
 		 * @brief スプライトの初期化

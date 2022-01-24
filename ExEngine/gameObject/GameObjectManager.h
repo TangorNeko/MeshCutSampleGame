@@ -59,7 +59,9 @@ public:
 	/// 描画処理を実行。
 	/// </summary>
 	/// <param name="rc"></param>
-	void ExecuteRender(RenderContext& rc);
+	void ExecuteRender(RenderContext& rc,Camera* camera);
+
+	void ExecutePostRender(RenderContext& rc);
 	
 	
 	/*!

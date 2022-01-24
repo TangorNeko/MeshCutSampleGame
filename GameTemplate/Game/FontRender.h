@@ -9,7 +9,7 @@ namespace Game
 		 * @brief フォントの描画
 		 * @param rc レンダーコンテキスト
 		*/
-		void Render(RenderContext& rc) override;
+		void PostRender(RenderContext& rc) override;
 
 		/**
 		 * @brief フォントのテキストをセット

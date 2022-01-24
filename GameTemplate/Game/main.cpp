@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "TitleScene.h"
+#include "RenderingEngine.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -24,6 +25,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::GetInstance()->Init();
 	//リソースバンクマネージャーのインスタンスを作成
 	Engine::ResourceBankManager::CreateInstance();
+	Graphics::RenderingEngine renderingEngine;
+	renderingEngine.Init();
 
 	PhysicsWorld::GetInstance()->SetGravity(GAME_GRAVITY);
 	//////////////////////////////////////
@@ -53,10 +56,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 #ifdef _DEBUGWIREFRAME
 		PhysicsWorld::GetInstance()->DebugDrawWorld(renderContext);
 #endif
-		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+		//GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+		renderingEngine.Render(renderContext);
 
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		EffectEngine::GetInstance()->Draw();
+
+		GameObjectManager::GetInstance()->ExecutePostRender(renderContext);
 		
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

@@ -30,7 +30,7 @@ namespace Game
 		m_sprite.Init(initData);
 	}
 
-	void SpriteRender::Render(RenderContext& rc)
+	void SpriteRender::PostRender(RenderContext& rc)
 	{
 		m_sprite.Draw(rc);
 	}

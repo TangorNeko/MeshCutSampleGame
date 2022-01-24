@@ -57,12 +57,21 @@ void GameObjectManager::ExecuteUpdate()
 		}
 	}
 }
-void GameObjectManager::ExecuteRender(RenderContext& rc)
+void GameObjectManager::ExecuteRender(RenderContext& rc,Camera* camera)
 {
 	//レンダラーを変更するならここを改造していくと良い。
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
-			go->RenderWrapper(rc);
+			go->RenderWrapper(rc,camera);
+		}
+	}
+}
+
+void GameObjectManager::ExecutePostRender(RenderContext& rc)
+{
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->PostRenderWrapper(rc);
 		}
 	}
 }

@@ -43,7 +43,16 @@ public:
 	/*!
 	 *@brief	描画
 	*/
-	virtual void Render(RenderContext& renderContext)
+	virtual void Render(RenderContext& renderContext,Camera* camera)
+	{
+		(void)renderContext;
+	}
+	
+	/**
+	 * @brief ポストレンダー
+	 * @param renderContext レンダリングコンテキスト
+	*/
+	virtual void PostRender(RenderContext& renderContext)
 	{
 		(void)renderContext;
 	}
@@ -133,10 +142,17 @@ public:
 	}
 public:
 
-	void RenderWrapper(RenderContext& renderContext)
+	void RenderWrapper(RenderContext& renderContext,Camera* camera)
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
-			Render(renderContext);
+			Render(renderContext,camera);
+		}
+	}
+
+	void PostRenderWrapper(RenderContext& renderContext)
+	{
+		if (m_isActive && m_isStart && !m_isDead) {
+			PostRender(renderContext);
 		}
 	}
 	
