@@ -6,7 +6,13 @@ namespace
 {
 	const char* PATH_STAGEMODEL = "Assets/modelData/Stagetest.tkm";
 	const Vector3 STAGE_LIGHT_COLOR = Vector3::One;
-	const Vector3 STAGE_LIGHT_DIRECTION = Vector3::Down;
+	const Vector3 STAGE_LIGHT_DIRECTION = { -1.0f,-1.0f,1.0f };
+
+	const Vector3 LIGHTCAMERA_POSITION = { 500.0f,500.0f,-500.0f };	//ライトカメラの座標
+	const Vector3 LIGHTCAMERA_TARGET = { 0.0f,0.0f,0.0f };			//ライトカメラの注視点
+	const Vector3 LIGHTCAMERA_UP = { 1.0f,0.0f,0.0f };				//ライトカメラの上方向
+	const float LIGHTCAMERA_WIDTH = 2000.0f;						//ライトカメラが写す幅(平行光源なのでカメラは平行投影)
+	const float LIGHTCAMERA_HEIGHT = 2000.0f;						//ライトカメラが写す高さ
 }
 
 namespace Game
@@ -26,6 +32,14 @@ namespace Game
 		m_stageLight = NewGO<Light::DirectionLight>(0);
 		m_stageLight->SetColor(STAGE_LIGHT_COLOR);
 		m_stageLight->SetDirection(STAGE_LIGHT_DIRECTION);
+
+		//シャドウ用ライトカメラの設定
+		Light::LightManager::GetInstance()->SetLightCameraPosition(LIGHTCAMERA_POSITION);
+		Light::LightManager::GetInstance()->SetLightCameraTarget(LIGHTCAMERA_TARGET);
+		Light::LightManager::GetInstance()->SetLightCameraUp(LIGHTCAMERA_UP);
+		Light::LightManager::GetInstance()->SetLightCameraUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
+		Light::LightManager::GetInstance()->SetLightCameraWidth(LIGHTCAMERA_WIDTH);
+		Light::LightManager::GetInstance()->SetLightCameraHeight(LIGHTCAMERA_HEIGHT);
 
 		m_stageDoor = NewGO<Door>(0, "door");
 

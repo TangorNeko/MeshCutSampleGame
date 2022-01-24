@@ -536,6 +536,9 @@
     <ClCompile Include="PlayerAttackSound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp">
+      <Filter>MiniEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
@@ -960,6 +963,9 @@
     </ClInclude>
     <ClInclude Include="PlayerAttackSound.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\RenderTarget.h">
+      <Filter>MiniEngine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

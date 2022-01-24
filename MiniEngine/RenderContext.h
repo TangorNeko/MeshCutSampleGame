@@ -13,6 +13,11 @@ namespace raytracing{
 /// </summary>
 class RenderContext {
 public:
+	enum RenderStep
+	{
+		enModel,
+		enShadow,
+	};
 	/// <summary>
 	/// 初期化。
 	/// </summary>
@@ -395,7 +400,23 @@ public:
 		m_commandList->CopyResource(pDst, pSrc);
 	}
 	
-	
+	/**
+	 * @brief 描画ステップを取得
+	 * @return 現在の描画ステップ
+	*/
+	RenderStep GetRenderStep()
+	{
+		return m_renderStep;
+	}
+
+	/**
+	 * @brief 描画ステップを設定
+	 * @param renderStep 描画ステップ
+	*/
+	void SetRenderStep(RenderStep renderStep)
+	{
+		m_renderStep = renderStep;
+	}
 private:
 
 	/// <summary>
@@ -436,5 +457,6 @@ private:
 	ID3D12DescriptorHeap* m_descriptorHeaps[MAX_DESCRIPTOR_HEAP];			//ディスクリプタヒープの配列。
 	ConstantBuffer* m_constantBuffers[MAX_CONSTANT_BUFFER] = { nullptr };	//定数バッファの配列。
 	Texture* m_shaderResources[MAX_SHADER_RESOURCE] = { nullptr };			//シェーダーリソースの配列。
+	RenderStep m_renderStep = enModel;
 };
 

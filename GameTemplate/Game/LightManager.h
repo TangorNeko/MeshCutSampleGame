@@ -105,7 +105,6 @@ namespace Light
 
 		/**
 		 * @brief カメラのポジションを更新する
-		 * @param カメラの番号
 		*/
 		void UpdateEyePos() { m_ligData.eyePos = g_camera3D->GetPosition(); }
 

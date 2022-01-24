@@ -11,7 +11,14 @@ namespace Game
 {
 	void SkinModelRender::Render(RenderContext& rc)
 	{
-		m_model->Draw(rc);
+		switch (rc.GetRenderStep())
+		{
+		case RenderContext::enModel:
+			m_model->Draw(rc);
+			break;
+		case RenderContext::enShadow:
+			m_shadowModel->Draw(rc);
+		}
 	}
 
 	void SkinModelRender::Init(const char* modelPath, const char* skeletonPath, AnimationClip* animClips, int animClipNum, EnModelUpAxis modelUpAxis)

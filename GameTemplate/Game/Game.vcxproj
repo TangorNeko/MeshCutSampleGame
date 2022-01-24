@@ -352,6 +352,7 @@
     <ClCompile Include="..\..\MiniEngine\raytracing\RaytracingShaderTable.cpp" />
     <ClCompile Include="..\..\MiniEngine\raytracing\RaytracingWorld.cpp" />
     <ClCompile Include="..\..\MiniEngine\raytracing\TLASBuffer.cpp" />
+    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp" />
     <ClCompile Include="..\..\MiniEngine\RootSignature.cpp" />
     <ClCompile Include="..\..\MiniEngine\RWStructuredBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\Shader.cpp" />
@@ -497,6 +498,7 @@
     <ClInclude Include="..\..\MiniEngine\raytracing\TLASBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\RenderContext.h" />
     <ClInclude Include="..\..\MiniEngine\RenderContext_inline.h" />
+    <ClInclude Include="..\..\MiniEngine\RenderTarget.h" />
     <ClInclude Include="..\..\MiniEngine\RootSignature.h" />
     <ClInclude Include="..\..\MiniEngine\RWStructuredBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\Shader.h" />
