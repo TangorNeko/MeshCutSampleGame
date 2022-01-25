@@ -17,7 +17,10 @@ namespace Game
 			m_model->Draw(rc,camera);
 			break;
 		case RenderContext::enShadow:
-			m_shadowModel->Draw(rc,camera);
+			if (m_shadowModel != nullptr)
+			{
+				m_shadowModel->Draw(rc, camera);
+			}
 		}
 	}
 

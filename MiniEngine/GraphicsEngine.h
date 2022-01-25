@@ -14,6 +14,10 @@
 #include "NullTextureMaps.h"
 #include "font/FontEngine.h"
 
+namespace Graphics
+{
+	class RenderingEngine;
+}
 /// <summary>
 /// DirectX12に依存するグラフィックスエンジン
 /// </summary>
@@ -199,6 +203,16 @@ public:
 	{
 		return m_fontEngine;
 	}
+
+	void SetRenderingEngine(Graphics::RenderingEngine* renderingEngine)
+	{
+		m_renderingEngine = renderingEngine;
+	}
+
+	Graphics::RenderingEngine* GetRenderingEngine()
+	{
+		return m_renderingEngine;
+	}
 private:
 	/// <summary>
 	/// D3Dデバイスの作成。
@@ -310,6 +324,7 @@ private:
 	FontEngine m_fontEngine;					//フォントエンジン。
 	public:
 	std::unique_ptr<DirectX::GraphicsMemory> m_directXTKGfxMemroy;	//DirectXTKのグラフィックメモリシステム。
+	Graphics::RenderingEngine* m_renderingEngine = nullptr;
 };
 extern GraphicsEngine* g_graphicsEngine;	//グラフィックスエンジン
 extern Camera* g_camera2D;					//2Dカメラ。
