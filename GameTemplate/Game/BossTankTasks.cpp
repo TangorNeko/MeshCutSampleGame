@@ -35,6 +35,7 @@ namespace
 	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
 	const wchar_t* MISSILE_SOUND_PATH = L"Assets/sound/MissileLaunchSE.wav";
 	const wchar_t* ROLLING_SOUND_PATH = L"Assets/sound/RollingSE.wav";
+	const wchar_t* DAMAGE_SOUND_PATH = L"Assets/sound/DamageSE.wav";
 }
 
 namespace Game
@@ -138,10 +139,12 @@ namespace Game
 					//プレイヤーとの距離が近かったら
 					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
 					{
+						distance.y = 0.0f;
 						distance.Normalize();
 
 						//プレイヤーを大きく吹き飛ばす
 						player->KnockDown(distance * ROLLING_KNOCKDOWN_POWER);
+						SoundOneShotPlay(DAMAGE_SOUND_PATH);
 					}
 
 					return true;

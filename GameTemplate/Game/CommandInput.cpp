@@ -10,6 +10,8 @@ namespace
 	const Vector4 COLOR_OPAQUE = { 1.0f,1.0f,1.0f,1.0f };
 	const int FADE_FRAME_MAX = 15;
 	const Vector3 COMMAND_POSITION = {0.0f,-200.0f,0.0f};
+	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/ButtonAppearSE.wav";
+	const wchar_t* SUCCESS_SOUND_PATH = L"Assets/sound/ButtonSuccessSE.wav";
 }
 
 namespace Game
@@ -24,14 +26,18 @@ namespace Game
 		m_commandSprite = NewGO<SpriteRender>(5);
 		m_commandSprite->Init(COMMAND_SPRITE_PATH, COMMAND_SPRITE_SIDE, COMMAND_SPRITE_SIDE);
 		m_commandSprite->SetPosition(COMMAND_POSITION);
+
+		SoundOneShotPlay(APPEAR_SOUND_PATH);
 		return true;
 	}
 
 	void CommandInput::Update()
 	{
-		if (g_pad[0]->IsTrigger(enButtonB))
+		if (g_pad[0]->IsTrigger(enButtonB) && m_isSuccess == false)
 		{
 			m_isSuccess = true;
+
+			SoundOneShotPlay(SUCCESS_SOUND_PATH);
 		}
 
 		if (m_isSuccess)
@@ -42,11 +48,13 @@ namespace Game
 
 	void CommandInput::Pause()
 	{
-		if (g_pad[0]->IsTrigger(enButtonB))
+		if (g_pad[0]->IsTrigger(enButtonB) && m_isSuccess == false)
 		{
 			m_isSuccess = true;
 
 			GameObjectManager::GetInstance()->SetPauseFlag(false);
+
+			SoundOneShotPlay(SUCCESS_SOUND_PATH);
 
 			Player* player = FindGO<Player>("player");
 			player->MissileMoveSuccess();

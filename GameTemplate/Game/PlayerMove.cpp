@@ -11,6 +11,7 @@ namespace
 	const float DASH_SPEED = 10.0f;
 	const EnButton BUTTON_RUN = enButtonRB2;
 	const float MISSILEJUMP_SPEED = 30.0f;
+	const wchar_t* LANDING_SOUND_PATH = L"Assets/sound/LandingSE.wav";
 }
 
 namespace Game
@@ -214,6 +215,8 @@ namespace Game
 				m_jumpFrameCount = 0;
 
 				animParam.isJumping = false;
+
+				SoundOneShotPlay(LANDING_SOUND_PATH);
 			}
 
 			//次のターゲットに移動する最初のフレームなら

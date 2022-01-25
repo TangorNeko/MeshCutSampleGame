@@ -313,7 +313,7 @@ namespace Util
 
 
 			//TODO:UV‚Í‰¼
-			addVert.uv = Vector2::Zero;
+			addVert.uv = { 0.5f,0.5f };
 			uvCount++;
 
 			//ƒXƒLƒ“ŠÖŒW?‚æ‚­•ª‚©‚ç‚È‚¢

@@ -10,6 +10,7 @@ namespace
 	const Vector3 SPRITE_STARTPOSITION = { -730.0f,-300.0f,0.0f };
 	const Vector3 SPRITE_POSITION = { -550.0f,-300.0f,0.0f };
 	const int FRAME_MAX = 15;
+	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/TutorialAppearSE.wav";
 }
 
 namespace Game
@@ -25,6 +26,8 @@ namespace Game
 		m_spriteRender->Init(SPRITE_PATH, SPRITE_WIDTH, SPRITE_HEIGHT);
 		m_spriteRender->SetPivot(SPRITE_PIVOT);
 		m_spriteRender->SetPosition(SPRITE_POSITION);
+
+		SoundOneShotPlay(APPEAR_SOUND_PATH);
 
 		return true;
 	}
