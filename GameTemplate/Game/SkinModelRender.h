@@ -171,6 +171,9 @@ namespace Game
 		{
 			//TODO:modelInitDataを使わない方法を探す
 			m_modelInitData = modelInitData;
+
+			//3番の定数バッファにはモデルレンダーごとに違う値が入るので付け替える
+			m_modelInitData.m_expandConstantBuffer[2] = &m_ditherPower;
 		}
 
 		/**
@@ -324,6 +327,11 @@ namespace Game
 		{
 			m_shadowCasterFlag = flag;
 		}
+		
+		void DitherProgress()
+		{
+			m_ditherPower++;
+		}
 	private:
 		IGameObject* m_owner = nullptr;				//スキンモデルの所有者
 		Model* m_model = nullptr;					//モデル
@@ -340,6 +348,7 @@ namespace Game
 		bool m_isDividable = false;					//切断可能?
 		int m_divideNum = 0;						//切断された回数
 		Vector3 m_toCoreVector = Vector3::Zero;	//モデルの原点から切断した時に残したいコア部分へのベクトル
+		int m_ditherPower = 0;
 
 		//NOTE:切断して新しくできたモデルを初期化するためには元のモデルのModelInitDataが
 		//必要なので、SkinModelRenderのメンバ変数として入れている

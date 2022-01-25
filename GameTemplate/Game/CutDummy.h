@@ -57,7 +57,9 @@ namespace Game
 		CapsuleCollider m_capsuleCollider;					//カプセル状のコライダー
 		float m_dummyRadius = 1.0f;							//ダミーのカプセルの半径
 		float m_dummyHeight = 1.0f;							//ダミーのカプセルの高さ
-		RigidBody m_rigidBody;								//ダミーの剛体
+		RigidBody* m_rigidBody = nullptr;								//ダミーの剛体
+		Vector3 m_position = Vector3::Zero;					//座標
+		Quaternion m_rigidBodyRot = Quaternion::Identity;	//剛体の回転;
 		Quaternion m_capsuleRot = Quaternion::Identity;		//上方向からカプセルの軸方向へ回転させるクォータニオン
 		Quaternion m_toModelRot = Quaternion::Identity;		//カプセルの軸方向から上方向へ回転させる(カプセル軸への回転を戻す)クォータニオン
 		Quaternion m_modelRot = Quaternion::Identity;		//元々のモデルのクォータニオン

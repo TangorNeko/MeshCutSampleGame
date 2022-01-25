@@ -69,6 +69,9 @@ namespace Game
 		
 		m_modelInitData.m_expandConstantBufferSize[1] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
 		m_modelInitData.m_expandConstantBuffer[1] = Light::LightManager::GetInstance()->GetLigCameraDatas();
+		
+		m_modelInitData.m_expandConstantBufferSize[2] = sizeof(int);
+		m_modelInitData.m_expandConstantBuffer[2] = &m_ditherPower;
 
 		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
 		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;

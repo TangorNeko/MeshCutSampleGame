@@ -1,7 +1,13 @@
 /*!
  * @brief	シンプルなモデルシェーダー。
  */
-
+static const int pattern[4][4] = 
+{
+	{0,32,7,40},
+	{48,16,56,24},
+	{12,44,4,36},
+	{60,28,52,20},
+};
 
  ////////////////////////////////////////////////
  // 定数バッファ。
@@ -54,6 +60,11 @@ cbuffer LightCameraCb : register(b2)
 	float3 lightCameraPos;
 	float3 lightCameraDir;
 };
+
+cbuffer DitherCb : register(b3)
+{
+	int ditherPower;
+}
 
 ////////////////////////////////////////////////
 // 構造体
@@ -223,6 +234,17 @@ float3 CalcLimLight(float3 ligDir, float3 ligColor, float3 normalInView,float3 n
 	return ligColor * limPower;
 }
 
+//ディザリング
+void Dithering(int ditherPower,float3 screenPos)
+{
+	int x = (int)fmod(screenPos.x,4.0f);
+	int y = (int)fmod(screenPos.y,4.0f);
+
+	int dither = pattern[y][x];
+
+	clip(dither - ditherPower);
+}
+
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
@@ -375,6 +397,8 @@ float4 PSMain(SPSIn psIn) : SV_Target0
             finalColor.xyz *= 0.5f;
         }
     }
+
+	Dithering(ditherPower,psIn.pos);
 
 	return finalColor;
 }
