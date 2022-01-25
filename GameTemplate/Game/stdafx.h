@@ -17,5 +17,6 @@
 #include "LightManager.h"
 #include "ResourceBankManager.h"
 #include "NameKey.h"
+#include "RenderingEngine.h"
 
 const Vector3 GAME_GRAVITY = { 0.0f,-500.0f,0.0f };

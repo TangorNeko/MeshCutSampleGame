@@ -25,6 +25,7 @@ namespace Game
 		m_doorModel->SetModelCenterAsOrigin();
 		m_doorModel->SetOwner(this);
 		m_doorModel->SetDivideFlag(true);
+		m_doorModel->SetShadowCasterFlag(false);
 		ModelCutManager::GetInstance()->AddCuttable(m_doorModel);
 
 		//ドアのモデルが斬られた場合当たり判定をそのままにはできないので任意のタイミングで削除できるポインタにしている。

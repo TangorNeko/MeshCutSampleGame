@@ -3,8 +3,12 @@
 
 namespace Graphics
 {
+	RenderingEngine* g_renderingEngine = nullptr;	//ƒŒƒ“ƒ_ƒŠƒ“ƒO
+
 	void RenderingEngine::Init()
 	{
+		g_renderingEngine = this;
+
 		m_shadowRender.Init();
 	}
 

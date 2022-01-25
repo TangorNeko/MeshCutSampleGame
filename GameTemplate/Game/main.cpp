@@ -28,8 +28,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Graphics::RenderingEngine renderingEngine;
 	renderingEngine.Init();
 
-	g_graphicsEngine->SetRenderingEngine(&renderingEngine);
-
 	PhysicsWorld::GetInstance()->SetGravity(GAME_GRAVITY);
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

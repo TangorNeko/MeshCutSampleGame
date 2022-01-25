@@ -167,8 +167,15 @@ namespace Game
 
 	void GameScene::NotifyGameOver()
 	{
+		if (m_isGameOver)
+		{
+			return;
+		}
+
 		m_phase = 9;
 		m_phaseWaitTime = 100;
+
+		m_isGameOver = true;
 	}
 
 	void GameScene::DeleteProducts()

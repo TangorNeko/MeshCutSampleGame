@@ -16,6 +16,15 @@ namespace Graphics
 		 * @param rc 
 		*/
 		void Draw(RenderContext rc);
+
+		/**
+		 * @brief シャドウマップを取得
+		 * @return シャドウマップ
+		*/
+		Texture& GetShadowMap()
+		{
+			return m_shadowMap.GetRenderTargetTexture();
+		}
 	private:
 		RenderTarget m_shadowMap;
 	};

@@ -4,7 +4,7 @@
 
 namespace
 {
-	const int MODE_MAX_DIVIDE_NUM = 4;
+	const int MODE_MAX_DIVIDE_NUM = 3;
 }
 
 namespace Game
@@ -17,7 +17,7 @@ namespace Game
 			m_model->Draw(rc,camera);
 			break;
 		case RenderContext::enShadow:
-			if (m_shadowModel != nullptr)
+			if (m_shadowModel != nullptr && m_shadowCasterFlag == true)
 			{
 				m_shadowModel->Draw(rc, camera);
 			}
@@ -41,7 +41,7 @@ namespace Game
 		m_modelInitData.m_tkmFilePath = modelPath;
 
 		//シェーダーパスの指定
-		m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
+		m_modelInitData.m_fxFilePath = "Assets/shader/shadowReceiver.fx";
 
 		//シェーダーの頂点シェーダーのエントリー関数名の指定
 		m_modelInitData.m_vsEntryPointFunc = "VSMain";
@@ -62,12 +62,22 @@ namespace Game
 		//ここからは影用のModelInitDataと通常モデル用のModelInitDataが違うので2つに分ける。
 		ModelInitData shadowModelInitData = m_modelInitData;
 
-		m_modelInitData.m_expandConstantBufferSize = Light::LightManager::GetInstance()->GetLigDataSize();
-		m_modelInitData.m_expandConstantBuffer = Light::LightManager::GetInstance()->GetLigDatas();
+		m_modelInitData.m_expandShaderResoruceView = &Graphics::g_renderingEngine->GetShadowMap();
+
+		m_modelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigDataSize();
+		m_modelInitData.m_expandConstantBuffer[0] = Light::LightManager::GetInstance()->GetLigDatas();
+		
+		m_modelInitData.m_expandConstantBufferSize[1] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
+		m_modelInitData.m_expandConstantBuffer[1] = Light::LightManager::GetInstance()->GetLigCameraDatas();
+
+		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
+		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+		shadowModelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
+		shadowModelInitData.m_expandConstantBuffer[0] = Light::LightManager::GetInstance()->GetLigCameraDatas();
 
 		//モデルの初期化
 		m_model->Init(m_modelInitData);
-		m_shadowModel->Init(m_modelInitData);
+		m_shadowModel->Init(shadowModelInitData);
 
 		//アニメーション関連の初期化
 		m_animationClips = animClips;
@@ -300,8 +310,13 @@ namespace Game
 		//モデルからコピーしてくる。
 		m_model->CopyTo(m_shadowModel);
 
-		//TODO:影用のModelInitDataの設定
+		//影用のModelInitDataの設定
 		ModelInitData shadowModelInitData = m_modelInitData;
+
+		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
+		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+		shadowModelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
+		shadowModelInitData.m_expandConstantBuffer[0] = Light::LightManager::GetInstance()->GetLigCameraDatas();
 
 		m_shadowModel->TkmFileToMeshParts(shadowModelInitData);
 	}

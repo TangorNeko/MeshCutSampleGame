@@ -22,8 +22,19 @@ namespace Graphics
 		 * @param rc レンダリングコンテキスト
 		*/
 		void SetDefaultViewPort(RenderContext& rc);
+
+		/**
+		 * @brief シャドウマップを取得
+		 * @return 
+		*/
+		Texture& GetShadowMap()
+		{
+			return m_shadowRender.GetShadowMap();
+		}
 	private:
 		ShadowRender m_shadowRender;
 	};
+
+	extern RenderingEngine* g_renderingEngine;	//レンダリングエンジン
 }
 

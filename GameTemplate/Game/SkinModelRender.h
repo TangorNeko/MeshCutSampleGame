@@ -315,10 +315,20 @@ namespace Game
 		 * @brief 影用モデルの再構成
 		*/
 		void ShadowModelReconstruction();
+
+		/**
+		 * @brief 影を描画するかどうかのフラグ
+		 * @param flag フラグ
+		*/
+		void SetShadowCasterFlag(bool flag)
+		{
+			m_shadowCasterFlag = flag;
+		}
 	private:
 		IGameObject* m_owner = nullptr;				//スキンモデルの所有者
 		Model* m_model = nullptr;					//モデル
 		Model* m_shadowModel = nullptr;				//影用のモデル
+		bool m_shadowCasterFlag = true;
 		Vector3 m_position = Vector3::Zero;			//座標
 		Quaternion m_qRot = Quaternion::Identity;	//回転
 		Vector3 m_scale = Vector3::One;				//拡大

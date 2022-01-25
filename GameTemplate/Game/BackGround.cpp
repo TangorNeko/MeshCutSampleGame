@@ -4,7 +4,7 @@
 
 namespace
 {
-	const char* PATH_STAGEMODEL = "Assets/modelData/Stagetest.tkm";
+	const char* PATH_STAGEMODEL = "Assets/modelData/TestAttachedStage.tkm";
 	const Vector3 STAGE_LIGHT_COLOR = Vector3::One;
 	const Vector3 STAGE_LIGHT_DIRECTION = { -1.0f,-1.0f,1.0f };
 
@@ -28,6 +28,7 @@ namespace Game
 	{
 		m_stageModel = NewGO<SkinModelRender>(0);
 		m_stageModel->Init(PATH_STAGEMODEL);
+		m_stageModel->SetShadowCasterFlag(false);
 
 		m_stageLight = NewGO<Light::DirectionLight>(0);
 		m_stageLight->SetColor(STAGE_LIGHT_COLOR);

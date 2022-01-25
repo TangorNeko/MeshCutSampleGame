@@ -34,6 +34,7 @@ namespace Game
 
 		int m_phase = 0;
 		int m_phaseWaitTime = 0;
+		bool m_isGameOver = false;
 	};
 }
 
