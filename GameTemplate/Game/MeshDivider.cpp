@@ -149,8 +149,19 @@ namespace Util
 			deleteIndex++;
 		}
 
+		//表側の頂点バッファを格納
 		FrontNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;
-		BackNewMesh.vertexBuffer = backVertexBuffer;
+
+		//切断面生成の必要がある時は裏表で頂点バッファが別になるが、
+		//そうでない場合は同じ頂点バッファを使用するため表と裏で同じ頂点バッファを使用する
+		if (needToMakeSurface == true)
+		{
+			BackNewMesh.vertexBuffer = backVertexBuffer;
+		}
+		else
+		{
+			BackNewMesh.vertexBuffer = m_divideMesh->vertexBuffer;
+		}
 
 		//IndexBuffer16Arrayのみを使っているようなのでそちらのみ格納
 		FrontNewMesh.indexBuffer16Array = frontIndexBufferArray;
