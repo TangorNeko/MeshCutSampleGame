@@ -19,6 +19,7 @@ namespace
 	const char* PATH_ANIM_UNEQUIP = "Assets/animData/player/Unequip_St1.tka";
 	const char* PATH_ANIM_UNEQUIP_IDLE = "Assets/animData/player/Idle_Unequip.tka";
 	const char* PATH_ANIM_BACKHANDSPRING = "Assets/animData/player/BackHandspring.tka";
+	const char* PATH_ANIM_DEAD = "Assets/animData/player/Dead.tka";
 }
 
 namespace Game
@@ -61,6 +62,8 @@ namespace Game
 		animationClips[enAnim_Idle_Unequip].SetLoopFlag(true);
 		animationClips[enAnim_BackHandspring].Load(PATH_ANIM_BACKHANDSPRING);
 		animationClips[enAnim_BackHandspring].SetLoopFlag(false);
+		animationClips[enAnim_Dead].Load(PATH_ANIM_DEAD);
+		animationClips[enAnim_Dead].SetLoopFlag(false);
 	}
 
 	void PlayerAnimationInitializer::InitAnimationState(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* animationState[enAnim_Num])
@@ -85,6 +88,7 @@ namespace Game
 		moveAnimationState.InitUnequip(animationState[enAnim_Unequip]);
 		moveAnimationState.InitUnequipIdle(animationState[enAnim_Idle_Unequip]);
 		moveAnimationState.InitBackHandspring(animationState[enAnim_BackHandspring]);
+		moveAnimationState.InitDead(animationState[enAnim_Dead]);
 
 		PlayerAttackAnimationState attackAnimationState;
 		attackAnimationState.InitAttack1(animationState[enAnim_Attack]);

@@ -53,6 +53,11 @@ namespace Game
 					return enAnim_BackHandspring;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -100,6 +105,11 @@ namespace Game
 				if(param.playerState == PlayerAnimationParam::enBackHandSpring)
 				{
 					return enAnim_BackHandspring;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
 				}
 
 				return playerAnimState->GetMyState();
@@ -151,6 +161,11 @@ namespace Game
 					return enAnim_BackHandspring;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -165,6 +180,11 @@ namespace Game
 					return enAnim_GetUp;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -177,6 +197,11 @@ namespace Game
 				if (param.animationFrame >= 50)
 				{
 					return enAnim_Idle;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
 				}
 
 				return playerAnimState->GetMyState();
@@ -196,6 +221,11 @@ namespace Game
 				if(param.playerState == PlayerAnimationParam::enCutMode)
 				{
 					return enAnim_CutMode;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
 				}
 
 				return playerAnimState->GetMyState();
@@ -235,6 +265,20 @@ namespace Game
 					return enAnim_Idle;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
+				return playerAnimState->GetMyState();
+			}
+		);
+	}
+	
+	void PlayerMoveAnimationState::InitDead(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState)
+	{
+		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
+			{
 				return playerAnimState->GetMyState();
 			}
 		);

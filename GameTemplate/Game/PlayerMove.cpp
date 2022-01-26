@@ -41,6 +41,8 @@ namespace Game
 		case enKnockDown:
 			return KnockDownMove(playerPosition, animParam);
 			break;
+		case enDead:
+			return DeadMove();
 		default :
 			return false;
 		}

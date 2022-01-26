@@ -60,5 +60,11 @@ namespace Game
 		 * @param playerAnimState プレイヤーのアニメーションステート
 		*/
 		void InitBackHandspring(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
+		
+		/**
+		 * @brief 死亡アニメーションからのアニメーション遷移
+		 * @param playerAnimState プレイヤーのアニメーションステート
+		*/
+		void InitDead(AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* playerAnimState);
 	};
 }

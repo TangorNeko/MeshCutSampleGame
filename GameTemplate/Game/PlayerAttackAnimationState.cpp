@@ -37,6 +37,11 @@ namespace Game
 					return enAnim_Jump;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -77,6 +82,11 @@ namespace Game
 					return enAnim_Jump;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -112,6 +122,11 @@ namespace Game
 					return enAnim_Jump;
 				}
 
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
+				}
+
 				return playerAnimState->GetMyState();
 			}
 		);
@@ -125,6 +140,11 @@ namespace Game
 				if(param.playerState == PlayerAnimationParam::enIdle)
 				{
 					return enAnim_Idle;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
 				}
 
 				return playerAnimState->GetMyState();
@@ -149,6 +169,11 @@ namespace Game
 				if (param.playerState == PlayerAnimationParam::enBackHandSpring)
 				{
 					return enAnim_BackHandspring;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enDead)
+				{
+					return enAnim_Dead;
 				}
 
 				return playerAnimState->GetMyState();

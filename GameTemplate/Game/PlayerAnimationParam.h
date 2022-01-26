@@ -20,6 +20,7 @@ namespace Game
 		enAnim_Unequip,//納刀
 		enAnim_Idle_Unequip,//納刀状態での待機
 		enAnim_BackHandspring,//後転
+		enAnim_Dead,//死亡
 		enAnim_Num//アニメーションの数
 	};
 
@@ -38,6 +39,7 @@ namespace Game
 			enJumping,			//ジャンプ中
 			enUnequip,			//納刀中
 			enBackHandSpring,	//後転中
+			enDead,				//死亡中
 		};
 
 		PlayerState playerState = enIdle;	//現在のプレイヤーの状態

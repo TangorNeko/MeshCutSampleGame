@@ -115,8 +115,13 @@ namespace Game
 
 		if (m_hp < 0)
 		{
-			//TODO:死亡処理
+			//死亡処理
 			m_hp = 0;
+
+			//プレイヤーの移動を禁止
+			m_playerMove.DisableMove();
+			//プレイヤーのアニメーションの状態を死亡状態にする。
+			m_playerAnimationParam.playerState = PlayerAnimationParam::enDead;
 
 			//ゲームオーバーを通知
 			GameOverNotifier gameOverNotifer;

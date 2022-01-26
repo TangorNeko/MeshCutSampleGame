@@ -64,6 +64,11 @@ namespace Game
 			m_playerMoveEvent = enNormal;
 		}
 
+		void DisableMove()
+		{
+			m_playerMoveEvent = enDead;
+		}
+
 		bool NormalMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
 
 		bool MissileMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
@@ -73,6 +78,11 @@ namespace Game
 		bool BackHandspringMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
 
 		bool KnockDownMove(Vector3& playerPosition, PlayerAnimationParam& animParam);
+
+		bool DeadMove()
+		{
+			return false;
+		}
 
 		void MissileMoveSuccess()
 		{
@@ -116,7 +126,8 @@ namespace Game
 			enMissileMove,
 			enFrontMove,
 			enBackHandspring,
-			enKnockDown
+			enKnockDown,
+			enDead,
 		};
 
 		MoveEvent m_playerMoveEvent = enNormal;
