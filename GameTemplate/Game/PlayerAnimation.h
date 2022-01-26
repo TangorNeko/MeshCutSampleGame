@@ -24,6 +24,13 @@ namespace Game
 		void Update(SkinModelRender* playerRender, PlayerAnimationParam& animParam);
 
 		/**
+		 * @brief アニメーションの経過フレームのカウント
+		 * @param nextAnim 次に再生されるアニメーションの番号
+		 * @param animParam プレイヤーのアニメーションパラメーター
+		*/
+		void CountAnimationFrame(PlayerAnimationEnum nextAnim, PlayerAnimationParam& animParam);
+
+		/**
 		 * @brief アニメーションクリップを取得
 		 * @return アニメーションクリップ
 		*/

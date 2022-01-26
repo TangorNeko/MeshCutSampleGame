@@ -41,10 +41,9 @@ namespace Game
 		};
 
 		PlayerState playerState = enIdle;	//現在のプレイヤーの状態
+		int animationFrame = 0;				//アニメーション開始からの経過フレーム数
 		bool isPlayingAnimation = false;	//アニメーションを再生中?
-		int downTime = 0;
-		int comboNum = 0;
-		int attackingTime = 0;
-		int handspringTime = 0;
+		int comboNum = 0;					//プレイヤーの攻撃段数
+		int attackingTime = 0;				//プレイヤーの攻撃時間
 	};
 }

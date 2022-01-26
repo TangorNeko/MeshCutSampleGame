@@ -160,7 +160,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.downTime >= 100)
+				if (param.animationFrame >= 100)
 				{
 					return enAnim_GetUp;
 				}
@@ -174,7 +174,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.downTime >= 150)
+				if (param.animationFrame >= 50)
 				{
 					return enAnim_Idle;
 				}
@@ -230,7 +230,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.handspringTime == 100)
+				if (param.animationFrame == 100)
 				{
 					return enAnim_Idle;
 				}

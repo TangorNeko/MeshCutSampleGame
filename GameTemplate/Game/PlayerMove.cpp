@@ -329,7 +329,6 @@ namespace Game
 		}
 
 		backHandspringFrame++;
-		animParam.handspringTime = backHandspringFrame;
 
 		if (backHandspringFrame == 100)
 		{
@@ -351,7 +350,6 @@ namespace Game
 		}
 
 		knockDownFrame++;
-		animParam.downTime = knockDownFrame;
 
 		if (knockDownFrame == 150)
 		{

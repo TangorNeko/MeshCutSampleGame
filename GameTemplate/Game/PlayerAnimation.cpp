@@ -37,6 +37,9 @@ namespace Game
 		//アニメーションの遷移のチェック
 		PlayerAnimationEnum nextAnim = m_playingAnimState->StateChangeCheck(animParam);
 
+		//アニメーションの経過フレームのカウント
+		CountAnimationFrame(nextAnim, animParam);
+
 		//アニメーションの再生
 		playerRender->PlayAnimation(nextAnim,TIME_ANIMATION_INTERPOLATE);
 
@@ -45,5 +48,20 @@ namespace Game
 
 		//現在再生しているアニメーションのステートを格納
 		m_playingAnimState = m_animationState[nextAnim];
+	}
+
+	void PlayerAnimation::CountAnimationFrame(PlayerAnimationEnum nextAnim, PlayerAnimationParam& animParam)
+	{
+		//別のアニメーションに遷移していたら
+		if (m_playingAnimState != m_animationState[nextAnim])
+		{
+			//経過フレーム数をリセット
+			animParam.animationFrame = 0;
+		}
+		else
+		{
+			//経過フレーム数を増加
+			animParam.animationFrame++;
+		}
 	}
 }
