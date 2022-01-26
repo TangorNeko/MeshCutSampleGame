@@ -271,7 +271,14 @@ namespace Game
 
 		//ベクトル分モデルの原点をずらす
 		m_model->SetOriginOffset(OriginOffset, m_modelInitData);
-		m_shadowModel->SetOriginOffset(OriginOffset, m_modelInitData);
+
+		ModelInitData shadowModelInitData = m_modelInitData;
+
+		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
+		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+		shadowModelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
+		shadowModelInitData.m_expandConstantBuffer[0] = Light::LightManager::GetInstance()->GetLigCameraDatas();
+		m_shadowModel->SetOriginOffset(OriginOffset, shadowModelInitData);
 
 		Vector3 worldOrigin = OriginOffset;
 
