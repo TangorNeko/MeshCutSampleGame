@@ -93,7 +93,7 @@ namespace Game
 		//アニメーションパラメーターは直接使いたくない。
 		bool isGuard()
 		{
-			return m_playerAnimationParam.isGuarding;
+			return m_playerAnimationParam.playerState == PlayerAnimationParam::enGuard;
 		}
 	private:
 		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル

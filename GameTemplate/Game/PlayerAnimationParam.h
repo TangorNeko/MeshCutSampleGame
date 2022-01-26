@@ -1,5 +1,4 @@
 #pragma once
-#include "../../MiniEngine/math/Vector.h"
 
 namespace Game
 {
@@ -27,20 +26,25 @@ namespace Game
 	//プレイヤーのアニメーション遷移に使うパラメーター
 	struct PlayerAnimationParam
 	{
-		//TODO:今の所すべてのbool値は重複してtrueになることがないので、一つにまとめたい
-		bool isWalking = false;
-		bool isRunning = false;
-		bool isGuarding = false;
-		bool isCutMode = false;
-		bool isKnockDown = false;
-		bool isJumping = false;
-		bool isUnequip = false;
-		bool isBackHandSpring = false;
+		//プレイヤーの状態
+		enum PlayerState
+		{
+			enIdle,				//待機中
+			enWalk,				//歩行中
+			enRunning,			//走り中
+			enGuard,			//ガード中
+			enCutMode,			//切断モード中
+			enKnockDown,		//ノックダウン中
+			enJumping,			//ジャンプ中
+			enUnequip,			//納刀中
+			enBackHandSpring,	//後転中
+		};
+
+		PlayerState playerState = enIdle;	//現在のプレイヤーの状態
+		bool isPlayingAnimation = false;	//アニメーションを再生中?
 		int downTime = 0;
 		int comboNum = 0;
 		int attackingTime = 0;
 		int handspringTime = 0;
-		Vector3 playerPosition = Vector3::Zero;
-		bool isPlayingAnimation = false;
 	};
 }

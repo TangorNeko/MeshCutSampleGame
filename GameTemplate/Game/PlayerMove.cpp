@@ -124,25 +124,23 @@ namespace Game
 		//アニメーション関連　後から分離しよう
 
 		//座標が変化していれば
-		if (m_prevPosition.LengthSq() != playerPosition.LengthSq())
+		//if (m_prevPosition.LengthSq() != playerPosition.LengthSq())
+		if(m_moveAmount.LengthSq() > FLT_EPSILON)
 		{
 			//走りボタンを押していればダッシュ
 			if (g_pad[0]->IsPress(BUTTON_RUN))
 			{
-				animParam.isRunning = true;
-				animParam.isWalking = false;
+				animParam.playerState = PlayerAnimationParam::enRunning;
 			}
 			else
 			{
 				//押していなければ歩き
-				animParam.isWalking = true;
-				animParam.isRunning = false;
+				animParam.playerState = PlayerAnimationParam::enWalk;
 			}
 		}
-		else //変化していなければ歩き、走りフラグオフ
+		else //変化していなければ待機
 		{
-			animParam.isWalking = false;
-			animParam.isRunning = false;
+			animParam.playerState = PlayerAnimationParam::enIdle;
 		}
 
 		//今フレームの座標を格納
@@ -164,7 +162,7 @@ namespace Game
 		{
 			m_targetCount = 1;
 
-			animParam.isJumping = true;
+			animParam.playerState = PlayerAnimationParam::enJumping;
 
 			//追跡するターゲットを取得　まだ3つ存在することしか想定していない]
 			//追跡開始の瞬間だけQueryGOsしてもいいが、ジャンプ先が遠いと到達時には大分座標がずれていたので
@@ -192,7 +190,7 @@ namespace Game
 
 				if (dis.LengthSq() < 300.0f * 300.0f)
 				{
-					animParam.isJumping = false;
+					animParam.playerState = PlayerAnimationParam::enIdle;
 
 					m_isMissileMove = false;
 					return true;
@@ -214,7 +212,7 @@ namespace Game
 				//ジャンプフレームをリセット
 				m_jumpFrameCount = 0;
 
-				animParam.isJumping = false;
+				animParam.playerState = PlayerAnimationParam::enIdle;
 
 				SoundOneShotPlay(LANDING_SOUND_PATH);
 			}
@@ -228,7 +226,8 @@ namespace Game
 				//距離を移動速度で割って移動にかかるフレームを計算
 				m_distanceCount = distanceBetweenTargets.Length() / MISSILEJUMP_SPEED;
 				m_isMoveStartFrame = false;
-				animParam.isJumping = false;
+
+				animParam.playerState = PlayerAnimationParam::enIdle;
 			}
 
 			//ジャンプから何フレーム目からのカウントをインクリメント
@@ -281,7 +280,7 @@ namespace Game
 
 	bool PlayerMove::FrontMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
-		animParam.isJumping = true;
+		animParam.playerState = PlayerAnimationParam::enJumping;
 
 		if (m_isJumpStartFrame)
 		{
@@ -300,7 +299,7 @@ namespace Game
 		}
 		if (m_jumpFrameCount == 25)
 		{
-			animParam.isJumping = false;
+			animParam.playerState = PlayerAnimationParam::enIdle;
 			m_charaCon.SetPosition(playerPosition);
 
 			m_isFrontMove = false;
@@ -314,7 +313,7 @@ namespace Game
 
 	bool PlayerMove::BackHandspringMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
-		animParam.isBackHandSpring = true;
+		animParam.playerState = PlayerAnimationParam::enBackHandSpring;
 
 		if (backHandspringFrame <= 40)
 		{
@@ -334,7 +333,7 @@ namespace Game
 
 		if (backHandspringFrame == 100)
 		{
-			animParam.isBackHandSpring = false;
+			animParam.playerState = PlayerAnimationParam::enIdle;
 			backHandspringFrame = 0;
 
 			m_playerMoveEvent = enNormal;
@@ -344,7 +343,7 @@ namespace Game
 
 	bool PlayerMove::KnockDownMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
-		animParam.isKnockDown = true;
+		animParam.playerState = PlayerAnimationParam::enKnockDown;
 
 		if (knockDownFrame <= 40)
 		{
@@ -356,7 +355,7 @@ namespace Game
 
 		if (knockDownFrame == 150)
 		{
-			animParam.isKnockDown = false;
+			animParam.playerState = PlayerAnimationParam::enIdle;
 			knockDownFrame = 0;
 
 			m_playerMoveEvent = enNormal;

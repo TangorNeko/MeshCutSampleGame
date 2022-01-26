@@ -131,7 +131,7 @@ namespace Game
 
 	void PlayerCamera::UpdateFinishCamera(PlayerAnimationParam& animParam)
 	{
-		animParam.isUnequip = true;
+		animParam.playerState = PlayerAnimationParam::enUnequip;
 
 		g_camera3D->SetPosition({ 0.0f,250.0f,-700.0f });
 

@@ -52,11 +52,10 @@ namespace Game
 		if (isCutMode == false && m_eventCut == false)
 		{
 			m_eventCut = m_playerMove.Move(m_position,m_playerAnimationParam);
-			m_playerAnimationParam.isCutMode = false;
 		}
 		else
 		{
-			m_playerAnimationParam.isCutMode = true;
+			m_playerAnimationParam.playerState = PlayerAnimationParam::enCutMode;
 		}
 
 		m_playerCut.SetCutEvent(m_eventCut,m_position);
@@ -64,11 +63,7 @@ namespace Game
 		//TODO:仮のガードアニメ　後からクラス分離
 		if (g_pad[0]->IsPress(enButtonRB1))
 		{
-			m_playerAnimationParam.isGuarding = true;
-		}
-		else
-		{
-			m_playerAnimationParam.isGuarding = false;
+			m_playerAnimationParam.playerState = PlayerAnimationParam::enGuard;
 		}
 
 		if (m_isFinishCamera == true)

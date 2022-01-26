@@ -17,22 +17,22 @@ namespace Game
 					return enAnim_Attack2;
 				}
 
-				if (param.isCutMode == true)
+				if(param.playerState == PlayerAnimationParam::enCutMode)
 				{
 					return enAnim_CutMode;
 				}
 
-				if (param.isKnockDown == true)
+				if(param.playerState == PlayerAnimationParam::enKnockDown)
 				{
 					return enAnim_KnockDown;
 				}
 
-				if (param.isGuarding == true)
+				if(param.playerState == PlayerAnimationParam::enGuard)
 				{
 					return enAnim_Guard;
 				}
 
-				if (param.isJumping == true)
+				if(param.playerState == PlayerAnimationParam::enJumping)
 				{
 					return enAnim_Jump;
 				}
@@ -57,22 +57,22 @@ namespace Game
 					return enAnim_Attack3;
 				}
 
-				if (param.isCutMode == true)
+				if(param.playerState == PlayerAnimationParam::enCutMode)
 				{
 					return enAnim_CutMode;
 				}
 
-				if (param.isKnockDown == true)
+				if(param.playerState == PlayerAnimationParam::enKnockDown)
 				{
 					return enAnim_KnockDown;
 				}
 
-				if (param.isGuarding == true)
+				if(param.playerState == PlayerAnimationParam::enGuard)
 				{
 					return enAnim_Guard;
 				}
 
-				if (param.isJumping == true)
+				if(param.playerState == PlayerAnimationParam::enJumping)
 				{
 					return enAnim_Jump;
 				}
@@ -92,22 +92,22 @@ namespace Game
 					return enAnim_Idle;
 				}
 
-				if (param.isCutMode == true)
+				if(param.playerState == PlayerAnimationParam::enCutMode)
 				{
 					return enAnim_CutMode;
 				}
 
-				if (param.isKnockDown == true)
+				if(param.playerState == PlayerAnimationParam::enKnockDown)
 				{
 					return enAnim_KnockDown;
 				}
 
-				if (param.isGuarding == true)
+				if(param.playerState == PlayerAnimationParam::enGuard)
 				{
 					return enAnim_Guard;
 				}
 
-				if (param.isJumping == true)
+				if(param.playerState == PlayerAnimationParam::enJumping)
 				{
 					return enAnim_Jump;
 				}
@@ -122,7 +122,7 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.isGuarding == false)
+				if(param.playerState == PlayerAnimationParam::enIdle)
 				{
 					return enAnim_Idle;
 				}
@@ -136,14 +136,19 @@ namespace Game
 	{
 		playerAnimState->AddCondition([playerAnimState](const PlayerAnimationParam& param)->PlayerAnimationEnum
 			{
-				if (param.isCutMode == false)
+				if(param.playerState == PlayerAnimationParam::enIdle)
 				{
 					return enAnim_Idle;
 				}
 
-				if (param.isKnockDown == true)
+				if(param.playerState == PlayerAnimationParam::enKnockDown)
 				{
 					return enAnim_KnockDown;
+				}
+
+				if (param.playerState == PlayerAnimationParam::enBackHandSpring)
+				{
+					return enAnim_BackHandspring;
 				}
 
 				return playerAnimState->GetMyState();
