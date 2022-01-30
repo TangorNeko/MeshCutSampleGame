@@ -4,7 +4,7 @@
 
 namespace
 {
-	const char* PATH_STAGEMODEL = "Assets/modelData/TestAttachedStage.tkm";
+	const char* PATH_STAGEMODEL = "Assets/modelData/Stage.tkm";
 	const Vector3 STAGE_LIGHT_COLOR = Vector3::One;
 	const Vector3 STAGE_LIGHT_DIRECTION = { -1.0f,-1.0f,1.0f };
 
