@@ -25,10 +25,13 @@ namespace Game
 			return m_cameraTarget;
 		}
 	private:
-		Vector3 m_cameraPosition = Vector3::Zero;
+		Vector3 m_cameraPosition = Vector3::Zero;		//カメラの座標
 		Vector3 m_cameraTarget = Vector3::Zero;			//カメラの注視点
+		Vector3 m_cutCameraPosition = Vector3::Zero;	//切断モード時のカメラの座標
+		Vector3 m_cutCameraTarget = Vector3::Zero;		//切断モード時のカメラの注視点
 		Vector3 m_toCameraDirection = Vector3::AxisZ;	//カメラの注視点からカメラの座標への向き
 		float m_totalDegX = 0.0f;						//カメラのX軸角度の合計
+		float m_lerpValue = 0.0f;
 		BackGround* m_backGround = nullptr;
 	};
 }

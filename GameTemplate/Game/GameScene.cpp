@@ -13,7 +13,7 @@
 namespace
 {
 	const Vector3 BOSS_POSITION = { 0.0f,0.0f,-1300.0f };
-	const Vector3 PLAYER_START_POSITION = { 0.0f,30.0f,2500.0f };
+	const Vector3 PLAYER_START_POSITION = { -1.0f,30.0f,3700.0f };
 
 	const Vector3 MINION_POSITION_PHASE1 = { 0.0f,0.0f,-500.0f };
 
@@ -44,6 +44,7 @@ namespace Game
 		m_backGround = NewGO<BackGround>(0,"background");
 		m_player = NewGO<Player>(0, "player");
 		m_player->SetPosition(PLAYER_START_POSITION);
+		m_player->EventCutOn();
 
 		m_gameSceneBGM = NewGO<GameSceneBGM>(0, "gamescenebgm");
 		return true;

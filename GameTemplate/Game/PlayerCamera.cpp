@@ -22,11 +22,18 @@ namespace Game
 
 	void PlayerCamera::Update(const Vector3& playerPosition)
 	{
+		//補完率を増加させる
+		m_lerpValue += 0.01f;
+		m_lerpValue = min(m_lerpValue, 1.0f);
+
 		//カメラのターゲットはプレイヤーの位置から計算する
 		m_cameraTarget = playerPosition;
 		m_cameraTarget += PLAYER_TO_TARGET;
 
-		g_camera3D->SetTarget(m_cameraTarget);
+		Vector3 lerptarget = Vector3::Zero;
+		lerptarget.Lerp(m_lerpValue, m_cutCameraTarget, m_cameraTarget);
+
+		g_camera3D->SetTarget(lerptarget);
 
 		//横方向、縦方向の入力を取得
 		Quaternion qRotY = Quaternion::Identity;
@@ -56,6 +63,8 @@ namespace Game
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
 		m_cameraPosition = m_cameraTarget + m_toCameraDirection * TOCAMERA_LENGTH;
 
+		Vector3 pos = Vector3::Zero;
+
 		Vector3 crossPoint;
 		bool isHit = m_backGround->isLineHitModel(m_cameraTarget, m_cameraPosition, crossPoint);
 
@@ -63,13 +72,18 @@ namespace Game
 		{
 			Vector3 toCameraDirection = m_cameraPosition - m_cameraTarget;
 			toCameraDirection.Normalize();
-			g_camera3D->SetPosition(crossPoint - toCameraDirection * SPRINGCAMERA_SPACE);
+			pos = crossPoint - toCameraDirection * SPRINGCAMERA_SPACE;
 		}
 		else
 		{
 			//カメラ位置をセット
-			g_camera3D->SetPosition(m_cameraPosition);
+			pos = m_cameraPosition;
 		}
+
+
+		Vector3 lerppos = Vector3::Zero;
+		lerppos.Lerp(m_lerpValue, m_cutCameraPosition, pos);
+		g_camera3D->SetPosition(lerppos);
 	}
 
 	Vector3 PlayerCamera::UpdateCutMode(const Vector3& playerPosition, const Vector3& playerDirection)
@@ -83,10 +97,10 @@ namespace Game
 		toDirection.Apply(toTarget);
 
 		//カメラのターゲットはプレイヤーの位置から計算する
-		m_cameraTarget = playerPosition;
-		m_cameraTarget += toTarget;
+		m_cutCameraTarget = playerPosition;
+		m_cutCameraTarget += toTarget;
 
-		g_camera3D->SetTarget(m_cameraTarget);
+		g_camera3D->SetTarget(m_cutCameraTarget);
 
 		//横方向、縦方向の入力を取得
 		Quaternion qRotY = Quaternion::Identity;
@@ -115,10 +129,10 @@ namespace Game
 		qRotX.Apply(m_toCameraDirection);
 
 		//カメラターゲット位置にカメラまでの向き*カメラまでの長さをかけてカメラ位置を取得
-		m_cameraPosition = m_cameraTarget + m_toCameraDirection * CUTMODE_TOCAMERA_LENGTH;
+		m_cutCameraPosition = m_cutCameraTarget + m_toCameraDirection * CUTMODE_TOCAMERA_LENGTH;
 
 		//カメラ位置をセット
-		g_camera3D->SetPosition(m_cameraPosition);
+		g_camera3D->SetPosition(m_cutCameraPosition);
 
 		//カメラ移動後の新しいプレイヤーの向きを返す
 		//TODO:現在の処理は切断モードに入った際プレイヤーの向きがカメラに追従するようになっているが、

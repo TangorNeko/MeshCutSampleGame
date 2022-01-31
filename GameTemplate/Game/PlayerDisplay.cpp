@@ -4,7 +4,18 @@
 namespace
 {
 	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
-	const Vector2 HP_POSITION = { -600.0f,330.0f };
+	const char* HP_FRAME_PATH = "Assets/Image/PlayerHpFrame.dds";
+	const UINT HP_FRAME_WIDTH = 400;
+	const UINT HP_FRAME_HEIGHT = 40;
+	const Vector3 HP_FRAME_POSITION = { -350.0f,275.0f,0.0f };
+	const Vector2 HP_FRAME_PIVOT = { 0.5f,0.0f };
+	const char* HP_BAR_PATH = "Assets/Image/HpBar.dds";
+	const UINT HP_BAR_WIDTH = 396;
+	const UINT HP_BAR_HEIGHT = 20;
+	const Vector3 HP_BAR_POSITION = { -548.0f,277.0f,0.0f };
+	const Vector2 HP_BAR_PIVOT = { 0.0f,0.0f };
+	const float ALPHA_INCREASE_VALUE = 0.01f;
+	const float ALPHA_MAX = 1.0f;
 }
 
 namespace Game
@@ -24,45 +35,33 @@ namespace Game
 	void PlayerDisplay::Init(int hp)
 	{
 		m_hpFrame = NewGO<SpriteRender>(2);
-		m_hpFrame->Init("Assets/Image/PlayerHpFrame.dds", 400, 40);
-		m_hpFrame->SetPivot({ 0.5f,0.0f });
-		m_hpFrame->SetPosition({ -350.0f,275.0f,0.0f });
+		m_hpFrame->Init(HP_FRAME_PATH, HP_FRAME_WIDTH, HP_FRAME_HEIGHT);
+		m_hpFrame->SetPivot(HP_FRAME_PIVOT);
+		m_hpFrame->SetPosition(HP_FRAME_POSITION);
 
 		m_hpBar = NewGO<SpriteRender>(3);
-		m_hpBar->Init("Assets/Image/HpBar.dds", 396, 20);
-		m_hpBar->SetPivot({ 0.0f,0.0f });
-		m_hpBar->SetPosition({ -548.0f,277.0f,0.0f });
+		m_hpBar->Init(HP_BAR_PATH, HP_BAR_WIDTH, HP_BAR_HEIGHT);
+		m_hpBar->SetPivot(HP_BAR_PIVOT);
+		m_hpBar->SetPosition(HP_BAR_POSITION);
 
-		/*
-		//フォントレンダーを作成
-		m_hpRender = NewGO<FontRender>(1);
-
-		//HPを文字列に変換
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"HP:%d", hp);
-
-		//文字列をセット
-		m_hpRender->SetText(buffer);
-		
-		//縁取りを設定
-		m_hpRender->SetShadowFlag(true);
-		m_hpRender->SetShadowColor(SHADOWCOLOR_BLACK);
-	
-		//座標をセット
-		m_hpRender->SetPosition(HP_POSITION);
-		*/
+		m_isInited = true;
 	}
 
 	void PlayerDisplay::Update(int hp)
 	{
-		/*
-		//HPを文字列に変換
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"HP:%d", hp);
+		if (m_isInited == false)
+		{
+			return;
+		}
 
-		//文字列を更新
-		m_hpRender->SetText(buffer);
-		*/
+
+		m_alpha = min(ALPHA_MAX, m_alpha + ALPHA_INCREASE_VALUE);
+		Vector4 mulColor = Vector4::White;
+		mulColor.w = m_alpha;
+
+		m_hpFrame->SetMulColor(mulColor);
+		m_hpBar->SetMulColor(mulColor);
+	
 
 		m_hpBar->SetScale({ hp / 1000.0f,1.0f,1.0f });
 	}

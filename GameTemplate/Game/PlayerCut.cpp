@@ -7,6 +7,8 @@ namespace
 	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
 	const Vector3 CUT_FORCE_DOWN = Vector3::Down * 30.0f;
 	const float CUT_RANGE = 600.0f;
+	const float START_CUT_ANGLE = 45.0f;
+	const float DEFAULT_CUT_ANGLE = 0.0f;
 }
 
 namespace Game
@@ -110,7 +112,7 @@ namespace Game
 
 
 			m_cutPlaneQRot = Quaternion::Identity;
-			angle = 0.0f;
+			angle = DEFAULT_CUT_ANGLE;
 
 			m_isCutMode = true;
 		}
@@ -128,7 +130,16 @@ namespace Game
 
 
 			m_cutPlaneQRot = Quaternion::Identity;
-			angle = 0.0f;
+
+			if (m_isStart == true)
+			{
+				angle = START_CUT_ANGLE;
+				m_isStart = false;
+			}
+			else
+			{
+				angle = DEFAULT_CUT_ANGLE;
+			}
 		}
 
 		if (m_isCutEvent == false && m_cutPlaneRender != nullptr)

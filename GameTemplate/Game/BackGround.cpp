@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BackGround.h"
 #include "Door.h"
+#include "TitleDoor.h"
 
 namespace
 {
@@ -26,6 +27,8 @@ namespace Game
 
 	bool BackGround::Start()
 	{
+		NewGO<TitleDoor>(0, "titledoor");
+
 		m_stageModel = NewGO<SkinModelRender>(0);
 		m_stageModel->Init(PATH_STAGEMODEL);
 		m_stageModel->SetShadowCasterFlag(false);

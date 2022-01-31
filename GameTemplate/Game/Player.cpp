@@ -8,6 +8,7 @@ namespace
 	const char* PATH_PLAYER_MODEL = "Assets/modelData/Player.tkm";
 	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Player.tks";
 	const int FINISH_CAMERA_START = 50;
+	const int PLAYER_HP_MAX = 1000;
 }
 
 namespace Game
@@ -31,9 +32,6 @@ namespace Game
 
 		//プレイヤーの移動クラスの初期化
 		m_playerMove.Init(m_position);
-
-		//プレイヤーのHP表示
-		m_playerDisplay.Init(m_hp);
 
 		//初期の向きをセット
 		m_playerMove.SetPlayerDirection(Vector3::Back);
@@ -95,9 +93,12 @@ namespace Game
 		//プレイヤーの向きにモデルを向ける
 		m_playerModel->SetRotation(m_playerMove.GetPlayerDirectionRot());
 
-		//攻撃のアップデート
-		m_playerAttack.Update(m_position, m_playerAnimationParam,m_playerMove.GetPlayerDirectionRot());
-		
+		if (isCutMode == false && m_eventCut == false)
+		{
+			//攻撃のアップデート
+			m_playerAttack.Update(m_position, m_playerAnimationParam, m_playerMove.GetPlayerDirectionRot());
+		}
+
 		//切断のアップデート
 		m_playerCut.Update(m_position, m_playerMove.GetPlayerDirectionRot());
 
@@ -133,9 +134,9 @@ namespace Game
 	{
 		m_hp += healValue;
 
-		if (m_hp > 1000)
+		if (m_hp > PLAYER_HP_MAX)
 		{
-			m_hp = 1000;
+			m_hp = PLAYER_HP_MAX;
 		}
 	}
 

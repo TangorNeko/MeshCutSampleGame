@@ -423,6 +423,7 @@
     <ClCompile Include="ThreeOnBackTriangle.cpp" />
     <ClCompile Include="ThreeOnFrontTriangle.cpp" />
     <ClCompile Include="ThreeOnPlaneTriangle.cpp" />
+    <ClCompile Include="TitleDoor.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TriangleDivider.cpp" />
     <ClCompile Include="main.cpp" />
@@ -576,6 +577,7 @@
     <ClInclude Include="ThreeOnBackTriangle.h" />
     <ClInclude Include="ThreeOnFrontTriangle.h" />
     <ClInclude Include="ThreeOnPlaneTriangle.h" />
+    <ClInclude Include="TitleDoor.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="TriangleDivideStruct.h" />

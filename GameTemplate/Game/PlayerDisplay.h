@@ -22,6 +22,8 @@ namespace Game
 		FontRender* m_hpRender = nullptr;	//HP‚ð•`‰æ‚·‚éƒtƒHƒ“ƒg
 		SpriteRender* m_hpFrame = nullptr;
 		SpriteRender* m_hpBar = nullptr;
+		bool m_isInited = false;
+		float m_alpha = 0.0f;
 	};
 }
 

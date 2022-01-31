@@ -70,13 +70,13 @@ namespace Game
 		void NoticeMissileMoveEnd()
 		{
 			m_playerMove.NoticeMissileMoveEnd();
-			m_eventCut = false;
+			EventCutOff();
 		}
 
 		void NoticeFrontMoveEnd()
 		{
 			m_playerMove.NoticeFrontMoveEnd();
-			m_eventCut = false;
+			EventCutOff();
 		}
 
 		void StartFinishCamera()
@@ -87,6 +87,21 @@ namespace Game
 		void MissileMoveSuccess()
 		{
 			m_playerMove.MissileMoveSuccess();
+		}
+
+		void EventCutOn()
+		{
+			m_eventCut = true;
+		}
+
+		void EventCutOff()
+		{
+			m_eventCut = false;
+		}
+
+		void InitDisplay()
+		{
+			m_playerDisplay.Init(m_hp);
 		}
 
 		//TODO:仮です。ガードは専用関数を作る、
