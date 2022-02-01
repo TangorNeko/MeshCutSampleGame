@@ -160,7 +160,7 @@ namespace Game
 
 		if (m_phase == 9 && m_phaseWaitTime == 380)
 		{
-			NewGO<TitleScene>(0, "title");
+			NewGO<GameScene>(0, "gamescene");
 
 			DeleteGO(this);
 		}

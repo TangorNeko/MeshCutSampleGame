@@ -526,6 +526,7 @@ namespace Game
 					Player* player = FindGO<Player>("player");
 					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 
+					distance.y = 0.0f;
 					distance.Normalize();
 
 					//ƒvƒŒƒCƒ„[‚ğ‘å‚«‚­‚«”ò‚Î‚·

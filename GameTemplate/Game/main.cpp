@@ -2,6 +2,15 @@
 #include "system/system.h"
 #include "TitleScene.h"
 #include "RenderingEngine.h"
+#include "GameScene.h"
+#include "Fade.h"
+
+namespace
+{
+	const float FADEIN_RATE = 1.0f;
+	const int FADE_WAITTIME = 10;
+	const float FADEOUT_RATE = 0.01f;
+}
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -34,7 +43,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	NewGO<Game::TitleScene>(0);
+	Game::Fade* fade = NewGO<Game::Fade>(0);
+	fade->SetFadeInRate(FADEIN_RATE);
+	fade->SetWaitFrame(FADE_WAITTIME);
+	fade->SetFadeOutRate(FADEOUT_RATE);
+	NewGO<Game::GameScene>(0,"gamescene");
 
 	//FPS計測用ストップウォッチ
 	Stopwatch stopwatch;
