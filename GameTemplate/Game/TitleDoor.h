@@ -2,6 +2,8 @@
 
 namespace Game
 {
+	class TitleSprites;
+
 	class TitleDoor : public IGameObject
 	{
 	public:
@@ -16,6 +18,7 @@ namespace Game
 	private:
 		SkinModelRender* m_titleDoorRender = nullptr;
 		bool m_isCut = false;
+		TitleSprites* m_titleSprites = nullptr;
 	};
 }
 

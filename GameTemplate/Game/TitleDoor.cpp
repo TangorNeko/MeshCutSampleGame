@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TitleDoor.h"
 #include "Player.h"
+#include "TitleSprites.h"
 
 namespace
 {
@@ -28,6 +29,8 @@ namespace Game
 
 		ModelCutManager::GetInstance()->AddCuttable(m_titleDoorRender);
 
+		m_titleSprites = NewGO<TitleSprites>(0, "titlesprites");
+
 		return true;
 	}
 
@@ -39,9 +42,15 @@ namespace Game
 		//カットされたフラグをオンに
 		m_isCut = true;
 
+		//プレイヤーの切断モードをオフにする。
 		Player* player = FindGO<Player>("player");
 		player->EventCutOff();
+
+		//プレイヤーの体力を表示
 		player->InitDisplay();
+
+		//タイトルスプライトを消す
+		m_titleSprites->NoticeGameStart();
 
 		//モデルレンダーをダミークラスに引き渡したので削除
 		DeleteGO(this);
