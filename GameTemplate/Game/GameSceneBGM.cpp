@@ -35,10 +35,12 @@ namespace Game
 
 	void GameSceneBGM::SoundChange()
 	{
+		//すでに再生されているサウンドをフェードアウトさせながら、次に再生するサウンドをフェードインさせる。
 		m_isSoundChanging = true;
 
 		m_nextSoundSource = NewGO<SoundSource>(0);
 
+		//ゲームのフェーズによって分岐
 		switch (m_gameBGMPhase)
 		{
 		case enTitle:

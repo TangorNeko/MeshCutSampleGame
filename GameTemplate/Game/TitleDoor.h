@@ -16,9 +16,9 @@ namespace Game
 		void Update() override;
 
 	private:
-		SkinModelRender* m_titleDoorRender = nullptr;
-		bool m_isCut = false;
-		TitleSprites* m_titleSprites = nullptr;
+		SkinModelRender* m_titleDoorRender = nullptr;	//タイトル用のドアのモデル
+		bool m_isCut = false;							//切断された?
+		TitleSprites* m_titleSprites = nullptr;			//タイトルのスプライトクラス
 	};
 }
 

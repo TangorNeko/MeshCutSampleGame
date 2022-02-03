@@ -19,11 +19,10 @@ namespace Game
 		*/
 		void Update(int hp);
 	private:
-		FontRender* m_hpRender = nullptr;	//HPを描画するフォント
-		SpriteRender* m_hpFrame = nullptr;
-		SpriteRender* m_hpBar = nullptr;
-		bool m_isInited = false;
-		float m_alpha = 0.0f;
+		SpriteRender* m_hpFrame = nullptr;	//HPバーのフレームのスプライト
+		SpriteRender* m_hpBar = nullptr;	//HPバーのスプライト
+		bool m_isInited = false;			//初期化された?
+		float m_alpha = 0.0f;				//透明度
 	};
 }
 

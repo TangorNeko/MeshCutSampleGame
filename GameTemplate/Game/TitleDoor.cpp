@@ -12,6 +12,7 @@ namespace Game
 {
 	TitleDoor::~TitleDoor()
 	{
+		//切断されていなかったら削除
 		if (m_isCut == false)
 		{
 			DeleteGO(m_titleDoorRender);
@@ -20,6 +21,7 @@ namespace Game
 
 	bool TitleDoor::Start()
 	{
+		//タイトル用のドアのモデルを生成
 		m_titleDoorRender = NewGO<SkinModelRender>(0);
 		m_titleDoorRender->Init(TITLE_DOOR_MODEL_PATH);
 		m_titleDoorRender->SetModelCenterAsOrigin();

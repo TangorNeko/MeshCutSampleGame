@@ -11,6 +11,10 @@ namespace
 	const float CAMERA_SPEED = 2.0f;
 	const float CAMERA_MAX_DEG_X = 45.0f;
 	const float SPRINGCAMERA_SPACE = 10.0f;
+	const float CAMERA_LERP_INCREASE_VALUE = 0.01f;
+	const float CAMERA_LERPVALUE_MAX = 1.0f;
+	const Vector3 FINISH_CAMERA_POSITION = { 0.0f,250.0f,-700.0f };
+	const Vector3 FINISH_CAMERA_TARGET = { 0.0f,0.0f,-1300.0f };
 }
 
 namespace Game
@@ -23,8 +27,8 @@ namespace Game
 	void PlayerCamera::Update(const Vector3& playerPosition)
 	{
 		//補完率を増加させる
-		m_lerpValue += 0.01f;
-		m_lerpValue = min(m_lerpValue, 1.0f);
+		m_lerpValue += CAMERA_LERP_INCREASE_VALUE;
+		m_lerpValue = min(m_lerpValue, CAMERA_LERPVALUE_MAX);
 
 		//カメラのターゲットはプレイヤーの位置から計算する
 		m_cameraTarget = playerPosition;
@@ -147,8 +151,8 @@ namespace Game
 	{
 		animParam.playerState = PlayerAnimationParam::enUnequip;
 
-		g_camera3D->SetPosition({ 0.0f,250.0f,-700.0f });
+		g_camera3D->SetPosition(FINISH_CAMERA_POSITION);
 
-		g_camera3D->SetTarget({ 0.0f,0.0f,-1300.0f });
+		g_camera3D->SetTarget(FINISH_CAMERA_TARGET);
 	}
 }

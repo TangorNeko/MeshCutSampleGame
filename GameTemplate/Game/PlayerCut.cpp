@@ -9,6 +9,9 @@ namespace
 	const float CUT_RANGE = 600.0f;
 	const float START_CUT_ANGLE = 45.0f;
 	const float DEFAULT_CUT_ANGLE = 0.0f;
+	const Vector3 DEFAULT_CUT_NORMAL = { 1.0f,0.0f,0.0f };
+	const Vector2 INPUT_UP = { 0.0f,1.0f };
+	const float PLAYER_CUTDEG = 0.7f;
 }
 
 namespace Game
@@ -48,14 +51,14 @@ namespace Game
 
 		Vector3 cutPoint = playerPosition + PLAYER_TO_CUTPOINT;
 		m_cutPlaneRender->SetPosition(cutPoint);
-		Vector3 cutNormal = { 1.0f,0.0f,0.0f };
+		Vector3 cutNormal = DEFAULT_CUT_NORMAL;
 
 		//Ø’fƒ‚ƒfƒ‹‚ðƒvƒŒƒCƒ„[‚Ì‘€ì’Ê‚è‚É‰ñ“]‚³‚¹‚é
 		Vector2 input = { g_pad[0]->GetRStickXF(),g_pad[0]->GetRStickYF() };
 		if (input.LengthSq() > 0.0f)
 		{
 			input.Normalize();
-			angle = Dot(input, { 0.0f,1.0f });
+			angle = Dot(input, INPUT_UP);
 			angle = acos(angle);
 
 			if (input.x > 0.0f)
@@ -79,11 +82,24 @@ namespace Game
 		{
 			bool hitCheck = false;
 
-			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, cutForce, [cutPoint,&hitCheck](const SkinModelRender* cutObject)->bool
+			Game::ModelCutManager::GetInstance()->QueryCut(cutNormal, cutPoint, cutForce, [cutPoint,&hitCheck, playerQRot](const SkinModelRender* cutObject)->bool
 				{
 					Vector3 distance = cutObject->GetPosition() - cutPoint;
 
-					if (distance.LengthSq() < CUT_RANGE * CUT_RANGE)
+					Vector3 front = Vector3::Front;
+					playerQRot.Apply(front);
+
+					Vector3 toCutObject = distance;
+					toCutObject.Normalize();
+
+					bool isInRange = false;
+					float dot = Dot(toCutObject, front);
+					if (dot >= PLAYER_CUTDEG)
+					{
+						isInRange = true;
+					}
+
+					if (distance.LengthSq() < CUT_RANGE * CUT_RANGE && isInRange)
 					{
 						hitCheck |= true;
 

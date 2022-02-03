@@ -13,6 +13,8 @@ namespace
 	const int MAX_CUT_NUM = 2;
 	const float ATTACK_RANGE = 600.0f;
 	const float ATTACK_DAMAGE = 25.0f;
+	const Vector3 PLAYER_CUTPOINT = { 0.0f,120.0f,0.0f };
+	const float PLAYER_CUTDEG = 0.7f;
 	const Vector3 ATTACK_CUT_NORMAL[3] = {
 		{0.1f,0.9f,-0.1f},
 		{0.5f,0.5f,0.2f},
@@ -31,13 +33,6 @@ namespace Game
 {
 	PlayerAttack::~PlayerAttack()
 	{
-		/*
-		if (m_testHitBox != nullptr)
-		{
-			DeleteGO(m_testHitBox);
-		}
-		*/
-		
 	}
 
 	void PlayerAttack::Update(const Vector3& playerPosition, PlayerAnimationParam& animParam, const Quaternion& toMoveRot)
@@ -55,36 +50,11 @@ namespace Game
 			//攻撃のカウントをインクリメント
 			m_attackTime++;
 
-			//当たり判定があれば
-			
-			/*
-			if (m_testHitBox != nullptr)
-			{
-				Vector3 cutPos = { 0.0f,120.0f,0.0f };
-				cutPos += playerPosition;
-				//当たり判定の座標をプレイヤーの位置にセット
-
-				Quaternion QRot;
-				QRot.SetRotation(Vector3::Right, ATTACK_CUT_NORMAL[m_comboNum-1]);
-				QRot.Multiply(toMoveRot);
-				m_testHitBox->SetRotation(QRot);
-				m_testHitBox->SetPosition(cutPos);
-			}
-			*/
-
 			//攻撃の当たり判定を作成する時間になったら
 			if (m_attackTime == TIME_ATTACK_COLLISION)
 			{
-				//TODO:トリガーの当たり判定を作成
-				/*
-				m_testHitBox = NewGO<SkinModelRender>(0);
-				m_testHitBox->Init(PATH_HITBOXMODEL);
-				m_testHitBox->SetPosition(playerPosition);
-				*/
 
-				
-
-				Vector3 cutPoint = { 0.0f,120.0f,0.0f };
+				Vector3 cutPoint = PLAYER_CUTPOINT;
 				cutPoint += playerPosition;
 
 				Vector3 cutNormal = ATTACK_CUT_NORMAL[m_comboNum - 1];
@@ -111,7 +81,7 @@ namespace Game
 
 						bool isInRange = false;
 						float dot = Dot(toCutObject, front);
-						if (dot >= 0.7f)
+						if (dot >= PLAYER_CUTDEG)
 						{
 							isInRange = true;
 						}
@@ -158,13 +128,6 @@ namespace Game
 			//1,2段目までの攻撃開始コンボ受付時間以内で、攻撃ボタンを押すと
 			if (g_pad[0]->IsTrigger(BUTTON_ATTACK) && m_attackTime > TIME_COMBO_ACCEPTABLE && m_comboNum <= 2)
 			{
-				//次のコンボに移るため当たり判定は削除
-				
-				/*
-				DeleteGO(m_testHitBox);
-				m_testHitBox = nullptr;
-				*/
-
 				//コンボ段数をインクリメント
 				m_comboNum++;
 
@@ -175,12 +138,6 @@ namespace Game
 			//攻撃終了フレームを超えると完全に攻撃終了
 			if (m_attackTime > TIME_ATTACK_END)
 			{
-				//当たり判定を削除
-				/*
-				DeleteGO(m_testHitBox);
-				m_testHitBox = nullptr;
-				*/
-
 				//コンボ段数と攻撃時間をリセット
 				m_comboNum = 0;
 				m_attackTime = 0;

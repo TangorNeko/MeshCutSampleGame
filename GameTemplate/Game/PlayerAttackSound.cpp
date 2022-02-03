@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PlayerAttackSound.h"
-#include <random>
 
 namespace
 {
@@ -25,11 +24,13 @@ namespace Game
 {
 	void PlayerAttackSound::PlayMissSound(int comboNum)
 	{
+		//コンボの段数に合わせてミスの音を再生
 		SoundOneShotPlay(MISSSOUND_PATH[comboNum]);
 	}
 	
 	void PlayerAttackSound::PlayHitSound(int comboNum)
 	{
+		//コンボの段数に合わせてヒット音を再生
 		SoundOneShotPlay(HITSOUND_PATH[comboNum]);
 	}
 }

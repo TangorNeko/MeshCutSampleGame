@@ -12,31 +12,33 @@ namespace Game
 
 		void Update() override;
 
+		/**
+		 * @brief サウンドを変更する
+		*/
 		void SoundChange();
 
 	private:
-
+		/**
+		 * @brief サウンド変更中の更新処理
+		*/
 		void SoundChangeUpdate();
 
 	private:
-		SoundSource* m_playingSoundSource = nullptr;
+		SoundSource* m_playingSoundSource = nullptr;	//現在プレイ中のサウンド
+		SoundSource* m_nextSoundSource = nullptr;		//次にプレイするサウンド
+		float m_playingSoundVolume = 1.0f;				//現在プレイ中のサウンドの音量
+		float m_nextSoundVolume = 0.0f;					//次にプレイするサウンドの音量
+		float m_soundChangeRate = 0.01f;				//音量の変更のレート
+		bool m_isSoundChanging = false;					//サウンドを変更中?
 
-		SoundSource* m_nextSoundSource = nullptr;
-
-		float m_playingSoundVolume = 1.0f;
-
-		float m_nextSoundVolume = 0.0f;
-
-		float m_soundChangeRate = 0.01f;
-
-		bool m_isSoundChanging = false;
-
+		//ゲームのBGMのフェーズ
 		enum GameBGMPhase
 		{
 			enTitle,
 			enBattle,
 		};
 
+		//現在のゲームのBGMのフェーズ
 		GameBGMPhase m_gameBGMPhase = enTitle;
 
 	};

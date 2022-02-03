@@ -26,6 +26,13 @@ namespace
 	const int PHASE_WAIT_TIME = 180;
 
 	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
+
+	const Vector3 DASHTUTORIAL_TO_TRIGGER = { 0.0f, 0.0f, 1400.0f };
+	const float DASHTUTORIAL_RANGE =  300.0f;
+
+	const int GAMEOVER_TIME = 100;
+	const int FADE_START_TIME = 280;
+	const int GAMESCENE_DELETE_TIME = 380;
 }
 
 namespace Game
@@ -52,10 +59,13 @@ namespace Game
 
 	void GameScene::Update()
 	{
-		Vector3 toTrigger = m_player->GetPosition();
-		toTrigger -= {0.0f, 0.0f, 1400.0f};
+		//フェーズに合わせて分岐
+		//TODO:フェーズごとにクラスを分離する
 
-		if (toTrigger.LengthSq() < 300.0f * 300.0f && m_phase == 0)
+		Vector3 toTrigger = m_player->GetPosition();
+		toTrigger -= DASHTUTORIAL_TO_TRIGGER;
+
+		if (toTrigger.LengthSq() < DASHTUTORIAL_RANGE * DASHTUTORIAL_RANGE && m_phase == 0)
 		{
 			//ダッシュのチュートリアルを表示
 			NewGO<DashTutorial>(0, "dashtutorial");
@@ -150,7 +160,7 @@ namespace Game
 			m_phaseWaitTime = 0;
 		}
 
-		if (m_phase == 9 && m_phaseWaitTime == 280)
+		if (m_phase == 9 && m_phaseWaitTime == FADE_START_TIME)
 		{
 			Fade* fade = NewGO<Fade>(0);
 			fade->SetFadeInRate(0.01f);
@@ -158,7 +168,7 @@ namespace Game
 			fade->SetFadeOutRate(0.01f);
 		}
 
-		if (m_phase == 9 && m_phaseWaitTime == 380)
+		if (m_phase == 9 && m_phaseWaitTime == GAMESCENE_DELETE_TIME)
 		{
 			NewGO<GameScene>(0, "gamescene");
 
@@ -168,13 +178,14 @@ namespace Game
 
 	void GameScene::NotifyGameOver()
 	{
+		//既にゲームオーバーなら何もしない
 		if (m_isGameOver)
 		{
 			return;
 		}
 
 		m_phase = 9;
-		m_phaseWaitTime = 100;
+		m_phaseWaitTime = GAMEOVER_TIME;
 
 		m_isGameOver = true;
 	}

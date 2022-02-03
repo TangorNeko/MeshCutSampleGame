@@ -12,6 +12,18 @@ namespace
 	const EnButton BUTTON_RUN = enButtonRB2;
 	const float MISSILEJUMP_SPEED = 30.0f;
 	const wchar_t* LANDING_SOUND_PATH = L"Assets/sound/LandingSE.wav";
+	const Vector3 TANK_RIGHT_POSITION = { 300.0f,250.0f,-1800.0f };
+	const Vector3 MISSILEMOVE_END_POSITION = { 300.0f,250.0f,-1600.0f };
+	const float MISSILEMOVE_END_DISTANCE = 300.0f;
+	const float MISSILEMOVE_REACH_DISTANCE = 50.0f;
+	const float MISSILEMOVE_VERTICAL_SPEED = 5.0f;
+	const float FRONTMOVE_DIVIDENUM = 25.0f;
+	const float FRONTMOVE_END = 25;
+	const Vector3 BACKHANDSPRING_GRAVITY = { 0.0f,-10.0f,0.0f };
+	const float BACKHANDSPRING_MOVE = 40;
+	const float BACKHANDSPRING_END = 100;
+	const float KNOCKDOWN_MOVE = 40;
+	const float KNOCKDOWN_END = 150;
 }
 
 namespace Game
@@ -51,7 +63,7 @@ namespace Game
 	void PlayerMove::KnockDown(const Vector3& moveAmount)
 	{
 		m_playerMoveEvent = enKnockDown;
-		knockDownAmount = moveAmount;
+		m_knockDownAmount = moveAmount;
 	}
 
 	void PlayerMove::BackHandSpring(const Vector3& moveAmount)
@@ -159,7 +171,7 @@ namespace Game
 			//ボスの方に向かせる
 			SetPlayerDirection(Vector3::Back);
 		}
-		//NOTE:仮のミサイルジャンプ処理
+		//NOTE:ミサイルジャンプ処理
 		if (m_isMissileMove)
 		{
 			m_targetCount = 1;
@@ -180,17 +192,17 @@ namespace Game
 			//現在の座標
 			m_targetPos[0] = playerPosition;
 
-			//仮:戦車砲身横の座標
-			m_targetPos[4] = { 300.0f,250.0f,-1800.0f };
+			//戦車砲身横の座標
+			m_targetPos[4] = TANK_RIGHT_POSITION;
 
 			if (m_moveState == 4)
 			{
 
-				Vector3 LastPos = { 300.0f,250.0f,-1600.0f };
+				Vector3 LastPos = MISSILEMOVE_END_POSITION;
 
 				Vector3 dis = LastPos - playerPosition;
 
-				if (dis.LengthSq() < 300.0f * 300.0f)
+				if (dis.LengthSq() < MISSILEMOVE_END_DISTANCE * MISSILEMOVE_END_DISTANCE)
 				{
 					animParam.playerState = PlayerAnimationParam::enIdle;
 
@@ -203,7 +215,7 @@ namespace Game
 			Vector3 distance = m_targetPos[m_moveState] - playerPosition;
 
 			//ターゲットから50以内なら到達判定
-			if (distance.LengthSq() < 50.0f * 50.0f)
+			if (distance.LengthSq() < MISSILEMOVE_REACH_DISTANCE * MISSILEMOVE_REACH_DISTANCE)
 			{
 				//次のターゲットへ
 				m_moveState++;
@@ -253,12 +265,12 @@ namespace Game
 				if (m_isMovingUp)
 				{
 					//上移動中なら上移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * 5.0f * m_jumpFrameCount;
+					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * m_jumpFrameCount;
 				}
 				else
 				{
 					//下移動中なら下移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * 5.0f * (m_distanceCount - m_jumpFrameCount);
+					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * (m_distanceCount - m_jumpFrameCount);
 				}
 			}
 
@@ -267,9 +279,6 @@ namespace Game
 
 			//移動速度を乗算
 			distance *= MISSILEJUMP_SPEED;
-
-			//上下移動分のベクトルを加算。
-			//distance += jumpMoveVector;
 
 			//キャラコンに実行させる。
 			playerPosition = m_charaCon.Execute(distance, 1.0f);
@@ -290,16 +299,16 @@ namespace Game
 			Vector3 targetPos = bossTank->GetFrontPosition();
 
 			m_frontMoveAmount = targetPos - playerPosition;
-			m_frontMoveAmount /= 25.0f;
+			m_frontMoveAmount /= FRONTMOVE_DIVIDENUM;
 			m_jumpFrameCount = 0;
 			m_isJumpStartFrame = false;
 		}
 
-		if (m_jumpFrameCount < 25)
+		if (m_jumpFrameCount < FRONTMOVE_END)
 		{
 			playerPosition += m_frontMoveAmount;
 		}
-		if (m_jumpFrameCount == 25)
+		if (m_jumpFrameCount == FRONTMOVE_END)
 		{
 			animParam.playerState = PlayerAnimationParam::enIdle;
 			m_charaCon.SetPosition(playerPosition);
@@ -317,9 +326,9 @@ namespace Game
 	{
 		animParam.playerState = PlayerAnimationParam::enBackHandSpring;
 
-		if (backHandspringFrame <= 40)
+		if (backHandspringFrame <= BACKHANDSPRING_MOVE)
 		{
-			Vector3 gravity = { 0.0f,-10.0f,0.0f };
+			Vector3 gravity = BACKHANDSPRING_GRAVITY;
 			playerPosition = m_charaCon.Execute(backHandSpringAmount, 1.0f);
 			playerPosition = m_charaCon.Execute(gravity, 1.0f);
 
@@ -332,7 +341,7 @@ namespace Game
 
 		backHandspringFrame++;
 
-		if (backHandspringFrame == 100)
+		if (backHandspringFrame == BACKHANDSPRING_END)
 		{
 			animParam.playerState = PlayerAnimationParam::enIdle;
 			backHandspringFrame = 0;
@@ -346,17 +355,17 @@ namespace Game
 	{
 		animParam.playerState = PlayerAnimationParam::enKnockDown;
 
-		if (knockDownFrame <= 40)
+		if (m_knockDownFrame <= KNOCKDOWN_MOVE)
 		{
-			playerPosition = m_charaCon.Execute(knockDownAmount, 1.0f);
+			playerPosition = m_charaCon.Execute(m_knockDownAmount, 1.0f);
 		}
 
-		knockDownFrame++;
+		m_knockDownFrame++;
 
-		if (knockDownFrame == 150)
+		if (m_knockDownFrame == KNOCKDOWN_END)
 		{
 			animParam.playerState = PlayerAnimationParam::enIdle;
-			knockDownFrame = 0;
+			m_knockDownFrame = 0;
 
 			m_playerMoveEvent = enNormal;
 		}

@@ -31,10 +31,9 @@ namespace Game
 		Player* m_player = nullptr;								//プレイヤークラス
 		BossTank* m_bossTank = nullptr;							//戦車のボスクラス
 		GameSceneBGM* m_gameSceneBGM = nullptr;					//BGM再生クラス
-
-		int m_phase = 0;
-		int m_phaseWaitTime = 0;
-		bool m_isGameOver = false;
+		int m_phase = 0;										//ゲームシーンのフェーズ
+		int m_phaseWaitTime = 0;								//フェーズの待機時間
+		bool m_isGameOver = false;								//ゲームオーバーになった?
 	};
 }
 

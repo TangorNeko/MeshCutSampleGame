@@ -14,6 +14,8 @@ namespace Game
 {
 	void ProductsDeleter::DeleteProducts()
 	{
+		//ƒQ[ƒ€ƒV[ƒ“‚Å¶¬‚³‚ê‚é•¨‚ğ‚Ü‚Æ‚ß‚Äíœ‚·‚é
+
 		QueryGOs<EnemyMissile>("missile", [](EnemyMissile* enemyMissile)->bool
 			{
 				DeleteGO(enemyMissile);

@@ -16,6 +16,8 @@ namespace
 	const Vector2 HP_BAR_PIVOT = { 0.0f,0.0f };
 	const float ALPHA_INCREASE_VALUE = 0.01f;
 	const float ALPHA_MAX = 1.0f;
+	const float HPBAR_SCALE_YZ = 1.0f;
+	const float HPBAR_SCALE_DIVIDENUM = 1000.0f;
 }
 
 namespace Game
@@ -63,6 +65,6 @@ namespace Game
 		m_hpBar->SetMulColor(mulColor);
 	
 
-		m_hpBar->SetScale({ hp / 1000.0f,1.0f,1.0f });
+		m_hpBar->SetScale({ hp / HPBAR_SCALE_DIVIDENUM,HPBAR_SCALE_YZ,HPBAR_SCALE_YZ });
 	}
 }
