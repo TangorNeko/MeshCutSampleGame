@@ -11,7 +11,7 @@ namespace Game
 		void Update() override;
 
 	private:
-		SpriteRender* m_spriteRender = nullptr;
-		int m_frame = 0;
+		SpriteRender* m_spriteRender = nullptr; //チュートリアルのスプライト
+		int m_popUpProgress = 0;				//ポップアップ処理の進度
 	};
 }

@@ -47,10 +47,10 @@ namespace Game
 	{
 		Vector3 distance = m_player->GetPosition() - m_doorModel->GetPosition();
 		//ドアの近くにプレイヤーが来ると攻撃のチュートリアルを表示
-		if (distance.LengthSq() < ATTACK_TUTORIAL_DISTANCE * ATTACK_TUTORIAL_DISTANCE && m_isDisplayedTutorial == false)
+		if (distance.LengthSq() < ATTACK_TUTORIAL_DISTANCE * ATTACK_TUTORIAL_DISTANCE && m_isDisplayAttackTutorial == false)
 		{
 			NewGO<AttackTutorial>(0, "attacktutorial");
-			m_isDisplayedTutorial = true;
+			m_isDisplayAttackTutorial = true;
 		}
 	}
 }

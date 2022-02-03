@@ -45,7 +45,7 @@ namespace Game
 		m_skinModelRender->SetPosition(m_position);
 		m_skinModelRender->SetRotation(m_qRot);
 
-
+		//ミサイルの角度をセット
 		Quaternion MissileRot;
 		MissileRot.SetRotationDegX(EFFECT_MISSILE_ROTATEDEG);
 		MissileRot.Multiply(m_qRot);

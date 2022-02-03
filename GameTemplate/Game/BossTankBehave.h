@@ -49,6 +49,9 @@ namespace Game
 		*/
 		void ExecuteTask();
 
+		/**
+		 * @brief タスクを強制的に中断する
+		*/
 		void TerminateTask();
 	private:
 		EnemyTask m_tankTask[BossTankTasks::enTaskNum];		//ボスのタスクの配列(原本、ここからキューにコピーされる)

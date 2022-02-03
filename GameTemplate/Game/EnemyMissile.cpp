@@ -14,6 +14,8 @@ namespace
 	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };
 	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;
 	const wchar_t* EXPLOSION_SOUND_PATH = L"Assets/sound/ExplosionSE.wav";
+	const Vector3 EFFECT_EXPLOSION_SCALE = { 25.0f,25.0f,25.0f };
+	const int HEALDROP_MODULO_NUM = 5;
 }
 
 namespace Game
@@ -97,7 +99,7 @@ namespace Game
 		std::mt19937 engine(seed_gen());
 		int random = engine();
 
-		if (random % 5 == 0)
+		if (random % HEALDROP_MODULO_NUM == 0)
 		{
 			HealItem* healItem = NewGO<HealItem>(0,"healItem");
 			healItem->SetPosition(m_position);
@@ -117,7 +119,7 @@ namespace Game
 
 					Effect* boomEffect = NewGO<Effect>(0);
 					boomEffect->Init(u"Assets/effect/Boom.efk");
-					boomEffect->SetScale({ 25.0f,25.0f,25.0f });
+					boomEffect->SetScale(EFFECT_EXPLOSION_SCALE);
 					boomEffect->SetPosition(m_position);
 					boomEffect->Play();
 

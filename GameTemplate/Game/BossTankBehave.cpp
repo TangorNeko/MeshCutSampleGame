@@ -37,6 +37,7 @@ namespace Game
 		}
 
 		//デバッグ用、現在のタスクをリセットする
+		/*
 		if (g_pad[0]->IsTrigger(enButtonLB2))
 		{
 			while (m_taskQueue.size() != 0)
@@ -45,6 +46,7 @@ namespace Game
 				m_taskQueue.pop();
 			}
 		}
+		*/
 	}
 
 	void BossTankBehave::CheckEvent(BossTankStatus& bossTankStatus)

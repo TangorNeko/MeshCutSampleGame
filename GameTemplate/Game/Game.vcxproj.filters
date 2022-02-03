@@ -159,6 +159,24 @@
     <Filter Include="ヘッダー ファイル\Util">
       <UniqueIdentifier>{0485e8ba-a256-4d95-a38a-7ffe925533b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Tutorial">
+      <UniqueIdentifier>{160d4b0d-d006-4da8-ae4d-ca3a3ae21fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Command">
+      <UniqueIdentifier>{c38e0451-b2c9-4146-8c5c-b429f39da6c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Rendering">
+      <UniqueIdentifier>{2a35c932-45bb-4947-96d6-487751d55c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Rendering">
+      <UniqueIdentifier>{f5260988-b6f0-48e2-b859-1c85aebc8e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Command">
+      <UniqueIdentifier>{0ca04bc2-175f-4c3f-9eba-ecaf94b52937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Tutorial">
+      <UniqueIdentifier>{d8bacf18-efb1-4ab6-8782-b3ac6b008b7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -518,38 +536,38 @@
     <ClCompile Include="Door.cpp">
       <Filter>ソース ファイル\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="AttackTutorial.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DashTutorial.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BossTankFinishCommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSceneBGM.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttackSound.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp">
       <Filter>MiniEngine</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="AttackTutorial.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="ShadowRender.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="DashTutorial.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="TitleDoor.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="BossTankFinishCommand.cpp">
+      <Filter>ソース ファイル\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInput.cpp">
+      <Filter>ソース ファイル\Command</Filter>
     </ClCompile>
     <ClCompile Include="TitleSprites.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleDoor.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowRender.cpp">
+      <Filter>ソース ファイル\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingEngine.cpp">
+      <Filter>ソース ファイル\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackSound.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneBGM.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -958,38 +976,38 @@
     <ClInclude Include="Door.h">
       <Filter>ヘッダー ファイル\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="AttackTutorial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="DashTutorial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandInput.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BossTankFinishCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSceneBGM.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttackSound.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MiniEngine\RenderTarget.h">
       <Filter>MiniEngine</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="DashTutorial.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowRender.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="AttackTutorial.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneBGM.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackSound.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
     <ClInclude Include="TitleDoor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="TitleSprites.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInput.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="BossTankFinishCommand.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingEngine.h">
+      <Filter>ヘッダー ファイル\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowRender.h">
+      <Filter>ヘッダー ファイル\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

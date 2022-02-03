@@ -32,7 +32,7 @@ namespace Graphics
 			return m_shadowRender.GetShadowMap();
 		}
 	private:
-		ShadowRender m_shadowRender;
+		ShadowRender m_shadowRender;	//影の描画クラス
 	};
 
 	extern RenderingEngine* g_renderingEngine;	//レンダリングエンジン

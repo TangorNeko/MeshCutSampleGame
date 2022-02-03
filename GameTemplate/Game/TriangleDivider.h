@@ -157,7 +157,7 @@ namespace Util
 		VertexBuffer* m_vertexBuffer = nullptr;		//元の頂点バッファ
 		IndexBuffer* m_frontIndexBuffer = nullptr;	//表側のメッシュのインデックスバッファ
 		IndexBuffer* m_backIndexBuffer = nullptr;	//裏側のメッシュのインデックスバッファ
-		std::map<TkmFile::SVertex, uint16_t> m_newVertexMap;//頂点バッファをキーとして、既に同じ頂点が登録されていた場合そのインデックスを返す連想配列
+		std::map<TkmFile::SVertex, uint16_t> m_newVertexMap;//頂点をキーとして、既に同じ頂点が登録されていた場合そのインデックスを返す連想配列
 		std::set<std::pair<uint16_t, uint16_t>>* m_cutSurfaceSegmentSet = nullptr;//切断面にできた線分の開始、終了インデックスを格納する集合
 	};
 }

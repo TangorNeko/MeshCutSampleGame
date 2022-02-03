@@ -12,6 +12,10 @@ namespace
 	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,-100.0f };
 	const int MAX_HP = 400;
 	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";
+	const Vector3 TO_RIGHTCANNON_VECTOR = { 160.0f,250.0f,0.0f };
+	const Vector3 TO_LEFTCANNON_VECTOR = { -160.0f,250.0f,0.0f };
+	const Vector3 TO_FRONT_VECTOR = { 0.0f, 190.0f, 300.0f };
+	const float PLAYER_BACKHANDSPRING_POWER = 5.0f;
 }
 
 namespace Game
@@ -117,7 +121,7 @@ namespace Game
 			toResPos.y = 0.0f;
 			toResPos.Normalize();
 
-			player->BackHandSpring(toResPos * 5);
+			player->BackHandSpring(toResPos * PLAYER_BACKHANDSPRING_POWER);
 			player->StartFinishCamera();
 
 			Explosion* explosion = NewGO<Explosion>(0);
@@ -233,7 +237,7 @@ namespace Game
 
 	Vector3 BossTank::GetRightCannonPosition()
 	{
-		Vector3 toRightCannonVec = { 160.0f,250.0f,0.0f };
+		Vector3 toRightCannonVec = TO_RIGHTCANNON_VECTOR;
 
 		m_bossTankStatus.turretRot.Apply(toRightCannonVec);
 
@@ -242,7 +246,7 @@ namespace Game
 
 	Vector3 BossTank::GetLeftCannonPosition()
 	{
-		Vector3 toLeftCannonVec = { -160.0f,250.0f,0.0f };
+		Vector3 toLeftCannonVec = TO_LEFTCANNON_VECTOR;
 
 		m_bossTankStatus.turretRot.Apply(toLeftCannonVec);
 
@@ -251,7 +255,7 @@ namespace Game
 
 	Vector3 BossTank::GetFrontPosition()
 	{
-		Vector3 toFrontVec = { 0.0f, 190.0f, 300.0f };
+		Vector3 toFrontVec = TO_FRONT_VECTOR;
 
 		m_bossTankStatus.baseRot.Apply(toFrontVec);
 

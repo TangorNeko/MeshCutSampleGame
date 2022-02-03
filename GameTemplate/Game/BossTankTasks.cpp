@@ -21,6 +21,16 @@ namespace
 	const int ROLLING_TIME_END = 63;
 	const float ROLLING_RANGE = 700.0f;
 	const float ROLLING_KNOCKDOWN_POWER = 60.0f;
+	const int SUMMON_EVENTCAMERA_START_TIME = 0;
+	const int SUMMON_BOSSCAMERA_START_TIME = 100;
+	const int SUMMON_EVENTCAMERA_END_TIME = 500;
+	const int SUMMON_BOSSCAMERA_END_TIME = 400;
+	const float SUMMON_BOSSCAMERA_START_DIVIDENUM = 70.0f;
+	const int SUMMON_BOSSCAMERA_START_OFFSET = 30;
+	const float SUMMON_BOSSCAMERA_END_DIVIDENUM = 100.0f;
+	const float SUMMON_BOSSCAMERA_END_OFFSET = 500.0f;
+	const float SUMMON_BACKHANDSPRING_POWER = 30.0f;
+	const int SUMMON_PLAYER_RESET_TIME = 10;
 	const int SUMMON_TIME = 300;
 	const int SUMMON_NUM = 4;
 	const Vector3 MINION_POSITIONS[SUMMON_NUM] = { { 850.0f,0.0f,-1400.0f }, { -850.0f,0.0f,-1400.0f } ,{ 1300.0f,0.0f,-1000.0f } ,{ -1300.0f,0.0f,-1000.0f } };
@@ -30,6 +40,23 @@ namespace
 	const int ROCK_TIME_SECOND = 45;
 	const int ROCK_TIME_THIRD = 48;
 	const int WAIT_TIME = 150;
+	const float STEP_START_TURRET_DEG = 0.0f;
+	const int STEP_EVENTCAMERA_START_TIME = 30;
+	const int STEP_BOSSCAMERA_START_TIME = 100;
+	const int STEP_EVENTCAMERA_END_TIME = 325;
+	const int STEP_BOSSCAMERA_END_TIME = 275;
+	const int STEP_PLAYER_RESET_TIME = 140;
+	const int STEP_MISSILE1_SHOT_TIME = 150;
+	const int STEP_MISSILE2_SHOT_TIME = 250;
+	const int STEP_MISSILE3_SHOT_TIME = 350;
+	const int STEP_COMMAND_TIME = 325;
+	const int STEP_PAUSE_TIME = 326;
+	const int STEP_END_TIME = 400;
+	const float STEP_BOSSCAMERA_START_DIVIDENUM = 70.0f;
+	const int STEP_BOSSCAMERA_START_OFFSET = 30;
+	const float STEP_BOSSCAMERA_END_DIVIDENUM = 50.0f;
+	const float STEP_BOSSCAMERA_END_OFFSET = 325.0f;
+	const Vector3 PLAYER_RESET_POSITION = { 0.0f,0.0f,1200.0f };
 	const Vector3 EVENT_CAMERA_POSITION = { 0.0f,200.0f,0.0f };
 	const Vector3 EFFECT_WARNING_HEIGHT = { 0.0f,250.0f,0.0f };
 	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
@@ -137,7 +164,7 @@ namespace Game
 					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 
 					//プレイヤーとの距離が近かったら
-					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE)
 					{
 						distance.y = 0.0f;
 						distance.Normalize();
@@ -171,9 +198,9 @@ namespace Game
 		SummonTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
 
-				if (taskTime <= 100 && taskTime >= 0)
+				if (taskTime <= SUMMON_BOSSCAMERA_START_TIME && taskTime >= SUMMON_EVENTCAMERA_START_TIME)
 				{
-					float t = (taskTime - 30) / 70.0f;
+					float t = (taskTime - SUMMON_BOSSCAMERA_START_OFFSET) / SUMMON_BOSSCAMERA_START_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
@@ -183,23 +210,23 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
-				if (taskTime > 100 && taskTime < 400)
+				if (taskTime > SUMMON_BOSSCAMERA_START_TIME && taskTime < SUMMON_BOSSCAMERA_END_TIME)
 				{
 					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
 					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
-				if (taskTime == 10)
+				if (taskTime == SUMMON_PLAYER_RESET_TIME)
 				{
 					Player* player = FindGO<Player>("player");
 
-					Vector3 resPos = { 0.0f,0.0f,1200.0f };
+					Vector3 resPos = PLAYER_RESET_POSITION;
 
 					Vector3 toResPos = resPos - player->GetPosition();
 
 					toResPos.Normalize();
 
-					player->BackHandSpring(toResPos * 30);
+					player->BackHandSpring(toResPos * SUMMON_BACKHANDSPRING_POWER);
 				}
 
 				if (taskTime == SUMMON_TIME)
@@ -221,9 +248,9 @@ namespace Game
 					//召喚したらタスクは終わり
 				}
 
-				if (taskTime >= 400 && taskTime <= 500)
+				if (taskTime >= SUMMON_BOSSCAMERA_END_TIME && taskTime <= SUMMON_EVENTCAMERA_END_TIME)
 				{
-					float t = (500.0f - taskTime) / 100.0f;
+					float t = (SUMMON_BOSSCAMERA_END_OFFSET - taskTime) / SUMMON_BOSSCAMERA_END_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
@@ -233,7 +260,7 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
-				if (taskTime == 500)
+				if (taskTime == SUMMON_EVENTCAMERA_END_TIME)
 				{
 					return true;
 				}
@@ -275,7 +302,7 @@ namespace Game
 					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 
 					//プレイヤーとの距離が近かったら
-					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE && player->isGuard() == false)
+					if (distance.LengthSq() < ROLLING_RANGE * ROLLING_RANGE)
 					{
 						distance.Normalize();
 
@@ -386,14 +413,13 @@ namespace Game
 	{
 		EnemyTask StepTask;
 
-		//TODO:仮、マジックナンバーだらけなので整理する
 		StepTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
 
-				if (taskTime <= 100 && taskTime >= 30)
+				if (taskTime <= STEP_BOSSCAMERA_START_TIME && taskTime >= STEP_EVENTCAMERA_START_TIME)
 				{
-					bossTank->SetTurretDeg(0.0f);
-					float t = (taskTime - 30) / 70.0f;
+					bossTank->SetTurretDeg(STEP_START_TURRET_DEG);
+					float t = (taskTime - STEP_BOSSCAMERA_START_OFFSET) / STEP_BOSSCAMERA_START_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
@@ -404,22 +430,22 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
-				if (taskTime > 100 && taskTime < 275)
+				if (taskTime > STEP_BOSSCAMERA_START_TIME && taskTime < STEP_BOSSCAMERA_END_TIME)
 				{
 					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
 					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
-				if (taskTime == 140)
+				if (taskTime == STEP_PLAYER_RESET_TIME)
 				{
 					Player* player = FindGO<Player>("player");
 
-					Vector3 resPos = { 0.0f,0.0f,1200.0f };
+					Vector3 resPos = PLAYER_RESET_POSITION;
 
 					player->SetPosition(resPos);
 				}
 
-				if (taskTime == 150)
+				if (taskTime == STEP_MISSILE1_SHOT_TIME)
 				{
 					Player* player = FindGO<Player>("player");
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
@@ -435,7 +461,7 @@ namespace Game
 				}
 
 
-				if (taskTime == 250)
+				if (taskTime == STEP_MISSILE2_SHOT_TIME)
 				{
 					Player* player = FindGO<Player>("player");
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
@@ -450,7 +476,7 @@ namespace Game
 					SoundOneShotPlay(MISSILE_SOUND_PATH);
 				}
 
-				if (taskTime == 350)
+				if (taskTime == STEP_MISSILE3_SHOT_TIME)
 				{
 					Player* player = FindGO<Player>("player");
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
@@ -465,9 +491,9 @@ namespace Game
 					SoundOneShotPlay(MISSILE_SOUND_PATH);
 				}
 
-				if (taskTime >= 275 &&  taskTime <= 325)
+				if (taskTime >= STEP_BOSSCAMERA_END_TIME &&  taskTime <= STEP_EVENTCAMERA_END_TIME)
 				{
-					float t = (325.0f - taskTime) / 50.0f;
+					float t = (STEP_BOSSCAMERA_END_OFFSET - taskTime) / STEP_BOSSCAMERA_END_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
 					Player* player = FindGO<Player>("player");
@@ -477,20 +503,20 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
-				if (taskTime == 325)
+				if (taskTime == STEP_COMMAND_TIME)
 				{
 					NewGO<CommandInput>(0);
 					Player* player = FindGO<Player>("player");
 					player->NoticeMissileMoveStart();
 				}
 
-				if (taskTime == 326)
+				if (taskTime == STEP_PAUSE_TIME)
 				{
 					GameObjectManager::GetInstance()->SetPauseFlag(true);
 				}
 
 
-				if (taskTime == 400)
+				if (taskTime == STEP_END_TIME)
 				{
 					return true;
 				}

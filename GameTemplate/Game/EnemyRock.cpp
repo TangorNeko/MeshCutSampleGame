@@ -12,6 +12,7 @@ namespace
 	const float ROCK_MOVESPEED = 30.0f;
 	const float ROCK_GRAVITY = 0.5f;
 	const int ROCK_DAMAGE = 50;
+	const int HEALDROP_MODULO_NUM = 10;
 }
 
 namespace Game
@@ -63,7 +64,7 @@ namespace Game
 		std::mt19937 engine(seed_gen());
 		int random = engine();
 
-		if (random % 10 == 0)
+		if (random % HEALDROP_MODULO_NUM == 0)
 		{
 			HealItem* healItem = NewGO<HealItem>(0,"healItem");
 			healItem->SetPosition(m_position);

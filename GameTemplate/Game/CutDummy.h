@@ -48,6 +48,10 @@ namespace Game
 			m_toModelRot = toModelRot;
 		}
 
+		/**
+		 * @brief 切断時の力をセットする
+		 * @param force 切断時の力
+		*/
 		void SetCutForce(const Vector3& force)
 		{
 			cutForce = force;
@@ -57,7 +61,7 @@ namespace Game
 		CapsuleCollider m_capsuleCollider;					//カプセル状のコライダー
 		float m_dummyRadius = 1.0f;							//ダミーのカプセルの半径
 		float m_dummyHeight = 1.0f;							//ダミーのカプセルの高さ
-		RigidBody* m_rigidBody = nullptr;								//ダミーの剛体
+		RigidBody* m_rigidBody = nullptr;					//ダミーの剛体
 		Vector3 m_position = Vector3::Zero;					//座標
 		Quaternion m_rigidBodyRot = Quaternion::Identity;	//剛体の回転;
 		Quaternion m_capsuleRot = Quaternion::Identity;		//上方向からカプセルの軸方向へ回転させるクォータニオン
@@ -65,7 +69,7 @@ namespace Game
 		Quaternion m_modelRot = Quaternion::Identity;		//元々のモデルのクォータニオン
 		bool m_isCut = false;								//切断された?
 		int m_timer = 0;									//消滅タイマー
-		Vector3 cutForce = Vector3::Zero;
+		Vector3 cutForce = Vector3::Zero;					//切断時の力
 	};
 }
 

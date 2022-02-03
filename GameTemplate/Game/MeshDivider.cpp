@@ -23,8 +23,10 @@ namespace Util
 				triangleData.vertexIndexes[1] = *(it + 1);
 				triangleData.vertexIndexes[2] = *(it + 2);
 
+				//頂点が面の裏表に分かれているかチェックする
 				bool isDivide = triangleDivider.DivideCheck(triangleData);
 
+				//一つでも分かれていたら切断されているためtrueを返す
 				if (isDivide == true)
 				{
 					return true;
@@ -32,6 +34,7 @@ namespace Util
 			}
 		}
 
+		//切断されていないためfalseを返す
 		return false;
 	}
 

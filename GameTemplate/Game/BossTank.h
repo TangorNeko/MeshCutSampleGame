@@ -90,15 +90,32 @@ namespace Game
 			return m_bossTankStatus.baseDeg;
 		}
 
-
+		/**
+		 * @brief 右側の砲身の座標を取得
+		 * @return 
+		*/
 		Vector3 GetRightCannonPosition();
 
+		/**
+		 * @brief 左側の砲身の座標を取得
+		 * @return
+		*/
 		Vector3 GetLeftCannonPosition();
 
+		/**
+		 * @brief ボス正面の座標を取得
+		 * @return
+		*/
 		Vector3 GetFrontPosition();
 
+		/**
+		 * @brief 砲身の切断を許可する
+		*/
 		void AllowCannonCut();
 
+		/**
+		 * @brief 車体と砲塔の切断を許可する
+		*/
 		void AllowBodyCut();
 	private:
 		SkinModelRender* m_baseRender = nullptr;			//車体のモデル

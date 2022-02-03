@@ -25,6 +25,7 @@ namespace Graphics
 
 	void RenderingEngine::SetDefaultViewPort(RenderContext& rc)
 	{
+		//ビューポートをデフォルトのものに戻す
 		D3D12_VIEWPORT defaultViewPort;
 		defaultViewPort.TopLeftX = 0;
 		defaultViewPort.TopLeftY = 0;

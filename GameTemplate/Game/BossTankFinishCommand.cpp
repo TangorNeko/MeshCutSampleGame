@@ -15,18 +15,22 @@ namespace Game
 	{
 		Player* player = FindGO<Player>("player");
 
+		//プレイヤーとの距離を取得
 		Vector3 distance = player->GetPosition() - bossPosition;
 
+		//プレイヤーに近ければ表示
 		if (distance.LengthSq() < FINISH_COMMAND_RANGE * FINISH_COMMAND_RANGE && bossHp <= 0 && m_finishCommandInput == nullptr)
 		{
 			m_finishCommandInput = NewGO<CommandInput>(0);
 		}
 		else if(distance.LengthSq() >= FINISH_COMMAND_RANGE * FINISH_COMMAND_RANGE)
 		{
+			//遠ければ非表示
 			DeleteGO(m_finishCommandInput);
 			m_finishCommandInput = nullptr;
 		}
 
+		//コマンド入力が成功するとプレイヤーに移動の開始を通知する
 		if (m_finishCommandInput != nullptr && m_finishCommandInput->isSuccess() == true)
 		{
 			player->NoticeFrontMoveStart();

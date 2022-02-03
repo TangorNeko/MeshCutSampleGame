@@ -43,11 +43,9 @@ namespace Game
 		//プレイヤーのHP表示の更新
 		m_playerDisplay.Update(m_hp);
 
-		bool isCutMode = g_pad[0]->IsPress(enButtonLB1);
-
 		//移動
 		//NOTE:仮。LB1押している時は移動させない
-		if (isCutMode == false && m_eventCut == false)
+		if (m_eventCut == false)
 		{
 			m_eventCut = m_playerMove.Move(m_position,m_playerAnimationParam);
 		}
@@ -58,12 +56,6 @@ namespace Game
 
 		m_playerCut.SetCutEvent(m_eventCut,m_position);
 
-		//TODO:仮のガードアニメ　後からクラス分離
-		if (g_pad[0]->IsPress(enButtonRB1))
-		{
-			m_playerAnimationParam.playerState = PlayerAnimationParam::enGuard;
-		}
-
 		if (m_isFinishCamera == true)
 		{
 			m_finishCount++;
@@ -73,7 +65,7 @@ namespace Game
 		{
 			m_playerCamera.UpdateFinishCamera(m_playerAnimationParam);
 		}
-		else if (isCutMode == false && m_eventCut == false)
+		else if (m_eventCut == false)
 		{
 			//カメラの移動
 			m_playerCamera.Update(m_position);
@@ -93,7 +85,7 @@ namespace Game
 		//プレイヤーの向きにモデルを向ける
 		m_playerModel->SetRotation(m_playerMove.GetPlayerDirectionRot());
 
-		if (isCutMode == false && m_eventCut == false)
+		if (m_eventCut == false)
 		{
 			//攻撃のアップデート
 			m_playerAttack.Update(m_position, m_playerAnimationParam, m_playerMove.GetPlayerDirectionRot());

@@ -13,7 +13,7 @@ namespace Game
 		void Init(const Vector3& position,const Quaternion qRot);
 
 		/**
-		 * @brief 当たり判定のこうとん
+		 * @brief 当たり判定の更新
 		 * @param position ボスの座標
 		 * @param qRot ボスの回転
 		*/

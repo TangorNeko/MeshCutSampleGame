@@ -17,8 +17,7 @@ namespace Game
 	private:
 		SkinModelRender* m_doorModel = nullptr;					//ドアのモデル
 		PhysicsStaticObject* m_physicsStaticObject = nullptr;	//ドアのモデルの当たり判定
-		bool m_isDisplayAttackTutorial = false;
-		Player* m_player = nullptr;
-		bool m_isDisplayedTutorial = false;
+		Player* m_player = nullptr;								//プレイヤークラスのポインタ
+		bool m_isDisplayAttackTutorial = false;					//攻撃のチュートリアルを表示した?
 	};
 }

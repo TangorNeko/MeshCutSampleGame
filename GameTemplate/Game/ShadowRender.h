@@ -26,7 +26,7 @@ namespace Graphics
 			return m_shadowMap.GetRenderTargetTexture();
 		}
 	private:
-		RenderTarget m_shadowMap;
+		RenderTarget m_shadowMap;	//シャドウマップ
 	};
 }
 

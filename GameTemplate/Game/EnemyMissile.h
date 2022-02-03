@@ -56,6 +56,6 @@ namespace Game
 		CPhysicsGhostObject m_capsuleTrigger;			//当たり判定のトリガー
 		EnemyMissileMove m_missileMove;					//ミサイルの移動処理クラス
 		EnemyMissileRotation m_missileRotation;			//ミサイルの回転処理クラス
-		Effect* m_missileEffect = nullptr;
+		Effect* m_missileEffect = nullptr;				//ミサイルのエフェクト
 	};
 }

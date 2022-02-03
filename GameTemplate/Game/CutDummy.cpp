@@ -5,6 +5,11 @@ namespace
 {
 	const int TIME_DITHER_START = 50;
 	const int FRAME_DELETE = 360;
+	const float DUMMY_CAPSULE_COLLISION_DIVIDENUM = 3.0f;
+	const float DUMMY_RIGIDBODY_MASS = 100.0f;
+	const float DUMMY_RIGIDBODY_LOCALINTERIA = 0.1f;
+	const float DUMMY_RIGIDBODY_FRICTION = 10.0f;
+	const float DUMMY_RIGIDBODY_LINEARFACTOR = 1.0f;
 }
 
 namespace Game
@@ -26,13 +31,13 @@ namespace Game
 		m_rigidBody = new RigidBody;
 
 		//カプセル状のコライダーを作成
-		m_capsuleCollider.Init(m_dummyRadius/3.0f,m_dummyHeight/3.0f);
+		m_capsuleCollider.Init(m_dummyRadius/ DUMMY_CAPSULE_COLLISION_DIVIDENUM,m_dummyHeight/ DUMMY_CAPSULE_COLLISION_DIVIDENUM);
 		
 		//球状のコライダーを作成
 		RigidBodyInitData rbInitData;
 
 		//重量をセット(サンプルのまま)
-		rbInitData.mass = 100.0f;
+		rbInitData.mass = DUMMY_RIGIDBODY_MASS;
 
 		//コライダーをセット
 		rbInitData.collider = &m_capsuleCollider;
@@ -46,17 +51,17 @@ namespace Game
 
 		//回転のしやすさを設定する。(0～1、サンプルのまま)
 		rbInitData.localInteria.Set(
-			0.1f,
-			0.1f,
-			0.1f
+			DUMMY_RIGIDBODY_LOCALINTERIA,
+			DUMMY_RIGIDBODY_LOCALINTERIA,
+			DUMMY_RIGIDBODY_LOCALINTERIA
 		);
 
 		m_rigidBody->Init(rbInitData);
 		//摩擦力を設定する。(0～10、サンプルのまま)
-		m_rigidBody->SetFriction(10.0f);
+		m_rigidBody->SetFriction(DUMMY_RIGIDBODY_FRICTION);
 		//線形移動する要素を設定する。
 		//0を指定した軸は移動しない。
-		m_rigidBody->SetLinearFactor(1.0f, 1.0f, 1.0f);
+		m_rigidBody->SetLinearFactor(DUMMY_RIGIDBODY_LINEARFACTOR, DUMMY_RIGIDBODY_LINEARFACTOR, DUMMY_RIGIDBODY_LINEARFACTOR);
 
 		m_rigidBody->AddForce(cutForce, m_dummyModel->GetPosition());
 		//所有者をセット

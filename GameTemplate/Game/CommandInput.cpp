@@ -12,6 +12,8 @@ namespace
 	const Vector3 COMMAND_POSITION = {0.0f,-200.0f,0.0f};
 	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/ButtonAppearSE.wav";
 	const wchar_t* SUCCESS_SOUND_PATH = L"Assets/sound/ButtonSuccessSE.wav";
+	const float FADE_RATE_PROGRESS = 1.0f;
+	const float COMMAND_SCALE_Z = 1.0f;
 }
 
 namespace Game
@@ -69,8 +71,8 @@ namespace Game
 
 		float fadeRate = static_cast<float>(m_fadeFrame) / FADE_FRAME_MAX;
 
-		float spriteScale = fadeRate + 1.0f;
-		m_commandSprite->SetScale({ spriteScale ,spriteScale,1.0f });
+		float spriteScale = fadeRate + FADE_RATE_PROGRESS;
+		m_commandSprite->SetScale({ spriteScale ,spriteScale,COMMAND_SCALE_Z });
 
 		Vector4 mulColor;
 		mulColor.Lerp(fadeRate, COLOR_OPAQUE, COLOR_TRANSPARENT);

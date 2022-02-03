@@ -9,6 +9,12 @@ namespace
 	const float PICKUP_RANGE = 200.0f;
 	const int HEAL_HP = 25;
 	const wchar_t* HEAL_SOUND_PATH = L"Assets/sound/HealSE.wav";
+	const float HEAL_RIGIDBODY_MASS = 500.0f;
+	const float HEAL_RIGIDBODY_LOCALINTERIA = 0.0f;
+	const float HEAL_RIGIDBODY_FRICTION = 10.0f;
+	const float HEAL_RIGIDBODY_LINEARFACTOR_X = 0.0f;
+	const float HEAL_RIGIDBODY_LINEARFACTOR_Y = 1.0f;
+	const float HEAL_RIGIDBODY_LINEARFACTOR_Z = 0.0f;
 }
 
 namespace Game
@@ -30,7 +36,7 @@ namespace Game
 		RigidBodyInitData rbInitData;
 
 		//重量をセット(サンプルのまま)
-		rbInitData.mass = 500.0f;
+		rbInitData.mass = HEAL_RIGIDBODY_MASS;
 
 		//コライダーをセット
 		rbInitData.collider = &m_boxCollider;
@@ -40,17 +46,17 @@ namespace Game
 
 		//回転のしやすさを設定する
 		rbInitData.localInteria.Set(
-			0.0f,
-			0.0f,
-			0.0f
+			HEAL_RIGIDBODY_LOCALINTERIA,
+			HEAL_RIGIDBODY_LOCALINTERIA,
+			HEAL_RIGIDBODY_LOCALINTERIA
 		);
 
 		m_rigidBody.Init(rbInitData);
 		//摩擦力を設定する。(0～10、サンプルのまま)
-		m_rigidBody.SetFriction(10.0f);
+		m_rigidBody.SetFriction(HEAL_RIGIDBODY_FRICTION);
 		//線形移動する要素を設定する。
 		//0を指定した軸は移動しない。
-		m_rigidBody.SetLinearFactor(0.0f, 1.0f, 0.0f);
+		m_rigidBody.SetLinearFactor(HEAL_RIGIDBODY_LINEARFACTOR_X, HEAL_RIGIDBODY_LINEARFACTOR_Y, HEAL_RIGIDBODY_LINEARFACTOR_Z);
 
 		m_player = FindGO<Player>("player");
 
