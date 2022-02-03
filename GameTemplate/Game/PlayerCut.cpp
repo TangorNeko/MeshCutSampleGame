@@ -90,6 +90,7 @@ namespace Game
 					playerQRot.Apply(front);
 
 					Vector3 toCutObject = distance;
+					toCutObject.y = 0.0f;
 					toCutObject.Normalize();
 
 					bool isInRange = false;
