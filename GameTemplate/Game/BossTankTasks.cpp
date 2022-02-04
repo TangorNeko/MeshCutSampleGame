@@ -51,7 +51,6 @@ namespace
 	const int STEP_MISSILE3_SHOT_TIME = 350;
 	const int STEP_COMMAND_TIME = 325;
 	const int STEP_PAUSE_TIME = 326;
-	const int STEP_END_TIME = 400;
 	const float STEP_BOSSCAMERA_START_DIVIDENUM = 70.0f;
 	const int STEP_BOSSCAMERA_START_OFFSET = 30;
 	const float STEP_BOSSCAMERA_END_DIVIDENUM = 50.0f;
@@ -515,12 +514,7 @@ namespace Game
 					GameObjectManager::GetInstance()->SetPauseFlag(true);
 				}
 
-
-				if (taskTime == STEP_END_TIME)
-				{
-					return true;
-				}
-
+				//プレイヤーが砲身を切断するとタスクが強制中断されるためそれまで終了しない。
 				return false;
 			}
 		);
