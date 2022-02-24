@@ -3,13 +3,13 @@
 
 namespace
 {
-	const int TIME_DITHER_START = 50;
-	const int FRAME_DELETE = 360;
-	const float DUMMY_CAPSULE_COLLISION_DIVIDENUM = 3.0f;
-	const float DUMMY_RIGIDBODY_MASS = 100.0f;
-	const float DUMMY_RIGIDBODY_LOCALINTERIA = 0.1f;
-	const float DUMMY_RIGIDBODY_FRICTION = 10.0f;
-	const float DUMMY_RIGIDBODY_LINEARFACTOR = 1.0f;
+	const int TIME_DITHER_START = 50;						//ディザリングの開始フレーム
+	const int FRAME_DELETE = 360;							//削除フレーム
+	const float DUMMY_CAPSULE_COLLISION_DIVIDENUM = 3.0f;	//剛体の大きさの除算値
+	const float DUMMY_RIGIDBODY_MASS = 100.0f;				//剛体の質量
+	const float DUMMY_RIGIDBODY_LOCALINTERIA = 0.1f;		//剛体の回転のしやすさ
+	const float DUMMY_RIGIDBODY_FRICTION = 10.0f;			//剛体の摩擦力
+	const float DUMMY_RIGIDBODY_LINEARFACTOR = 1.0f;		//剛体の移動可能量
 }
 
 namespace Game

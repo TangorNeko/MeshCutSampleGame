@@ -5,14 +5,15 @@
 
 namespace
 {
-	const float SPEED_PLAYER_ANIM = 1.0f;
-	const float TIME_ANIMATION_INTERPOLATE = 0.1f;
+	const float SPEED_PLAYER_ANIM = 1.0f;			//アニメーションの再生速度
+	const float TIME_ANIMATION_INTERPOLATE = 0.1f;	//アニメーションの補完時間
 }
 
 namespace Game
 {
 	PlayerAnimation::~PlayerAnimation()
 	{
+		//登録されているアニメーションステートを削除
 		for (int animationNumber = 0;animationNumber < enAnim_Num;animationNumber++)
 		{
 			delete m_animationState[animationNumber];

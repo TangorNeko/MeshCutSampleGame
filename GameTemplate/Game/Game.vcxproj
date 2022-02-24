@@ -365,7 +365,6 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
-    <ClCompile Include="AnimationState.cpp" />
     <ClCompile Include="AttackTutorial.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="AxisCalculator.cpp" />

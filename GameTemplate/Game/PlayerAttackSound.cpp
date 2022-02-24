@@ -3,16 +3,16 @@
 
 namespace
 {
-	const int MISSSOUND_NUM = 3;
-	const wchar_t* MISSSOUND_PATH[MISSSOUND_NUM] =
+	const int MISSSOUND_NUM = 3;					//空振り効果音の数
+	const wchar_t* MISSSOUND_PATH[MISSSOUND_NUM] =	//空振り効果音のパス
 	{
 		L"Assets/sound/MissSE1.wav",
 		L"Assets/sound/MissSE2.wav",
 		L"Assets/sound/MissSE3.wav"
 	};
 
-	const int HITSOUND_NUM = 3;
-	const wchar_t* HITSOUND_PATH[HITSOUND_NUM] =
+	const int HITSOUND_NUM = 3;						//ヒット効果音の数
+	const wchar_t* HITSOUND_PATH[HITSOUND_NUM] =	//ヒット効果音のパス
 	{
 		L"Assets/sound/HitSE1.wav",
 		L"Assets/sound/HitSE2.wav",

@@ -3,10 +3,11 @@
 
 namespace Graphics
 {
-	RenderingEngine* g_renderingEngine = nullptr;	//レンダリング
+	RenderingEngine* g_renderingEngine = nullptr;	//レンダリングエンジン
 
 	void RenderingEngine::Init()
 	{
+		//初期化
 		g_renderingEngine = this;
 
 		m_shadowRender.Init();

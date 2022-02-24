@@ -5,21 +5,22 @@
 
 namespace
 {
-	const char* PATH_DOORMODEL = "Assets/modelData/Door.tkm";
-
-	const float ATTACK_TUTORIAL_DISTANCE = 500.0f;
+	const char* PATH_DOORMODEL = "Assets/modelData/Door.tkm";	//ドアのモデルのパス
+	const float ATTACK_TUTORIAL_DISTANCE = 500.0f;				//攻撃チュートリアルの出現距離
 }
 
 namespace Game
 {
 	Door::~Door()
 	{
+		//ドアのモデルと当たり判定を削除
 		DeleteGO(m_doorModel);
 		delete m_physicsStaticObject;
 	}
 
 	bool Door::Start()
 	{
+		//ドアのモデルを作成
 		m_doorModel = NewGO<SkinModelRender>(Priority::High);
 		m_doorModel->Init(PATH_DOORMODEL);
 		m_doorModel->SetModelCenterAsOrigin();
@@ -32,6 +33,7 @@ namespace Game
 		m_physicsStaticObject = new PhysicsStaticObject;
 		m_physicsStaticObject->CreateFromModel(m_doorModel->GetModel(), m_doorModel->GetModel()->GetWorldMatrix());
 		
+		//プレイヤーを検索
 		m_player = FindGO<Player>("player");
 		return true;
 	}

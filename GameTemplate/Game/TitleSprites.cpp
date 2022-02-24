@@ -3,17 +3,17 @@
 
 namespace
 {
-	const char* SPRITE_TITLELOGO_PATH = "Assets/Image/TitleLogo.dds";
-	const UINT SPRITE_TITLELOGO_WIDTH = 700;
-	const UINT SPRITE_TITLELOGO_HEIGHT = 200;
-	const Vector3 SPRITE_TITLELOGO_POSITION = { 200.0f,100.0f,0.0f };
-	const char* SPRITE_STARTTEXT_PATH = "Assets/Image/StartText.dds";
-	const UINT SPRITE_STARTTEXT_WIDTH = 320;
-	const UINT SPRITE_STARTTEXT_HEIGHT = 64;
-	const Vector3 SPRITE_STARTTEXT_POSITION = { 200.0f,-100.0f,0.0f };
-	const Vector4 SPRITE_MULTICOLOR_OPAQUE = { 1.0f,1.0f,1.0f,1.0f };
-	const Vector4 SPRITE_MULTICOLOR_TRANSPARENT = { 1.0f,1.0f,1.0f,0.0f };
-	const float ALPHA_INCREASE_RATE = 0.05f;
+	const char* SPRITE_TITLELOGO_PATH = "Assets/Image/TitleLogo.dds";		//タイトルロゴのスプライトパス
+	const UINT SPRITE_TITLELOGO_WIDTH = 700;								//タイトルロゴの幅
+	const UINT SPRITE_TITLELOGO_HEIGHT = 200;								//タイトルロゴの高さ
+	const Vector3 SPRITE_TITLELOGO_POSITION = { 200.0f,100.0f,0.0f };		//タイトルロゴの座標
+	const char* SPRITE_STARTTEXT_PATH = "Assets/Image/StartText.dds";		//スタートテキストのスプライトパス
+	const UINT SPRITE_STARTTEXT_WIDTH = 320;								//スタートテキストの幅
+	const UINT SPRITE_STARTTEXT_HEIGHT = 64;								//スタートテキストの高さ
+	const Vector3 SPRITE_STARTTEXT_POSITION = { 200.0f,-100.0f,0.0f };		//スタートテキストの座標
+	const Vector4 SPRITE_MULTICOLOR_OPAQUE = { 1.0f,1.0f,1.0f,1.0f };		//スプライトの不透明カラー
+	const Vector4 SPRITE_MULTICOLOR_TRANSPARENT = { 1.0f,1.0f,1.0f,0.0f };	//スプライトの透過カラー
+	const float ALPHA_INCREASE_RATE = 0.05f;								//スプライトの透過進行度
 
 }
 
@@ -21,6 +21,7 @@ namespace Game
 {
 	TitleSprites::~TitleSprites()
 	{
+		//タイトルロゴとスタートテキストを削除
 		DeleteGO(m_logoRender);
 		DeleteGO(m_startTextRender);
 	}

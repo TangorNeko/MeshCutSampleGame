@@ -4,18 +4,14 @@
 
 namespace
 {
-	const float MISSILE_SPEED = 30.0f;
-	const Vector3 ERROR_VECTOR3 = { 1000.0f,1000.0f,1000.0f };
-	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };
-	const int DIRECTIONLIST_MAX = 15;
+	const float MISSILE_SPEED = 30.0f;							//ミサイルの移動速度
+	const Vector3 ERROR_VECTOR3 = { 1000.0f,1000.0f,1000.0f };	//エラー値のベクトル
+	const Vector3 PLAYER_TO_CUTPOINT = { 0.0f,120.0f,0.0f };	//プレイヤーの座標から切断位置へのベクトル
+	const int DIRECTIONLIST_MAX = 15;							//ミサイルの向きのリストの最大数
 }
 
 namespace Game
 {
-	EnemyMissileMove::~EnemyMissileMove()
-	{
-	}
-
 	void EnemyMissileMove::Update(Vector3& position)
 	{
 		//移動時間をインクリメント

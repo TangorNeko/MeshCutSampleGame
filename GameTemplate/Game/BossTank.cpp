@@ -5,17 +5,17 @@
 
 namespace
 {
-	const char* MODEL_PATH_BASE = "Assets/modelData/TankBase.tkm";
-	const char* MODEL_PATH_TURRET = "Assets/modelData/TankTurret.tkm";
-	const char* MODEL_PATH_CANNONRIGHT = "Assets/modelData/TankCannonRight.tkm";
-	const char* MODEL_PATH_CANNONLEFT = "Assets/modelData/TankCannonLeft.tkm";
-	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,-100.0f };
-	const int MAX_HP = 400;
-	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";
-	const Vector3 TO_RIGHTCANNON_VECTOR = { 160.0f,250.0f,0.0f };
-	const Vector3 TO_LEFTCANNON_VECTOR = { -160.0f,250.0f,0.0f };
-	const Vector3 TO_FRONT_VECTOR = { 0.0f, 190.0f, 300.0f };
-	const float PLAYER_BACKHANDSPRING_POWER = 5.0f;
+	const char* MODEL_PATH_BASE = "Assets/modelData/TankBase.tkm";					//車体のモデルパス
+	const char* MODEL_PATH_TURRET = "Assets/modelData/TankTurret.tkm";				//砲塔のモデルパス
+	const char* MODEL_PATH_CANNONRIGHT = "Assets/modelData/TankCannonRight.tkm";	//右砲身のモデルパス
+	const char* MODEL_PATH_CANNONLEFT = "Assets/modelData/TankCannonLeft.tkm";		//左砲身のモデルパス
+	const int MAX_HP = 400;															//最大HP
+	const char16_t* WARPEFFECT_PATH = u"Assets/effect/Teleport.efk";				//出現エフェクトのパス
+	const Vector3 CANNON_VECTOR_TOCORE = { 0.0f,175.0f,-100.0f };					//コアへのベクトル
+	const Vector3 TO_RIGHTCANNON_VECTOR = { 160.0f,250.0f,0.0f };					//右砲身へのベクトル
+	const Vector3 TO_LEFTCANNON_VECTOR = { -160.0f,250.0f,0.0f };					//左砲身へのベクトル
+	const Vector3 TO_FRONT_VECTOR = { 0.0f, 190.0f, 300.0f };						//ボス正面へのベクトル
+	const float PLAYER_BACKHANDSPRING_POWER = 5.0f;									//切断された際プレイヤーへ後転させる強さ
 }
 
 namespace Game
@@ -24,6 +24,7 @@ namespace Game
 	{
 		if (m_bossTankStatus.isTurretBreak == false && m_bossTankStatus.isBaseBreak == false)
 		{
+			//車体と砲塔が切断されていない場合削除(切断されている場合はダミーにモデルが移譲されているため削除しない)
 			DeleteGO(m_baseRender);
 			DeleteGO(m_turretRender);
 			DeleteGO(m_rightCannonRender);
@@ -116,14 +117,14 @@ namespace Game
 			m_rightCannonRender->MakeDummy(cutForce);
 			m_leftCannonRender->MakeDummy(cutForce);
 
+			//プレイヤーに後転させる
 			Vector3 toResPos = player->GetPosition() - m_bossTankStatus.position;
-
 			toResPos.y = 0.0f;
 			toResPos.Normalize();
-
 			player->BackHandSpring(toResPos * PLAYER_BACKHANDSPRING_POWER);
 			player->StartFinishCamera();
 
+			//爆発エフェクトの作成
 			Explosion* explosion = NewGO<Explosion>(Priority::High);
 			explosion->SetPosition(m_bossTankStatus.position);
 
@@ -147,22 +148,6 @@ namespace Game
 
 		//砲塔の回転に車体の回転をかけ合わせる(車体の回転に砲塔が追従するため)
 		m_bossTankStatus.turretRot.Multiply(m_bossTankStatus.baseRot, m_bossTankStatus.turretRot);
-
-
-		if (g_pad[0]->IsPress(enButtonY))
-		{
-			Player* player = FindGO<Player>("player");
-			Vector3 toPlayer = player->GetPosition() - m_bossTankStatus.position;
-
-			toPlayer.y = 0.0f;
-			toPlayer.Normalize();
-
-			m_bossTankStatus.trackingRot.SetRotation(Vector3::Front, toPlayer);
-
-		}
-		
-		m_bossTankStatus.turretRot.Multiply(m_bossTankStatus.trackingRot);
-
 
 		//計算した回転をセット
 		m_baseRender->SetRotation(m_bossTankStatus.baseRot);
@@ -239,8 +224,10 @@ namespace Game
 	{
 		Vector3 toRightCannonVec = TO_RIGHTCANNON_VECTOR;
 
+		//元々の右砲身へのベクトルに現在の回転を適用
 		m_bossTankStatus.turretRot.Apply(toRightCannonVec);
 
+		//ボスの座標にベクトルを加算して戻す
 		return m_bossTankStatus.position + toRightCannonVec;
 	}
 
@@ -248,8 +235,10 @@ namespace Game
 	{
 		Vector3 toLeftCannonVec = TO_LEFTCANNON_VECTOR;
 
+		//元々の左砲身へのベクトルに現在の回転を適用
 		m_bossTankStatus.turretRot.Apply(toLeftCannonVec);
 
+		//ボスの座標にベクトルを加算して戻す
 		return m_bossTankStatus.position + toLeftCannonVec;
 	}
 
@@ -257,19 +246,23 @@ namespace Game
 	{
 		Vector3 toFrontVec = TO_FRONT_VECTOR;
 
+		//元々のボス正面へのベクトルに現在の回転を適用
 		m_bossTankStatus.baseRot.Apply(toFrontVec);
 
+		//ボスの座標にベクトルを加算して戻す
 		return m_bossTankStatus.position + toFrontVec;
 	}
 
 	void BossTank::AllowCannonCut()
 	{
+		//左右砲身を切断可能モデルリストに追加
 		ModelCutManager::GetInstance()->AddCuttable(m_rightCannonRender);
 		ModelCutManager::GetInstance()->AddCuttable(m_leftCannonRender);
 	}
 
 	void BossTank::AllowBodyCut()
 	{
+		//車体と砲塔を切断可能モデルリストに追加
 		ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
 		ModelCutManager::GetInstance()->AddCuttable(m_turretRender);
 	}

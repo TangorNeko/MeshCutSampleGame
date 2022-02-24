@@ -72,9 +72,9 @@ namespace Game
 		//フェードの進行度
 		enum FadeState
 		{
-			enFadeIn,
-			enWait,
-			enFadeOut
+			enFadeIn,	//フェードイン
+			enWait,		//待機
+			enFadeOut	//フェードアウト
 		};
 
 		//現在のフェードの進行度

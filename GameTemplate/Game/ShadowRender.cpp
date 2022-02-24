@@ -21,6 +21,7 @@ namespace Graphics
 
 	void ShadowRender::Draw(RenderContext rc)
 	{
+		//シャドウマップが使用できるまで待機
 		rc.WaitUntilToPossibleSetRenderTarget(m_shadowMap);
 		rc.SetRenderTargetAndViewport(m_shadowMap);
 		rc.ClearRenderTargetView(m_shadowMap.GetRTVCpuDescriptorHandle(), m_shadowMap.GetRTVClearColor());
@@ -49,6 +50,7 @@ namespace Graphics
 		normalRect.bottom = 720;
 		rc.SetScissorRect(normalRect);
 
+		//レンダーターゲットをフレームバッファに戻す
 		g_graphicsEngine->ChangeRenderTargetToFrameBuffer(rc);
 	}
 }

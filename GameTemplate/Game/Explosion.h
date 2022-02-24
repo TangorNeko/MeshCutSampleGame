@@ -5,10 +5,6 @@ namespace Game
 	class Explosion : public IGameObject
 	{
 	public:
-		~Explosion();
-
-		bool Start() override;
-
 		void Update() override;
 
 		/**

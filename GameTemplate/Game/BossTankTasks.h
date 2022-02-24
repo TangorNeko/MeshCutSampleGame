@@ -9,14 +9,14 @@ namespace Game
 	public:
 		enum BossTankTask : int
 		{
-			enMissile,//ミサイル攻撃
-			enRolling,//回転攻撃
-			enSummon,//雑魚召喚
-			enCharge,//突進攻撃
-			enRock,//岩飛ばし
-			enStep,//足場ミサイル
-			enEventRolling,//イベント用回転攻撃(回避不可)
-			enWait,//待機
+			enMissile,		//ミサイル攻撃
+			enRolling,		//回転攻撃
+			enSummon,		//雑魚召喚
+			enCharge,		//突進攻撃
+			enRock,			//岩飛ばし
+			enStep,			//足場ミサイル
+			enEventRolling,	//イベント用回転攻撃(回避不可)
+			enWait,			//待機
 			enTaskNum
 		};
 

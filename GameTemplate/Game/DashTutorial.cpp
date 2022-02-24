@@ -3,20 +3,21 @@
 
 namespace
 {
-	const char* SPRITE_PATH = "Assets/Image/DashTutorial.dds";
-	const UINT SPRITE_WIDTH = 180;
-	const UINT SPRITE_HEIGHT = 40;
-	const Vector2 SPRITE_PIVOT = { 0.0f,0.0f };
-	const Vector3 SPRITE_STARTPOSITION = { -730.0f,-300.0f,0.0f };
-	const Vector3 SPRITE_POSITION = { -550.0f,-300.0f,0.0f };
-	const int FRAME_MAX = 15;
-	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/TutorialAppearSE.wav";
+	const char* SPRITE_PATH = "Assets/Image/DashTutorial.dds";				//ダッシュチュートリアルのスプライトパス
+	const UINT SPRITE_WIDTH = 180;											//ダッシュチュートリアルの幅
+	const UINT SPRITE_HEIGHT = 40;											//ダッシュチュートリアルの高さ
+	const Vector2 SPRITE_PIVOT = { 0.0f,0.0f };								//ダッシュチュートリアルのピボット
+	const Vector3 SPRITE_STARTPOSITION = { -730.0f,-300.0f,0.0f };			//ダッシュチュートリアルの初期座標
+	const Vector3 SPRITE_POSITION = { -550.0f,-300.0f,0.0f };				//ダッシュチュートリアルの座標
+	const int FRAME_MAX = 15;												//ダッシュチュートリアルの最大移動フレーム
+	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/TutorialAppearSE.wav";//ダッシュチュートリアルの出現効果音パス
 }
 
 namespace Game
 {
 	DashTutorial::~DashTutorial()
 	{
+		//ダッシュチュートリアルのスプライトを削除
 		DeleteGO(m_spriteRender);
 	}
 

@@ -12,9 +12,6 @@ namespace Game
 		bool Start() override;
 
 		void OnDivide(const SkinModelRender* cutModel, const Vector3& cutForce) override;
-
-		void Update() override;
-
 	private:
 		SkinModelRender* m_titleDoorRender = nullptr;	//タイトル用のドアのモデル
 		bool m_isCut = false;							//切断された?

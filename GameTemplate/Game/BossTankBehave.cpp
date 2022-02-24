@@ -6,20 +6,22 @@
 
 namespace
 {
-	const float DISTANCE_RANGED_ATTACK = 1000.0f;
-	const int MAX_HP = 400;
+	const float DISTANCE_RANGED_ATTACK = 1000.0f;	//遠距離攻撃を行う距離
+	const int MAX_HP = 400;							//最大体力
 }
 
 namespace Game
 {
 	void BossTankBehave::SubmitTo(BossTank* bossTank)
 	{
+		//ボスにタスクを登録する
 		BossTankTasks bossTankTasks;
 		bossTankTasks.SubmitTo(bossTank);
 	}
 
 	void BossTankBehave::Execute(BossTankStatus& bossTankStatus)
 	{
+		//タスクより優先度の高いイベントのチェック
 		CheckEvent(bossTankStatus);
 
 		//キューにタスクがない場合
@@ -55,25 +57,28 @@ namespace Game
 		//砲台を斬られてまだ雑魚敵を召喚していなかったら
 		if (bossTankStatus.hp <= MAX_HP/2 && bossTankStatus.isSummonMinions == false && bossTankStatus.isCannonBreak == true)
 		{
+			//雑魚敵を召喚
 			m_taskQueue.push(m_tankTask[BossTankTasks::enSummon]);
-
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			bossTankStatus.isSummonMinions = true;
 		}
+		//ボスのHPが0の時
 		else if (bossTankStatus.hp == 0)
 		{
+			//何もしない
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 		}
+		//体力が半分以下で、すでに砲身が切断された時
 		else if (bossTankStatus.hp <= MAX_HP/2 && bossTankStatus.isCannonBreak == true)
 		{
-			//砲台が壊れた時
+			//近距離なら
 			if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
 			{
-				//突進攻撃
-				//(今はまだ回転攻撃)
+				//回転攻撃
 				m_taskQueue.push(m_tankTask[BossTankTasks::enCharge]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
+			//遠距離なら
 			else
 			{
 				//岩攻撃
@@ -81,21 +86,27 @@ namespace Game
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
 		}
+		//砲台が切断されていない時
 		else
 		{
-			//砲台が壊れていない時
+			//体力が半分以下になったら
 			if (bossTankStatus.hp <= MAX_HP/2)
 			{
+				//砲身の切断イベントをスタート
 				m_taskQueue.push(m_tankTask[BossTankTasks::enEventRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enStep]);
 			}
+			//近距離なら
 			else if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
 			{
+				//回転攻撃
 				m_taskQueue.push(m_tankTask[BossTankTasks::enRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
+			//遠距離なら
 			else
 			{
+				//ミサイル攻撃
 				m_taskQueue.push(m_tankTask[BossTankTasks::enMissile]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
@@ -118,9 +129,12 @@ namespace Game
 
 	void BossTankBehave::TerminateTask()
 	{
+		//タスクが0になるまで
 		while (m_taskQueue.size() != 0)
 			{
+				//戦闘タスクを中断する
 				m_taskQueue.front().Terminate();
+				//キューから削除
 				m_taskQueue.pop();
 			}
 	}

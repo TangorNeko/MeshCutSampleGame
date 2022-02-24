@@ -3,21 +3,18 @@
 
 namespace
 {
-	const wchar_t* CANNONCUT_TEXT = L"Can Cut Cannon";
-	const wchar_t* ALLCUT_TEXT = L"Can Cut All";
-	const Vector4 SHADOWCOLOR_BLACK = { 0.0f,0.0f,0.0f,1.0f };
-	const Vector2 HP_FONT_POSITION = { 350.0f,-300.0f };
-	const int MAX_HP = 400;
-	const char* SPRITE_HPFRAME_PATH = "Assets/Image/BossHpFrame.dds";
-	const UINT SPRITE_HPFRAME_WIDTH = 400;
-	const UINT SPRITE_HPFRAME_HEIGHT = 40;
-	const Vector2 SPRITE_HPFRAME_PIVOT = { 0.5f,0.0f };
-	const Vector3 SPRITE_HPFRAME_POSITION = { 350.0f,-300.0f,0.0f };
-	const char* SPRITE_HPBAR_PATH = "Assets/Image/HpBar.dds";
-	const UINT SPRITE_HPBAR_WIDTH = 396;
-	const UINT SPRITE_HPBAR_HEIGHT = 20;
-	const Vector2 SPRITE_HPBAR_PIVOT = { 0.0f,0.0f };
-	const Vector3 SPRITE_HPBAR_POSITION = { 152.0f,-298.0f,0.0f };
+	const int MAX_HP = 400;												//最大体力
+	const char* SPRITE_HPFRAME_PATH = "Assets/Image/BossHpFrame.dds";	//HPバーの枠のスプライトパス
+	const UINT SPRITE_HPFRAME_WIDTH = 400;								//HPバーの枠の幅
+	const UINT SPRITE_HPFRAME_HEIGHT = 40;								//HPバーの枠の高さ
+	const Vector2 SPRITE_HPFRAME_PIVOT = { 0.5f,0.0f };					//HPバーの枠のピボット
+	const Vector3 SPRITE_HPFRAME_POSITION = { 350.0f,-300.0f,0.0f };	//HPバーの枠の座標
+	const char* SPRITE_HPBAR_PATH = "Assets/Image/HpBar.dds";			//HPバーのスプライトパス
+	const UINT SPRITE_HPBAR_WIDTH = 396;								//HPバーの幅
+	const UINT SPRITE_HPBAR_HEIGHT = 20;								//HPバーの高さ
+	const Vector2 SPRITE_HPBAR_PIVOT = { 0.0f,0.0f };					//HPバーのピボット
+	const Vector3 SPRITE_HPBAR_POSITION = { 152.0f,-298.0f,0.0f };		//HPバーの座標
+	const float SPRITE_SCALE_YZ = 1.0f;									//HPバーのYとZ軸の拡大率
 }
 
 namespace Game
@@ -48,6 +45,6 @@ namespace Game
 	{
 		//ボスの体力に応じてHPバーのスケールを変更する
 		float hpBarScale = static_cast<float>(hp) / MAX_HP;
-		m_hpBar->SetScale({ hpBarScale,1.0f,1.0f });
+		m_hpBar->SetScale({ hpBarScale,SPRITE_SCALE_YZ,SPRITE_SCALE_YZ });
 	}
 }

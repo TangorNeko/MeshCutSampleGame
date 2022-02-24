@@ -7,8 +7,6 @@ namespace Game
 	class EnemyMissileMove
 	{
 	public:
-		~EnemyMissileMove();
-
 		/**
 		 * @brief ’Ç”ö‚·‚éƒvƒŒƒCƒ„[‚ğİ’è‚·‚é
 		 * @param targetPlayer 

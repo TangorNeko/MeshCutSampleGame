@@ -5,7 +5,7 @@
 
 namespace
 {
-	const char* TITLE_DOOR_MODEL_PATH = "Assets/modelData/TitleDoor.tkm";
+	const char* TITLE_DOOR_MODEL_PATH = "Assets/modelData/TitleDoor.tkm";	//タイトル用ドアのモデルパス
 }
 
 namespace Game
@@ -29,6 +29,7 @@ namespace Game
 		m_titleDoorRender->SetDivideFlag(true);
 		m_titleDoorRender->SetShadowCasterFlag(false);
 
+		//切断モデルリストにタイトル用ドアを追加
 		ModelCutManager::GetInstance()->AddCuttable(m_titleDoorRender);
 
 		//タイトル用のスプライトを表示
@@ -57,10 +58,5 @@ namespace Game
 
 		//モデルレンダーをダミークラスに引き渡したので削除
 		DeleteGO(this);
-	}
-
-	void TitleDoor::Update()
-	{
-
 	}
 }

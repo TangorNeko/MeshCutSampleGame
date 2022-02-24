@@ -3,10 +3,10 @@
 
 namespace Game
 {
-	const Vector3 TANK_COLLISION_SIZE = { 400.0f,175.0f,800.0f };
-	const float TANK_COLLISION_MASS = 100.0f;
-	const float TANK_COLLISION_FRICTION = 10.0f;
-	const Vector3 TANK_COLLISION_LINEARFACTOR = Vector3::Zero;
+	const Vector3 TANK_COLLISION_SIZE = { 400.0f,175.0f,800.0f };	//íŽÔ‚Ì“–‚½‚è”»’è‚Ì‘å‚«‚³
+	const float TANK_COLLISION_MASS = 100.0f;						//íŽÔ‚Ì“–‚½‚è”»’è‚ÌŽ¿—Ê
+	const float TANK_COLLISION_FRICTION = 10.0f;					//íŽÔ‚Ì“–‚½‚è”»’è‚Ì–€ŽC—Í
+	const Vector3 TANK_COLLISION_LINEARFACTOR = Vector3::Zero;		//íŽÔ‚Ì“–‚½‚è”»’è‚ÌˆÚ“®‰Â”\‚ÈŽ²
 }
 
 namespace Game

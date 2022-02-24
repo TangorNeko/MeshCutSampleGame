@@ -3,28 +3,33 @@
 
 namespace
 {
-	const float MOVESPEED = 10.0f;
-	const int MAX_LIFETIME = 400;
-	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";
-	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };
-	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;
+	const char* STEPMISSILE_MODEL_PATH = "Assets/modelData/Missile_Flat.tkm";	//足場ミサイルのモデルパス
+	const float MOVESPEED = 10.0f;												//足場ミサイルの移動速度
+	const int MAX_LIFETIME = 400;												//足場ミサイルの生存時間
+	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";		//足場ミサイルのエフェクトパス
+	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };					//足場ミサイルのエフェクトの拡大率
+	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;								//足場ミサイルエフェクトの回転角度
 }
 
 namespace Game
 {
 	StepObject::~StepObject()
 	{
+		//モデルを削除
 		DeleteGO(m_skinModelRender);
 
+		//ミサイルエフェクトをストップして削除
 		m_missileEffect->Stop();
 		DeleteGO(m_missileEffect);
 	}
 
 	bool StepObject::Start()
 	{
+		//ミサイルのモデルを作成
 		m_skinModelRender = NewGO<SkinModelRender>(Priority::High);
-		m_skinModelRender->Init("Assets/modelData/Missile_Flat.tkm");
+		m_skinModelRender->Init(STEPMISSILE_MODEL_PATH);
 
+		//ミサイルのエフェクトを作成
 		m_missileEffect = NewGO<Effect>(Priority::High);
 		m_missileEffect->Init(EFFECT_MISSILE_PATH);
 		m_missileEffect->SetScale(EFFECT_MISSILE_SCALE);

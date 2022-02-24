@@ -3,8 +3,8 @@
 
 namespace
 {
-	const float DIRECTION_ERROR_LENGTHSQ = 10.0f;
-	const float ROTATEAXIS_ERROR_LENGTHSQ = 0.5f;
+	const float DIRECTION_ERROR_LENGTHSQ = 10.0f;	//向きのエラー値の長さの二乗のしきい値
+	const float ROTATEAXIS_ERROR_LENGTHSQ = 0.5f;	//回転軸のエラー値の長さの二乗のしきい値
 }
 
 namespace Game

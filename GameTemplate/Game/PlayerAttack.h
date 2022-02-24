@@ -6,8 +6,6 @@ namespace Game
 	class PlayerAttack
 	{
 	public:
-		~PlayerAttack();
-
 		/**
 		 * @brief プレイヤーの攻撃処理の更新
 		 * @param playerPosition プレイヤーの座標

@@ -6,13 +6,13 @@
 
 namespace
 {
-	const char* PATH_ROCKMODEL = "Assets/modelData/stone.tkm";
-	const Vector3 ROCK_SCALE = { 5.0f,5.0f,5.0f };
-	const float ROCK_COLLISION_RADIUS = 75.0f;
-	const float ROCK_MOVESPEED = 30.0f;
-	const float ROCK_GRAVITY = 0.5f;
-	const int ROCK_DAMAGE = 50;
-	const int HEALDROP_MODULO_NUM = 10;
+	const char* PATH_ROCKMODEL = "Assets/modelData/stone.tkm";	//岩のモデルパス
+	const Vector3 ROCK_SCALE = { 5.0f,5.0f,5.0f };				//岩のの拡大率
+	const float ROCK_COLLISION_RADIUS = 75.0f;					//岩の当たり判定の半径
+	const float ROCK_MOVESPEED = 30.0f;							//岩の移動速度
+	const float ROCK_GRAVITY = 0.5f;							//岩にかかる重力の大きさ
+	const int ROCK_DAMAGE = 50;									//岩のダメージ
+	const int HEALDROP_MODULO_NUM = 10;							//岩の回復アイテム抽選の余剰値
 }
 
 namespace Game
@@ -60,6 +60,7 @@ namespace Game
 		//カットされたフラグをオンに
 		m_isCut = true;
 
+		//切断された際確率で回復アイテムをドロップする
 		std::random_device seed_gen;
 		std::mt19937 engine(seed_gen());
 		int random = engine();

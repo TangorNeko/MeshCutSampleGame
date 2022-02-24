@@ -6,16 +6,17 @@
 
 namespace
 {
-	const char* PATH_MISSILEMODEL = "Assets/modelData/Missile_Bullet.tkm";
-	const float TRIGGER_HEIGHT = 300.0f;
-	const float TRIGGER_RADIUS = 50.0f;
-	const int MISSILE_DAMAGE = 50;
-	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";
-	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };
-	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;
-	const wchar_t* EXPLOSION_SOUND_PATH = L"Assets/sound/ExplosionSE.wav";
-	const Vector3 EFFECT_EXPLOSION_SCALE = { 25.0f,25.0f,25.0f };
-	const int HEALDROP_MODULO_NUM = 5;
+	const char* PATH_MISSILEMODEL = "Assets/modelData/Missile_Bullet.tkm";	//ミサイルのモデルパス
+	const float TRIGGER_HEIGHT = 300.0f;									//ミサイルの当たり判定のカプセルの高さ
+	const float TRIGGER_RADIUS = 50.0f;										//ミサイルの当たり判定のカプセルの半径
+	const int MISSILE_DAMAGE = 50;											//ミサイルのダメージ
+	const char16_t* EFFECT_MISSILE_PATH = u"Assets/effect/MissileTail.efk";	//ミサイルのエフェクトパス
+	const Vector3 EFFECT_MISSILE_SCALE = { 25.0f,25.0f,25.0f };				//ミサイルのエフェクトの拡大率
+	const float EFFECT_MISSILE_ROTATEDEG = -90.0f;							//ミサイルのエフェクトの回転角度
+	const int HEALDROP_MODULO_NUM = 5;										//ミサイルの回復アイテム抽選の余剰値
+	const char16_t* EXPLOSION_EFFECT_PATH = u"Assets/effect/Boom.efk";		//爆発のエフェクトパス
+	const Vector3 EFFECT_EXPLOSION_SCALE = { 25.0f,25.0f,25.0f };			//爆発のエフェクトの拡大率
+	const wchar_t* EXPLOSION_SOUND_PATH = L"Assets/sound/ExplosionSE.wav";	//爆発音のパス
 }
 
 namespace Game
@@ -28,6 +29,7 @@ namespace Game
 			DeleteGO(m_missileRender);
 		}
 
+		//ミサイルのエフェクトを停止して削除
 		m_missileEffect->Stop();
 		DeleteGO(m_missileEffect);
 	}
@@ -54,6 +56,7 @@ namespace Game
 		//ミサイルの移動クラスにターゲットを渡す
 		m_missileMove.SetTarget(m_trackingPlayer);
 
+		//ミサイルのエフェクトを作成
 		m_missileEffect = NewGO<Effect>(Priority::High);
 		m_missileEffect->Init(EFFECT_MISSILE_PATH);
 		m_missileEffect->SetScale(EFFECT_MISSILE_SCALE);
@@ -77,6 +80,7 @@ namespace Game
 		m_capsuleTrigger.SetPosition(m_position);
 		m_capsuleTrigger.SetRotation(m_qRot);
 
+		//ミサイルのエフェクトの回転をセット
 		Quaternion MissileRot;
 		MissileRot.SetRotationDegX(EFFECT_MISSILE_ROTATEDEG);
 		MissileRot.Multiply(m_qRot);
@@ -95,6 +99,7 @@ namespace Game
 		//カットされたフラグをオンに
 		m_isCut = true;
 
+		//切断された際確率で回復アイテムをドロップする
 		std::random_device seed_gen;
 		std::mt19937 engine(seed_gen());
 		int random = engine();
@@ -117,12 +122,14 @@ namespace Game
 					//ダメージを与える
 					m_trackingPlayer->Damage(MISSILE_DAMAGE);
 
+					//爆発エフェクトを作成
 					Effect* boomEffect = NewGO<Effect>(Priority::High);
-					boomEffect->Init(u"Assets/effect/Boom.efk");
+					boomEffect->Init(EXPLOSION_EFFECT_PATH);
 					boomEffect->SetScale(EFFECT_EXPLOSION_SCALE);
 					boomEffect->SetPosition(m_position);
 					boomEffect->Play();
 
+					//爆発サウンドを再生
 					SoundOneShotPlay(EXPLOSION_SOUND_PATH);
 
 					//自らを削除

@@ -5,25 +5,25 @@
 
 namespace
 {
-	const float PLAYER_HEIGHT = 120.0f;
-	const float PLAYER_RADIUS = 30.0f;
-	const float MOVE_SPEED = 5.0f;
-	const float DASH_SPEED = 10.0f;
-	const EnButton BUTTON_RUN = enButtonRB2;
-	const float MISSILEJUMP_SPEED = 30.0f;
-	const wchar_t* LANDING_SOUND_PATH = L"Assets/sound/LandingSE.wav";
-	const Vector3 TANK_RIGHT_POSITION = { 300.0f,250.0f,-1800.0f };
-	const Vector3 MISSILEMOVE_END_POSITION = { 300.0f,250.0f,-1600.0f };
-	const float MISSILEMOVE_END_DISTANCE = 300.0f;
-	const float MISSILEMOVE_REACH_DISTANCE = 50.0f;
-	const float MISSILEMOVE_VERTICAL_SPEED = 5.0f;
-	const float FRONTMOVE_DIVIDENUM = 25.0f;
-	const float FRONTMOVE_END = 25;
-	const Vector3 BACKHANDSPRING_GRAVITY = { 0.0f,-10.0f,0.0f };
-	const float BACKHANDSPRING_MOVE = 40;
-	const float BACKHANDSPRING_END = 100;
-	const float KNOCKDOWN_MOVE = 40;
-	const float KNOCKDOWN_END = 150;
+	const float PLAYER_HEIGHT = 120.0f;										//プレイヤーの当たり判定のカプセルの高さ
+	const float PLAYER_RADIUS = 30.0f;										//プレイヤーの当たり判定のカプセルの半径
+	const float WALK_SPEED = 5.0f;											//プレイヤーの歩き速度
+	const float DASH_SPEED = 10.0f;											//プレイヤーの走り速度
+	const EnButton BUTTON_RUN = enButtonRB2;								//ダッシュボタン
+	const float MISSILEJUMP_SPEED = 30.0f;									//ミサイル移動の移動速度
+	const wchar_t* LANDING_SOUND_PATH = L"Assets/sound/LandingSE.wav";		//着地時の効果音パス
+	const Vector3 TANK_RIGHT_POSITION = { 300.0f,250.0f,-1800.0f };			//戦車の右のスペースの座標
+	const Vector3 MISSILEMOVE_END_POSITION = { 300.0f,250.0f,-1600.0f };	//ミサイル移動の終了座標
+	const float MISSILEMOVE_END_DISTANCE = 300.0f;							//ミサイル移動の終了距離
+	const float MISSILEMOVE_REACH_DISTANCE = 50.0f;							//ミサイル移動の到達距離
+	const float MISSILEMOVE_VERTICAL_SPEED = 5.0f;							//ミサイル移動の垂直方向の移動速度
+	const float FRONTMOVE_DIVIDENUM = 25.0f;								//ボス正面への移動の除算値(移動距離をフレーム数で割るため)
+	const float FRONTMOVE_END = 25;											//ボス正面への移動の終了フレーム
+	const Vector3 BACKHANDSPRING_GRAVITY = { 0.0f,-10.0f,0.0f };			//後転移動の重力
+	const float BACKHANDSPRING_MOVE = 40;									//後転移動の移動フレーム
+	const float BACKHANDSPRING_END = 100;									//後転移動の終了フレーム
+	const float KNOCKDOWN_MOVE = 40;										//吹き飛ばしの移動フレーム
+	const float KNOCKDOWN_END = 150;										//吹き飛ばしの終了フレーム
 }
 
 namespace Game
@@ -36,24 +36,25 @@ namespace Game
 
 	bool PlayerMove::Move(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//プレイヤーの移動状態によって分岐
 		switch (m_playerMoveEvent)
 		{
-		case enNormal:
+		case enNormal://通常移動
 			return NormalMove(playerPosition, animParam);
 			break;
-		case enMissileMove:
+		case enMissileMove://ミサイル移動
 			return MissileMove(playerPosition, animParam);
 			break;
-		case enFrontMove:
+		case enFrontMove://ボスの正面への移動
 			return FrontMove(playerPosition, animParam);
 			break;
-		case enBackHandspring:
+		case enBackHandspring://後転
 			return BackHandspringMove(playerPosition, animParam);
 			break;
-		case enKnockDown:
+		case enKnockDown://吹き飛ばし
 			return KnockDownMove(playerPosition, animParam);
 			break;
-		case enDead:
+		case enDead://死亡
 			return DeadMove();
 		default :
 			return false;
@@ -62,13 +63,19 @@ namespace Game
 
 	void PlayerMove::KnockDown(const Vector3& moveAmount)
 	{
+		//移動状態を吹き飛ばし状態に
 		m_playerMoveEvent = enKnockDown;
+
+		//移動量をセット
 		m_knockDownAmount = moveAmount;
 	}
 
 	void PlayerMove::BackHandSpring(const Vector3& moveAmount)
 	{
+		//移動状態を後転状態に
 		m_playerMoveEvent = enBackHandspring;
+		
+		//移動量をセット
 		backHandSpringAmount = moveAmount;
 	}
 
@@ -120,13 +127,16 @@ namespace Game
 		}
 		else
 		{
-			m_moveAmount *= MOVE_SPEED;
+			m_moveAmount *= WALK_SPEED;
 		}
 
+		//地面にいたら空中にいたフレームをリセット
 		if (m_charaCon.IsOnGround() == true)
 		{
 			m_aerialFrame = 0;
 		}
+
+		//プレイヤーにかかる重力
 		Vector3 Down = Vector3::Down * m_aerialFrame;
 
 		m_moveAmount += Down;
@@ -135,10 +145,10 @@ namespace Game
 
 		m_aerialFrame++;
 
-		//アニメーション関連　後から分離しよう
 
+
+		//アニメーション関連
 		//座標が変化していれば
-		//if (m_prevPosition.LengthSq() != playerPosition.LengthSq())
 		if(m_moveAmount.LengthSq() > FLT_EPSILON)
 		{
 			//走りボタンを押していればダッシュ
@@ -171,6 +181,7 @@ namespace Game
 			//ボスの方に向かせる
 			SetPlayerDirection(Vector3::Back);
 		}
+
 		//NOTE:ミサイルジャンプ処理
 		if (m_isMissileMove)
 		{
@@ -178,9 +189,9 @@ namespace Game
 
 			animParam.playerState = PlayerAnimationParam::enJumping;
 
-			//追跡するターゲットを取得　まだ3つ存在することしか想定していない]
+			//追跡するターゲットを取得
 			//追跡開始の瞬間だけQueryGOsしてもいいが、ジャンプ先が遠いと到達時には大分座標がずれていたので
-			//仮でAボタンを押している間毎フレーム検索している
+			//毎フレーム検索している
 			QueryGOs<StepObject>("stepObject", [this](StepObject* targetObject)->bool
 				{
 					m_targetPos[m_targetCount] = targetObject->GetPosition();
@@ -195,17 +206,22 @@ namespace Game
 			//戦車砲身横の座標
 			m_targetPos[4] = TANK_RIGHT_POSITION;
 
+			//最後のジャンプなら
 			if (m_moveState == 4)
 			{
-
+				//終了座標を取得
 				Vector3 LastPos = MISSILEMOVE_END_POSITION;
 
+				//終了座標への距離を計算
 				Vector3 dis = LastPos - playerPosition;
 
+				//終了座標の近くに到達したら
 				if (dis.LengthSq() < MISSILEMOVE_END_DISTANCE * MISSILEMOVE_END_DISTANCE)
 				{
+					//待機アニメーションに変更
 					animParam.playerState = PlayerAnimationParam::enIdle;
 
+					//ミサイル移動の終了
 					m_isMissileMove = false;
 					return true;
 				}
@@ -214,7 +230,7 @@ namespace Game
 			//現在のターゲットへのベクトルを求める
 			Vector3 distance = m_targetPos[m_moveState] - playerPosition;
 
-			//ターゲットから50以内なら到達判定
+			//ターゲットから近ければ到達判定
 			if (distance.LengthSq() < MISSILEMOVE_REACH_DISTANCE * MISSILEMOVE_REACH_DISTANCE)
 			{
 				//次のターゲットへ
@@ -226,8 +242,10 @@ namespace Game
 				//ジャンプフレームをリセット
 				m_jumpFrameCount = 0;
 
+				//待機アニメーションにする(一旦待機アニメーションを挟む事で再度ジャンプアニメーションが再生される)
 				animParam.playerState = PlayerAnimationParam::enIdle;
 
+				//着地サウンドを再生
 				SoundOneShotPlay(LANDING_SOUND_PATH);
 			}
 
@@ -291,32 +309,44 @@ namespace Game
 
 	bool PlayerMove::FrontMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//ジャンプアニメーションにする
 		animParam.playerState = PlayerAnimationParam::enJumping;
 
+		//ジャンプ開始フレームなら
 		if (m_isJumpStartFrame)
 		{
+			//ボスの正面の座標を取得
 			BossTank* bossTank = FindGO<BossTank>("bosstank");
 			Vector3 targetPos = bossTank->GetFrontPosition();
 
+			//ボス正面に移動する際の1フレームの移動量を計算する
 			m_frontMoveAmount = targetPos - playerPosition;
 			m_frontMoveAmount /= FRONTMOVE_DIVIDENUM;
 			m_jumpFrameCount = 0;
 			m_isJumpStartFrame = false;
 		}
 
+		//最初に計算した移動量分ﾌﾟﾚｲﾔｰを移動させる
 		if (m_jumpFrameCount < FRONTMOVE_END)
 		{
 			playerPosition += m_frontMoveAmount;
 		}
+
+		//最終フレームなら
 		if (m_jumpFrameCount == FRONTMOVE_END)
 		{
+			//待機アニメーションに変更
 			animParam.playerState = PlayerAnimationParam::enIdle;
+
+			//キャラコンの座標を設定
 			m_charaCon.SetPosition(playerPosition);
 
+			//正面移動の終了
 			m_isFrontMove = false;
 			return true;
 		}
 
+		//移動フレームを加算
 		m_jumpFrameCount++;
 
 		return false;
@@ -324,14 +354,18 @@ namespace Game
 
 	bool PlayerMove::BackHandspringMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//後転アニメーションにする
 		animParam.playerState = PlayerAnimationParam::enBackHandSpring;
 
+		//後転移動中なら
 		if (backHandspringFrame <= BACKHANDSPRING_MOVE)
 		{
+			//設定した移動量と重力分キャラコンを実行
 			Vector3 gravity = BACKHANDSPRING_GRAVITY;
 			playerPosition = m_charaCon.Execute(backHandSpringAmount, 1.0f);
 			playerPosition = m_charaCon.Execute(gravity, 1.0f);
 
+			//プレイヤーの向きを計算する
 			Vector3 direction = backHandSpringAmount * -1.0f;
 			direction.y = 0.0f;
 
@@ -339,13 +373,19 @@ namespace Game
 			m_playerDirection = direction;
 		}
 
+		//移動フレームを加算
 		backHandspringFrame++;
 
+		//後転の終了フレームなら
 		if (backHandspringFrame == BACKHANDSPRING_END)
 		{
+			//待機アニメーションに戻す
 			animParam.playerState = PlayerAnimationParam::enIdle;
+
+			//経過フレームをリセット
 			backHandspringFrame = 0;
 
+			//移動状態を通常に戻す
 			m_playerMoveEvent = enNormal;
 		}
 		return false;
@@ -353,20 +393,29 @@ namespace Game
 
 	bool PlayerMove::KnockDownMove(Vector3& playerPosition, PlayerAnimationParam& animParam)
 	{
+		//吹き飛ばしアニメーションにする
 		animParam.playerState = PlayerAnimationParam::enKnockDown;
 
+		//吹き飛ばし移動中なら
 		if (m_knockDownFrame <= KNOCKDOWN_MOVE)
 		{
+			//キャラコンに移動量を渡す
 			playerPosition = m_charaCon.Execute(m_knockDownAmount, 1.0f);
 		}
 
+		//移動フレームを加算
 		m_knockDownFrame++;
 
+		//吹き飛ばしの終了フレームなら
 		if (m_knockDownFrame == KNOCKDOWN_END)
 		{
+			//待機アニメーションに戻す
 			animParam.playerState = PlayerAnimationParam::enIdle;
+			
+			//経過フレームをリセット
 			m_knockDownFrame = 0;
 
+			//移動状態を通常状態に戻す
 			m_playerMoveEvent = enNormal;
 		}
 		return false;

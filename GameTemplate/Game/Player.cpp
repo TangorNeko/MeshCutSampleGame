@@ -5,16 +5,17 @@
 
 namespace
 {
-	const char* PATH_PLAYER_MODEL = "Assets/modelData/Player.tkm";
-	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Player.tks";
-	const int FINISH_CAMERA_START = 50;
-	const int PLAYER_HP_MAX = 1000;
+	const char* PATH_PLAYER_MODEL = "Assets/modelData/Player.tkm";		//プレイヤーのモデルパス
+	const char* PATH_PLAYER_SKELETON = "Assets/modelData/Player.tks";	//プレイヤーのモデルのスケルトンパス
+	const int FINISH_CAMERA_START = 50;									//トドメカメラの演出開始フレーム
+	const int PLAYER_HP_MAX = 1000;										//プレイヤーの最大HP
 }
 
 namespace Game
 {
 	Player::~Player()
 	{
+		//モデルを削除
 		DeleteGO(m_playerModel);
 	}
 
@@ -43,8 +44,7 @@ namespace Game
 		//プレイヤーのHP表示の更新
 		m_playerDisplay.Update(m_hp);
 
-		//移動
-		//NOTE:仮。LB1押している時は移動させない
+		//切断モード中でない時は移動可能
 		if (m_eventCut == false)
 		{
 			m_eventCut = m_playerMove.Move(m_position,m_playerAnimationParam);
@@ -54,22 +54,28 @@ namespace Game
 			m_playerAnimationParam.playerState = PlayerAnimationParam::enCutMode;
 		}
 
+		//切断イベントのアップデート
 		m_playerCut.SetCutEvent(m_eventCut,m_position);
 
+		//トドメカメラ中ならトドメカウントを増加
 		if (m_isFinishCamera == true)
 		{
 			m_finishCount++;
 		}
 
+		//トドメカメラの演出開始フレーム中なら
 		if (m_finishCount >= FINISH_CAMERA_START)
 		{
+			//トドメカメラ
 			m_playerCamera.UpdateFinishCamera(m_playerAnimationParam);
 		}
+		//切断モードでないなら
 		else if (m_eventCut == false)
 		{
-			//カメラの移動
+			//通常のカメラの移動
 			m_playerCamera.Update(m_position);
 		}
+		//切断モードなら
 		else
 		{
 			//切断モード用カメラの移動
@@ -85,6 +91,7 @@ namespace Game
 		//プレイヤーの向きにモデルを向ける
 		m_playerModel->SetRotation(m_playerMove.GetPlayerDirectionRot());
 
+		//切断モード中でないなら
 		if (m_eventCut == false)
 		{
 			//攻撃のアップデート
@@ -93,7 +100,6 @@ namespace Game
 
 		//切断のアップデート
 		m_playerCut.Update(m_position, m_playerMove.GetPlayerDirectionRot());
-
 
 		//アニメーションのアップデート
 		m_playerAnimation.Update(m_playerModel, m_playerAnimationParam);
@@ -104,9 +110,11 @@ namespace Game
 
 	void Player::Damage(int damage)
 	{
+		//HPからダメージ量分減らす
 		m_hp -= damage;
 
-		if (m_hp < 0)
+		//体力が0以下になったら
+		if (m_hp <= 0)
 		{
 			//死亡処理
 			m_hp = 0;
@@ -124,26 +132,33 @@ namespace Game
 
 	void Player::Heal(int healValue)
 	{
+		//体力を回復
 		m_hp += healValue;
 
+		//体力の最大値以上なら
 		if (m_hp > PLAYER_HP_MAX)
 		{
+			//体力を最大値に
 			m_hp = PLAYER_HP_MAX;
 		}
 	}
 
 	void Player::NoticeMissileMoveStart()
 	{
+		//ミサイル移動処理の開始を通知
 		m_playerMove.NoticeMissileMoveStart();
 
+		//ボスの砲身の切断を許可
 		BossTank* bossTank = FindGO<BossTank>("bosstank");
 		bossTank->AllowCannonCut();
 	}
 
 	void Player::NoticeFrontMoveStart()
 	{
+		//ボスの正面への移動処理の開始を通知
 		m_playerMove.NoticeFrontMoveStart();
 
+		//ボスの車体と砲塔の切断を許可
 		BossTank* bossTank = FindGO<BossTank>("bosstank");
 		bossTank->AllowBodyCut();
 	}

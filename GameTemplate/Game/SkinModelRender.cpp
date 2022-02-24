@@ -4,7 +4,7 @@
 
 namespace
 {
-	const int MODE_MAX_DIVIDE_NUM = 3;
+	const int MODEL_MAX_DIVIDE_NUM = 3;	//モデルの切断の最大数
 }
 
 namespace Game
@@ -158,7 +158,7 @@ namespace Game
 	void SkinModelRender::Divide(const Vector3& cutNormal, const Vector3& cutPoint, const Vector3& cutForce)
 	{
 		//切断不可な状態なら何もしない。
-		if (m_isDividable == false || m_divideNum > MODE_MAX_DIVIDE_NUM)
+		if (m_isDividable == false || m_divideNum > MODEL_MAX_DIVIDE_NUM)
 		{
 			return;
 		}
@@ -197,12 +197,11 @@ namespace Game
 		SkinModelRender* backModelRender = NewGO<SkinModelRender>(0);
 
 		//新しく作ったモデルの初期化
-		//TODO:まとめる
 		backModelRender->InitFromModel(backModel);
 		backModelRender->SetModelInitData(m_modelInitData);
 
 		//裏側(新しくできたモデル)の影用モデルを構成
-		//TODO:厳密には裏側の時は再構成ではない
+		//NOTE:厳密には裏側の時は再構成ではない
 		backModelRender->ShadowModelReconstruction();
 
 		backModelRender->SetPosition(m_position);
@@ -276,6 +275,7 @@ namespace Game
 
 		ModelInitData shadowModelInitData = m_modelInitData;
 
+		//影用のシェーダーの設定
 		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
 		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
 		shadowModelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigCameraDataSize();
@@ -325,6 +325,7 @@ namespace Game
 		//影用のModelInitDataの設定
 		ModelInitData shadowModelInitData = m_modelInitData;
 
+		//影用のシェーダーの設定
 		shadowModelInitData.m_fxFilePath = "Assets/shader/shadow.fx";
 		shadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
 		shadowModelInitData.m_expandConstantBufferSize[0] = Light::LightManager::GetInstance()->GetLigCameraDataSize();

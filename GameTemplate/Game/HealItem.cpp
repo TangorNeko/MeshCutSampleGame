@@ -4,17 +4,17 @@
 
 namespace
 {
-	const char* PATH_MODEL = "Assets/modelData/MediKit.tkm";
-	const Vector3 SCALE_COLLIDER = { 10.0f,10.0f,10.0f };
-	const float PICKUP_RANGE = 200.0f;
-	const int HEAL_HP = 25;
-	const wchar_t* HEAL_SOUND_PATH = L"Assets/sound/HealSE.wav";
-	const float HEAL_RIGIDBODY_MASS = 500.0f;
-	const float HEAL_RIGIDBODY_LOCALINTERIA = 0.0f;
-	const float HEAL_RIGIDBODY_FRICTION = 10.0f;
-	const float HEAL_RIGIDBODY_LINEARFACTOR_X = 0.0f;
-	const float HEAL_RIGIDBODY_LINEARFACTOR_Y = 1.0f;
-	const float HEAL_RIGIDBODY_LINEARFACTOR_Z = 0.0f;
+	const char* PATH_MODEL = "Assets/modelData/MediKit.tkm";		//回復アイテムのモデルパス
+	const Vector3 SCALE_COLLIDER = { 10.0f,10.0f,10.0f };			//回復アイテムの当たり判定の拡大率
+	const float PICKUP_RANGE = 200.0f;								//回復アイテムを拾える範囲
+	const int HEAL_HP = 25;											//回復するHP量
+	const wchar_t* HEAL_SOUND_PATH = L"Assets/sound/HealSE.wav";	//回復の効果音パス
+	const float HEAL_RIGIDBODY_MASS = 500.0f;						//剛体の質量
+	const float HEAL_RIGIDBODY_LOCALINTERIA = 0.0f;					//剛体の回転のしやすさ
+	const float HEAL_RIGIDBODY_FRICTION = 10.0f;					//剛体の摩擦力
+	const float HEAL_RIGIDBODY_LINEARFACTOR_X = 0.0f;				//剛体のX軸方向の移動可能量
+	const float HEAL_RIGIDBODY_LINEARFACTOR_Y = 1.0f;				//剛体のY軸方向の移動可能量
+	const float HEAL_RIGIDBODY_LINEARFACTOR_Z = 0.0f;				//剛体のZ軸方向の移動可能量
 }
 
 namespace Game

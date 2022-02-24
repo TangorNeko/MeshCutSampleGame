@@ -30,6 +30,7 @@ namespace
 	const float SUMMON_BOSSCAMERA_END_DIVIDENUM = 100.0f;
 	const float SUMMON_BOSSCAMERA_END_OFFSET = 500.0f;
 	const float SUMMON_BACKHANDSPRING_POWER = 30.0f;
+	const char16_t* SUMMON_EFFECT_PATH = u"Assets/effect/Teleport.efk";
 	const int SUMMON_PLAYER_RESET_TIME = 10;
 	const int SUMMON_TIME = 300;
 	const int SUMMON_NUM = 4;
@@ -57,6 +58,7 @@ namespace
 	const float STEP_BOSSCAMERA_END_OFFSET = 325.0f;
 	const Vector3 PLAYER_RESET_POSITION = { 0.0f,0.0f,1200.0f };
 	const Vector3 EVENT_CAMERA_POSITION = { 0.0f,200.0f,0.0f };
+	const char16_t* EFFECT_WARNING_PATH = u"Assets/effect/Warning.efk";
 	const Vector3 EFFECT_WARNING_HEIGHT = { 0.0f,250.0f,0.0f };
 	const wchar_t* WARP_SOUND_PATH = L"Assets/sound/WarpSE.wav";
 	const wchar_t* MISSILE_SOUND_PATH = L"Assets/sound/MissileLaunchSE.wav";
@@ -66,8 +68,11 @@ namespace
 
 namespace Game
 {
+	//TODO:タスクごとに分離?
+
 	void BossTankTasks::SubmitTo(BossTank* bossTank)
 	{
+		//ボスに各タスクを設定する
 		SubmitMissileTask(bossTank);
 		SubmitWaitTask(bossTank);
 		SubmitRollingTask(bossTank);
@@ -85,16 +90,19 @@ namespace Game
 		//ミサイルを発射する処理
 		auto ShotMissile = [bossTank](const Vector3& position)
 		{
+			//ミサイルを作成
 			EnemyMissile* missile = NewGO<EnemyMissile>(Priority::High, "missile");
 			missile->SetPosition(position);
 
+			//発射サウンドを再生
 			SoundOneShotPlay(MISSILE_SOUND_PATH);
 		};
 
 		MissileTask.SetStartFunc([bossTank]()
 			{
+				//警告エフェクトを再生
 				Effect* warningEffect = NewGO<Effect>(Priority::High);
-				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->Init(EFFECT_WARNING_PATH);
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
 			}
@@ -135,8 +143,9 @@ namespace Game
 
 		RollingTask.SetStartFunc([bossTank]()
 			{
+				//警告エフェクトを再生
 				Effect* warningEffect = NewGO<Effect>(Priority::High);
-				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->Init(EFFECT_WARNING_PATH);
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
 			}
@@ -146,6 +155,7 @@ namespace Game
 			{
 				if (taskTime == ROLLING_TIME_START)
 				{
+					//回転サウンドを再生
 					SoundOneShotPlay(ROLLING_SOUND_PATH);
 				}
 
@@ -158,7 +168,7 @@ namespace Game
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
 				{
-					//TODO:距離ではなくトリガーで判定したい所
+					//プレイヤーとの距離を取得
 					Player* player = FindGO<Player>("player");
 					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 
@@ -191,8 +201,10 @@ namespace Game
 		SummonTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
 
+				//イベントカメラの開始フレーム中なら
 				if (taskTime <= SUMMON_BOSSCAMERA_START_TIME && taskTime >= SUMMON_EVENTCAMERA_START_TIME)
 				{
+					//プレイヤーを映すカメラからボスを映すカメラに少しずつ変化させていく
 					float t = (taskTime - SUMMON_BOSSCAMERA_START_OFFSET) / SUMMON_BOSSCAMERA_START_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
@@ -203,37 +215,40 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
+				//ボスを映すカメラのフレーム中なら
 				if (taskTime > SUMMON_BOSSCAMERA_START_TIME && taskTime < SUMMON_BOSSCAMERA_END_TIME)
 				{
+					//ボスを映す
 					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
 					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
+				//プレイヤーの位置をリセットするフレームなら
 				if (taskTime == SUMMON_PLAYER_RESET_TIME)
 				{
 					Player* player = FindGO<Player>("player");
-
 					Vector3 resPos = PLAYER_RESET_POSITION;
-
 					Vector3 toResPos = resPos - player->GetPosition();
-
 					toResPos.Normalize();
 
+					//リセットする座標に向かってプレイヤーを後転させる
 					player->BackHandSpring(toResPos * SUMMON_BACKHANDSPRING_POWER);
 				}
 
+				//雑魚敵の召喚フレームなら
 				if (taskTime == SUMMON_TIME)
 				{
-					//雑魚敵を召喚
 					MiniEnemy* enemy[SUMMON_NUM];
 					for (int i = 0; i < SUMMON_NUM; i++)
 					{
+						//雑魚敵を召喚
 						enemy[i] = NewGO<MiniEnemy>(Priority::High, "enemy");
 						enemy[i]->SetPosition(MINION_POSITIONS[i]);
 
+						//出現エフェクトを再生
 						Game::Effect* spawnEffect = NewGO<Game::Effect>(Priority::High);
 						spawnEffect->SetPosition(MINION_POSITIONS[i]);
-						spawnEffect->Init(u"Assets/effect/Teleport.efk");
+						spawnEffect->Init(SUMMON_EFFECT_PATH);
 						spawnEffect->Play();
 					}
 
@@ -241,8 +256,10 @@ namespace Game
 					//召喚したらタスクは終わり
 				}
 
+				//イベントカメラの終了フレーム中なら
 				if (taskTime >= SUMMON_BOSSCAMERA_END_TIME && taskTime <= SUMMON_EVENTCAMERA_END_TIME)
 				{
+					//ボスを映すカメラからプレイヤーを映すカメラに少しずつ変化させていく
 					float t = (SUMMON_BOSSCAMERA_END_OFFSET - taskTime) / SUMMON_BOSSCAMERA_END_DIVIDENUM;
 					Vector3 cameraPosition;
 					Vector3 cameraTarget;
@@ -253,8 +270,10 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
+				//イベントのカメラの最終フレームなら
 				if (taskTime == SUMMON_EVENTCAMERA_END_TIME)
 				{
+					//タスクの終了
 					return true;
 				}
 
@@ -273,7 +292,7 @@ namespace Game
 		ChargeTask.SetStartFunc([bossTank]()
 			{
 				Effect* warningEffect = NewGO<Effect>(Priority::High);
-				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->Init(EFFECT_WARNING_PATH);
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
 			}
@@ -325,8 +344,9 @@ namespace Game
 
 		RockTask.SetStartFunc([bossTank]()
 			{
+				//警告エフェクトを再生
 				Effect* warningEffect = NewGO<Effect>(Priority::High);
-				warningEffect->Init(u"Assets/effect/Warning.efk");
+				warningEffect->Init(EFFECT_WARNING_PATH);
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
 			}
@@ -408,7 +428,7 @@ namespace Game
 
 		StepTask.SetUpdateFunc([bossTank](int taskTime)->bool
 			{
-
+				//イベントカメラの開始フレーム中なら
 				if (taskTime <= STEP_BOSSCAMERA_START_TIME && taskTime >= STEP_EVENTCAMERA_START_TIME)
 				{
 					bossTank->SetTurretDeg(STEP_START_TURRET_DEG);
@@ -423,67 +443,56 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
+				//ボスを映すカメラのフレーム中なら
 				if (taskTime > STEP_BOSSCAMERA_START_TIME && taskTime < STEP_BOSSCAMERA_END_TIME)
 				{
 					g_camera3D->SetPosition(EVENT_CAMERA_POSITION);
 					g_camera3D->SetTarget(bossTank->GetPosition());
 				}
 
+				//プレイヤーの位置をリセットするフレームなら
 				if (taskTime == STEP_PLAYER_RESET_TIME)
 				{
-					Player* player = FindGO<Player>("player");
-
 					Vector3 resPos = PLAYER_RESET_POSITION;
-
+					Player* player = FindGO<Player>("player");
 					player->SetPosition(resPos);
 				}
 
-				if (taskTime == STEP_MISSILE1_SHOT_TIME)
+				//足場ミサイルを発射する処理
+				auto ShotStepMissile = [bossTank](const Vector3& position)
 				{
+					//ボスからプレイヤーへの向きを取得
 					Player* player = FindGO<Player>("player");
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
 					direction.Normalize();
 
+					//足場ミサイルを作成
 					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
 
-					Vector3 position = bossTank->GetRightCannonPosition();
+					//足場ミサイルの座標と向きを設定
 					stepObject->SetPosition(position);
 					stepObject->SetMoveDirection(direction);
 
 					SoundOneShotPlay(MISSILE_SOUND_PATH);
-				}
+				};
 
+				//規定フレームになったら足場ミサイルを発射
+				if (taskTime == STEP_MISSILE1_SHOT_TIME)
+				{
+					ShotStepMissile(bossTank->GetRightCannonPosition());
+				}
 
 				if (taskTime == STEP_MISSILE2_SHOT_TIME)
 				{
-					Player* player = FindGO<Player>("player");
-					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
-					direction.Normalize();
-
-					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
-
-					Vector3 position = bossTank->GetLeftCannonPosition();
-					stepObject->SetPosition(position);
-					stepObject->SetMoveDirection(direction);
-
-					SoundOneShotPlay(MISSILE_SOUND_PATH);
+					ShotStepMissile(bossTank->GetLeftCannonPosition());
 				}
 
 				if (taskTime == STEP_MISSILE3_SHOT_TIME)
 				{
-					Player* player = FindGO<Player>("player");
-					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
-					direction.Normalize();
-
-					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
-
-					Vector3 position = bossTank->GetRightCannonPosition();
-					stepObject->SetPosition(position);
-					stepObject->SetMoveDirection(direction);
-
-					SoundOneShotPlay(MISSILE_SOUND_PATH);
+					ShotStepMissile(bossTank->GetRightCannonPosition());
 				}
 
+				//イベントカメラの終了フレーム中なら
 				if (taskTime >= STEP_BOSSCAMERA_END_TIME &&  taskTime <= STEP_EVENTCAMERA_END_TIME)
 				{
 					float t = (STEP_BOSSCAMERA_END_OFFSET - taskTime) / STEP_BOSSCAMERA_END_DIVIDENUM;
@@ -496,15 +505,21 @@ namespace Game
 					g_camera3D->SetTarget(cameraTarget);
 				}
 
+				//コマンド入力を表示するフレームなら
 				if (taskTime == STEP_COMMAND_TIME)
 				{
+					//コマンド入力を作成
 					NewGO<CommandInput>(Priority::High);
+
+					//プレイヤーにミサイル移動が始まった事を通知
 					Player* player = FindGO<Player>("player");
 					player->NoticeMissileMoveStart();
 				}
 
+				//コマンド入力を受け付けるためゲームをポーズするフレームなら
 				if (taskTime == STEP_PAUSE_TIME)
 				{
+					//ゲームをポーズさせる
 					GameObjectManager::GetInstance()->SetPauseFlag(true);
 				}
 
@@ -524,6 +539,7 @@ namespace Game
 			{
 				if (taskTime == ROLLING_TIME_START)
 				{
+					//回転サウンドを再生
 					SoundOneShotPlay(ROLLING_SOUND_PATH);
 				}
 

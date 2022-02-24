@@ -5,7 +5,7 @@
 
 namespace
 {
-	const float FINISH_COMMAND_RANGE = 800.0f;
+	const float FINISH_COMMAND_RANGE = 800.0f;		//トドメのコマンドを表示する距離
 }
 
 namespace Game

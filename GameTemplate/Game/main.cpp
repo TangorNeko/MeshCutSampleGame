@@ -11,6 +11,17 @@ namespace
 	const float FADEOUT_RATE = 0.01f;
 }
 
+void CreateEngineInstances()
+{
+	GameObjectManager::CreateInstance();
+	PhysicsWorld::CreateInstance();
+	Light::LightManager::CreateInstance();
+	Game::ModelCutManager::CreateInstance();
+	EffectEngine::CreateInstance();
+	CSoundEngine::CreateInstance();
+	Engine::ResourceBankManager::CreateInstance();
+}
+
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -23,17 +34,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
-	//ゲームオブジェクトマネージャーのインスタンスを作成する。
-	GameObjectManager::CreateInstance();
-	PhysicsWorld::CreateInstance();
-	Light::LightManager::CreateInstance();
-	Game::ModelCutManager::CreateInstance();
-	EffectEngine::CreateInstance();
-	CSoundEngine::CreateInstance();
-	CSoundEngine::GetInstance()->Init();
-	//リソースバンクマネージャーのインスタンスを作成
-	Engine::ResourceBankManager::CreateInstance();
+	//各種シングルトンクラスのインスタンスを作成する。
+	CreateEngineInstances();
 	Graphics::RenderingEngine renderingEngine;
+
+	//初期化
+	CSoundEngine::GetInstance()->Init();
 	renderingEngine.Init();
 
 	PhysicsWorld::GetInstance()->SetGravity(GAME_GRAVITY);
@@ -71,7 +77,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 #ifdef _DEBUGWIREFRAME
 		PhysicsWorld::GetInstance()->DebugDrawWorld(renderContext);
 #endif
-		//GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		renderingEngine.Render(renderContext);
 
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());

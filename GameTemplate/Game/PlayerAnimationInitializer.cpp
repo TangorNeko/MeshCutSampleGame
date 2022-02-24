@@ -5,29 +5,31 @@
 
 namespace
 {
-	const char* PATH_ANIM_IDLE = "Assets/animData/player/Idle_St1.tka";
-	const char* PATH_ANIM_WALK = "Assets/animData/player/Walk_St1.tka";
-	const char* PATH_ANIM_RUN = "Assets/animData/player/Run_St1.tka";
-	const char* PATH_ANIM_ATTACK = "Assets/animData/player/Combo1_1_St1.tka";
-	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";
-	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";
-	const char* PATH_ANIM_GUARD = "Assets/animData/player/Guard.tka";
-	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/CutPose.tka";
-	const char* PATH_ANIM_KNOCKDOWN = "Assets/animData/player/Hit_KnockDown.tka";
-	const char* PATH_ANIM_GETUP = "Assets/animData/player/Getup_2.tka";
-	const char* PATH_ANIM_JUMP = "Assets/animData/player/Jump.tka";
-	const char* PATH_ANIM_UNEQUIP = "Assets/animData/player/Unequip_St1.tka";
-	const char* PATH_ANIM_UNEQUIP_IDLE = "Assets/animData/player/Idle_Unequip.tka";
-	const char* PATH_ANIM_BACKHANDSPRING = "Assets/animData/player/BackHandspring.tka";
-	const char* PATH_ANIM_DEAD = "Assets/animData/player/Dead.tka";
+	const char* PATH_ANIM_IDLE = "Assets/animData/player/Idle_St1.tka";						//待機アニメーションのパス
+	const char* PATH_ANIM_WALK = "Assets/animData/player/Walk_St1.tka";						//歩きアニメーションのパス
+	const char* PATH_ANIM_RUN = "Assets/animData/player/Run_St1.tka";						//走りアニメーションのパス
+	const char* PATH_ANIM_ATTACK = "Assets/animData/player/Combo1_1_St1.tka";				//コンボ1アニメーションのパス
+	const char* PATH_ANIM_ATTACK2 = "Assets/animData/player/Combo1_2_St1.tka";				//コンボ2アニメーションのパス
+	const char* PATH_ANIM_ATTACK3 = "Assets/animData/player/Combo1_3_St1.tka";				//コンボ3アニメーションのパス
+	const char* PATH_ANIM_GUARD = "Assets/animData/player/Guard.tka";						//ガードアニメーションのパス
+	const char* PATH_ANIM_CUTMODE = "Assets/animData/player/CutPose.tka";					//切断モードアニメーションのパス
+	const char* PATH_ANIM_KNOCKDOWN = "Assets/animData/player/Hit_KnockDown.tka";			//吹き飛ばしアニメーションのパス
+	const char* PATH_ANIM_GETUP = "Assets/animData/player/Getup_2.tka";						//起き上がりアニメーションのパス
+	const char* PATH_ANIM_JUMP = "Assets/animData/player/Jump.tka";							//ジャンプアニメーションのパス
+	const char* PATH_ANIM_UNEQUIP = "Assets/animData/player/Unequip_St1.tka";				//納刀アニメーションのパス
+	const char* PATH_ANIM_UNEQUIP_IDLE = "Assets/animData/player/Idle_Unequip.tka";			//納刀待機アニメーションのパス
+	const char* PATH_ANIM_BACKHANDSPRING = "Assets/animData/player/BackHandspring.tka";		//後転アニメーションのパス
+	const char* PATH_ANIM_DEAD = "Assets/animData/player/Dead.tka";							//死亡アニメーションのパス
 }
 
 namespace Game
 {
 	void PlayerAnimationInitializer::Init(AnimationClip animationClips[enAnim_Num], AnimationState<PlayerAnimationParam, PlayerAnimationEnum>* animationState[enAnim_Num])
 	{
+		//アニメーションクリップの初期化
 		InitAnimationClips(animationClips);
 
+		//アニメーションステートの初期化
 		InitAnimationState(animationState);
 	}
 
@@ -71,6 +73,7 @@ namespace Game
 		//アニメーションステートを初期化
 		for (int animationNumber = 0;animationNumber < enAnim_Num;animationNumber++)
 		{
+			//プレイヤーのアニメーションパラメーターに合わせたアニメーションステートを作成
 			animationState[animationNumber] = new AnimationState<PlayerAnimationParam, PlayerAnimationEnum>;
 			
 			//自分がどのアニメーションのステートなのかを設定

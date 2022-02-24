@@ -3,20 +3,21 @@
 
 namespace
 {
-	const char* SPRITE_PATH = "Assets/Image/AttackTutorial.dds";
-	const UINT SPRITE_WIDTH = 244;
-	const UINT SPRITE_HEIGHT = 40;
-	const Vector2 SPRITE_PIVOT = { 0.0f,0.0f };
-	const Vector3 SPRITE_STARTPOSITION = { -794.0f,-260.0f,0.0f };
-	const Vector3 SPRITE_POSITION = { -550.0f,-260.0f,0.0f };
-	const int FRAME_MAX = 15;
-	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/TutorialAppearSE.wav";
+	const char* SPRITE_PATH = "Assets/Image/AttackTutorial.dds";			//攻撃チュートリアルのスプライトパス
+	const UINT SPRITE_WIDTH = 244;											//攻撃チュートリアルの幅
+	const UINT SPRITE_HEIGHT = 40;											//攻撃チュートリアルの高さ
+	const Vector2 SPRITE_PIVOT = { 0.0f,0.0f };								//攻撃チュートリアルのピボット
+	const Vector3 SPRITE_STARTPOSITION = { -794.0f,-260.0f,0.0f };			//攻撃チュートリアルの初期座標
+	const Vector3 SPRITE_POSITION = { -550.0f,-260.0f,0.0f };				//攻撃チュートリアルの座標
+	const int FRAME_MAX = 15;												//攻撃チュートリアルの最大移動フレーム
+	const wchar_t* APPEAR_SOUND_PATH = L"Assets/sound/TutorialAppearSE.wav";//攻撃チュートリアルの出現効果音パス
 }
 
 namespace Game
 {
 	AttackTutorial::~AttackTutorial()
 	{
+		//攻撃チュートリアルのスプライトを削除
 		DeleteGO(m_spriteRender);
 	}
 

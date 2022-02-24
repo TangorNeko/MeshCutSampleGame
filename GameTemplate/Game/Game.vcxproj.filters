@@ -120,9 +120,6 @@
     <Filter Include="ヘッダー ファイル\Sound">
       <UniqueIdentifier>{41f943fb-b5c9-4459-8df7-7fb046651017}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Animation">
-      <UniqueIdentifier>{4f767550-cb14-4aa7-8a29-4aac69c5e496}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Animation">
       <UniqueIdentifier>{52edf16d-ab08-4ec4-8263-a28622b9aa6f}</UniqueIdentifier>
     </Filter>
@@ -511,9 +508,6 @@
     </ClCompile>
     <ClCompile Include="WaveFileBank.cpp">
       <Filter>ソース ファイル\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationState.cpp">
-      <Filter>ソース ファイル\Animation</Filter>
     </ClCompile>
     <ClCompile Include="ResourceBankManager.cpp">
       <Filter>ソース ファイル\ResourceBank</Filter>
