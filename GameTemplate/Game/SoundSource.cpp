@@ -307,7 +307,7 @@ namespace Game {
 
 	void SoundOneShotPlay(const wchar_t* filePath, float volume)
 	{
-		Game::SoundSource* soundSource = NewGO<Game::SoundSource>(0);
+		Game::SoundSource* soundSource = NewGO<Game::SoundSource>(Priority::High);
 
 		//ワンショット再生するのにSEじゃない事がある気はあんまりしないのでSE固定
 		soundSource->Init(filePath, enSE);

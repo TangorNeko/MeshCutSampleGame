@@ -35,18 +35,6 @@ namespace Game
 			//タスクを実行
 			ExecuteTask();
 		}
-
-		//デバッグ用、現在のタスクをリセットする
-		/*
-		if (g_pad[0]->IsTrigger(enButtonLB2))
-		{
-			while (m_taskQueue.size() != 0)
-			{
-				m_taskQueue.front().Terminate();
-				m_taskQueue.pop();
-			}
-		}
-		*/
 	}
 
 	void BossTankBehave::CheckEvent(BossTankStatus& bossTankStatus)
@@ -100,12 +88,6 @@ namespace Game
 			{
 				m_taskQueue.push(m_tankTask[BossTankTasks::enEventRolling]);
 				m_taskQueue.push(m_tankTask[BossTankTasks::enStep]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
-				m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			}
 			else if (distance.LengthSq() <= DISTANCE_RANGED_ATTACK * DISTANCE_RANGED_ATTACK)
 			{

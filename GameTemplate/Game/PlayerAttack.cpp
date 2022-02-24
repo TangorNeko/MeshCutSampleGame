@@ -97,9 +97,6 @@ namespace Game
 				);
 
 				//ボスに近ければダメージを与える
-				//TODO:ボスの種類が増えることが予想されるので基底クラスを用意する?
-				//TODO:敵によって大きさが違うのでATTACK_RANGEにボス自身の大きさに合わせて距離を追加する
-				//TODO:ミサイル等の重要でない敵オブジェクトは通常攻撃でも斬れるようにする?
 				BossTank* bossTank = FindGO<BossTank>("bosstank");
 
 				if (bossTank != nullptr)

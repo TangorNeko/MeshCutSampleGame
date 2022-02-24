@@ -23,7 +23,7 @@ namespace Game
 	bool DashTutorial::Start()
 	{
 		//ダッシュチュートリアルのスプライトを生成
-		m_spriteRender = NewGO<SpriteRender>(5);
+		m_spriteRender = NewGO<SpriteRender>(Priority::High);
 		m_spriteRender->Init(SPRITE_PATH, SPRITE_WIDTH, SPRITE_HEIGHT);
 		m_spriteRender->SetPivot(SPRITE_PIVOT);
 		m_spriteRender->SetPosition(SPRITE_POSITION);

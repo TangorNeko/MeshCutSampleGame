@@ -25,7 +25,7 @@ namespace Game
 		//爆発するフレーム数に達したら爆発エフェクトを生成
 		if (m_currentFrame == m_explodeFrame)
 		{
-			Effect* explosionEffect = NewGO<Effect>(0);
+			Effect* explosionEffect = NewGO<Effect>(Priority::High);
 			explosionEffect->Init(u"Assets/effect/Boom.efk");
 			explosionEffect->SetPosition(m_position);
 			explosionEffect->SetScale(EFFECT_EXPLOSION_SCALE);

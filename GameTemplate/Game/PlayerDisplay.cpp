@@ -27,21 +27,16 @@ namespace Game
 		//体力の画像を削除
 		DeleteGO(m_hpFrame);
 		DeleteGO(m_hpBar);
-
-		//フォントレンダーを削除
-		/*
-		DeleteGO(m_hpRender);
-		*/
 	}
 
 	void PlayerDisplay::Init(int hp)
 	{
-		m_hpFrame = NewGO<SpriteRender>(2);
+		m_hpFrame = NewGO<SpriteRender>(Priority::High);
 		m_hpFrame->Init(HP_FRAME_PATH, HP_FRAME_WIDTH, HP_FRAME_HEIGHT);
 		m_hpFrame->SetPivot(HP_FRAME_PIVOT);
 		m_hpFrame->SetPosition(HP_FRAME_POSITION);
 
-		m_hpBar = NewGO<SpriteRender>(3);
+		m_hpBar = NewGO<SpriteRender>(Priority::Middle);
 		m_hpBar->Init(HP_BAR_PATH, HP_BAR_WIDTH, HP_BAR_HEIGHT);
 		m_hpBar->SetPivot(HP_BAR_PIVOT);
 		m_hpBar->SetPosition(HP_BAR_POSITION);

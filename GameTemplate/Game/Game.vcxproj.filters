@@ -497,9 +497,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="ProductsDeleter.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -928,9 +925,6 @@
     <ClInclude Include="Fade.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="ProductsDeleter.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -1008,6 +1002,9 @@
     </ClInclude>
     <ClInclude Include="ShadowRender.h">
       <Filter>ヘッダー ファイル\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority.h">
+      <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

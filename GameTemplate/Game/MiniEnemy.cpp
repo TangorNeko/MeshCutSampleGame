@@ -47,7 +47,7 @@ namespace Game
 	bool MiniEnemy::Start()
 	{
 		//モデルの生成
-		m_baseRender = NewGO<SkinModelRender>(0);
+		m_baseRender = NewGO<SkinModelRender>(Priority::High);
 
 		//初期化
 		m_baseRender->Init(MODEL_PATH);
@@ -63,7 +63,7 @@ namespace Game
 		ModelCutManager::GetInstance()->AddCuttable(m_baseRender);
 
 		//出現エフェクトを再生
-		Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+		Game::Effect* spawnEffect = NewGO<Game::Effect>(Priority::High);
 		spawnEffect->SetPosition(m_position);
 		spawnEffect->Init(WARPEFFECT_PATH);
 		spawnEffect->Play();
@@ -104,7 +104,7 @@ namespace Game
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - m_position;
 
-			Game::Effect* attackEffect = NewGO<Game::Effect>(0);
+			Game::Effect* attackEffect = NewGO<Game::Effect>(Priority::High);
 			attackEffect->Init(u"Assets/effect/ThunderAttack.efk");
 			attackEffect->SetPosition(m_position + ATTACK_HEIGHT);
 			attackEffect->Play();

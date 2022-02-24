@@ -32,13 +32,13 @@ namespace Game
 	void BossTankDisplay::Init(int hp)
 	{
 		//HPバーの枠を生成
-		m_hpFrame = NewGO<SpriteRender>(2);
+		m_hpFrame = NewGO<SpriteRender>(Priority::High);
 		m_hpFrame->Init(SPRITE_HPFRAME_PATH, SPRITE_HPFRAME_WIDTH, SPRITE_HPFRAME_HEIGHT);
 		m_hpFrame->SetPivot(SPRITE_HPFRAME_PIVOT);
 		m_hpFrame->SetPosition(SPRITE_HPFRAME_POSITION);
 
 		//HPバーを生成
-		m_hpBar = NewGO<SpriteRender>(3);
+		m_hpBar = NewGO<SpriteRender>(Priority::Middle);
 		m_hpBar->Init(SPRITE_HPBAR_PATH, SPRITE_HPBAR_WIDTH, SPRITE_HPBAR_HEIGHT);
 		m_hpBar->SetPivot(SPRITE_HPBAR_PIVOT);
 		m_hpBar->SetPosition(SPRITE_HPBAR_POSITION);

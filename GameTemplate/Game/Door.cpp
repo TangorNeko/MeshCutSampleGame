@@ -20,7 +20,7 @@ namespace Game
 
 	bool Door::Start()
 	{
-		m_doorModel = NewGO<SkinModelRender>(0);
+		m_doorModel = NewGO<SkinModelRender>(Priority::High);
 		m_doorModel->Init(PATH_DOORMODEL);
 		m_doorModel->SetModelCenterAsOrigin();
 		m_doorModel->SetOwner(this);
@@ -49,7 +49,7 @@ namespace Game
 		//ドアの近くにプレイヤーが来ると攻撃のチュートリアルを表示
 		if (distance.LengthSq() < ATTACK_TUTORIAL_DISTANCE * ATTACK_TUTORIAL_DISTANCE && m_isDisplayAttackTutorial == false)
 		{
-			NewGO<AttackTutorial>(0, "attacktutorial");
+			NewGO<AttackTutorial>(Priority::High, "attacktutorial");
 			m_isDisplayAttackTutorial = true;
 		}
 	}

@@ -8,6 +8,7 @@
 #include <x3daudio.h>
 #include <xaudio2fx.h>
 
+#include "Priority.h"
 #include "SoundEngine.h"
 #include "ModelCutManager.h"
 #include "SkinModelRender.h"

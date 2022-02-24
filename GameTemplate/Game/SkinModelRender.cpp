@@ -14,11 +14,13 @@ namespace Game
 		switch (rc.GetRenderStep())
 		{
 		case RenderContext::enModel:
+			//通常モデルの描画
 			m_model->Draw(rc,camera);
 			break;
 		case RenderContext::enShadow:
 			if (m_shadowModel != nullptr && m_shadowCasterFlag == true)
 			{
+				//影モデルの描画
 				m_shadowModel->Draw(rc, camera);
 			}
 		}
@@ -233,7 +235,7 @@ namespace Game
 		Vector2 heightAndRadius;
 		Vector3 capsuleAxis = CalcCapsuleData(heightAndRadius);
 
-		CutDummy* dummy = NewGO<CutDummy>(0,"cutDummy");
+		CutDummy* dummy = NewGO<CutDummy>(Priority::High,"cutDummy");
 		dummy->SetSkinModel(this);
 
 		//カプセルのデータをセット

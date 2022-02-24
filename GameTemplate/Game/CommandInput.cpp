@@ -25,7 +25,7 @@ namespace Game
 
 	bool CommandInput::Start()
 	{
-		m_commandSprite = NewGO<SpriteRender>(5);
+		m_commandSprite = NewGO<SpriteRender>(Priority::High);
 		m_commandSprite->Init(COMMAND_SPRITE_PATH, COMMAND_SPRITE_SIDE, COMMAND_SPRITE_SIDE);
 		m_commandSprite->SetPosition(COMMAND_POSITION);
 

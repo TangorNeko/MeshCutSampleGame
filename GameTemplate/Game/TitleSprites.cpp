@@ -28,12 +28,12 @@ namespace Game
 	bool TitleSprites::Start()
 	{
 		//ロゴ画像を作成
-		m_logoRender = NewGO<SpriteRender>(0);
+		m_logoRender = NewGO<SpriteRender>(Priority::High);
 		m_logoRender->Init(SPRITE_TITLELOGO_PATH, SPRITE_TITLELOGO_WIDTH, SPRITE_TITLELOGO_HEIGHT);
 		m_logoRender->SetPosition(SPRITE_TITLELOGO_POSITION);
 
 		//スタート用テキストを作成
-		m_startTextRender = NewGO<SpriteRender>(0);
+		m_startTextRender = NewGO<SpriteRender>(Priority::High);
 		m_startTextRender->Init(SPRITE_STARTTEXT_PATH, SPRITE_STARTTEXT_WIDTH, SPRITE_STARTTEXT_HEIGHT);
 		m_startTextRender->SetPosition(SPRITE_STARTTEXT_POSITION);
 		return true;

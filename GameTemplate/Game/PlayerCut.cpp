@@ -123,7 +123,7 @@ namespace Game
 		//切断モードでない時はLB1を押すと切断モードに移行
 		if (g_pad[0]->IsPress(enButtonLB1))
 		{
-			m_cutPlaneRender = NewGO<SkinModelRender>(0);
+			m_cutPlaneRender = NewGO<SkinModelRender>(Priority::High);
 			m_cutPlaneRender->InitUnlit(PATH_CUTPLANEMODEL);
 			m_cutPlaneRender->SetPosition(playerPosition);
 
@@ -141,7 +141,7 @@ namespace Game
 
 		if (m_isCutEvent == true && m_cutPlaneRender == nullptr)
 		{
-			m_cutPlaneRender = NewGO<SkinModelRender>(0);
+			m_cutPlaneRender = NewGO<SkinModelRender>(Priority::High);
 			m_cutPlaneRender->InitUnlit(PATH_CUTPLANEMODEL);
 			m_cutPlaneRender->SetPosition(playerPosition);
 

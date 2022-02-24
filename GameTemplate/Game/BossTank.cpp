@@ -34,10 +34,10 @@ namespace Game
 	bool BossTank::Start()
 	{
 		//車体、砲塔、砲身を別々のモデルとして生成
-		m_baseRender = NewGO<SkinModelRender>(0);
-		m_turretRender = NewGO<SkinModelRender>(0);
-		m_rightCannonRender = NewGO<SkinModelRender>(0);
-		m_leftCannonRender = NewGO<SkinModelRender>(0);
+		m_baseRender = NewGO<SkinModelRender>(Priority::High);
+		m_turretRender = NewGO<SkinModelRender>(Priority::High);
+		m_rightCannonRender = NewGO<SkinModelRender>(Priority::High);
+		m_leftCannonRender = NewGO<SkinModelRender>(Priority::High);
 
 		//初期化
 		m_baseRender->Init(MODEL_PATH_BASE);
@@ -65,7 +65,7 @@ namespace Game
 		m_bossTankBehave.SubmitTo(this);
 
 		//出現エフェクトを再生
-		Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+		Game::Effect* spawnEffect = NewGO<Game::Effect>(Priority::High);
 		spawnEffect->SetPosition(m_bossTankStatus.position);
 		spawnEffect->Init(WARPEFFECT_PATH);
 		spawnEffect->Play();
@@ -124,7 +124,7 @@ namespace Game
 			player->BackHandSpring(toResPos * PLAYER_BACKHANDSPRING_POWER);
 			player->StartFinishCamera();
 
-			Explosion* explosion = NewGO<Explosion>(0);
+			Explosion* explosion = NewGO<Explosion>(Priority::High);
 			explosion->SetPosition(m_bossTankStatus.position);
 
 			//すべてダミーになったのでボスとしての挙動は不要なので削除

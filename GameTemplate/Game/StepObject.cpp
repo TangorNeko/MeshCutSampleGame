@@ -22,10 +22,10 @@ namespace Game
 
 	bool StepObject::Start()
 	{
-		m_skinModelRender = NewGO<SkinModelRender>(0);
+		m_skinModelRender = NewGO<SkinModelRender>(Priority::High);
 		m_skinModelRender->Init("Assets/modelData/Missile_Flat.tkm");
 
-		m_missileEffect = NewGO<Effect>(0);
+		m_missileEffect = NewGO<Effect>(Priority::High);
 		m_missileEffect->Init(EFFECT_MISSILE_PATH);
 		m_missileEffect->SetScale(EFFECT_MISSILE_SCALE);
 		m_missileEffect->Play();

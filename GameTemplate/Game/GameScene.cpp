@@ -5,7 +5,6 @@
 #include "BossTank.h"
 #include "MiniEnemy.h"
 #include "Fade.h"
-#include "TitleScene.h"
 #include "ProductsDeleter.h"
 #include "DashTutorial.h"
 #include "GameSceneBGM.h"
@@ -48,12 +47,12 @@ namespace Game
 
 	bool GameScene::Start()
 	{
-		m_backGround = NewGO<BackGround>(0,"background");
-		m_player = NewGO<Player>(0, "player");
+		m_backGround = NewGO<BackGround>(Priority::High,"background");
+		m_player = NewGO<Player>(Priority::High, "player");
 		m_player->SetPosition(PLAYER_START_POSITION);
 		m_player->EventCutOn();
 
-		m_gameSceneBGM = NewGO<GameSceneBGM>(0, "gamescenebgm");
+		m_gameSceneBGM = NewGO<GameSceneBGM>(Priority::High, "gamescenebgm");
 		return true;
 	}
 
@@ -68,7 +67,7 @@ namespace Game
 		if (toTrigger.LengthSq() < DASHTUTORIAL_RANGE * DASHTUTORIAL_RANGE && m_phase == 0)
 		{
 			//ダッシュのチュートリアルを表示
-			NewGO<DashTutorial>(0, "dashtutorial");
+			NewGO<DashTutorial>(Priority::High, "dashtutorial");
 
 			m_phase = 1;
 			m_phaseWaitTime = 0;
@@ -76,7 +75,7 @@ namespace Game
 
 		if(m_phase == 1 && m_phaseWaitTime == PHASE_WAIT_TIME)
 		{
-			MiniEnemy* enemy = NewGO<MiniEnemy>(0, "enemy");
+			MiniEnemy* enemy = NewGO<MiniEnemy>(Priority::High, "enemy");
 			enemy->SetPosition(MINION_POSITION_PHASE1);
 
 			m_gameSceneBGM->SoundChange();
@@ -99,7 +98,7 @@ namespace Game
 
 		if(m_phase == 7 && m_phaseWaitTime == PHASE_WAIT_TIME)
 		{
-			m_bossTank = NewGO<BossTank>(0, "bosstank");
+			m_bossTank = NewGO<BossTank>(Priority::High, "bosstank");
 			m_bossTank->SetPosition(BOSS_POSITION);
 
 			m_gameSceneBGM->SoundChange();
@@ -121,7 +120,7 @@ namespace Game
 			MiniEnemy* enemy[SUMMON_NUM_PHASE3];
 			for (int i = 0; i < SUMMON_NUM_PHASE3; i++)
 			{
-				enemy[i] = NewGO<MiniEnemy>(0, "enemy");
+				enemy[i] = NewGO<MiniEnemy>(Priority::High, "enemy");
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE3[i]);
 			}
 			
@@ -142,7 +141,7 @@ namespace Game
 			MiniEnemy* enemy[SUMMON_NUM_PHASE2];
 			for (int i = 0; i < SUMMON_NUM_PHASE2; i++)
 			{
-				enemy[i] = NewGO<MiniEnemy>(0, "enemy");
+				enemy[i] = NewGO<MiniEnemy>(Priority::High, "enemy");
 				enemy[i]->SetPosition(MINION_POSITIONS_PHASE2[i]);
 			}
 
@@ -162,7 +161,7 @@ namespace Game
 
 		if (m_phase == 9 && m_phaseWaitTime == FADE_START_TIME)
 		{
-			Fade* fade = NewGO<Fade>(0);
+			Fade* fade = NewGO<Fade>(Priority::High);
 			fade->SetFadeInRate(0.01f);
 			fade->SetWaitFrame(10);
 			fade->SetFadeOutRate(0.01f);
@@ -170,7 +169,7 @@ namespace Game
 
 		if (m_phase == 9 && m_phaseWaitTime == GAMESCENE_DELETE_TIME)
 		{
-			NewGO<GameScene>(0, "gamescene");
+			NewGO<GameScene>(Priority::High, "gamescene");
 
 			DeleteGO(this);
 		}

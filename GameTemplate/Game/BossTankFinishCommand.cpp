@@ -21,7 +21,7 @@ namespace Game
 		//プレイヤーに近ければ表示
 		if (distance.LengthSq() < FINISH_COMMAND_RANGE * FINISH_COMMAND_RANGE && bossHp <= 0 && m_finishCommandInput == nullptr)
 		{
-			m_finishCommandInput = NewGO<CommandInput>(0);
+			m_finishCommandInput = NewGO<CommandInput>(Priority::High);
 		}
 		else if(distance.LengthSq() >= FINISH_COMMAND_RANGE * FINISH_COMMAND_RANGE)
 		{

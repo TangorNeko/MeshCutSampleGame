@@ -424,7 +424,6 @@
     <ClCompile Include="ThreeOnFrontTriangle.cpp" />
     <ClCompile Include="ThreeOnPlaneTriangle.cpp" />
     <ClCompile Include="TitleDoor.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleSprites.cpp" />
     <ClCompile Include="TriangleDivider.cpp" />
     <ClCompile Include="main.cpp" />
@@ -560,6 +559,7 @@
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerMoveAnimationState.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Priority.h" />
     <ClInclude Include="ProductsDeleter.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="ResourceBankManager.h" />
@@ -579,7 +579,6 @@
     <ClInclude Include="ThreeOnFrontTriangle.h" />
     <ClInclude Include="ThreeOnPlaneTriangle.h" />
     <ClInclude Include="TitleDoor.h" />
-    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TitleSprites.h" />
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="TriangleDivideStruct.h" />

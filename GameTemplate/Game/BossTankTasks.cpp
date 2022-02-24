@@ -85,7 +85,7 @@ namespace Game
 		//ミサイルを発射する処理
 		auto ShotMissile = [bossTank](const Vector3& position)
 		{
-			EnemyMissile* missile = NewGO<EnemyMissile>(0, "missile");
+			EnemyMissile* missile = NewGO<EnemyMissile>(Priority::High, "missile");
 			missile->SetPosition(position);
 
 			SoundOneShotPlay(MISSILE_SOUND_PATH);
@@ -93,7 +93,7 @@ namespace Game
 
 		MissileTask.SetStartFunc([bossTank]()
 			{
-				Effect* warningEffect = NewGO<Effect>(0);
+				Effect* warningEffect = NewGO<Effect>(Priority::High);
 				warningEffect->Init(u"Assets/effect/Warning.efk");
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
@@ -135,7 +135,7 @@ namespace Game
 
 		RollingTask.SetStartFunc([bossTank]()
 			{
-				Effect* warningEffect = NewGO<Effect>(0);
+				Effect* warningEffect = NewGO<Effect>(Priority::High);
 				warningEffect->Init(u"Assets/effect/Warning.efk");
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
@@ -177,12 +177,6 @@ namespace Game
 				}
 
 				return false;
-			}
-		);
-
-		//タスクの終了時にダメージ判定をする
-		RollingTask.SetEndFunc([bossTank]()
-			{
 			}
 		);
 
@@ -234,10 +228,10 @@ namespace Game
 					MiniEnemy* enemy[SUMMON_NUM];
 					for (int i = 0; i < SUMMON_NUM; i++)
 					{
-						enemy[i] = NewGO<MiniEnemy>(0, "enemy");
+						enemy[i] = NewGO<MiniEnemy>(Priority::High, "enemy");
 						enemy[i]->SetPosition(MINION_POSITIONS[i]);
 
-						Game::Effect* spawnEffect = NewGO<Game::Effect>(1);
+						Game::Effect* spawnEffect = NewGO<Game::Effect>(Priority::High);
 						spawnEffect->SetPosition(MINION_POSITIONS[i]);
 						spawnEffect->Init(u"Assets/effect/Teleport.efk");
 						spawnEffect->Play();
@@ -278,7 +272,7 @@ namespace Game
 
 		ChargeTask.SetStartFunc([bossTank]()
 			{
-				Effect* warningEffect = NewGO<Effect>(0);
+				Effect* warningEffect = NewGO<Effect>(Priority::High);
 				warningEffect->Init(u"Assets/effect/Warning.efk");
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
@@ -331,7 +325,7 @@ namespace Game
 
 		RockTask.SetStartFunc([bossTank]()
 			{
-				Effect* warningEffect = NewGO<Effect>(0);
+				Effect* warningEffect = NewGO<Effect>(Priority::High);
 				warningEffect->Init(u"Assets/effect/Warning.efk");
 				warningEffect->SetPosition(bossTank->GetPosition() + EFFECT_WARNING_HEIGHT);
 				warningEffect->Play();
@@ -340,7 +334,7 @@ namespace Game
 
 		//岩を作成する関数
 		auto ShotRock = [bossTank](const Vector3& pos) {
-			EnemyRock* rock = NewGO<EnemyRock>(0, "rock");
+			EnemyRock* rock = NewGO<EnemyRock>(Priority::High, "rock");
 			Player* player = FindGO<Player>("player");
 			Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 			distance.Normalize();
@@ -450,7 +444,7 @@ namespace Game
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
 					direction.Normalize();
 
-					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
 
 					Vector3 position = bossTank->GetRightCannonPosition();
 					stepObject->SetPosition(position);
@@ -466,7 +460,7 @@ namespace Game
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
 					direction.Normalize();
 
-					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
 
 					Vector3 position = bossTank->GetLeftCannonPosition();
 					stepObject->SetPosition(position);
@@ -481,7 +475,7 @@ namespace Game
 					Vector3 direction = player->GetPosition() - bossTank->GetPosition();
 					direction.Normalize();
 
-					StepObject* stepObject = NewGO<StepObject>(0, "stepObject");
+					StepObject* stepObject = NewGO<StepObject>(Priority::High, "stepObject");
 
 					Vector3 position = bossTank->GetRightCannonPosition();
 					stepObject->SetPosition(position);
@@ -504,7 +498,7 @@ namespace Game
 
 				if (taskTime == STEP_COMMAND_TIME)
 				{
-					NewGO<CommandInput>(0);
+					NewGO<CommandInput>(Priority::High);
 					Player* player = FindGO<Player>("player");
 					player->NoticeMissileMoveStart();
 				}
@@ -542,7 +536,7 @@ namespace Game
 				//規定フレームになったら終了
 				if (taskTime == ROLLING_TIME_END)
 				{
-					//TODO:距離ではなくトリガーで判定したい所
+					//プレイヤーへの向きを取得
 					Player* player = FindGO<Player>("player");
 					Vector3 distance = player->GetPosition() - bossTank->GetPosition();
 

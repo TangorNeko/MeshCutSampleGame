@@ -27,13 +27,13 @@ namespace Game
 
 	bool BackGround::Start()
 	{
-		NewGO<TitleDoor>(0, "titledoor");
+		NewGO<TitleDoor>(Priority::High, "titledoor");
 
-		m_stageModel = NewGO<SkinModelRender>(0);
+		m_stageModel = NewGO<SkinModelRender>(Priority::High);
 		m_stageModel->Init(PATH_STAGEMODEL);
 		m_stageModel->SetShadowCasterFlag(false);
 
-		m_stageLight = NewGO<Light::DirectionLight>(0);
+		m_stageLight = NewGO<Light::DirectionLight>(Priority::High);
 		m_stageLight->SetColor(STAGE_LIGHT_COLOR);
 		m_stageLight->SetDirection(STAGE_LIGHT_DIRECTION);
 
@@ -45,7 +45,7 @@ namespace Game
 		Light::LightManager::GetInstance()->SetLightCameraWidth(LIGHTCAMERA_WIDTH);
 		Light::LightManager::GetInstance()->SetLightCameraHeight(LIGHTCAMERA_HEIGHT);
 
-		m_stageDoor = NewGO<Door>(0, "door");
+		m_stageDoor = NewGO<Door>(Priority::High, "door");
 
 		m_physicsStaticObject.CreateFromModel(m_stageModel->GetModel(),m_stageModel->GetModel()->GetWorldMatrix());
 

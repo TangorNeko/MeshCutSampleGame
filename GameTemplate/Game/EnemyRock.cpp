@@ -29,7 +29,7 @@ namespace Game
 	bool EnemyRock::Start()
 	{
 		//岩のモデルを初期化
-		m_rockModel = NewGO<SkinModelRender>(0);
+		m_rockModel = NewGO<SkinModelRender>(Priority::High);
 		m_rockModel->Init(PATH_ROCKMODEL);
 		m_rockModel->SetScale(ROCK_SCALE);
 
@@ -66,7 +66,7 @@ namespace Game
 
 		if (random % HEALDROP_MODULO_NUM == 0)
 		{
-			HealItem* healItem = NewGO<HealItem>(0,"healItem");
+			HealItem* healItem = NewGO<HealItem>(Priority::High,"healItem");
 			healItem->SetPosition(m_position);
 		}
 		//モデルレンダーをダミークラスに引き渡したので削除

@@ -20,7 +20,7 @@ namespace Game
 
 	bool GameSceneBGM::Start()
 	{
-		m_playingSoundSource = NewGO<SoundSource>(0);
+		m_playingSoundSource = NewGO<SoundSource>(Priority::High);
 		m_playingSoundSource->Init(START_BGM_PATH,SoundType::enBGM);
 		m_playingSoundSource->SetVolume(m_playingSoundVolume);
 		m_playingSoundSource->Play(true);
@@ -29,7 +29,6 @@ namespace Game
 
 	void GameSceneBGM::Update()
 	{
-		
 		SoundChangeUpdate();
 	}
 
@@ -38,7 +37,7 @@ namespace Game
 		//すでに再生されているサウンドをフェードアウトさせながら、次に再生するサウンドをフェードインさせる。
 		m_isSoundChanging = true;
 
-		m_nextSoundSource = NewGO<SoundSource>(0);
+		m_nextSoundSource = NewGO<SoundSource>(Priority::High);
 
 		//ゲームのフェーズによって分岐
 		switch (m_gameBGMPhase)

@@ -26,7 +26,7 @@ namespace Game
 
 	bool HealItem::Start()
 	{
-		m_skinModelRender = NewGO<SkinModelRender>(0);
+		m_skinModelRender = NewGO<SkinModelRender>(Priority::High);
 		m_skinModelRender->Init(PATH_MODEL);
 
 		//カプセル状のコライダーを作成

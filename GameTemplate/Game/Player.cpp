@@ -21,7 +21,7 @@ namespace Game
 	bool Player::Start()
 	{
 		//モデルを生成
-		m_playerModel = NewGO<SkinModelRender>(0);
+		m_playerModel = NewGO<SkinModelRender>(Priority::High);
 
 		//アニメーションを初期化
 		m_playerAnimation.InitAnim();

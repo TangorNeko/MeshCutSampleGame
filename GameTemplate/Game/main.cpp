@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "TitleScene.h"
 #include "RenderingEngine.h"
 #include "GameScene.h"
 #include "Fade.h"
@@ -43,11 +42,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	Game::Fade* fade = NewGO<Game::Fade>(0);
+	//起動時のフェードを作成
+	Game::Fade* fade = NewGO<Game::Fade>(Priority::High);
 	fade->SetFadeInRate(FADEIN_RATE);
 	fade->SetWaitFrame(FADE_WAITTIME);
 	fade->SetFadeOutRate(FADEOUT_RATE);
-	NewGO<Game::GameScene>(0,"gamescene");
+
+	//ゲームシーンを作成
+	NewGO<Game::GameScene>(Priority::High,"gamescene");
 
 	//FPS計測用ストップウォッチ
 	Stopwatch stopwatch;

@@ -35,7 +35,7 @@ namespace Game
 	bool EnemyMissile::Start()
 	{
 		//モデルを作成
-		m_missileRender = NewGO<SkinModelRender>(0);
+		m_missileRender = NewGO<SkinModelRender>(Priority::High);
 		m_missileRender->Init(PATH_MISSILEMODEL);
 
 		//OnDivide関数で斬られた時の処理を記述するために所有者を設定
@@ -54,7 +54,7 @@ namespace Game
 		//ミサイルの移動クラスにターゲットを渡す
 		m_missileMove.SetTarget(m_trackingPlayer);
 
-		m_missileEffect = NewGO<Effect>(0);
+		m_missileEffect = NewGO<Effect>(Priority::High);
 		m_missileEffect->Init(EFFECT_MISSILE_PATH);
 		m_missileEffect->SetScale(EFFECT_MISSILE_SCALE);
 		m_missileEffect->Play();
@@ -101,7 +101,7 @@ namespace Game
 
 		if (random % HEALDROP_MODULO_NUM == 0)
 		{
-			HealItem* healItem = NewGO<HealItem>(0,"healItem");
+			HealItem* healItem = NewGO<HealItem>(Priority::High,"healItem");
 			healItem->SetPosition(m_position);
 		}
 		//モデルレンダーをダミークラスに引き渡したので削除
@@ -117,7 +117,7 @@ namespace Game
 					//ダメージを与える
 					m_trackingPlayer->Damage(MISSILE_DAMAGE);
 
-					Effect* boomEffect = NewGO<Effect>(0);
+					Effect* boomEffect = NewGO<Effect>(Priority::High);
 					boomEffect->Init(u"Assets/effect/Boom.efk");
 					boomEffect->SetScale(EFFECT_EXPLOSION_SCALE);
 					boomEffect->SetPosition(m_position);

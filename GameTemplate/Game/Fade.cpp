@@ -20,7 +20,7 @@ namespace Game
 	bool Fade::Start()
 	{
 		//フェード用のスプライトを生成
-		m_fadeSprite = NewGO<SpriteRender>(10);
+		m_fadeSprite = NewGO<SpriteRender>(Priority::Low);
 		m_fadeSprite->Init(SPRITE_PATH, SPRITE_WIDTH, SPRITE_HEIGHT);
 		m_fadeSprite->SetMulColor(m_mulColor);
 		return true;

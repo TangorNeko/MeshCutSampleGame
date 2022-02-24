@@ -22,7 +22,7 @@ namespace Game
 	bool TitleDoor::Start()
 	{
 		//タイトル用のドアのモデルを生成
-		m_titleDoorRender = NewGO<SkinModelRender>(0);
+		m_titleDoorRender = NewGO<SkinModelRender>(Priority::High);
 		m_titleDoorRender->Init(TITLE_DOOR_MODEL_PATH);
 		m_titleDoorRender->SetModelCenterAsOrigin();
 		m_titleDoorRender->SetOwner(this);
@@ -31,7 +31,8 @@ namespace Game
 
 		ModelCutManager::GetInstance()->AddCuttable(m_titleDoorRender);
 
-		m_titleSprites = NewGO<TitleSprites>(0, "titlesprites");
+		//タイトル用のスプライトを表示
+		m_titleSprites = NewGO<TitleSprites>(Priority::High, "titlesprites");
 
 		return true;
 	}
