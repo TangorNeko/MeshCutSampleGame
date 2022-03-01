@@ -374,6 +374,7 @@
     <ClCompile Include="BossTankDisplay.cpp" />
     <ClCompile Include="BossTankFinishCommand.cpp" />
     <ClCompile Include="BossTankTasks.cpp" />
+    <ClCompile Include="ChargeTask.cpp" />
     <ClCompile Include="CommandInput.cpp" />
     <ClCompile Include="CutDummy.cpp" />
     <ClCompile Include="DashTutorial.cpp" />
@@ -384,6 +385,7 @@
     <ClCompile Include="EnemyMissileRotation.cpp" />
     <ClCompile Include="EnemyRock.cpp" />
     <ClCompile Include="EnemyTask.cpp" />
+    <ClCompile Include="EventRollingTask.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -393,6 +395,7 @@
     <ClCompile Include="HealItem.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="MiniEnemy.cpp" />
+    <ClCompile Include="MissileTask.cpp" />
     <ClCompile Include="ModelCutManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
@@ -409,6 +412,8 @@
     <ClCompile Include="ProductsDeleter.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="ResourceBankManager.cpp" />
+    <ClCompile Include="RockTask.cpp" />
+    <ClCompile Include="RollingTask.cpp" />
     <ClCompile Include="ShadowRender.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="CutSurfaceMaker.cpp" />
@@ -419,6 +424,8 @@
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="StepObject.cpp" />
+    <ClCompile Include="StepTask.cpp" />
+    <ClCompile Include="SummonTask.cpp" />
     <ClCompile Include="ThreeOnBackTriangle.cpp" />
     <ClCompile Include="ThreeOnFrontTriangle.cpp" />
     <ClCompile Include="ThreeOnPlaneTriangle.cpp" />
@@ -440,6 +447,7 @@
     <ClCompile Include="TwoDTriangulate.cpp" />
     <ClCompile Include="TwoOnBackTriangle.cpp" />
     <ClCompile Include="TwoOnFrontTriangle.cpp" />
+    <ClCompile Include="WaitTask.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
   </ItemGroup>
@@ -524,6 +532,7 @@
     <ClInclude Include="BossTankFinishCommand.h" />
     <ClInclude Include="BossTankStatus.h" />
     <ClInclude Include="BossTankTasks.h" />
+    <ClInclude Include="ChargeTask.h" />
     <ClInclude Include="CommandInput.h" />
     <ClInclude Include="CutDummy.h" />
     <ClInclude Include="DashTutorial.h" />
@@ -534,6 +543,7 @@
     <ClInclude Include="EnemyMissileRotation.h" />
     <ClInclude Include="EnemyRock.h" />
     <ClInclude Include="EnemyTask.h" />
+    <ClInclude Include="EventRollingTask.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FontRender.h" />
@@ -543,6 +553,7 @@
     <ClInclude Include="HealItem.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="MiniEnemy.h" />
+    <ClInclude Include="MissileTask.h" />
     <ClInclude Include="ModelCutManager.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="Player.h" />
@@ -562,6 +573,8 @@
     <ClInclude Include="ProductsDeleter.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="ResourceBankManager.h" />
+    <ClInclude Include="RockTask.h" />
+    <ClInclude Include="RollingTask.h" />
     <ClInclude Include="ShadowRender.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="CutSurfaceMaker.h" />
@@ -574,6 +587,8 @@
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="StepObject.h" />
+    <ClInclude Include="StepTask.h" />
+    <ClInclude Include="SummonTask.h" />
     <ClInclude Include="ThreeOnBackTriangle.h" />
     <ClInclude Include="ThreeOnFrontTriangle.h" />
     <ClInclude Include="ThreeOnPlaneTriangle.h" />
@@ -588,6 +603,7 @@
     <ClInclude Include="TwoDTriangulate.h" />
     <ClInclude Include="TwoOnBackTriangle.h" />
     <ClInclude Include="TwoOnFrontTriangle.h" />
+    <ClInclude Include="WaitTask.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
   </ItemGroup>
