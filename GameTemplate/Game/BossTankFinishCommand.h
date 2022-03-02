@@ -13,7 +13,7 @@ namespace Game
 		 * @param bossPosition ボスの座標
 		 * @param bossHp ボスの体力
 		*/
-		void Execute(const Vector3& bossPosition, float bossHp);
+		void Execute(const Vector3& bossPosition, int bossHp);
 
 	private:
 		CommandInput* m_finishCommandInput = nullptr; //トドメ用のコマンドボタン

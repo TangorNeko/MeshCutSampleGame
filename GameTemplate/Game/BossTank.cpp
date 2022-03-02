@@ -198,7 +198,7 @@ namespace Game
 		}
 	}
 
-	void BossTank::Damage(float damage)
+	void BossTank::Damage(int damage)
 	{
 		//‘Ì—Í‚ðŒ¸‚ç‚·
 		m_bossTankStatus.hp -= damage;

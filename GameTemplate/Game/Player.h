@@ -170,6 +170,15 @@ namespace Game
 		{
 			m_playerDisplay.Init(m_hp);
 		}
+
+		/**
+		 * @brief プレイヤーの体力を取得
+		 * @return 体力
+		*/
+		int GetHp()
+		{
+			return m_hp;
+		}
 	private:
 		SkinModelRender* m_playerModel = nullptr;	//プレイヤーのモデル
 		Vector3 m_position = Vector3::Zero;			//プレイヤーの座標

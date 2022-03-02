@@ -54,6 +54,7 @@ namespace Game
 
 		Vector3 distance = player->GetPosition() - bossTankStatus.position;
 
+		
 		//砲台を斬られてまだ雑魚敵を召喚していなかったら
 		if (bossTankStatus.hp <= MAX_HP/2 && bossTankStatus.isSummonMinions == false && bossTankStatus.isCannonBreak == true)
 		{
@@ -62,8 +63,8 @@ namespace Game
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);
 			bossTankStatus.isSummonMinions = true;
 		}
-		//ボスのHPが0の時
-		else if (bossTankStatus.hp == 0)
+		//ボスのHPが0かプレイヤーのHPが0の時
+		else if (bossTankStatus.hp == 0 || player->GetHp() == 0)
 		{
 			//何もしない
 			m_taskQueue.push(m_tankTask[BossTankTasks::enWait]);

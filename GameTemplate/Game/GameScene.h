@@ -1,11 +1,10 @@
 #pragma once
+#include "GamePhase.h"
 
 namespace Game
 {
 	class BackGround;
 	class Player;
-	class EnemyMissile;
-	class BossTank;
 	class GameSceneBGM;
 
 	class GameScene : public IGameObject
@@ -26,14 +25,16 @@ namespace Game
 		 * @brief ゲームオーバーを通知する
 		*/
 		void NotifyGameOver();
+
+		/**
+		 * @brief ゲームのBGMを1段階変更する
+		*/
+		void GameBGMChange();
 	private:
 		BackGround* m_backGround = nullptr;						//ステージクラス
 		Player* m_player = nullptr;								//プレイヤークラス
-		BossTank* m_bossTank = nullptr;							//戦車のボスクラス
 		GameSceneBGM* m_gameSceneBGM = nullptr;					//BGM再生クラス
-		int m_phase = 0;										//ゲームシーンのフェーズ
-		int m_phaseWaitTime = 0;								//フェーズの待機時間
-		bool m_isGameOver = false;								//ゲームオーバーになった?
+		GamePhase m_gamephase;									//ゲームフェーズ
 	};
 }
 

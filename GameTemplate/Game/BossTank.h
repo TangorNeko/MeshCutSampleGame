@@ -42,7 +42,7 @@ namespace Game
 		 * @brief ダメージを与える
 		 * @param damage ダメージ量
 		*/
-		void Damage(float damage);
+		void Damage(int damage);
 
 		/**
 		 * @brief ボスのタスクをセット

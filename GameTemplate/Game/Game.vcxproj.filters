@@ -180,6 +180,12 @@
     <Filter Include="ヘッダー ファイル\Enemy\BossTank\BossTasks">
       <UniqueIdentifier>{e9dcc3ed-f870-4276-a223-08b35124c94d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Scene\GamePhase">
+      <UniqueIdentifier>{e983fb1c-6c77-468f-ac34-e9f8439b5532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene\GamePhase">
+      <UniqueIdentifier>{08f134ea-a3d9-46a6-9e6b-136ac4b9cc9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -589,6 +595,27 @@
     </ClCompile>
     <ClCompile Include="EventRollingTask.cpp">
       <Filter>ソース ファイル\Enemy\BossTank\BossTasks</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePhase.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase0.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase1.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase2.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase3.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase4.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Phase5.cpp">
+      <Filter>ソース ファイル\Scene\GamePhase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1053,6 +1080,30 @@
     </ClInclude>
     <ClInclude Include="EventRollingTask.h">
       <Filter>ヘッダー ファイル\Enemy\BossTank\BossTasks</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePhase.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="IPhase.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase0.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase1.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase2.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase3.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase4.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase5.h">
+      <Filter>ヘッダー ファイル\Scene\GamePhase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

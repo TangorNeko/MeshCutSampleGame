@@ -11,7 +11,7 @@ namespace
 namespace Game
 {
 
-	void BossTankFinishCommand::Execute(const Vector3& bossPosition, float bossHp)
+	void BossTankFinishCommand::Execute(const Vector3& bossPosition, int bossHp)
 	{
 		Player* player = FindGO<Player>("player");
 

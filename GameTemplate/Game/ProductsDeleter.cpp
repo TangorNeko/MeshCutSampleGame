@@ -9,6 +9,7 @@
 #include "MiniEnemy.h"
 #include "AttackTutorial.h"
 #include "DashTutorial.h"
+#include "BossTank.h"
 
 namespace Game
 {
@@ -61,6 +62,8 @@ namespace Game
 		DeleteGO(FindGO<DashTutorial>("dashtutorial"));
 
 		DeleteGO(FindGO<AttackTutorial>("attacktutorial"));
+
+		DeleteGO(FindGO<BossTank>("bosstank"));
 
 		EffectEngine::GetInstance()->StopAllEffects();
 	}
