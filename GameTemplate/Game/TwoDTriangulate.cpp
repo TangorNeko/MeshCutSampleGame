@@ -77,7 +77,7 @@ void TwoDTriangulate::Triangulate(const std::vector<Vector2>& P)
     int processNum = 0;
     m_indexBuffer.clear();
 
-    const int n = P.size();
+    const int n = static_cast<int>(P.size());
     std::vector<int> l, r;
     for (int i = 0; i < n; ++i)
     {

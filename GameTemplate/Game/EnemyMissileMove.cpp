@@ -65,6 +65,6 @@ namespace Game
 		}
 		
 		//過去のフレームの移動方向との平均が現フレームの移動方向になる
-		direction = directionSum / listSize;
+		direction = directionSum / static_cast<float>(listSize);
 	}
 }

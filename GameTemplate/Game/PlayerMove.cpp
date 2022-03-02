@@ -137,7 +137,7 @@ namespace Game
 		}
 
 		//プレイヤーにかかる重力
-		Vector3 Down = Vector3::Down * m_aerialFrame;
+		Vector3 Down = Vector3::Down * static_cast<float>(m_aerialFrame);
 
 		m_moveAmount += Down;
 		//キャラコンに渡す。
@@ -256,7 +256,7 @@ namespace Game
 				Vector3 distanceBetweenTargets = m_targetPos[m_moveState - 1] - m_targetPos[m_moveState];
 				distanceBetweenTargets.y = 0.0f;
 				//距離を移動速度で割って移動にかかるフレームを計算
-				m_distanceCount = distanceBetweenTargets.Length() / MISSILEJUMP_SPEED;
+				m_distanceCount = static_cast<int>(distanceBetweenTargets.Length() / MISSILEJUMP_SPEED);
 				m_isMoveStartFrame = false;
 
 				animParam.playerState = PlayerAnimationParam::enIdle;
@@ -283,12 +283,12 @@ namespace Game
 				if (m_isMovingUp)
 				{
 					//上移動中なら上移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * m_jumpFrameCount;
+					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * static_cast<float>(m_jumpFrameCount);
 				}
 				else
 				{
 					//下移動中なら下移動ベクトルを格納
-					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * (m_distanceCount - m_jumpFrameCount);
+					jumpMoveVector = Vector3::Up * MISSILEMOVE_VERTICAL_SPEED * static_cast<float>(m_distanceCount - m_jumpFrameCount);
 				}
 			}
 

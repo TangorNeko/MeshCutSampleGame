@@ -11,7 +11,7 @@ namespace
 	const int TIME_ATTACK_COLLISION = 14;					//攻撃の当たり判定の発生フレーム
 	const int MAX_CUT_NUM = 2;								//最大切断回数
 	const float ATTACK_RANGE = 600.0f;						//攻撃の射程
-	const int ATTACK_DAMAGE = 25.0f;						//攻撃のダメージ
+	const int ATTACK_DAMAGE = 25;						//攻撃のダメージ
 	const Vector3 PLAYER_CUTPOINT = { 0.0f,120.0f,0.0f };	//通常攻撃の切断の起点
 	const float PLAYER_CUTDEG = 0.7f;						//プレイヤーの正面の角度
 	const Vector3 ATTACK_CUT_NORMAL[3] = {					//各コンボの切断面の法線

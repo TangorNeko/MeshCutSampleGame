@@ -444,7 +444,7 @@ Vector3 TkmFile::GetOriginToCenter()
 	}
 
 	//座標値の合計を座標値の数で割って中心を求める
-	Vector3 centerPos = sumOfPos / numOfPos;
+	Vector3 centerPos = sumOfPos / static_cast<float>(numOfPos);
 	return centerPos;
 }
 

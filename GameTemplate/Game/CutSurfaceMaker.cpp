@@ -25,7 +25,7 @@ namespace Util
 			else
 			{
 				//見つからなかったら、座標を新規追加してそのインデックスを格納
-				setVal1 = m_vectorContainer.size();
+				setVal1 = static_cast<int>(m_vectorContainer.size());
 				m_vectorContainer.push_back(key);
 				m_vectorMap.insert(std::make_pair(key, setVal1));
 			}
@@ -45,7 +45,7 @@ namespace Util
 			else
 			{
 				//見つからなかったら、座標を新規追加してそのインデックスを格納
-				setVal2 = m_vectorContainer.size();
+				setVal2 = static_cast<int>(m_vectorContainer.size());
 				m_vectorContainer.push_back(key);
 				m_vectorMap.insert(std::make_pair(key, setVal2));
 			}
@@ -303,7 +303,7 @@ namespace Util
 		backVertexBuffer = vertexBuffer;
 
 		//頂点バッファの最後の位置(追加した場合のインデックス)を取得
-		int startIndex = vertexBuffer.size();
+		int startIndex = static_cast<int>(vertexBuffer.size());
 		//ここから頂点の生成
 		int uvCount = 0;
 		for (auto pos : m_vectorContainer)
